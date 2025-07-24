@@ -99,14 +99,14 @@
 
 % Informations du rapport
 \newcommand{\authorname}{Alexandre \textsc{Edeline}}
-\newcommand{\studentschool}{ENSTA Paris - IP Paris}
+\newcommand{\studentschool}{ENSTA Paris - Institut Polytechnique de Paris}
 \newcommand{\companyname}{CMAP - École Polytechnique}
 \newcommand{\companylocation}{Palaiseau, France}
 \newcommand{\supervisor}{Marc \textsc{Massot} et Christian \textsc{Tenaud}}
 \newcommand{\academicsupervisor}{Patrick \textsc{Ciarlet}}
 \newcommand{\internshipperiod}{du 14/04/2025 au 15/09/2025}
-\newcommand{\reporttitle}{Titre du rapport de stage}
-\newcommand{\reportsubtitle}{Sous-titre}
+\newcommand{\reporttitle}{Compression de maillage et problèmes d'évolution}
+\newcommand{\reportsubtitle}{Intégration temporelle et multirésolution adaptative pour les EDP en temps.}
 
 \begin{document}
 
@@ -143,7 +143,6 @@
     
     \begin{tabular}{ll}
         \textbf{Laboratoire :} & \companyname \\
-        \textbf{Lieu :} & \companylocation \\
         \textbf{Maîtres de stages :} & \supervisor \\
         \textbf{Tuteur académique :} & \academicsupervisor \\
     \end{tabular}
@@ -199,17 +198,21 @@ Description de la problématique abordée et des objectifs fixés pour le stage.
 
 \subsection{Organisation du rapport}
 Brève description de la structure du rapport.
+
 \newpage
 \section{Présentation du laboratoire}
 \input{chapitres/2_laboratoire/0_labo.tex }
-\newpage
 
+\newpage
 \section{Description du travail objectifs et état de l'art}
     \input{chapitres/3_travail/0_intro.tex}
-    % Objectif
-    % Présentation du domaine
-    % Etat de l'art
-    % Outils
+    \subsection{Présentation du sujet et problématique générale}
+    \input{chapitres/3_travail/1_sujet_problematique.tex}
+    \subsection{État de l'art}
+    \subsection{Objectifs}
+    \subsection{Méthode de travail et outils}
+
+\newpage
 \section{Contribution}
     \input{chapitres/4_contributions/0_intro.tex}
     % Travail 1 
@@ -221,7 +224,6 @@ Brève description de la structure du rapport.
     % Travail 3 
         % Réalisaiton
         % conclusion
-\section{Contributions}
 
 \section{Conclusion}
     %Conclusion scientifique
