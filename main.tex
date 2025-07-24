@@ -1,0 +1,291 @@
+\documentclass[11pt]{article}
+
+% Encodage & langue
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% Packages graphiques
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+% Maths
+\usepackage{amssymb, amsthm}
+\usepackage{amsmath}
+
+% Bibliographie
+\usepackage[backend=biber, style=numeric, citestyle=numeric, maxnames=3]{biblatex}
+\addbibresource{bibliographie/bibliographie.bib}
+
+% Marges
+\usepackage[a4paper,margin=2.5cm]{geometry}
+
+% Liens
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+% Figures
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% En-têtes et pieds de page
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{Rapport de stage - \textit{\authorname}}
+
+% Table des matières
+\usepackage{tocloft}
+\setcounter{tocdepth}{3}
+
+% Espacement
+\usepackage{setspace}
+\onehalfspacing
+
+% Listes
+\usepackage{enumitem}
+
+% Code source (si nécessaire)
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configuration listings
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray}
+}
+
+% Théorèmes (si nécessaire pour un rapport technique)
+\newtheorem{theoreme}{Théorème}[section]
+\newtheorem{proposition}[theoreme]{Proposition}
+\newtheorem{lemme}[theoreme]{Lemme}
+\newtheorem{corollaire}[theoreme]{Corollaire}
+\theoremstyle{definition}
+\newtheorem{definition}[theoreme]{Définition}
+\newtheorem{exemple}[theoreme]{Exemple}
+\theoremstyle{remark}
+\newtheorem{remarque}[theoreme]{Remarque}
+
+% Commandes personnalisées pour les dérivées (si nécessaire)
+\newcommand{\pt}{\partial_t}
+\newcommand{\px}{\partial_x}
+\newcommand{\pxx}{\partial_x^{(2)}}
+
+% Dérivées temporelles
+\newcommand{\dt}[1]{\partial_t #1}
+\newcommand{\dtt}[1]{\partial_{tt} #1}
+
+% Dérivées spatiales
+\newcommand{\dx}[1]{\partial_x #1}
+\newcommand{\dxx}[1]{\partial_{xx} #1}
+\newcommand{\dxxx}[1]{\partial_{xxx} #1}
+
+% Dérivées totales
+\newcommand{\Dt}[1]{\frac{d #1}{dt}}
+\newcommand{\Dtt}[1]{\frac{d^2 #1}{dt^2}}
+\newcommand{\Dx}[1]{\frac{d #1}{dx}}
+\newcommand{\Dxx}[1]{\frac{d^2 #1}{dx^2}}
+
+% Informations du rapport
+\newcommand{\authorname}{Alexandre \textsc{Edeline}}
+\newcommand{\studentschool}{ENSTA Paris - IP Paris}
+\newcommand{\companyname}{CMAP - École Polytechnique}
+\newcommand{\companylocation}{Palaiseau, France}
+\newcommand{\supervisor}{Marc \textsc{Massot} et Christian \textsc{Tenaud}}
+\newcommand{\academicsupervisor}{Patrick \textsc{Ciarlet}}
+\newcommand{\internshipperiod}{du 14/04/2025 au 15/09/2025}
+\newcommand{\reporttitle}{Titre du rapport de stage}
+\newcommand{\reportsubtitle}{Sous-titre}
+
+\begin{document}
+
+% Page de titre
+\begin{titlepage}
+    \centering
+    
+    % Logo de l'école (à adapter)
+    % \includegraphics[width=0.3\textwidth]{logo_ecole.png}
+    
+    \vspace{2cm}
+    
+    {\LARGE \textbf{RAPPORT DE STAGE}}
+    
+    \vspace{1cm}
+    
+    {\Large \reporttitle}
+    
+    \ifx\reportsubtitle\empty
+    \else
+        \vspace{0.5cm}
+        {\large \reportsubtitle}
+    \fi
+    
+    \vspace{2cm}
+    
+    \begin{tabular}{ll}
+        \textbf{Étudiant :} & \authorname \\
+        \textbf{École :} & \studentschool \\
+        \textbf{Période :} & \internshipperiod \\
+    \end{tabular}
+    
+    \vspace{2cm}
+    
+    \begin{tabular}{ll}
+        \textbf{Laboratoire :} & \companyname \\
+        \textbf{Lieu :} & \companylocation \\
+        \textbf{Maîtres de stages :} & \supervisor \\
+        \textbf{Tuteur académique :} & \academicsupervisor \\
+    \end{tabular}
+    
+    \vfill
+    
+    % Logo de l'entreprise (à adapter)
+    % \includegraphics[width=0.2\textwidth]{logo_entreprise.png}
+    
+    \vspace{1cm}
+    
+    {\large \today}
+    
+\end{titlepage}
+
+% Page blanche
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+% Remerciements
+\newpage
+\section*{Remerciements}
+\addcontentsline{toc}{section}{Remerciements}
+
+Je tiens à remercier...
+\newpage
+\input{chapitres/0_introduction/abstract.tex }
+\tableofcontents
+
+\newpage
+
+% Liste des figures (si nécessaire)
+\listoffigures
+\addcontentsline{toc}{section}{Liste des figures}
+
+\newpage
+
+% Liste des tableaux (si nécessaire)
+\listoftables
+\addcontentsline{toc}{section}{Liste des tableaux}
+
+\newpage
+
+% Corps du rapport
+\section{Introduction}
+
+\subsection{Contexte du stage}
+Présentation de l'entreprise/laboratoire d'accueil, du contexte général du stage.
+
+\subsection{Problématique et objectifs}
+Description de la problématique abordée et des objectifs fixés pour le stage.
+
+\subsection{Organisation du rapport}
+Brève description de la structure du rapport.
+\newpage
+\section{Présentation du laboratoire}
+\input{chapitres/1_laboratoire/0_labo.tex }
+\newpage
+
+\section{État de l'art}
+
+\subsection{Contexte scientifique/technique}
+Présentation du domaine d'étude, des connaissances existantes.
+
+\subsection{Travaux antérieurs}
+Revue des travaux précédents dans le domaine.
+
+\subsection{Positionnement du stage}
+Comment le travail de stage s'inscrit dans ce contexte.
+
+\section{Méthodologie}
+
+\subsection{Approche adoptée}
+Description de l'approche méthodologique choisie.
+
+\subsection{Outils et techniques utilisés}
+Présentation des outils, logiciels, techniques employés.
+
+\subsection{Planification du travail}
+Organisation temporelle du stage, étapes principales.
+
+\section{Réalisations et résultats}
+
+\subsection{Première réalisation}
+Description détaillée de la première contribution.
+
+\subsection{Deuxième réalisation}
+Description détaillée de la deuxième contribution.
+
+\subsection{Résultats obtenus}
+Présentation et analyse des résultats.
+
+\subsection{Validation et tests}
+Méthodes de validation, tests effectués, critères d'évaluation.
+
+\section{Discussion}
+
+\subsection{Analyse des résultats}
+Interprétation critique des résultats obtenus.
+
+\subsection{Limites et perspectives}
+Discussion des limites du travail et des perspectives d'amélioration.
+
+\subsection{Apports du stage}
+Ce que le stage a apporté au projet/entreprise.
+
+\section{Bilan personnel}
+
+\subsection{Compétences acquises}
+Compétences techniques et transversales développées.
+
+\subsection{Difficultés rencontrées}
+Principales difficultés et comment elles ont été surmontées.
+
+\subsection{Intégration professionnelle}
+Expérience de travail en équipe, adaptation au milieu professionnel.
+
+\section{Conclusion}
+
+Synthèse des contributions, bilan du stage, perspectives personnelles et professionnelles.
+
+\newpage
+
+% Bibliographie
+\printbibliography
+
+\newpage
+
+% Annexes
+\appendix
+
+\section{Annexe A : Titre de l'annexe}
+Contenu de la première annexe.
+
+\section{Annexe B : Titre de l'annexe}
+Contenu de la deuxième annexe.
+
+% Vous pouvez ajouter d'autres annexes selon vos besoins :
+% - Code source
+% - Données supplémentaires
+% - Schémas détaillés
+% - Résultats complémentaires
+
+\end{document}
