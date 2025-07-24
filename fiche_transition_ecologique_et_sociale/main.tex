@@ -1,0 +1,174 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages essentiels
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp} % pour certains symboles
+\usepackage{helvet} % Police Arial-like
+\renewcommand{\familydefault}{\sfdefault}
+
+% Mise en page
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{setspace}
+\singlespacing
+
+% Packages utiles
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{apacite} % Citations APA
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{csquotes}
+
+% Configuration des en-têtes et pieds de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textit{Réflexion TES - PFE 2025}}
+\fancyhead[R]{\textit{\nom\ \prenom}}
+\fancyfoot[C]{\thepage}
+
+% Configuration des titres
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}{1em}{}
+
+% Configuration des liens
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+% Variables à personnaliser
+\newcommand{\nom}{EDELINE}
+\newcommand{\prenom}{Alexandre}
+\newcommand{\formation}{ENSTA Paris - Promotion 2025}
+\newcommand{\annee}{2024-2025}
+\newcommand{\entreprise}{CMAP - Équipe HPC}
+\newcommand{\titreMission}{Étude de méthodes ImEx et méthodes des lignes pour la multi-résolution adaptative}
+
+\begin{document}
+
+% Page de garde
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\LARGE \textbf{Réflexion sur les enjeux de transition écologique et sociale}}\\[0.5cm]
+    {\Large \textbf{dans le cadre du Projet de Fin d'Études}}\\[2cm]
+    
+    {\large Mission : \textit{\titreMission}}\\[0.5cm]
+    {\large Entreprise : \textbf{\entreprise}}\\[2cm]
+    
+    {\large \textbf{\prenom\ \nom}}\\[0.5cm]
+    {\large \formation}\\[0.5cm]
+    {\large Année universitaire \annee}\\[4cm]
+    
+    \vfill
+    {\large Document rédigé dans le cadre du PFE}\\
+    {\large Date de soumission : [Date]}
+\end{titlepage}
+
+\newpage
+
+% Table des matières (optionnelle pour un document court)
+% \tableofcontents
+% \newpage
+
+\section{Introduction}
+
+Dans le cadre de mon Projet de Fin d'Études, j'ai effectué un stage de 5 mois au sein de l'équipe HPC du CMAP, portant sur l'étude théorique de méthodes ImEx (Implicite-Explicite) et des méthodes des lignes dans le contexte de la multi-résolution adaptative pour les équations d'advection-réaction-diffusion. Cette recherche appliquée m'a confronté aux réalités pragmatiques du calcul scientifique, où l'optimisation des performances algorithmiques s'articule avec des applications aux implications environnementales complexes et parfois contradictoires.
+
+Ce document présente une analyse de cette expérience sous l'angle des enjeux de transition écologique et sociale, en examinant les contradictions systémiques et les opportunités concrètes qu'offre ce domaine de recherche.
+
+\section{Constats : Identification des enjeux et impacts}
+
+\subsection{Description de la mission}
+
+Ma mission consistait principalement en l'analyse théorique de l'erreur des méthodes ImEx et des méthodes des lignes appliquées aux équations d'advection-réaction-diffusion dans un contexte de multi-résolution adaptative. Ces méthodes numériques trouvent leurs applications dans des domaines variés : simulation des risques liés à l'hydrogène dans les centrales nucléaires, modélisation de la combustion pour l'amélioration des performances des moteurs thermiques, simulation de systèmes physico-chimiques comme les batteries, et plus généralement toute modélisation de phénomènes couplés advection-diffusion-réaction.
+
+Il est important de noter que ces applications ne se limitent pas aux secteurs traditionnels : les mêmes méthodes peuvent servir à Total pour optimiser des processus de raffinage, au CEA pour modéliser les plasmas chauds dans les réacteurs de fusion, ou encore dans l'industrie pharmaceutique pour des processus de mélange réactif.
+
+\subsection{Impacts écologiques identifiés}
+
+\textbf{Impacts directs :} L'activité de recherche en calcul scientifique présente un impact environnemental direct lié à la consommation énergétique des infrastructures HPC. Bien que je n'aie pas eu accès aux données précises de consommation du CMAP, l'optimisation des méthodes numériques que j'ai étudiée contribue directement à réduire cette consommation en diminuant les temps de calcul nécessaires. Cette amélioration de l'efficacité algorithmique représente un gain environnemental tangible, à condition d'éviter l'effet rebond où les gains seraient compensés par une augmentation du volume de simulations.
+
+\textbf{Impacts indirects :} Les applications finales révèlent une diversité d'impacts environnementaux. D'un côté, l'optimisation des simulations de combustion dans les moteurs thermiques reste fondamentalement limitée par le fait qu'une combustion optimisée de carbone fossile demeure une source d'émissions. De l'autre, les applications aux technologies bas-carbone (nucléaire, batteries, potentiellement fusion) représentent des contributions directes à la décarbonation.
+
+\subsection{Impacts sociaux identifiés}
+
+\textbf{Au niveau de l'équipe de recherche :} L'environnement de travail au CMAP se caractérise par une culture ouverte et collaborative, sans discrimination observable. Cette atmosphère favorise l'épanouissement scientifique et l'échange d'idées.
+
+\textbf{Au niveau des bénéficiaires :} Les retombées de ces recherches profitent à un écosystème mixte combinant organismes publics (CEA, ONERA) et partenaires industriels. Le CEA, en particulier, présente l'avantage d'être largement aligné avec les objectifs de transition énergétique à travers ses missions de développement du nucléaire civil et de recherche sur les énergies décarbonées.
+
+\section{Blocages : Freins à la transition}
+
+\subsection{Obstacles rencontrés}
+
+\textbf{Contraintes de financement :} Le principal frein systémique réside dans la question fondamentale : « qui est prêt à financer ? » Si théoriquement il serait souhaitable de réorienter toute la recherche vers des applications exclusivement vertes, la réalité économique impose des compromis.
+
+\textbf{Diversité limitée des applications étudiées :} L’équipe HPC du CMAP présente une spécialisation historique dans les applications de combustion. Cette expertise oriente naturellement les collaborations vers des secteurs matures.
+
+\textbf{Absence de cadre réglementaire incitatif :} L'absence de signaux prix clairs sur le carbone et de réglementations contraignantes crée une distorsion où les innovations vertes ne bénéficient pas d'avantages compétitifs suffisants.
+
+\subsection{Analyse des causes}
+
+\textbf{Pragmatisme économique vs idéalisme environnemental :} La recherche appliquée opère dans un contexte où les considérations économiques à court terme priment souvent sur les enjeux environnementaux à long terme.
+
+\textbf{Inertie institutionnelle :} Les collaborations de recherche s'établissent sur des bases historiques. Réorienter ces partenariats nécessite des investissements en temps et en formation.
+
+\section{Leviers : Pistes d'amélioration}
+
+\subsection{Solutions technologiques}
+
+\begin{itemize}
+    \item \textbf{Méthodes adaptatives avancées} : Le développement d’algorithmes adaptatifs pilotés par l’erreur permet de réduire significativement le temps de calcul tout en conservant une précision élevée.
+    
+    \item \textbf{HPC éco-efficace} : L’intégration des méthodes étudiées dans des pipelines de calcul conçus pour fonctionner sur des architectures bas-consommation (ARM, GPU sobres) ouvre la voie à un HPC plus frugal.
+\end{itemize}
+
+\subsection{Leviers organisationnels}
+
+\textbf{Formation et sensibilisation :} Intégrer des modules sur l’impact énergétique du calcul scientifique dans les cursus d’ingénierie.
+
+\textbf{Évolution des processus :} Développer des indicateurs internes de sobriété algorithmique (par ex. énergie par degré de liberté résolu).
+
+\textbf{Gouvernance :} Allouer une part fixe des projets à des thématiques à impact environnemental positif.
+
+\subsection{Leviers politiques et réglementaires}
+
+\begin{itemize}
+    \item \textbf{Tarification carbone sur le HPC} : Établir un coût explicite du carbone pour les centres de calcul publics.
+
+    \item \textbf{Fléchage des financements} : Imposer un quota de financement public réservé aux projets de simulation pour la transition énergétique.
+\end{itemize}
+
+\section{Réflexion personnelle}
+
+\subsection{Évolution de ma compréhension}
+
+Les enjeux environnementaux ne se résolvent pas par la bonne volonté mais par des incitations appropriées. La spécialisation du CMAP dans la combustion est une réponse rationnelle à l’état du financement, pas une position idéologique.
+
+\subsection{Impact sur ma vision professionnelle}
+
+Je privilégierai les domaines de stockage, nucléaire, ou fusion, tout en restant ouvert aux collaborations plus traditionnelles si elles permettent de financer une montée en compétences.
+
+\textbf{Compétences à développer :} Méthodes numériques pour les plasmas, batteries, réacteurs électrochimiques.
+
+\subsection{Importance des enjeux TES dans le calcul scientifique}
+
+Le calcul scientifique n'est pas « vert » par essence, mais il est une brique incontournable de l’optimisation technologique. La transférabilité des méthodes est un levier central pour la transition.
+
+\section{Conclusion}
+
+Cette mission illustre les contradictions du calcul scientifique dans un contexte de transition. Le problème n’est pas un manque de conscience, mais une structure d’incitations économique inadaptée.
+
+Une approche libérale et pragmatique, fondée sur la transférabilité, l’optimisation technologique, et les signaux prix, constitue une stratégie réaliste et efficace pour accélérer la contribution du calcul scientifique à la transition.
+
+\end{document}
