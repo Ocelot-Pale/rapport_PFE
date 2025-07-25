@@ -1,7 +1,5 @@
-\subsubsection{Définitions}
-\begin{definition}[Méthode des lignes]
-    Une méthode des lignes 
-\end{definition}
+\subsection{Intégrations des EDOs}
+
 
 Introduisons d'abord la notion de raideur d'un sysètme dynamqiue. 
 \begin{definition}[Problème raide]
@@ -29,3 +27,24 @@ Introduisons d'abord la notion de raideur d'un sysètme dynamqiue.
     Si $\lambda = 10^5$ alors il faut avoir $\Delta t /approx 10^{-5}$ donc pour simuler le système entre $t=0$ et $t=1$ il faut cent-milles points !
     On comprend mieux la définition précédente \textit{Un système dynamqiue, est dit raide si les méthodes explicites ne sont pas adaptées à sa résolution.}
 \end{exemple}
+
+
+\subsection{Intégration des EDPs}
+\begin{definition}[Méthode des lignes]
+    Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
+    Elle consiste à discrétiser les opérateurs spatiaux de l'équation afin d'obtenir une équation semi-discrétisée en espace,
+    puis à utiliser une technique d'intégration en temps, pour obtenir la discrétisation complète de l'équation.
+\end{definition}
+\begin{tikzpicture}[node distance=4.3cm,box/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, align=center},arrow/.style={-{Stealth[length=3mm]}, thick},label/.style={font=\small, align=center}]
+\node[box, fill=blue!20] (edp) {EDP};
+\node[box, fill=green!20, right=of edp] (edo) {Équation\\semi-discrétisée\\(EDO)};
+\node[box, fill=orange!20, right=of edo] (schema) {Schéma\\final};
+\draw[arrow] (edp) -- node[above, label] {Discrétisation des\\opérateurs spatiaux} (edo);
+\draw[arrow] (edo) -- node[above, label] {Méthode d'intégration\\temporelle} (schema);
+\node[above=.1cm of edo, font=\bfseries] {Méthode des lignes};
+\end{tikzpicture}
+
+
+\begin{definition}[Volumes finis]
+end{definition}
+\subsection{}
