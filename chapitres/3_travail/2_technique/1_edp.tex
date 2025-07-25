@@ -8,14 +8,22 @@
 \node[box, fill=green!20, right=of edp] (edo) {Équation\\semi-discrétisée\\(EDO)};
 \node[box, fill=orange!20, right=of edo] (schema) {Schéma\\final};
 \draw[arrow] (edp) -- node[above, label] {Discrétisation des\\opérateurs spatiaux} (edo);
-\draw[arrow] (edo) -- node[above, label] {Méthode d'intégration\\temporelle} (schema);
+\draw[arrow] (edo) -- node[above, label] {Méthode d'intégration\\temporelle} (schema);  
 \node[above=.1cm of edo, font=\bfseries] {Méthode des lignes};
 \end{tikzpicture}
 
 \begin{definition}[Méthodes d'intégration espace temps]
 \end{definition}
 
+Dans la suite de notre étude nous allons utiliser la paradigme des volumes finis.
+Les volumes finis sont particulièrement adaptés au lois de conservations.
+Les volumes finis discrétisent la valeur moyenne sur les mailles, alors que les différences finies discrétisent la valeur au noeuds du maillage et 
+les éléments finis discrétisent l'espace fonctionnel lui même.
 \begin{definition}[Volumes finis]
+    Donné un maillage $(C_j)_{j\in J}$ d'un domaine $\Omega$, la discrétisation par volume fini approxime les quantités:
+    \begin{align}
+        U_j = \frac{1}{\vert C_j \vert} \int_{C_j} u(x) d\Omega.
+    \end{align}
 \end{definition}
 \subsection{Analyse de schéma numériques}
 Staiblité... Convergence...
