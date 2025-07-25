@@ -1,0 +1,25 @@
+\begin{definition}[Méthode des lignes]
+    Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
+    Elle consiste à discrétiser les opérateurs spatiaux de l'équation afin d'obtenir une équation semi-discrétisée en espace,
+    puis à utiliser une technique d'intégration en temps, pour obtenir la discrétisation complète de l'équation.
+\end{definition}
+\begin{tikzpicture}[node distance=4.3cm,box/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, align=center},arrow/.style={-{Stealth[length=3mm]}, thick},label/.style={font=\small, align=center}]
+\node[box, fill=blue!20] (edp) {EDP};
+\node[box, fill=green!20, right=of edp] (edo) {Équation\\semi-discrétisée\\(EDO)};
+\node[box, fill=orange!20, right=of edo] (schema) {Schéma\\final};
+\draw[arrow] (edp) -- node[above, label] {Discrétisation des\\opérateurs spatiaux} (edo);
+\draw[arrow] (edo) -- node[above, label] {Méthode d'intégration\\temporelle} (schema);
+\node[above=.1cm of edo, font=\bfseries] {Méthode des lignes};
+\end{tikzpicture}
+
+\begin{definition}[Méthodes d'intégration espace temps]
+\end{definition}
+
+\begin{definition}[Volumes finis]
+\end{definition}
+\subsection{Analyse de schéma numériques}
+Staiblité... Convergence...
+\begin{definition}[Procédure de Cauchy-Kovaleskaya]
+\end{definition}
+\begin{definition}[Équation modifiée]
+\end{definition}

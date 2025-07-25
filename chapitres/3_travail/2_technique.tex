@@ -1,50 +1,11 @@
 \subsection{Intégrations des EDOs}
+\input{chapitres/3_travail/2_technique/0_edo}
 
 
-Introduisons d'abord la notion de raideur d'un sysètme dynamqiue. 
-\begin{definition}[Problème raide]
-    Un système dynamqiue, est dit raide si les méthodes explicites ne sont pas adaptées à sa résolution.
-    En termes plus mathématiques le système 
-    \begin{align}
-    \frac{\text d u}{\text{d}t} = A u \quad u(t) \in \mathbb{R}^d \: \forall t\geq 0.
-    \end{align}
-    est dit raide si l'opérateur $A$ possède de \text{grandes} valeurs propres négatives
-    \footnote{Ici \textit{grand} est à comprendre au sens de \textit{grande aplitude devant d'autres valeurs propres}.}.
-\end{definition}
 
-\begin{exemple}[Équation de Dhalquist]
-    Pour saisir de manière plus intuitive le concept de raideur, prenons le cas symple de l'équation de Dhalquist définissant le système suivant
-    \footnote{C'est le cas le plus simple d'une valeur propre négative}:
-    \begin{align}
-        \frac{\text d u }{\text d t} = - \lambda u\quad \lambda > 0.
-    \end{align}
-    La solution est classiquement : $u(t) = u(0)e^{-\lambda t}$. Ainsi passé quelque $\lambda$ la dynamqiue du système est au point mort. 
-    Grossièrement la dynamqiue digne d'intérêt du système se concentre entre $t=0$ et $t=\frac{\lambda}{10}$. Au delà, $u(t>\frac{\lambda}{10}) = o(u(t=0))$, la dynamqiue est terminée.
-    Ainsi le lecteur comprend aisément que si l'on souhaite simuler le comportement d'un tel système, il faut prendre des pas de temps petits devant $\vert \lambda \vert^{-1}$.
-    Si $\lambda$ est de grande amplitude cela peut devenir très contraignant... Si l'on souhaite utiliser des méthodes explicites, c'est encore pire car la raideur du sysème 
-    n'est plus un simple contrainte de précision mais de stabilité. En effet si l'on cherche à approximer le sysètme par un schéma d'Euler explicite, alors : 
-    $U^{n+1} = U^n (1 - \lambda \Delta t)$ alors la contrainte de stabilité est $\Delta t \, \lambda < 1$ ce qui est contraignant si $\lambda$ est grand. 
-    Si $\lambda = 10^5$ alors il faut avoir $\Delta t /approx 10^{-5}$ donc pour simuler le système entre $t=0$ et $t=1$ il faut cent-milles points !
-    On comprend mieux la définition précédente \textit{Un système dynamqiue, est dit raide si les méthodes explicites ne sont pas adaptées à sa résolution.}
-\end{exemple}
+\subsection{Simulation des EDPs d'évolution}
+\input{chapitres/3_travail/2_technique/1_edp}
 
 
-\subsection{Intégration des EDPs}
-\begin{definition}[Méthode des lignes]
-    Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
-    Elle consiste à discrétiser les opérateurs spatiaux de l'équation afin d'obtenir une équation semi-discrétisée en espace,
-    puis à utiliser une technique d'intégration en temps, pour obtenir la discrétisation complète de l'équation.
-\end{definition}
-\begin{tikzpicture}[node distance=4.3cm,box/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, align=center},arrow/.style={-{Stealth[length=3mm]}, thick},label/.style={font=\small, align=center}]
-\node[box, fill=blue!20] (edp) {EDP};
-\node[box, fill=green!20, right=of edp] (edo) {Équation\\semi-discrétisée\\(EDO)};
-\node[box, fill=orange!20, right=of edo] (schema) {Schéma\\final};
-\draw[arrow] (edp) -- node[above, label] {Discrétisation des\\opérateurs spatiaux} (edo);
-\draw[arrow] (edo) -- node[above, label] {Méthode d'intégration\\temporelle} (schema);
-\node[above=.1cm of edo, font=\bfseries] {Méthode des lignes};
-\end{tikzpicture}
-
-
-\begin{definition}[Volumes finis]
-\end{definition}
-\subsection{}
+\subsection{La Multirésolution Adaptative}
+\input{}
