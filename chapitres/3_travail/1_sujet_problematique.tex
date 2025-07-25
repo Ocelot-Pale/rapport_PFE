@@ -1,5 +1,10 @@
 Mon travail participe à l'élaboration de méthodes numériques pour l'approximations des équations au dérivées partielles d'évolution.
 En particulier, j'ai travaillé sur les équations d'advections-diffusion-réaction. Elles représentent typiquement des systèmes physiques couplant
-mécanique des fluides, thermodynamique et réactions chimiques.
+mécanique des fluides, thermodynamique et réactions chimiques\footnote{Typiquement des problèmes de combustion.}.
 Ces équations sont difficiles à simuler du fait de leur caractère multi-échelle
 \footnote{Une réaction chimique a des temps et distnaces typiques généralement plusieurs ordres de grandeurs plus faibles que les temps et distances typiques de la mécanique des fluides.}.
+Pour gérer les différentes échelles spatiales, des méthodes de compression de maillage ont été mises en oeuvre. 
+La méthode de compression utilisée ici est la multirésolution adaptative, 
+Les différentes échelles temporelles\footnote{En terme technique, les différents termes des équations étudiées ont des raideurs très différentes.} sont 
+usuellement gérées par force brute ou par séparation d'opérateurs. Ici nous allons égalmeent étudier des méthodes hybrides: les méthodes implcites-explicites (ImEx).
+Mon travaille vise principalement à comprendre comment s'agence la multirésolution adaptative avec les différentes méthodes d'intégrations temporelles.
