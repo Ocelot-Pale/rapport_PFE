@@ -39,7 +39,15 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     ROK2 et ROK4\cite{abdulle2002fourth}.
 
 \subsubsection{Réaction}
-Les phénomène sont en général bien adaptés aux méthodes implcites car extrêmements raides et locaux. 
+    Les phénomène sont en général bien adaptés aux méthodes implcites car extrêmements raides et locaux.
+    En effet,les temps typiques d'une réaction chimique\footnote{
+    En réalité une réaction chimique simple (une combustion $H_2/O_2$ fait intervenir une dizaine de composés et reactions intermédaires, dont les temps typiuqes sont très faibles.)} sont de l'ordre de la nano-seconde.
+    %AFAIRE AJOUTER UNE JUSTIFICATION
+    De fait, les réactions chimiques sont très diffciles à simuler par des méthodes explicites.
+    Et les méthodes implcites ne sont pas très chères dans ce contexte, en effet comme les réactions sont locales 
+    (à chaque pas de temps les particules les particules au sein d'une cellules ne réagissent qu'avec les autres particules de la même cellule)
+    les méthodes explicites peuvent se paralléliser. En d'autres termes il est possible de mettre en oeuvre une méthode implcite par cellule,
+    ce qui revient à inverser un opérateur de petite dimension en chaque cellule, et il n'est pas nécessaire d'inverser un énorme système.
 
 \subsection{Difficultés mathématiques intrinsèques}
 
