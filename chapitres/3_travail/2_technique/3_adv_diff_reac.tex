@@ -101,28 +101,26 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
         \footnote{\href{https://www.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}{https://www.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}}.
         % AFAIRE : ajouter une ref pour les adaptations basées sur les gradients, une justification sur le caratère moins facile a analyser et éventuellement d'autres méthodes de raffinement.
 
-        \subsubsection{Les techniques d'intégration}
+    \subsubsection{Les techniques d'intégration}
         Comme expliqué précédemment, la simulation de chaque opérateur est faisable individuellement mais très difficile conjointement.
         Les stratégies pour intégrer les trois opérateurs en même temps, reposent donc sur le fait de les intégrer... séparément.
+
         \paragraph{La séparation d'opérateurs}
-        La sépration d'opérateur (en Anglais: \textit{splitting}) consiste à intégrer successivement chaque opérateur.
-        L'intégration d'un opérateur $A$, dans une équation comme :
-        \begin{align}
-        \frac{\partial u}{\partial t} = Au.
-        \end{align}
-        s'écrit avec la notion d'exponentielle de matrice\footnote{Ou de manière plus rigoureuse avec la notion de semi-groupe.}:
-        \begin{align}
-        u(t) = e^{tA}u_0.
-        \end{align}
-        Ainsi si l'on a deux opérateurs:
-        \begin{align}
-        \frac{\partial u}{\partial t} = (A+B)u.
-        \end{align}
-        \begin{align}
-        u(t) = e^{t(A+B)}u_0 \approx e^{t(B)}e^{t(A)}u_0.
-        \end{align}
-        Ce n'est qu'une approximation car $e^{t(A+B)} = e^{t(B)}e^{t(A)}$ n'est vrai que si les opérateurs $A$ et $B$ commutent.
-        Cependant c'est vrai à l'ordre $O(t)$. Cela correspond au splitting de Lie
-        \footnote{Un autre schéma : $e^{t/2(A+B)} = e^{t(B)}e^{t(A)} e^{t/2(B)}$, le splitting de Strang existe et est précis à l'ordre 2 en temps.}
+            La séparation d'opérateurs (en Anglais: \textit{splitting}) consiste à intégrer successivement chaque opérateur.
+            L'intégration d'un opérateur $A$, dans une équation comme :
+            \begin{align}\frac{\partial u}{\partial t} = Au.\end{align}
+            s'écrit avec la notion d'exponentielle de matrice\footnote{Ou de manière plus rigoureuse avec la notion de semi-groupe.}:
+            \begin{align}u(t) = e^{tA}u_0.\end{align}
+            Ainsi si l'on a deux opérateurs:
+            \begin{align}\frac{\partial u}{\partial t} = (A+B)u.\end{align}
+            \begin{align}u(t) = e^{t(A+B)}u_0 \approx e^{t(B)}e^{t(A)}u_0.\end{align}
+            Ce n'est qu'une approximation car $e^{t(A+B)} = e^{t(B)}e^{t(A)}$ n'est vrai que si les opérateurs $A$ et $B$ commutent.
+            Cependant c'est vrai à l'ordre $O(t)$. Cela correspond au splitting de Lie
+            \footnote{Un autre schéma : $e^{t/2(A+B)} = e^{t(B)}e^{t(A)} e^{t/2(B)}$, le splitting de Strang existe et est précis à l'ordre 2 en temps.}
+            Cette méthode permet de traiter les opérateurs l'un après l'autre, indépendamment les uns des autres, avec une méthode numérique qui lui est adaptée.
+            Cela rend la méthode très simple de mise en oeuvre. En revanche, il est difficile de monter au-delà de l'ordre deux en temps et les schémas.\par
+            Une étude extensive de l'usage du splitting, pour les équations d'advection-diffusion-réaction couplées à la multiresoltion adaptative 
+            a été réalisée dans la thèse de Max Duarte, préparée à Centrale Paris sous la direction de Marc Massot \cite{duart2011}.
+
         \paragraph{Les méthodes ImEx}
-        
+            ...
