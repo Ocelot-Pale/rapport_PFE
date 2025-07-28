@@ -1,9 +1,9 @@
-Mon premier objectif a été de comparer des performances des méthodes ImEx avec une méthode de séparation d'opérateur.
+Mon premier objectif a été de comparer les performances des méthodes ImEx avec une méthode de séparation d'opérateur car sur le papier ces deux méthodes sont très proches.
 J'ai mis en lumière leurs différents domaines de stabilité et réalisé des tests de convergence. Cette étude a été réalisée sur une équation simple mais très représentative des équations de réaction-diffusion,
 l'équation de Nagumo.\par%AFAIRE : AJOUTER UNE REF
 % EN FAIT J AI TROUVE UN RESULTAT BIZARRE ET IL M ONT PAS AIDE A DEBUGGER NI A L ANALYSER JE SUIS UN PEU DEMUNI JE SAIS PAS SI C'EST MON BUG, UN BUG SAMURAI OU UN VRAI RESULTAT...
 Mon second objectif était d'explorer l'impact théorique de la multi-résolution adaptative (MRA) sur un schéma numérique classique.
 J'ai mené une analyse d'erreur sur une équation de diffusion résolue par une méthode des lignes d'ordre deux, et j'ai découvert % AFAIRE: VALIDER CE RESULTAT PARCEQUE C'EST BIZARRE...
-que la multirésolution-adaptative peut dégarder l'ordre de convergence d'une méthode. J'ai par la suite tenté (sans succès) de mettre en 
-évidence ce résultat expérimentalement grâce au code Samurai. J'ai chosit de travailler sur la diffusion pour compléter le travail 
-réalisé par l'équipe en \cite{belloti_et_al_2025} qui se centrait sur la diffusion.
+que la multirésolution-adaptative peut dégrader l'ordre de convergence d'une méthode. J'ai par la suite tenté (sans succès) de mettre en 
+évidence ce résultat expérimentalement grâce au code Samurai. J'ai chosi de travailler sur la diffusion pour compléter le travail 
+réalisé par l'équipe en \cite{belloti_et_al_2025} qui se centrait sur l'advection.
