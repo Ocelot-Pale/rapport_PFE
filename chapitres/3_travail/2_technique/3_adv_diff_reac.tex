@@ -73,9 +73,13 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
 
 
 \subsection{Les stratégies de simulation}
-\subsubsection{L'adaptation de maillage}
-    \paragraph{La multi-résolution adaptative}
-    \paragraph{Autres méthodes}
-\subsubsection{Les techniques d'intégration}
-    \paragraph{Les méthodes ImEx}
-    \paragraph{La séparation d'opérateurs}
+    \subsubsection{L'adaptation de maillage}
+    Pour prendre avantage du caractère multi-échelle des solutions étudiées, il est courrant de procéder à de l'adaptation de maillage.
+    C'est à dire mailler avec une finesse différentes chaque zone du domaine et être en mesure de faire évoluer ce maillage de concorde avec l'évolution du problème dans le temps.
+    La méthode d'adaption de maillage sur lequel nous nous concentrons est la multirésolution-adaptative par transformée d'ondelettes introduite par Ami Harten dans les années 1990 \cite{harten1994}.
+    Cette méthode est très étudiée par l'équipe du CMAP et a donnée lieu au développement du logiciel Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}.
+        \paragraph{La multi-résolution adaptative}
+        \paragraph{Autres méthodes}
+    \subsubsection{Les techniques d'intégration}
+        \paragraph{Les méthodes ImEx}
+        \paragraph{La séparation d'opérateurs}
