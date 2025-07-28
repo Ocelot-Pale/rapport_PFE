@@ -1,19 +1,51 @@
-Plaçons nous dans le contexte physique naturel des équations d'advections, diffsuion, réaction: 
-Des particules sont placées dans un milieu fluide où elles \textbf{diffusent}, ce milieu fluide 
+Plaçons nous dans le contexte physique naturel des équations d'advection, diffusion, réaction:
+Des particules sont placées dans un milieu fluide où elles \textbf{diffusent}, ce milieu fluide
 est en mouvement, cet écoulement déplace les particules, il les \textbf{advecte}.
-Enfin les particules \textbf{réagissent} entre-elles et ces réactions modifient les grandeurs themordynmaiques (tempoérature, préssion) et \textit{in fine} les propriétés
-du mileu fluide.
-Les équations d'advection, diffusion, réaction modélisent donc ces trois phénomènes et leurs couplages respectifs
+Enfin les particules \textbf{réagissent} entre-elles et ces réactions modifient les grandeurs thermodynamiques (température, pression) et \textit{in fine} les propriétés
+du milieu fluide.
+Les équations d'advection, diffusion, réaction modélisent donc ces trois phénomènes et leurs couplages respectifs.
+
 \subsection{Les trois opérateurs}
-    \subsubsection{Advection}
-    \subsubsection{Diffusion}
-    \subsubsection{Réaction}
+\subsubsection{Advection}
+    L'advection désigne le transport d'une quantité par un flot. L'opérateur d'advection le plus simple est l'opérateur
+    de transport $c \frac{\partial}{\partial x}$:
+    \begin{align}\frac{\partial u}{\partial t} = c \frac{\partial u}{\partial x}\end{align}
+    De manière générale un opérateur d'advcection d'une quantité $u$ par un flot $\underline a$ s'écrit $\underline a \cdot \underline{\nabla} u$.
+    Par exemple dans les équations de Navier-Stokes, l'opérateur $\underline{v} \cdot \underline{\underline \nabla} \, \underline{v}$ représente 
+    la vitesse $\underline v$ qui est transportée par elle même. Une version simplifiée de ce phénomène est l'équation bien connue de Bürgers.\par 
+    Les opérateurs d'advections sont généralement à valeurs propres imaginaires\footnote{Par abus, s'il s'agit d'un opréteur non-linéiare on lui associera les valeurs propres de sa Jacobienne.}.
+    Ainsi ils sont peu raides mais résonnants. Les méthodes explicites sont généralements les plus adaptées pour les traiter.
+    %       AFAIRE ---> trouver une référence pour justifier que les opérateurs d'advections sont à valeurs propres imaginaires.
+
+\subsubsection{Diffusion}
+    La diffusion désigne l'\textit{éparpillement} de particules au sein d'un milieu fluide
+    \footnote{En théorie de l'information cela décrit la tendance de l'entropie augmenter et l'information à se moyenner, se flouter.}.
+    Ce phénomène est la limite macroscopique du déplacement microscopiques 
+    des particules à cause de l'agitation thermique. L'opérateur de diffusion le plus classique est celui de l'équation de la chaleur:
+    \begin{align} \frac{\partial u}{\partial t} = D \Delta u.\end{align}
+    Le spectre de cet opérateur est $\mathbb R^-$, il est donc infiniement raide. Lorsqu'il est discrétisé seul une partie de sa raideur est captée,
+    en pratique la raideur de l'opérateur augmente quadratiquement avce la finesse de la discrétisation spatiale.\par
+    %       AFAIRE ---> trouver une référence (ou faire la démo) pour le spectre.
+    Cet opérateur est donc moyennement raide. Ainsi on pourrait penser qu'une méthode implcite est adéquate. Cependant ce n'est généralement pas le cas.
+    En effet le coefficient de diffusion est généralement fonciton de la températeur, et donc l'éoprateur $D(T) \times \Delta(\cdot)$ varie généalement dans le temps et l'espace. 
+    Ainsi il faut inverser à chaque itération l'opérateur implcite, et comme c'est un opérateur non local
+    \footnote{Si l'opérateur de diffusion était local on pourrait résoudre plusieurs petit systèmes, potentiellements en parallèle ce qui est bien moins couteux qu'inverser 
+    un grand système. Pour se convaincre, inverser un matrice pleine de taille $10^6$ coute au moins $10^{18}$ opérations, alors qu'inverser 100 systèmes de taille $10^4$
+    coute $100 \times 10^{12} = 10^{14}$ soit dix mille fois moins, et si ces résolution étaient parallélisé ce serait un million de fois moins.},
+    il faut inverser une matrice de taille $d >> 1$ dont la structure
+    peut être très hétérogène.
+    (car le coefficient de diffusion dépend de $T$ et du milieu, donc \textit{in fine} de $\underline x$). Aujourd'hui il est d'usage d'utiliser 
+    des méthodes explicites stabilisées qui parviennent à gérer la raideur moyenne\footnote{Nous reviendrons sur ce qualificatif au prochain paragraphe.} comme les méthodes 
+    ROK2 et ROK4\cite{abdulle2002fourth}.
+
+\subsubsection{Réaction}
+
 \subsection{Difficultés mathématiques intrinsèques}
 
 \subsection{Les stratégies de simulation}
-    \subsubsection{L'adaptation de maillage}
-        \paragraph{La multi-résolution adaptative}
-        \paragraph{Autres méthodes}
-    \subsubsection{Les techniques d'intégration}
-        \paragraph{Les méthodes ImEx}
-        \paragraph{La séparation d'opérateurs}
+\subsubsection{L'adaptation de maillage}
+    \paragraph{La multi-résolution adaptative}
+    \paragraph{Autres méthodes}
+\subsubsection{Les techniques d'intégration}
+    \paragraph{Les méthodes ImEx}
+    \paragraph{La séparation d'opérateurs}
