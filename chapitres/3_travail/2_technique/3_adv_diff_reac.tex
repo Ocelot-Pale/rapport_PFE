@@ -78,8 +78,29 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     C'est à dire mailler avec une finesse différentes chaque zone du domaine et être en mesure de faire évoluer ce maillage de concorde avec l'évolution du problème dans le temps.
     La méthode d'adaption de maillage sur lequel nous nous concentrons est la multirésolution-adaptative par transformée d'ondelettes introduite par Ami Harten dans les années 1990 \cite{harten1994}.
     Cette méthode est très étudiée par l'équipe du CMAP et a donnée lieu au développement du logiciel Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}.
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{media/3_/3_/exemple_compression_samurai.png}
+    \caption{Exemple de maillage adapté par multirésolution adaptative grâce au logiciel \href{https://github.com/hpc-maths/samurai}{Samurai}.}
+    \label{fig:samurai}
+    \end{figure}
+
         \paragraph{La multi-résolution adaptative}
+        La multirésolution adaptative se base sur une compression de la solution par transformée d'ondelette\footnote{C'est même procédé qui est à l'oeurvre dans la compression d'image \texttt{jpg}.}.
+        Les détails méthématiques seront données plus tard et s'appuyerons notemment sur \cite{postePoly}. Pour l'heure le lecteur doit simplement comprendre que la compression se fait de la manière suivante:
+        une transformée en ondelette permet de représenter la solution sur différentes échelle d'espace\footnote{Par exemple les échelles $\Delta x, \Delta x/2,\Delta x/4,\dots, \Delta x/2^n$}. 
+        Cela permet de quantifier l'information contenue à en chaque échelle d'espace. Enfin la compression consiste à ignorer les échelles ne comprenant pas assez d'information
+        par rapport à un seuil $\varepsilon$ fixé par l'utilisateur.
+
         \paragraph{Autres méthodes}
+        Il existe d'autre stratégies pour raffiner le maillage autour des zones sensibles que la transformée en ondelette. 
+        La plus classique est une adaptation basée sur les gradients. Si les gradients sont élevés c'est que la solution est complexe,
+        et donc un maillage fin est nécessaire pour la représenter fidèlement. Cette approche est simple à mettre en oeuvre et part de la même heuristique 
+        que la multiresoltion adaptative, cependant elle est moins systématique (pas de quantification de l'information perdue) et plus difficile à analyser. 
+        Elle est cependant utilisée dans des logiciels industriels comme Ansys 
+        \footnote{\href{https://www.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}{https://www.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}}.
+        % AFAIRE : ajouter une ref pour les adaptations basées sur les gradients, une justification sur le caratère moins facile a analyser et éventuellement d'autres méthodes de raffinement.
+
     \subsubsection{Les techniques d'intégration}
         \paragraph{Les méthodes ImEx}
         \paragraph{La séparation d'opérateurs}
