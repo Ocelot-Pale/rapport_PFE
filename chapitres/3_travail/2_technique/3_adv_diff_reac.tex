@@ -73,6 +73,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
 
 
 \subsection{Les stratégies de simulation}
+    Pour surmonter ces difficultés, des stratégies d'adaptation de maillage et d'intégration en temps spécifiques doivent être utilisées de concert. 
     \subsubsection{L'adaptation de maillage}
     Pour prendre avantage du caractère multi-échelle des solutions étudiées, il est courrant de procéder à de l'adaptation de maillage.
     C'est à dire mailler avec une finesse différentes chaque zone du domaine et être en mesure de faire évoluer ce maillage de concorde avec l'évolution du problème dans le temps.
@@ -118,9 +119,31 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
             Cependant c'est vrai à l'ordre $O(t)$. Cela correspond au splitting de Lie
             \footnote{Un autre schéma : $e^{t/2(A+B)} = e^{t(B)}e^{t(A)} e^{t/2(B)}$, le splitting de Strang existe et est précis à l'ordre 2 en temps.}
             Cette méthode permet de traiter les opérateurs l'un après l'autre, indépendamment les uns des autres, avec une méthode numérique qui lui est adaptée.
-            Cela rend la méthode très simple de mise en oeuvre. En revanche, il est difficile de monter au-delà de l'ordre deux en temps et les schémas.\par
+            Cela rend la méthode très simple de mise en oeuvre. En revanche, il est difficile de monter au-delà de l'ordre deux en temps.\par
             Une étude extensive de l'usage du splitting, pour les équations d'advection-diffusion-réaction couplées à la multiresoltion adaptative 
             a été réalisée dans la thèse de Max Duarte, préparée à Centrale Paris sous la direction de Marc Massot \cite{duart2011}.
 
         \paragraph{Les méthodes ImEx}
-            ...
+            Nous détaillerons ces méthode en XXX. Pour l'heure le lecteur doit savoir que es méthodes ImEx
+            \footnote{Les méthdes évoquées ici sont les méthodes ImEx Runge et Kutta (RK-ImEx). Il existe également des méthodes ImEx couplées espace-temps\cite{rebou2024}.}
+            sont très proches de la séparation d'opérateurs dans leurs implémentation, seulement elles apportent plus de cohérence mathématiques
+            et facilite la montée en ordre. De manière général, une méthode Runge et Kutta et une technique d'intégration en temps 
+            qui se décompose en plusieurs étapes (aussi appelés étages).
+            Cette succession d'étages engendre différentes approximations et une combinaison adéquate des ces approximations assure la montée en ordre de la méthode.
+            Dans les méthodes RK-ImEx à chaque étage, l'approximation obtenu en ajoutant une contribution explicite d'un des opérateur (celui pour lequel une méthode explicite est adaptée, par exemple d'advection)
+            et une contribution implicite de l'autre opérateur (celui pour lequel un méthode implicite est adatpée, par exemple la diffusion).
+            Ainsi, un traitement différent est appliqué à chaque opérateur tout en conservant une méthode avec une cohésion globale\footnote{Cependant dans la méthode de splitting,
+            nous avions le luxe de choisir chaque méthode de résolution indépendamment des autres, ici ce n'est plus le cas il fait respecter des relations d'ordre,
+            plus de cohésion mais plus de contrainte.}.
+            % AFAIRE AJOUTER UN LIEN VERS LE CHAPITRE DEDIER
+            % AFAIRE SE DEMANDER SI POUR U? OP2RATEUR LINEAIRE RKImEx ET SPLITTING C EST PAREIL MAIS SI LE RKImEx NE SERAIT PAS PLUS PERTIENT EN NON LINEAIRE.
+
+\subsection{Conclusion}
+Cette introduction a mis en évidence la complexité intrinsèque des équations d'advection-diffusion-réaction, 
+qui réside dans le couplage de trois phénomènes physiques aux propriétés mathématiques antagonistes. 
+L'advection, peu raide, la diffusion, moyennement raide et non-locale, et la réaction, extrêmement raide mais locale, 
+ne peuvent être traitées efficacement par une approche monolithique classique.
+Les deux défis principaux identifiés: le couplage des opérateurs et le caractère multi-échelles des solutions, 
+nécessitent des stratégies numériques specifiques. 
+D'une part, l'adaptation de maillage, notamment par multi-résolution adaptative, permet de concentrer les ressources de calcul là où l'information physique est la plus riche. 
+D'autre part, des techniques d'intégration découplées, éparation d'opérateurs ou des méthodes ImEx, exploitant les propriétés spécifiques de chaque phénomène et éviter l'écueil du solver monolithique.
