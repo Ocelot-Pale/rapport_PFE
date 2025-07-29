@@ -1,0 +1,47 @@
+Nous étudions la viabilité des RK-ImEx sur l'équation de Nagumo. Pour cela nous étudions sa stabilité.
+Dans un premier temps, une étude générale de la stabilité de des RK-ImEx est ménée.
+Dans un second temps, l'étude se centre sur l'application à l'équation de Nagumo.
+
+\subsubsection{Étude de stabilité générale des RK-ImEx}
+    Lorsque l'on use d'une méthode ImEx, les deux (ou plus) opérateurs sont découplés, c'est bien là l'intérêt.
+    Cependant cela complique légèrement l'analyse usuelle de stabilié. En effet la fonction de stabilité attend alors deux varaibles, %AFAIRE -> ajouter les renvois vers la partie introduction à l'étude de stabilité etc...
+    le coefficient spectral associé à l'opérateur traité explicitement et le coefficient spectral associé à l'opérateur traité implicitement.
+    Ainsi, pour chaque couple de valeur propre, la fonction de stabilité prend une valeur différente et comme les coefficients spectraux sont complexes, 
+    on ne peut plus visualiser d'un simple coup d'oeil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci est de dimension quatre
+    \footnote{En effet la fonction de stabilité $R \mathbb C \times \mathbb C \rightarrow \mathbb R$ et $\dim  \mathbb C \times \mathbb C=4$.}.
+    \paragraph{Calcul des fonctions de stabilité}
+
+\subsubsection{Étude de stabilité appliquée à l'équation de Nagumo}
+    Nous allons particulariser la démarche suivante en la centrant sur l'équation de Nagumo. Cela vas nous permettre de comprendre 
+    comme se comportent les méthodes ImEx sur ce problème particulier.
+    \paragraph{Valeurs propres mises en jeu}
+        Comme expliqué en \ref{par:analyser_operateurs_nagumo} l'équation présente deux opérateurs : 
+        \begin{itemize}
+            \item[$\diamond$] La diffusion dont le spectre d'étend de $\frac{-1}{L^2}$ à $\frac{-1}{\Delta x^2}$ (où $L$ est la taille du domaine discrétisé).
+            \item[$\diamond$] La réaction dont le spectre balaie continuement $-k$ jusqu'à $2k$
+        \end{itemize}
+        Pour restreindre l'analyse de stabilié il faut donc tracer le diagramme de stabilité des méthodes étudiées en prenant $Z_I \in \mathbb{R}^-$ 
+        et $Z_E \in [-k;2k] \subset \mathbb{R}$ ce qui nous donne un espace à deux dimensions. Il faut ensuite placer des couples $(Z_E,Z_I)$ correspondant.
+        Lorsque l'on réalise se travaille nous trouvons les diagrammes suivant: 
+        
+        \begin{figure}[htbp]
+            \centering
+            \includegraphics[width=\textwidth]{media/4_travail/2_nagumo/stabilite/STABILITE_D10_k0.1_dt1.0e-03_dx2.4e-03.png}
+            \caption{Diagrammes de stabilité des méthodes ImEx et de référence sur l'équation de Nagumo.}
+            \label{fig:stabilite_nagumo}
+        \end{figure}
+
+        J'invite le lecteur à prendre un peu de temps pour comprendre la logique de ces graphiques car ils sont très éclairants. 
+        Ces diagrammes permettent d'analyser respectivement la stabilité de la méthode ImEx222, de la méthode ImEx232, 
+        ainsi qu'à titre de comparaison, la stabilité d'une méthode RKE d'ordre 2\footnote{Celle apparaissant dans ImEx222.} 
+        et d'une méthode de splitting
+        \footnote{Où l'on utilise les méthodes implicites et explicites de la méthode ImEx222 mais dans un contexte de splitting de Strang.}.
+        Chaque colonne représente l'analyse d'une méthode différente. 
+        La première ligne présente le domaine de stabilité en fonction des indices spectraux $Z_E \in \mathbb{R}$ et $Z_I \in \mathbb{R}^-$. 
+        Les points bleus représentent les couples d'indices spectraux intervenant dans la résolution de l'équation de Nagumo 
+        pour les paramètres d'équation choisis ($D$ et $k$) et les paramètres de discrétisation retenus ($\Delta t$ et $\Delta x$). 
+        La seconde ligne n'est qu'un zoom de la première autour de ces indices spectraux. 
+        La dernière colonne (splitting) présente une disposition différente, puisque les opérateurs sont totalement découplés.
+        La première ligne correspond à la fonction de stabilité de la méthode explicite (avec un zoom autour des indices spectraux de la réaction).
+        la seconde ligne représente la fonction de stabilité de la méthode implicite. 
+        Dans les deux cas, l'intervalle tracé en bleu représente la plage de valeurs d'indices spectraux balayés par chaque opérateur.
