@@ -5,12 +5,41 @@ Nous utilisons la forme spatiale de l'équation \cite{keener1998mathematical} av
             - \underbrace{ku(1-u^2)}_{\text{réaction}}.
 \end{align}
 \paragraph{Solutions Analytiques}
-Cette équation admet des solutions propagatives sous la forme:
-\paragraph{Analyse Qualitative}
-Le terme de diffusion est classique, il est non-local et une fois discrétisé à l'ordre deux ses valeurs propres associées sont 
-$\{ ... \}$, ainsi la raideur croit linéairement avec le coefficient de diffusion $D$ et quadratiquement avec la finesse du maillage $\Delta x$.
-En partant d'une solution initiale ..., 
-la solution reste entre 0 et 1. Ainsi le terme de réaction est local, et ses valeurs propres sont comprises entre ...
+Cette équation admet des solutions propagatives sous la forme\footnote{C'est une sigmoide, qui se propage à vitesse $\sqrt{\frac{kD}{2}}$.}:%AFAIRE --> AJOUTER UNE REFERENCE
+\begin{align}
+    \label{eq:sol_nagumo}
+ u(x-ct) = \frac{e^{
+ -\sqrt{\frac{k}{2D}} \bigl((x-x_0) - ct \bigr)}
+ }
+ {1 + e^{
+ -\sqrt{\frac{k}{2D}} \bigl((x-x_0) - ct \bigr)}
+ }
+\end{align}
+Avec : $c = \sqrt{\frac{kD}{2}}$ et $x_0$ le point de départ de l'onde.
+Ainsi, le produit $kD$ fixe la vitesse et le ratio $\frac{k}{D}$ la magnitude du gradient d'espace.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{media/4_travail/2_nagumo/profils_nagumo.pdf}
+    \caption{Profils des ondes solutions de l'équation de Nagumo pour différents ratios k/D à kD = 1 fixé (c'est à dire à vitesse fixée). L'augmentation du ratio k/D accentue le gradient spatial.}
+    \label{fig:profils_nagumo}
+\end{figure}
+
+\paragraph{Analyse des opérateurs}
+Le terme de diffusion est non-local et, discrétisé à l'ordre deux par $n$ points et un pas $\Delta x$, les valeurs propres associées sont 
+$\{ \frac{2D}{\Delta x^2} \bigl(\cos \frac{p\pi}{n+1} - 1\bigr) \mid p \in \{1,\dots,n\}\}$ \cite{bouchet2020laplacien}, 
+ainsi la raideur du terme de diffusion croit linéairement avec le coefficient de diffusion $D$ et quadratiquement avec la finesse du maillage $1/\Delta x$.
+En effet les valeurs propres sont négatives et:
+\begin{align}
+    \max_p \vert\cos \frac{p\pi}{n+1} - 1 \vert &\sim 2,\\
+    \min_p \vert \cos \frac{p\pi}{n+1} - 1 \vert &\sim \frac{1}{2}\Bigl( \frac{\pi}{n+1} \Bigr)^2.
+\end{align}
+Et donc:
+\begin{align}
+    \frac{\max_p \vert 1 - \cos \frac{p\pi}{n+1} \vert}{\min_p \vert 1 - \cos \frac{p\pi}{n+1} \vert} \approx n^2.
+\end{align}
+Concernant le terme de réaction, en choisissant un état initial correspondant à \ref{eq:sol_nagumo},
+la solution reste entre 0 et 1. Ainsi le terme de réaction est local, et ses valeurs propres sont comprises entre $-k$ et $2k$.
 En effet: 
 \begin{align}
     R(u) = ku(1-u^2),\\
@@ -23,3 +52,8 @@ En effet:
     \caption{Plage de valeurs du terme de réaction non-linéaire et de sa différentielle pour deux coefficients de réactions: $k=1$ et $k=10$.}
     \label{fig:raideur_reaction_nagumo}
 \end{figure}
+
+\paragraph{Coclusion sur l'équation de Nagumo}
+Ainsi l'équation de Nagumo, présente un terme de réaction\footnote{à noter qu'il n'est pas raide, comparé aux terems de réaction rencontrés en combustion.},
+et un terme de diffusion. Cette équation fait émerger un front d'onde\footnote{Cela permet de tester le comportement de la multi-résolution adaptative.} et dispose de deux paramètre $k$ et $D$ simple pour modifier les propriétés de la solution. 
+Cela en fait donc un modèle-test de choix pour étudier le comportement de diverses méthodes dédiées au équations d'advections-réaction-diffusion. 
