@@ -4,7 +4,7 @@ Nous utilisons la forme spatiale de l'équation \cite{keener1998mathematical} av
     \dt{u} = \underbrace{D \dxx{u}}_{\text{diffusion}}
             - \underbrace{ku(1-u^2)}_{\text{réaction}}.
 \end{align}
-\paragraph{Solutions Analytiques}
+\subsubsection{Solutions Analytiques}
 Cette équation admet des solutions propagatives sous la forme\footnote{C'est une sigmoide, qui se propage à vitesse $\sqrt{\frac{kD}{2}}$.}:%AFAIRE --> AJOUTER UNE REFERENCE
 \begin{align}
     \label{eq:sol_nagumo}
@@ -25,7 +25,7 @@ Ainsi, le produit $kD$ fixe la vitesse et le ratio $\frac{k}{D}$ la magnitude du
     \label{fig:profils_nagumo}
 \end{figure}
 
-\paragraph{Analyse des opérateurs}\label{par:analyser_operateurs_nagumo}
+\subsubsection{Analyse des opérateurs}\label{par:analyser_operateurs_nagumo}
 Le terme de diffusion est non-local et, discrétisé à l'ordre deux par $n$ points et un pas $\Delta x$, les valeurs propres associées sont 
 $\{ \frac{2D}{\Delta x^2} \bigl(\cos \frac{p\pi}{n+1} - 1\bigr) \mid p \in \{1,\dots,n\}\}$ \cite{bouchet2020laplacien}, 
 ainsi la raideur du terme de diffusion croit linéairement avec le coefficient de diffusion $D$ et quadratiquement avec la finesse du maillage $1/\Delta x$.
@@ -55,7 +55,7 @@ En effet:
     \label{fig:raideur_reaction_nagumo}
 \end{figure}
 
-\paragraph{Coclusion sur l'équation de Nagumo}
+\subsubsection{Coclusion sur l'équation de Nagumo}
 Ainsi l'équation de Nagumo, présente un terme de réaction\footnote{à noter qu'il n'est pas raide, comparé aux terems de réaction rencontrés en combustion.},
 et un terme de diffusion. Cette équation fait émerger un front d'onde\footnote{Cela permet de tester le comportement de la multi-résolution adaptative.} et dispose de deux paramètre $k$ et $D$ simple pour modifier les propriétés de la solution. 
 Cela en fait donc un modèle-test de choix pour étudier le comportement de diverses méthodes dédiées au équations d'advections-réaction-diffusion. 

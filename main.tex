@@ -41,6 +41,9 @@
 % Table des matières
 \usepackage{tocloft}
 \setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{4}  % Numéroter jusqu'aux paragraphs
+\renewcommand{\thesubsubsection}{\Alph{subsubsection}}
+\renewcommand{\theparagraph}{\thesubsubsection.\roman{paragraph}}
 
 % Espacement
 \usepackage{setspace}
