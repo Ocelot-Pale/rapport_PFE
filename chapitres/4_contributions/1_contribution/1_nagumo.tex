@@ -1,3 +1,4 @@
+\label{par:analyser_operateurs_nagumo}
 L'équation de Nagumo (ou FitzHugh-Nagumo) est issue de modèles de transmission de l'information nerveuse \cite{FITZHUGH1961445}.
 Nous utilisons la forme spatiale de l'équation \cite{keener1998mathematical} avec un terme de réaction cubique pour ajouter de la non-linéarité:
 \begin{align}
@@ -25,7 +26,7 @@ Ainsi, le produit $kD$ fixe la vitesse et le ratio $\frac{k}{D}$ la magnitude du
     \label{fig:profils_nagumo}
 \end{figure}
 
-\subsubsection{Analyse des opérateurs}\label{par:analyser_operateurs_nagumo}
+\subsubsection{Analyse des opérateurs}
 Le terme de diffusion est non-local et, discrétisé à l'ordre deux par $n$ points et un pas $\Delta x$, les valeurs propres associées sont 
 $\{ \frac{2D}{\Delta x^2} \bigl(\cos \frac{p\pi}{n+1} - 1\bigr) \mid p \in \{1,\dots,n\}\}$ \cite{bouchet2020laplacien}, 
 ainsi la raideur du terme de diffusion croit linéairement avec le coefficient de diffusion $D$ et de manière quadratique avec la finesse du maillage $1/\Delta x$.
@@ -56,6 +57,6 @@ En effet:
 \end{figure}
 
 \subsubsection{Coclusion sur l'équation de Nagumo}
-Ainsi l'équation de Nagumo, présente un terme de réaction\footnote{à noter qu'il n'est pas raide, comparé aux terems de réaction rencontrés en combustion.},
+Ainsi l'équation de Nagumo, présente un terme de réaction\footnote{à noter qu'il n'est pas raide, comparé aux termes de réaction rencontrés en combustion.},
 et un terme de diffusion. Cette équation fait émerger un front d'onde\footnote{Cela permet de tester le comportement de la multi-résolution adaptative.} et dispose de deux paramètre $k$ et $D$ simple pour modifier les propriétés de la solution. 
 Cela en fait donc un modèle-test de choix pour étudier le comportement de diverses méthodes dédiées au équations d'advections-réaction-diffusion. 
