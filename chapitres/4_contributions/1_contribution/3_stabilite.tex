@@ -1,13 +1,13 @@
 Nous étudions la viabilité des RK-ImEx sur l'équation de Nagumo. Pour cela nous étudions sa stabilité.
-Dans un premier temps, une étude générale de la stabilité de des RK-ImEx est ménée.
+Dans un premier temps, une étude générale de la stabilité de des RK-ImEx est menée.
 Dans un second temps, l'étude se centre sur l'application à l'équation de Nagumo.
 
 \subsubsection{Étude de stabilité générale des RK-ImEx}
     Lorsque l'on use d'une méthode ImEx, les deux (ou plus) opérateurs sont découplés, c'est bien là l'intérêt.
-    Cependant cela complique légèrement l'analyse usuelle de stabilié. En effet la fonction de stabilité attend alors deux varaibles, %AFAIRE -> ajouter les renvois vers la partie introduction à l'étude de stabilité etc...
+    Cependant cela complique légèrement l'analyse usuelle de stabilisé. En effet la fonction de stabilité attend alors deux variables, %AFAIRE -> ajouter les renvois vers la partie introduction à l'étude de stabilité etc...
     le coefficient spectral associé à l'opérateur traité explicitement et le coefficient spectral associé à l'opérateur traité implicitement.
     Ainsi, pour chaque couple de valeur propre, la fonction de stabilité prend une valeur différente et comme les coefficients spectraux sont complexes, 
-    on ne peut plus visualiser d'un simple coup d'oeil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci est de dimension quatre
+    on ne peut plus visualiser d'un simple coup d'œil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci est de dimension quatre
     \footnote{En effet la fonction de stabilité $R \mathbb C \times \mathbb C \rightarrow \mathbb R$ et $\dim  \mathbb C \times \mathbb C=4$.}.
     \paragraph{Calcul des fonctions de stabilité}
 
@@ -18,9 +18,9 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
         Comme expliqué en \ref{par:analyser_operateurs_nagumo} l'équation présente deux opérateurs : 
         \begin{itemize}
             \item[$\diamond$] La diffusion dont le spectre d'étend de $\frac{-1}{L^2}$ à $\frac{-1}{\Delta x^2}$ (où $L$ est la taille du domaine discrétisé).
-            \item[$\diamond$] La réaction dont le spectre balaie continuement $-k$ jusqu'à $2k$
+            \item[$\diamond$] La réaction dont le spectre balaie continûment $-k$ jusqu'à $2k$
         \end{itemize}
-        Pour restreindre l'analyse de stabilié il faut donc tracer le diagramme de stabilité des méthodes étudiées en prenant $Z_I \in \mathbb{R}^-$ 
+        Pour restreindre l'analyse de stabilité il faut donc tracer le diagramme de stabilité des méthodes étudiées en prenant $Z_I \in \mathbb{R}^-$ 
         et $Z_E \in [-k;2k] \subset \mathbb{R}$ ce qui nous donne un espace à deux dimensions. Il faut ensuite placer des couples $(Z_E,Z_I)$ correspondant.
         Lorsque l'on réalise se travaille nous trouvons les diagrammes suivant: 
         
