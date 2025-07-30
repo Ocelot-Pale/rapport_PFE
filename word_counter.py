@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
 from pathlib import Path
+import numpy as np
 
 class LaTeXWordTracker:
     def __init__(self):
@@ -148,21 +149,23 @@ class LaTeXWordTracker:
         
         df = pd.DataFrame(self.commits_data)
         
-        # Configuration du style
-        plt.style.use('seaborn-v0_8' if 'seaborn-v0_8' in plt.style.available else 'default')
+        # Configuration du style avec couleurs spatiales (magma)
+        plt.style.use('default')
+        magma_colors = ['#0c0826', '#40106c', '#781c6d', '#b73779', '#e65b68', '#f89b5f', '#fcde9c']
         
-        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-        fig.suptitle('📝 Évolution du rapport LaTeX', fontsize=16, fontweight='bold')
+        # Figure plus petite et compacte
+        fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+        fig.suptitle('Evolution du rapport LaTeX', fontsize=14, fontweight='bold')
         
         # Graphique 1: Évolution temporelle
         ax1 = axes[0, 0]
-        ax1.plot(df['date'], df['words'], 'o-', linewidth=2, markersize=4, 
-                color='#2E86AB', alpha=0.8)
-        ax1.set_title('🚀 Nombre de mots dans le temps')
+        ax1.plot(df['date'], df['words'], 'o-', linewidth=2.5, markersize=5, 
+                color=magma_colors[4], alpha=0.9)
+        ax1.set_title('Nombre de mots dans le temps')
         ax1.set_xlabel('Date')
         ax1.set_ylabel('Nombre de mots')
         ax1.grid(True, alpha=0.3)
-        ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
         ax1.tick_params(axis='x', rotation=45)
         
         # Graphique 2: Vitesse d'écriture (agrégée par jour)
@@ -171,111 +174,97 @@ class LaTeXWordTracker:
             # Agrégation par jour
             df['date_only'] = df['date'].dt.date
             daily_stats = df.groupby('date_only').agg({
-                'words': ['first', 'last'],  # premier et dernier mot count du jour
-                'date': 'first'  # pour garder la date complète
+                'words': ['first', 'last'],
+                'date': 'first'
             }).reset_index()
             
-            # Aplatit les colonnes multi-niveau
             daily_stats.columns = ['date_only', 'words_start', 'words_end', 'full_date']
-            
-            # Calcule le changement net par jour
             daily_stats['daily_change'] = daily_stats['words_end'] - daily_stats['words_start']
             
             # Sépare positif/négatif
             positive_days = daily_stats[daily_stats['daily_change'] > 0]
-            negative_days = daily_stats[daily_stats['daily_change'] <= 0]
+            negative_days = daily_stats[daily_stats['daily_change'] < 0]
             zero_days = daily_stats[daily_stats['daily_change'] == 0]
             
-            # Barres avec largeur d'une journée
-            bar_width = 0.8  # 80% d'une journée
+            bar_width = 0.8
             
             if len(positive_days) > 0:
                 ax2.bar(positive_days['full_date'], positive_days['daily_change'], 
-                       width=bar_width, color='#4ECDC4', alpha=0.8, 
+                       width=bar_width, color=magma_colors[5], alpha=0.8, 
                        label=f'Jours productifs ({len(positive_days)})', 
                        edgecolor='white', linewidth=0.5)
             
             if len(negative_days) > 0:
                 ax2.bar(negative_days['full_date'], negative_days['daily_change'], 
-                       width=bar_width, color='#FF6B6B', alpha=0.8, 
+                       width=bar_width, color=magma_colors[2], alpha=0.8, 
                        label=f'Jours de révision ({len(negative_days)})', 
                        edgecolor='white', linewidth=0.5)
             
             if len(zero_days) > 0:
                 ax2.bar(zero_days['full_date'], zero_days['daily_change'], 
-                       width=bar_width, color='#FFE66D', alpha=0.8, 
+                       width=bar_width, color=magma_colors[3], alpha=0.8, 
                        label=f'Jours neutres ({len(zero_days)})', 
                        edgecolor='white', linewidth=0.5)
             
-            # Stats dans le titre
             avg_productive = positive_days['daily_change'].mean() if len(positive_days) > 0 else 0
             max_day = daily_stats['daily_change'].max()
             
-            ax2.set_title(f'✍️ Productivité quotidienne\n(Moy. productive: {avg_productive:.0f} mots, Record: {max_day:.0f})')
-            
-            # Ligne de référence
+            ax2.set_title(f'Productivité quotidienne\n(Moy: {avg_productive:.0f} mots, Record: {max_day:.0f})')
             ax2.axhline(0, color='black', linestyle='-', alpha=0.5, linewidth=1)
             
         ax2.set_xlabel('Date')
         ax2.set_ylabel('Mots ajoutés/supprimés par jour')
-        ax2.legend(loc='upper left', fontsize=10)
+        ax2.legend(loc='upper left', fontsize=9)
         ax2.grid(True, alpha=0.3)
-        
-        # Format des dates plus espacé
-        ax2.xaxis.set_major_locator(mdates.WeekdayLocator())
         ax2.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
         ax2.tick_params(axis='x', rotation=45)
         
-        # Graphique 3: Distribution des tailles de commits
+        # Graphique 3: Distribution des variations nettes par commit
         ax3 = axes[1, 0]
         if len(df) > 1:
-            # Calcule word_diff ici aussi pour ce graphique
+            # Calcule les variations nettes (différence entre commits consécutifs)
             df_temp = df.copy()
             df_temp['word_diff'] = df_temp['words'].diff()
             word_changes = df_temp['word_diff'].dropna()
             
-            # Calcul intelligent du nombre de bins
-            n_bins = min(15, max(5, len(word_changes) // 3))
+            n_bins = min(15, max(5, len(word_changes) // 3)) * 10
             
-            # Histogramme avec barres séparées
+            # Histogramme avec couleurs selon le signe
             counts, bins, patches = ax3.hist(word_changes, bins=n_bins, 
-                                           color='#FFB3BA', alpha=0.7, 
-                                           edgecolor='black', linewidth=0.8,
-                                           rwidth=0.8)  # espace entre barres
+                                           alpha=1, edgecolor='black', linewidth=0.8)
             
-            # Colorie différemment les gains/pertes
-            for i, (patch, bin_start, bin_end) in enumerate(zip(patches, bins[:-1], bins[1:])):
+            # Colorie selon les valeurs
+            for patch, bin_start, bin_end in zip(patches, bins[:-1], bins[1:]):
                 if bin_end <= 0:
-                    patch.set_facecolor('#FF6B6B')  # Rouge pour pertes
+                    patch.set_facecolor(magma_colors[1])  # Sombre pour pertes
                 elif bin_start >= 0:
-                    patch.set_facecolor('#4ECDC4')  # Vert pour gains
+                    patch.set_facecolor(magma_colors[5])  # Clair pour gains
                 else:
-                    patch.set_facecolor('#FFE66D')  # Jaune pour mixte
+                    patch.set_facecolor(magma_colors[3])  # Moyen pour mixte
             
-            # Ligne de moyenne
+            # Statistiques
             mean_val = word_changes.mean()
-            ax3.axvline(mean_val, color='darkred', linestyle='--', linewidth=2,
-                       label=f'Moyenne: {mean_val:.0f}')
-            
-            # Ligne médiane
             median_val = word_changes.median()
-            ax3.axvline(median_val, color='darkblue', linestyle=':', linewidth=2,
+            
+            ax3.axvline(mean_val, color=magma_colors[6], linestyle='--', linewidth=2,
+                       label=f'Moyenne: {mean_val:.0f}')
+            ax3.axvline(median_val, color=magma_colors[0], linestyle=':', linewidth=2,
                        label=f'Médiane: {median_val:.0f}')
                        
-        ax3.set_title('📊 Distribution des changements par commit')
-        ax3.set_xlabel('Changement de mots par commit')
+        ax3.set_title('Distribution des variations par commit')
+        ax3.set_xlabel('Variation nette de mots')
         ax3.set_ylabel('Fréquence')
-        ax3.legend()
+        ax3.set_xlim([-200,200])
+        ax3.legend(fontsize=9)
         ax3.grid(True, alpha=0.3)
+        from matplotlib.ticker import MaxNLocator
+        ax3.xaxis.set_major_locator(MaxNLocator(nbins=15))
         
-        # Améliore les ticks pour éviter la surcharge
-        ax3.tick_params(axis='x', rotation=45)
-        
-        # Graphique 4: Statistiques
+        # Graphique 4: Statistiques textuelles
         ax4 = axes[1, 1]
         ax4.axis('off')
         
-        # Calcul des stats d'abord
+        # Calcul des statistiques
         total_words = df['words'].iloc[-1]
         start_date = df['date'].min().strftime('%Y-%m-%d')
         end_date = df['date'].max().strftime('%Y-%m-%d')
@@ -283,57 +272,61 @@ class LaTeXWordTracker:
         total_commits = len(df)
         max_files = df['files'].max()
         
-        # Calcul de la vitesse moyenne basée sur l'agrégation quotidienne
         if len(df) > 1:
             total_word_change = df['words'].iloc[-1] - df['words'].iloc[0]
             avg_rate = total_word_change / max(duration, 1)
             
-            # Record basé sur les commits individuels
             df_temp = df.copy()
             df_temp['word_diff'] = df_temp['words'].diff()
             max_commit_change = df_temp['word_diff'].max()
+            min_commit_change = df_temp['word_diff'].min()
         else:
-            avg_rate = max_commit_change = 0
+            avg_rate = max_commit_change = min_commit_change = 0
         
-        stats_text = f"""📈 STATISTIQUES DU PROJET
+        stats_text = f"""STATISTIQUES DU PROJET
         
-🎯 Total actuel: {total_words:,} mots
-📅 Période: {start_date} → {end_date}
-⏱️ Durée: {duration} jours
-📝 Commits: {total_commits}
-📁 Fichiers max: {max_files}
+Total actuel: {total_words:,} mots
+Période: {start_date} -> {end_date}
+Durée: {duration} jours
+Commits: {total_commits}
+Fichiers max: {max_files}
 
-🏆 Plus gros commit: {max_commit_change:.0f} mots
-📊 Moyenne quotidienne: {avg_rate:.0f} mots/jour"""
+Plus gros gain: {max_commit_change:.0f} mots
+Plus grosse perte: {min_commit_change:.0f} mots
+Moyenne quotidienne: {avg_rate:.0f} mots/jour"""
         
-        ax4.text(0.1, 0.9, stats_text, transform=ax4.transAxes, fontsize=12,
-                verticalalignment='top', bbox=dict(boxstyle="round,pad=0.5", 
-                facecolor='lightblue', alpha=0.8))
+        ax4.text(0.05, 0.95, stats_text, transform=ax4.transAxes, fontsize=10,
+                verticalalignment='top', 
+                bbox=dict(boxstyle="round,pad=0.5", facecolor=magma_colors[6], alpha=0.3))
         
-        plt.tight_layout()
-        plt.savefig('word_evolution.png', dpi=300, bbox_inches='tight')
+        # Layout plus serré
+        plt.tight_layout(pad=1.5)
+        plt.subplots_adjust(top=0.93)
+        
+        plt.savefig('word_evolution.png', dpi=200, bbox_inches='tight', 
+                   facecolor='white', edgecolor='none')
         plt.show()
         
         # Sauvegarde CSV
         df.to_csv('word_history.csv', index=False)
-        print(f"\n💾 Données sauvées dans word_history.csv")
-        print(f"🖼️ Graphique sauvé dans word_evolution.png")
+        print(f"\nDonnées sauvées dans word_history.csv")
+        print(f"Graphique sauvé dans word_evolution.png")
 
 def main():
     """Fonction principale"""
-    print("🔍 Analyseur d'évolution LaTeX")
+    print("Analyseur d'évolution LaTeX")
     print("=" * 40)
     
     # Vérification que c'est un repo Git
     if not Path('.git').exists():
-        print("❌ Ce n'est pas un repository Git!")
+        print("Ce n'est pas un repository Git!")
         return
     
     tracker = LaTeXWordTracker()
     tracker.analyze_repository()
     tracker.create_visualizations()
     
-    print("\n✅ Analyse terminée!")
+    print("\nAnalyse terminée!")
 
 if __name__ == "__main__":
     main()

@@ -23,20 +23,36 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
         Pour restreindre l'analyse de stabilité il faut donc tracer le diagramme de stabilité des méthodes étudiées en prenant $Z_I \in \mathbb{R}^-$ 
         et $Z_E \in [-k;2k] \subset \mathbb{R}$ ce qui nous donne un espace à deux dimensions. Il faut ensuite placer des couples $(Z_E,Z_I)$ correspondant.
         Lorsque l'on réalise se travaille nous trouvons les diagrammes suivant: 
+    \paragraph{Résultats}
+    \begin{figure}[htbp]
+        \centering
         
-        \begin{figure}[htbp]
+        \begin{subfigure}{\textwidth}
             \centering
-            \includegraphics[width=\textwidth]{media/4_travail/2_nagumo/stabilite/STABILITE_D10_k0.1_dt1.0e-03_dx2.4e-03.png}
-            \caption{Diagrammes de stabilité des méthodes ImEx et de référence sur l'équation de Nagumo.}
-            \label{fig:stabilite_nagumo}
-        \end{figure}
+            \includegraphics[width=0.8\textwidth]{media/4_travail/2_nagumo/stabilite/STABILITE_D10_k0.1_dt1.0e-03_dx2.4e-03.png}
+            \caption{Cas D=10, k=0.1, dt=1.0e-03, dx=2.4e-03}
+            \label{fig:stabilite_nagumo_a}
+        \end{subfigure}
+        
+        \vspace{0.5cm} % Espacement entre les sous-figures
+        
+        \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.8\textwidth]{media/4_travail/2_nagumo/stabilite/STABILITE_D0.1_k10_dt1.0e-02_dx4.9e-03.png}
+            \caption{Cas D=0.1, k=10, dt=1.0e-02, dx=4.9e-03}
+            \label{fig:stabilite_nagumo_b}
+        \end{subfigure}
+        
+        \caption{Diagrammes de stabilité des méthodes ImEx et de référence sur l'équation de Nagumo.}
+        \label{fig:stabilite_nagumo}
+    \end{figure}
 
         J'invite le lecteur à prendre un peu de temps pour comprendre la logique de ces graphiques car ils sont très éclairants. 
         Ces diagrammes permettent d'analyser respectivement la stabilité de la méthode ImEx222, de la méthode ImEx232, 
         ainsi qu'à titre de comparaison, la stabilité d'une méthode RKE d'ordre 2\footnote{Celle apparaissant dans ImEx222.} 
         et d'une méthode de splitting
         \footnote{Où l'on utilise les méthodes implicites et explicites de la méthode ImEx222 mais dans un contexte de splitting de Strang.}.
-        Chaque colonne représente l'analyse d'une méthode différente. 
+        Chaque colonne représente l'analyse d'une méthode différente.
         La première ligne présente le domaine de stabilité en fonction des indices spectraux $Z_E \in \mathbb{R}$ et $Z_I \in \mathbb{R}^-$. 
         Les points bleus représentent les couples d'indices spectraux intervenant dans la résolution de l'équation de Nagumo 
         pour les paramètres d'équation choisis ($D$ et $k$) et les paramètres de discrétisation retenus ($\Delta t$ et $\Delta x$). 
@@ -45,3 +61,27 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
         La première ligne correspond à la fonction de stabilité de la méthode explicite (avec un zoom autour des indices spectraux de la réaction).
         la seconde ligne représente la fonction de stabilité de la méthode implicite. 
         Dans les deux cas, l'intervalle tracé en bleu représente la plage de valeurs d'indices spectraux balayés par chaque opérateur.
+        \paragraph{Analyse}
+            \subparagraph{Analyse générale}
+            Analysons les domaines de stabilité des figures en \ref{fig:stabilite_nagumo}, pour l'instant nous ignorons les marqueurs bleus sur les figures.
+            \begin{itemize}
+                \item[$\diamond$]\textbf{Méthode RKE2:} En troisième colonne, le diagramme de stabilité d'une méthode explicite naïve RKE2, sert de référence. 
+                    Le domaine de stabilité accepte des valeurs propres négatives de magnitude deux, ce qui est résultat classique des méthodes Runge et Kutta explicites d'ordre deux.
+                    Ainsi domaine de stabilité s'étend jusqu'à $-2$ selon l'axe portant $Z_E$ tant que la valeur propre $Z_I$ est négligeable.
+                    De même le domaine de stabilité s'étend jusqu'à $-2$ selon $Z_I$ tant que la valeur propres $Z_E$ est négligeable. 
+                    Enfin il y a une zone intermédiaire quand $Z_E$ et $Z_I$ sont tous les deux de l'ordre de l'unité\footnote{Attention à l'échelle logarithmique.},
+                    où la raideur résultante est $Z_E+Z_I$.
+
+                \item[$\diamond$]\textbf{Méthode ImEx232:} En observant la seconde colonne, nous constatons que la méthode ImEx232 maintient un domaine de stabilité restreint (jusqu'à $-2$) selon l'axe $Z_E$,
+                    mais selon l'axe $Z_I$, le domaine de stabilité s'est étendu considérablement. C'est logique puisque la valeurs propre $Z_E$ est explicitée,
+                    sont domaine pris seul n'a évolué, et la valeur propre $Z_I$ peut être très raide (très négative) puisque la méthode explicite l'opérateur lié à $Z_I$.
+                    % Voir que le domaine de stabilité est légèrement shifté vers la droite quand $Z_I$ est grand
+
+                \item[$\diamond$]\textbf{Méthode ImEx222:} Passant à la première colonne, le domaine de stabilité ImEx222 resemble beaucoup à celui de l'ImEx232. Seulement, le domaine de stabilité s'élargit considérablement
+                    selon $Z_E$, pourvus que $Z_I$ soit assez grand. Cette propriété est remarquable, cela signifie que la méthode traite couple les raideurs dans sont traitement. 
+                    Plus précisément, plus l'opérateur implicité est raide, plus l'opérateur explicité peut être raide\footnote{Cette analyse est partiellement erronée, nous verrons 
+                    pourquoi au prochain paragraphe.}.%Pouruoi ? Qu'est ce qui change fondamentalement ? 
+                    % ---> certaines VP positives ont une fonction d'amplification négatives pour la réaction, ca pourrait poser problème (perte d'ordre ?)
+                    % justement pour le splitting c'est pas le cas, et lui il ne perd pas l'ordre ??? ... 
+            \end{itemize}
+            \subparagraph{Analyse selon les paramètres}
