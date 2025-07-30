@@ -70,8 +70,8 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
         Dans les deux cas, l'intervalle tracé en bleu représente la plage de valeurs d'indices spectraux balayés par chaque opérateur.
 
         \paragraph{Analyse}
-            \subparagraph{Analyse générale}
-            Analysons les domaines de stabilité des figures en \ref{fig:stabilite_nagumo}, pour l'instant nous ignorons les marqueurs bleus sur les figures.
+            \subparagraph{Analyse générale}\label{par:analyse_generale_stab_nagumo}
+            Analysons les domaines de stabilité des figures en \figref{fig:stabilite_nagumo}, pour l'instant nous ignorons les marqueurs bleus sur les figures.
             \begin{itemize}
                 \item[$\diamond$]\textbf{Méthode RKE2:} En troisième colonne, le diagramme de stabilité d'une méthode explicite naïve RKE2, sert de référence. 
                     Le domaine de stabilité accepte des valeurs propres négatives de magnitude deux, ce qui est résultat classique des méthodes Runge et Kutta explicites d'ordre deux.
@@ -95,7 +95,7 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
                     % justement pour le splitting c'est pas le cas, et lui il ne perd pas l'ordre ??? ... 
             \end{itemize}
             \subparagraph{Analyse selon les paramètres de l'équation}
-            Analysons grace au graphiques \ref{fig:stabilite_nagumo} la disposition des valeurs couples de valeurs 
+            Analysons grace au graphiques \figref{fig:stabilite_nagumo} la disposition des valeurs couples de valeurs 
             propres mis en jeu par l'équation de Nagumo selon les paramètre $k$ et $D$. Les paramètres de simulation: $\Delta t$ et $\Delta x$ sont fixés.
             Les jeux de valeurs choisis sont $(k,D)=(1,1)$, $(k,D)=(0.1,10)$, $(k,D)=(500,2\, 10^{-4})$. 
             Le produit $kD$ est maintenu égal à un, ainsi la vitesse de propagation est toujours la même.
@@ -103,13 +103,15 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
             \footnote{Pour les $Z_I$ le spectre est discret, pour $Z_E$, le spectre est continu, il a donc fallut échantillonnés le long de l'axe $Z_E$}.
             %---> AFAIRE : au lieu d'un scatter de faire un plot pour représenter la continuité du spectre de l'opérateur de réaction.
             \begin{itemize}
-                \item[$\diamond$]\textbf{Cas standard, $(k,D)=(1,1)$} - figure \ref{fig:stabilite_nagumo_a}:\\
+                \item[$\diamond$]\textbf{Cas standard, $(k,D)=(1,1)$} - \figref{fig:stabilite_nagumo_a}:\\
                     Dans ce cas, la raideur de la diffusion ($Z_I$) déstabilise la méthode RKE2 (on voit que de nombreux couples de v.p. entrent dans le zones rouges quand $Z_I$ augmente).
                     Pour ces valeurs de $(\Delta x, \Delta t)$ cette méthode n'est donc pas viable.
                     C'est tout à fait normal, les méthodes imposent des pas de temps très restrictifs sur les problèmes de diffusion.
                     En revanche, les méthodes ImEx sont tout à fait stable puisque, comme constaté précédemment, le domaine de stabilité s'étend infiniment quand $Z_I \rightarrow -\infty$.
                     Le point notable est que certains couples de valeurs propres tombent malgré tout dans une zone instable (en bas à gauche). Mais cela n'est pas un problème car il s'agit 
-                    de couples de valeurs propres ou la valeur propres de l'opérateur de réaction ($Z_E$) est positive. Donc la méthode n'est pas instable au sens ou elle reflète simplement
+                    de couples de valeurs propres ou la valeur propres
+                    \footnote{Dans cette section, nous identifions valeurs propres $\lambda$ et indices spectraux $z = \lambda \Delta t$ puisque le pas de temps $\Delta t$ est maintenu constant. Cette identification permet de discuter directement en termes de raideur des opérateurs.}
+                    de l'opérateur de réaction ($Z_E$) est positive. Donc la méthode n'est pas instable au sens ou elle reflète simplement
                     la dynamique explosive de la réaction. D'ailleurs si en se penchant sur le graphique de la partie explicite du splitting, on constante qu'il y a une zone 
                     (correspondant à $Z_E$ positive) ou la fonction d'amplification est d'amplitude supérieure à un, le splitting reproduit donc fidèlement la dynamique de la réaction.
                     Ce qui peut être un problème est l'inverse, 
@@ -117,12 +119,30 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
                     Cela pourrait être un frein pour reproduire fidèlement la dynamique explosive de la réaction dans les zones concernées
                     \footnote{Il n'est pas évident d'avoir \textit{a priori} la bonne intuition car peut être que la diffusion calme en quelque sorte 
                     le caractère explosif de la réaction et qu'alors une fonction d'amplification d'amplitude $< 1$ est normal... Restons prudent sur cette analyse.}.
-                \item[$\diamond$]\textbf{Cas diffusion raide, réaction peu raide, $(k,D)=(0.1,10)$}  - figure \ref{fig:stabilite_nagumo_b}:\\
+                \item[$\diamond$]\textbf{Cas diffusion raide, réaction peu raide, $(k,D)=(0.1,10)$}  - \figref{fig:stabilite_nagumo_b}:\\
                     Ici, $D=10$ donc toutes les valeurs propres liées à la diffusion sont multipliées par 10 par rapport au cas précédent. 
                     De fait la méthode RK2E de référence présente des instabilités pour encore plus de couples de valeurs propres est n'est pas pas viable.
                     Concernant les méthodes ImEx222 et ImEx232 elles sont stables, et cette fois-ci toutes les valeurs propres liées à la 
                     dynamique explosive de la réaction sont amorties. 
-                    % ---> voir expérimentalement ce que ça donne... 
-                \item[$\diamond$]\textbf{Cas diffusion peu raide, réaction très raide$(k,D)=(500,2\, 10^{-4})$} - figure \ref{fig:stabilite_nagumo_c}\\
-                    Dans ce cas de figure, $k=500$. La grande valeur du coefficient de diffusion 
+                    % ---> AFAIRE voir expérimentalement ce que ça donne... 
+                \item[$\diamond$]\textbf{Cas diffusion peu raide, réaction très raide$(k,D)=(500,2\, 10^{-4})$} - \figref{fig:stabilite_nagumo_c}\\
+                    Dans ce cas de figure, $k=500$. La grande valeur du coefficient de réaction rend cette dernière très raide. 
+                    Cela à pour effet de dilater selon l'axe des abscisse les indices spectraux puisque $Z_E \in [- 500 \Delta t, + 1000 \Delta t]$
+                    alors que dans le cas $k=1$: $Z_E \in [- \Delta t , 2\Delta t]$.
+                    Ici la méthode méthode explicite au sein des ImEx n'est plus stable pour la réaction, ainsi toutes les méthodes deviennent instables. 
+                    Le splitting également devient instable car il utilise aussi la méthode RK2E pour la réaction. 
+                    Le fait que la méthode explicite de l'ImEx soit instable pour l'opérateur explicité peu sembler un obstacle infranchissable,
+                    cependant ce n'est pas si simple.
+                    Pour illustrer ce point, étendons l'analyse avec le cas spécial en \figref{fig:stabilite_nagumo_cas_special}, dans ce cas la réaction est toujours raide $k=500$ mais la diffusion est également très raide car $D=500$
+                    \footnote{Jusqu'ici, la vitesse de propagation était la même dans tous les scénarios puisque $kD$ était maintenu constant. Dans le scénario présenté ici, ce n'est plus le cas}
+                    Alors la méthode ImEx222 devient stable, comme vu en \ref{par:analyse_generale_stab_nagumo}, plus l'opérateur traité implicitement est raide, 
+                    plus la méthode permet à l'opérateur traité explicitement d'être raide. C'est un cas remarquable ou le couplage intervenant au sein de la méthode ImEx
+                    la rend plus stable que le splitting !
             \end{itemize}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.8\textwidth]{media/4_travail/2_nagumo/stabilite/STABILITE_D500_k500_dt1.0e-02_dx4.9e-03.png}
+        \caption{Pour $k=500$ et $D=500$: diagrammes de stabilité des méthodes ImEx et de référence sur l'équation de Nagumo.}
+        \label{fig:stabilite_nagumo_cas_special}
+    \end{figure}
