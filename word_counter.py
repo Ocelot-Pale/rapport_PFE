@@ -66,6 +66,7 @@ class LaTeXWordTracker:
         """Compte les mots dans tous les fichiers .tex à un commit donné"""
         tex_files = self.get_tex_files_at_commit(commit)
         total_words = 0
+        all_words = []
         
         for tex_file in tex_files:
             try:
@@ -74,18 +75,28 @@ class LaTeXWordTracker:
                 ], capture_output=True, text=True, check=True)
                 
                 cleaned_text = self.clean_latex_text(result.stdout)
-                words = len(cleaned_text.split()) if cleaned_text else 0
-                total_words += words
+                if cleaned_text:
+                    words = cleaned_text.lower().split()
+                    normalized_words = []
+                    for word in words:
+                        clean_word = re.sub(r'[^\w]', '', word)
+                        if clean_word.endswith('s'):
+                            clean_word = clean_word[:-1]
+                        if clean_word:
+                            normalized_words.append(clean_word)
+                    
+                    all_words.extend(normalized_words)
+                    total_words += len(words)
                 
             except subprocess.CalledProcessError:
                 continue
         
-        return total_words, len(tex_files)
+        unique_words = len(set(all_words)) if all_words else 0
+        return total_words, len(tex_files), unique_words
     
     def get_git_history(self):
         """Récupère l'historique Git"""
         try:
-            # Récupère tous les commits
             result = subprocess.run([
                 'git', 'rev-list', '--reverse', '--all'
             ], capture_output=True, text=True, check=True)
@@ -108,7 +119,6 @@ class LaTeXWordTracker:
         
         for i, commit in enumerate(commits):
             try:
-                # Récupère la date du commit
                 date_result = subprocess.run([
                     'git', 'show', '-s', '--format=%ci', commit
                 ], capture_output=True, text=True, check=True)
@@ -116,10 +126,8 @@ class LaTeXWordTracker:
                 date_str = date_result.stdout.strip()
                 date = datetime.strptime(date_str[:19], '%Y-%m-%d %H:%M:%S')
                 
-                # Compte les mots
-                word_count, file_count = self.count_words_at_commit(commit)
+                word_count, file_count, unique_words = self.count_words_at_commit(commit)
                 
-                # Récupère le message de commit
                 msg_result = subprocess.run([
                     'git', 'show', '-s', '--format=%s', commit
                 ], capture_output=True, text=True, check=True)
@@ -130,12 +138,13 @@ class LaTeXWordTracker:
                     'commit': commit[:8],
                     'date': date,
                     'words': word_count,
+                    'unique_words': unique_words,
                     'files': file_count,
                     'message': commit_msg
                 })
                 
                 print(f"[{i+1:3d}/{len(commits)}] {date.strftime('%Y-%m-%d')} | "
-                      f"{word_count:5d} mots | {file_count} fichiers | {commit_msg}")
+                      f"{word_count:5d} mots ({unique_words:4d} uniques) | {file_count} fichiers | {commit_msg}")
                 
             except subprocess.CalledProcessError as e:
                 print(f"Erreur sur commit {commit[:8]}: {e}")
@@ -149,11 +158,9 @@ class LaTeXWordTracker:
         
         df = pd.DataFrame(self.commits_data)
         
-        # Configuration du style avec couleurs spatiales (magma)
         plt.style.use('default')
         magma_colors = ['#0c0826', '#40106c', '#781c6d', '#b73779', '#e65b68', '#f89b5f', '#fcde9c']
         
-        # Figure plus petite et compacte
         fig, axes = plt.subplots(2, 2, figsize=(12, 8))
         fig.suptitle('Evolution du rapport LaTeX', fontsize=14, fontweight='bold')
         
@@ -168,10 +175,9 @@ class LaTeXWordTracker:
         ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
         ax1.tick_params(axis='x', rotation=45)
         
-        # Graphique 2: Vitesse d'écriture (agrégée par jour)
+        # Graphique 2: Vitesse d'écriture
         ax2 = axes[0, 1]
         if len(df) > 1:
-            # Agrégation par jour
             df['date_only'] = df['date'].dt.date
             daily_stats = df.groupby('date_only').agg({
                 'words': ['first', 'last'],
@@ -181,7 +187,6 @@ class LaTeXWordTracker:
             daily_stats.columns = ['date_only', 'words_start', 'words_end', 'full_date']
             daily_stats['daily_change'] = daily_stats['words_end'] - daily_stats['words_start']
             
-            # Sépare positif/négatif
             positive_days = daily_stats[daily_stats['daily_change'] > 0]
             negative_days = daily_stats[daily_stats['daily_change'] < 0]
             zero_days = daily_stats[daily_stats['daily_change'] == 0]
@@ -219,30 +224,26 @@ class LaTeXWordTracker:
         ax2.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
         ax2.tick_params(axis='x', rotation=45)
         
-        # Graphique 3: Distribution des variations nettes par commit
+        # Graphique 3: Distribution des variations
         ax3 = axes[1, 0]
         if len(df) > 1:
-            # Calcule les variations nettes (différence entre commits consécutifs)
             df_temp = df.copy()
             df_temp['word_diff'] = df_temp['words'].diff()
             word_changes = df_temp['word_diff'].dropna()
             
-            n_bins = min(15, max(5, len(word_changes) // 3)) * 10
+            n_bins = min(15, max(5, len(word_changes) // 3))
             
-            # Histogramme avec couleurs selon le signe
             counts, bins, patches = ax3.hist(word_changes, bins=n_bins, 
-                                           alpha=1, edgecolor='black', linewidth=0.8)
+                                           alpha=0.8, edgecolor='white', linewidth=0.8)
             
-            # Colorie selon les valeurs
             for patch, bin_start, bin_end in zip(patches, bins[:-1], bins[1:]):
                 if bin_end <= 0:
-                    patch.set_facecolor(magma_colors[1])  # Sombre pour pertes
+                    patch.set_facecolor(magma_colors[1])
                 elif bin_start >= 0:
-                    patch.set_facecolor(magma_colors[5])  # Clair pour gains
+                    patch.set_facecolor(magma_colors[5])
                 else:
-                    patch.set_facecolor(magma_colors[3])  # Moyen pour mixte
+                    patch.set_facecolor(magma_colors[3])
             
-            # Statistiques
             mean_val = word_changes.mean()
             median_val = word_changes.median()
             
@@ -254,52 +255,42 @@ class LaTeXWordTracker:
         ax3.set_title('Distribution des variations par commit')
         ax3.set_xlabel('Variation nette de mots')
         ax3.set_ylabel('Fréquence')
-        ax3.set_xlim([-200,200])
         ax3.legend(fontsize=9)
         ax3.grid(True, alpha=0.3)
         from matplotlib.ticker import MaxNLocator
         ax3.xaxis.set_major_locator(MaxNLocator(nbins=15))
         
-        # Graphique 4: Statistiques textuelles
+        # Graphique 4: Richesse du vocabulaire
         ax4 = axes[1, 1]
-        ax4.axis('off')
-        
-        # Calcul des statistiques
-        total_words = df['words'].iloc[-1]
-        start_date = df['date'].min().strftime('%Y-%m-%d')
-        end_date = df['date'].max().strftime('%Y-%m-%d')
-        duration = (df['date'].max() - df['date'].min()).days
-        total_commits = len(df)
-        max_files = df['files'].max()
-        
         if len(df) > 1:
-            total_word_change = df['words'].iloc[-1] - df['words'].iloc[0]
-            avg_rate = total_word_change / max(duration, 1)
+            ax4.plot(df['date'], df['unique_words'], 'o-', linewidth=2.5, markersize=5, 
+                    color=magma_colors[3], alpha=0.9, label='Mots uniques')
             
-            df_temp = df.copy()
-            df_temp['word_diff'] = df_temp['words'].diff()
-            max_commit_change = df_temp['word_diff'].max()
-            min_commit_change = df_temp['word_diff'].min()
+            ax4_twin = ax4.twinx()
+            richness_ratio = df['unique_words'] / df['words'] * 100
+            ax4_twin.plot(df['date'], richness_ratio, 's--', linewidth=2, markersize=4, 
+                         color=magma_colors[5], alpha=0.7, label='Richesse (%)')
+            
+            ax4.set_xlabel('Date')
+            ax4.set_ylabel('Nombre de mots uniques', color=magma_colors[3])
+            ax4_twin.set_ylabel('Richesse du vocabulaire (%)', color=magma_colors[5])
+            
+            ax4.tick_params(axis='y', labelcolor=magma_colors[3])
+            ax4_twin.tick_params(axis='y', labelcolor=magma_colors[5])
+            
+            final_richness = richness_ratio.iloc[-1]
+            ax4.set_title(f'Richesse du vocabulaire\n(Actuelle: {final_richness:.1f}%)')
+            
         else:
-            avg_rate = max_commit_change = min_commit_change = 0
+            ax4.text(0.5, 0.5, 'Données insuffisantes', ha='center', va='center',
+                    transform=ax4.transAxes, fontsize=12)
+            ax4.set_title('Richesse du vocabulaire')
         
-        stats_text = f"""STATISTIQUES DU PROJET
+        ax4.grid(True, alpha=0.3)
+        ax4.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
+        ax4.tick_params(axis='x', rotation=45)
         
-Total actuel: {total_words:,} mots
-Période: {start_date} -> {end_date}
-Durée: {duration} jours
-Commits: {total_commits}
-Fichiers max: {max_files}
-
-Plus gros gain: {max_commit_change:.0f} mots
-Plus grosse perte: {min_commit_change:.0f} mots
-Moyenne quotidienne: {avg_rate:.0f} mots/jour"""
-        
-        ax4.text(0.05, 0.95, stats_text, transform=ax4.transAxes, fontsize=10,
-                verticalalignment='top', 
-                bbox=dict(boxstyle="round,pad=0.5", facecolor=magma_colors[6], alpha=0.3))
-        
-        # Layout plus serré
+        # Layout
         plt.tight_layout(pad=1.5)
         plt.subplots_adjust(top=0.93)
         
@@ -307,7 +298,6 @@ Moyenne quotidienne: {avg_rate:.0f} mots/jour"""
                    facecolor='white', edgecolor='none')
         plt.show()
         
-        # Sauvegarde CSV
         df.to_csv('word_history.csv', index=False)
         print(f"\nDonnées sauvées dans word_history.csv")
         print(f"Graphique sauvé dans word_evolution.png")
@@ -317,7 +307,6 @@ def main():
     print("Analyseur d'évolution LaTeX")
     print("=" * 40)
     
-    # Vérification que c'est un repo Git
     if not Path('.git').exists():
         print("Ce n'est pas un repository Git!")
         return
