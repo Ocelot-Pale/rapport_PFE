@@ -6,12 +6,12 @@ L'objectif est d'employer des RK explicites (RKE) et des RK implicites (RKI), en
     d'ordre un, résultant de la somme de deux méthodes RK à un étages (RK1). Nous notons cette méthode ImEx111 \cite{ASCHER1997151}. 
     Les méthodes RK1 servant de briques élémentaires à la RK111 sont: un schéma d'Euler explicite et un schéma d'Euler implicite.
     Supposons que l'on cherche à approcher une équation d'évolution faisant intervenir deux opérateurs: $A^E$ se prêtant à des méthodes explicites\footnote{Par exemple, un opérateur peu raide mais non local.}
-    et $A^I$ se prêtant aux méthodes implicites\footnote{Par exemple un opréateur raide mais local.}. L'équation cible serait de la forme: 
+    et $A^I$ se prêtant aux méthodes implicites\footnote{Par exemple un opérateur raide mais local.}. L'équation cible serait de la forme: 
     \begin{align}
         \dt{u} = A^E u + A^I u.
     \end{align}
     \paragraph{Résolution par approche monolithique}
-        Rappelons d'abord comme le problème serait résolu en n'utilisant qu'une seule RK1 pour tout le probèleme (approche monolithique).
+        Rappelons d'abord comme le problème serait résolu en n'utilisant qu'une seule RK1 pour tout le problème (approche monolithique).
         \subparagraph{Euler explicite}
             En résolvant avec Euler explicite, le schéma s'écrit: 
             \begin{align}
@@ -23,13 +23,13 @@ L'objectif est d'employer des RK explicites (RKE) et des RK implicites (RKI), en
             \begin{align}
                 u^{n+1} = \bigl(Id - \Delta t (A^E + A^I)\bigr)^{-1} u^n.
             \end{align}
-            Mais si l'opérateur $A^E$ est rend l'inversion couteurse;
-            par exemple s'il est non-local (implicant la résolution d'un gros système au lieu de plusieurs petits systèmes), 
+            Mais si l'opérateur $A^E$ est rend l'inversion coûteuse;
+            par exemple s'il est non-local (impliquant la résolution d'un gros système au lieu de plusieurs petits systèmes), 
             ou s'il est non linéaire (nécessite d'être réinverser à chaque pas de temps);
             alors cette méthode ne sera pas viable non plus.
     \paragraph{Résolution par une méthode ImEx: une Runge et Kutta Additive}
             Mettons en oeuvre la méthode ImEx111. 
-            L'approxmation au pas de temps $n+1$ s'écrit en sommant une contribution issue de la méthode Euler explicite (RKE1)
+            L’approximation au pas de temps $n+1$ s'écrit en sommant une contribution issue de la méthode Euler explicite (RKE1)
             et une contribution issue de la méthode Euler implicite (RKI1):
             \begin{align}
                 u^{n+1} = u^n + \Delta t (\underbrace{k_1}_{\text{RKE1}} + \underbrace{k_1'}_{\text{RKI1}})
@@ -48,5 +48,5 @@ L'objectif est d'employer des RK explicites (RKE) et des RK implicites (RKI), en
                 \text{donc: }&u^{n+1} - \Delta t  A^I u^{n+1} = u^n + \Delta t  A^E u^n,\\\notag
                 \text{et donc: }&u^{n+1} = (Id - \Delta t A^I)^{-1} \circ (Id + \Delta t A^E) u^n.
             \end{align}
-            Ainsi dans cette méthode seul l'opéateur $Id- \Delta t A^I$ doit être inversé. Ce qui était bien l'objecitf. Les opérateurs ont été 
+            Ainsi dans cette méthode seul l’opérateur $Id- \Delta t A^I$ doit être inversé. Ce qui était bien l’objectif. Les opérateurs ont été 
             découplés lors de la résolution. 
