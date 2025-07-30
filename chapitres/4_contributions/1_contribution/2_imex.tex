@@ -51,6 +51,81 @@ L'objectif est d'employer des RK explicites (RKE) et des RK implicites (RKI), en
             Ainsi dans cette méthode seul l’opérateur $Id- \Delta t A^I$ doit être inversé. Ce qui était bien l’objectif. Les opérateurs ont été 
             découplés lors de la résolution.
 \subsubsection{Cadre mathématique général}
-    Pour construire des méthodes plus complexes et d'ordre supérieur introduisons le formalisme de \cite{ASCHER1997151} pour traiter les méthodes RK-additives. 
+    Pour construire des méthodes plus complexes et d'ordres supérieurs introduisons le formalisme de \cite{ASCHER1997151} pour traiter les méthodes RK-additives. 
     Ici, nous travaillons uniquement sur méthodes ImEx pour deux opérateurs mais théoriquement, il est possible de construire des méthodes ImEx pour traiter 
     autant d'opérateurs que l'on le souhaite \cite{KENNEDY2003139}.
+    \paragraph{Notation}%AFAIRE -> ajouter une référence interne vers la notion de méthode DIRK et SDIRK
+        Une méthode ImEx additive est construite à partir d'une méthode implicite à $s$ étages (une méthode DIRK et si possible SDIRK) et d'une méthode explicite à $s+1$ étages
+        \footnote{Au besoin, la méthode explicite peut être à $s$ étages, qui est un cas particulier d'une méthode à $s+1$ étages.}.
+        Pour uniformiser, le tableau de Butcher de la méthode implicite est complété par une ligne et une colonne de zéros afin que les deux méthodes
+        s'écrivent comme si elles avaient le même nombre d'étages.
+        Les tableaux de Butcher des deux méthodes s'écrivent alors :
+        
+        \subparagraph{Méthode RKE, $s+1$ étages:}
+        \begin{align}
+        \text{RKE} : \quad
+        \begin{array}{c|c}
+        \tilde{c} & \tilde{A} \\
+        \hline
+        & \tilde{b}^T
+        \end{array}
+        =
+        \begin{array}{c|ccccc}
+        0 & 0 & 0 & 0 & \cdots & 0 \\
+        \tilde{c}_1 & \tilde{a}_{10} & 0 & 0 & \cdots & 0 \\
+        \tilde{c}_2 & \tilde{a}_{20} & \tilde{a}_{21} & 0 & \cdots & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \ddots & \vdots \\
+        \tilde{c}_s & \tilde{a}_{s0} & \tilde{a}_{s1} & \tilde{a}_{s2} & \cdots & 0 \\
+        \hline
+        & \tilde{b}_0 & \tilde{b}_1 & \tilde{b}_2 & \cdots & \tilde{b}_s
+        \end{array}
+        \end{align}
+        
+        \subparagraph{Méthode RKI (DIRK) $s$ étages:}
+        \begin{align}
+        \text{RKI} : \quad
+        \begin{array}{c|c}
+        c & A \\
+        \hline
+        & b^T
+        \end{array}
+        =
+        \begin{array}{c|ccccc}
+        0 & 0 & 0 & 0 & \cdots & 0 \\
+        c_1 & 0 & a_{11} & 0 & \cdots & 0 \\
+        c_2 & 0 & a_{21} & a_{22} & \cdots & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \ddots & \vdots \\
+        c_s & 0 & a_{s1} & a_{s2} & \cdots & a_{ss} \\
+        \hline
+        & 0 & b_1 & b_2 & \cdots & b_s
+        \end{array}
+        \end{align}
+        
+        où les coefficients $\tilde{a}_{ij}$, $\tilde{b}_i$, $\tilde{c}_i$ définissent la méthode explicite et 
+        les coefficients $a_{ij}$, $b_i$, $c_i$ définissent la méthode implicite DIRK. 
+        
+    \paragraph{Schéma général d'une méthode RK-additive}
+        Une étape de la méthode RK-additive appliquée au système 
+        $\frac{du}{dt} = A^E u + A^I u$ s'écrit :
+        
+        \subparagraph{Calcul des étages :}
+        En initialisant $u_0 = u^n$,
+        \begin{align}
+        u_i &= u^n + \Delta t \sum_{j=0}^{i-1} \tilde{a}_{ij} A^E u_j + \Delta t \sum_{j=1}^{i} a_{ij} A^I u_j, \quad &i = 0, 1, \ldots, s
+        \end{align}
+        Soit en mettant en lumière le caractère implicite de la méthode sur $A^I$:
+        \begin{align}
+        (Id - \Delta t a_{ii} A^I) u_i &= u^n + \Delta t \sum_{j=0}^{i-1} \tilde{a}_{ij} A^E u_j + a_{ij} A^I u_j, \quad &i= 0, 1, \ldots, s
+        \end{align}
+        
+        \subparagraph{Solution à l'étape suivante :}
+        \begin{align}
+        u^{n+1} &= u^n + \Delta t \sum_{i=0}^{s} \tilde{b}_i A^E u_i + \Delta t \sum_{i=1}^{s} b_i A^I u_i
+        \end{align}
+        
+        Cette formulation générale permet de construire des méthodes d'ordre élevé. 
+    \paragraph{Ordre de convergence}
+        L'ordre d'une méthode RK-additive est bien sur borné par l'ordre le plus faible des méthodes RK individuelles qu'elle convoque.
+        Naturellement, cette borne n'est pas nécessairement atteintes pour toute méthodes RK additionnée. Des conditions d'ordre liant
+        les coefficients des méthodes individuelles entre eux doivent être respectées. Le nombre de ses conditions augmente (très) rapidement avec 
+        l'ordre de la méthode et le nombre d'opérateurs à résoudre \cite{KENNEDY2003139}, le lecteur motivé se référera par exemple à \cite{Hairer1981}.
