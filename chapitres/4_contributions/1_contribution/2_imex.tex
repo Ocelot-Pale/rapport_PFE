@@ -1,4 +1,4 @@
-La classe de méthodes ImEx étudiée sont les méthodes de Runge et Kutta additives (RK-ImEx).
+La classe de méthodes ImEx étudiée sont les méthodes de Runge et Kutta additives (RK-ImEx ou RK-additive).
 Ces méthodes consistent à sommer plusieurs méthodes de Runge et Kutta appliquées chacune à un opérateur différent.
 L'objectif est d'employer des RK explicites (RKE) et des RK implicites (RKI), en adéquation avec les besoin de chaque opérateur.
 \subsubsection{Un exemple}
@@ -49,4 +49,8 @@ L'objectif est d'employer des RK explicites (RKE) et des RK implicites (RKI), en
                 \text{et donc: }&u^{n+1} = (Id - \Delta t A^I)^{-1} \circ (Id + \Delta t A^E) u^n.
             \end{align}
             Ainsi dans cette méthode seul l’opérateur $Id- \Delta t A^I$ doit être inversé. Ce qui était bien l’objectif. Les opérateurs ont été 
-            découplés lors de la résolution. 
+            découplés lors de la résolution.
+\subsubsection{Cadre mathématique général}
+    Pour construire des méthodes plus complexes et d'ordre supérieur introduisons le formalisme de \cite{ASCHER1997151} pour traiter les méthodes RK-additives. 
+    Ici, nous travaillons uniquement sur méthodes ImEx pour deux opérateurs mais théoriquement, il est possible de construire des méthodes ImEx pour traiter 
+    autant d'opérateurs que l'on le souhaite \cite{KENNEDY2003139}.
