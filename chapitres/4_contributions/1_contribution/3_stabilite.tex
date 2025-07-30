@@ -96,7 +96,7 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
             \end{itemize}
             \subparagraph{Analyse selon les paramètres de l'équation}
             Analysons grace au graphiques \ref{fig:stabilite_nagumo} la disposition des valeurs couples de valeurs 
-            propres mis en jeu par l'équation de Nagumo selon les paramètre $k$ et $D$.
+            propres mis en jeu par l'équation de Nagumo selon les paramètre $k$ et $D$. Les paramètres de simulation: $\Delta t$ et $\Delta x$ sont fixés.
             Les jeux de valeurs choisis sont $(k,D)=(1,1)$, $(k,D)=(0.1,10)$, $(k,D)=(500,2\, 10^{-4})$. 
             Le produit $kD$ est maintenu égal à un, ainsi la vitesse de propagation est toujours la même.
             Ces couples de valeurs propres $Z_E,Z_I$ mis en jeu par les opérateur de l'équation sont tracés en bleus
@@ -105,6 +105,7 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
             \begin{itemize}
                 \item[$\diamond$]\textbf{Cas standard, $(k,D)=(1,1)$} - figure \ref{fig:stabilite_nagumo_a}:\\
                     Dans ce cas, la raideur de la diffusion ($Z_I$) déstabilise la méthode RKE2 (on voit que de nombreux couples de v.p. entrent dans le zones rouges quand $Z_I$ augmente).
+                    Pour ces valeurs de $(\Delta x, \Delta t)$ cette méthode n'est donc pas viable.
                     C'est tout à fait normal, les méthodes imposent des pas de temps très restrictifs sur les problèmes de diffusion.
                     En revanche, les méthodes ImEx sont tout à fait stable puisque, comme constaté précédemment, le domaine de stabilité s'étend infiniment quand $Z_I \rightarrow -\infty$.
                     Le point notable est que certains couples de valeurs propres tombent malgré tout dans une zone instable (en bas à gauche). Mais cela n'est pas un problème car il s'agit 
@@ -117,5 +118,11 @@ Dans un second temps, l'étude se centre sur l'application à l'équation de Nag
                     \footnote{Il n'est pas évident d'avoir \textit{a priori} la bonne intuition car peut être que la diffusion calme en quelque sorte 
                     le caractère explosif de la réaction et qu'alors une fonction d'amplification d'amplitude $< 1$ est normal... Restons prudent sur cette analyse.}.
                 \item[$\diamond$]\textbf{Cas diffusion raide, réaction peu raide, $(k,D)=(0.1,10)$}  - figure \ref{fig:stabilite_nagumo_b}:\\
+                    Ici, $D=10$ donc toutes les valeurs propres liées à la diffusion sont multipliées par 10 par rapport au cas précédent. 
+                    De fait la méthode RK2E de référence présente des instabilités pour encore plus de couples de valeurs propres est n'est pas pas viable.
+                    Concernant les méthodes ImEx222 et ImEx232 elles sont stables, et cette fois-ci toutes les valeurs propres liées à la 
+                    dynamique explosive de la réaction sont amorties. 
+                    % ---> voir expérimentalement ce que ça donne... 
                 \item[$\diamond$]\textbf{Cas diffusion peu raide, réaction très raide$(k,D)=(500,2\, 10^{-4})$} - figure \ref{fig:stabilite_nagumo_c}\\
+                    Dans ce cas de figure, $k=500$. La grande valeur du coefficient de diffusion 
             \end{itemize}
