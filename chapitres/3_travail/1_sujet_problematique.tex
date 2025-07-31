@@ -7,13 +7,13 @@ Pour gérer les différentes échelles spatiales, des méthodes de compression d
 La méthode de compression utilisée et étudiée ici est la multirésolution adaptative \cite{harten1994}.
 Les différentes échelles temporelles\footnote{En termes techniques, les différents termes des équations étudiées ont des raideurs très différentes.}
 sont usuellement gérées par force brute ou par séparation d'opérateurs. 
-Pour pallier le problème de la large gamme d'échelles temporelles rencontrées, une approche hybride est ici étudiée: les méthodes implicites-explicites (ImEx).
+Pour pallier le problème de la large gamme d'échelles temporelles rencontrées, une approche hybride est ici étudiée: les méthodes implicites-explicites (ImEx) \cite{ASCHER1997151}.
 Ce travail vise donc principalement à comprendre comment la multirésolution adaptative interagit avec les différentes méthodes d'intégration temporelle.
 Il s'intéresse aux questions suivantes:
 \begin{itemize}
-\item[$\diamond$] \textbf{Comment les effets de la compression de maillage par multirésolution adaptative (MRA) sur les solutions numériques
-dépendent du problème étudié et de la méthode numérique sur lesquelles ils se greffent ?}
-\item[$\diamond$] \textbf{Comment évoluent les propriétés des méthodes ImEx selon les caractéristiques des opérateurs des équations de diffusion-réaction}
+\item[$\diamond$] {Comment les effets de la compression de maillage par multirésolution adaptative (MRA) sur les solutions numériques
+dépendent du problème étudié et de la méthode numérique sur lesquelles elle se greffent ?}
+\item[$\diamond$] {Comment évoluent les propriétés des méthodes ImEx selon les caractéristiques des opérateurs des équations de diffusion-réaction}
                 \footnote{Même si l'objectif est bien les équations d'advection-diffusion-réaction, l'étude s'est concentrée par simplicité sur l'interaction entre phénomènes de diffusion et de réactions.}
-                \textbf{ ?}
+                { ?}
 \end{itemize}
