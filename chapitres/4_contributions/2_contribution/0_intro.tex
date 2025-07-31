@@ -1,11 +1,13 @@
 La multirésolution adaptative (MRA) a démontré une grande efficacité expérimentalement.
 Cependant, son impact sur la qualité des solutions obtenues n'est pas encore totalement compris mathématiquement.
 En \cite{belloti_et_al_2025}, une étude de l'erreur introduite par la multirésolution adaptative a été menée.
-Cette étude se concentre sur les équations d'advection résolues par des schémas de type One Step \cite{DARU2004563} et
+Cette étude se concentre sur les équations d'advection résolues par des schémas de type \textit{one-step} \cite{DARU2004563} et
 compare l'équation équivalente des schémas avec MRA et celle des schémas sans MRA pour mettre en lumière les différences introduites par la multirésolution.
 La présente étude se place dans la continuité de cette démarche\footnote{À un niveau plus modeste.} et suit un cheminement similaire
 pour déterminer, grâce aux équations équivalentes, l'impact de la MRA sur une équation de diffusion résolue par une méthode des lignes d'ordre deux.
-
+La différence est donc double: d'une part la nature de l'opérateur étudié est différent (diffusion et non advection), d'autre part le type de schéma 
+utilisés est également différent (méthode des lignes, ne couplant pas les erreurs en espace et en temps contre les schémas \textit{one-step} 
+traitant d'un coup d'un seul les erreurs en temps et en espace.). L'objectif est d'évaluer l'impact de la MRA dans des contextes variés.
 D'abord, le problème cible est présenté ainsi que le schéma de référence.
 Par la suite, les équations équivalentes du schéma de référence et du schéma avec multirésolution adaptative sont évaluées puis analysées.
 Enfin, les résultats théoriques obtenus sont éprouvés expérimentalement.
