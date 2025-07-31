@@ -1,4 +1,4 @@
-Bien des techniques d'approximation d'EDPs d'évolution font intervenir à un moment la résolution d'une équation différentielle ordinaire (EDO
+Les d'approximation d'EDPs d'évolution comportent souvent une étape nécessitant la résolution d'une équation différentielle ordinaire (EDO
 \footnote{On utilisera aussi le terme \textit{système dynamique}, même si en toute rigueur ce concept est un peu plus large.}),
 c'est à dire une équation différentielle ne faisant intervenir qu'une seule variable différenciée (ici le temps). Nous commençons donc cette section par rappeler 
 quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins nous nous restreignons au EDO du premier ordre.}.\par
@@ -6,26 +6,28 @@ quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins n
 \begin{definition}[Équation différentielle ordinaire]
     Une équation différentielle ordinaire est une équation de la forme :
     \begin{align}
-        u' &= f(u,t)\quad u : t \in \mathbb{R}^+ \mapsto u(t) \in \mathbb{R}^d\\\notag
-        u(0)&=u_0.
+        u' &= A(u,t)\quad u : t \in \mathbb{R}^+ \mapsto u(t) \in \mathbb{R}^d\\\notag
+        u(0)&=u_0 \in \mathbb{R}^d.
     \end{align}
 \end{definition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    SCHEMA EXPLICITES ET IMPLICITES
 \subsubsection{Schémas explicites et implcites.}
-L'approximation des EDO se fait grâce à des schéma numériques. Ceux-ci se divisent en deux catégories, les schéma explicites et les schéma implicite
-\footnote{Nous présentons ici seulement les schéma à un pas et non pas les schémas multi-pas. Ce choix est fait en raison de la barrière de Dhalquist.}.
-Dans ce qui suit on note $u^n$ l'approximation de la solution d'une EDO au pas de temps $n$, c'est à dire que donné un pas de discrétisation temporel $\Delta t$
-l'objectif est d'avoir $u^n \approx u(t=n\Delta t)$.
+L'approximation des EDO se fait grâce à des schéma numériques; formellement un schéma numérique est un élément de $(\mathbb{R}^d)^\mathbb{N}$. 
+Ceux-ci se divisent en deux catégories, les schéma explicites et les schéma implicite
+Seuls les schéma à un pas sont ici présentés et non pas les schémas multi-pas. Ce choix est fait en raison de la barrière de Dhalquist
+\footnote{\url{https://fr.wikipedia.org/wiki/Methode_lineaire_a_pas_multiples\#Premiere_et_deuxieme_limites_de_Dahlquist}}.
+Donné un pas de discrétisation temporel $\Delta t$, on note $u^n$ l'approximation de la solution d'une EDO au pas de temps $n$, c'est à dire au temps $t^n = n \Delta t$.
+L'objectif est d'avoir $u^n \approx u(t=n\Delta t)$.
 
 \begin{definition}[Schéma explicite]
-    Un schéma numérique est dit explicite si le pas de temps $n+1$ est obtenu grâce au pas de temps $n$, c'est à dire : 
+    Un schéma numérique est dit explicite si le pas de temps $n+1$ est obtenu seulement grâce au pas de temps $n$, usuellement formulé sous la forme:
     \begin{align}
         u^{n+1} = u^n + f(u^n ,\Delta t ).
     \end{align}
 \end{definition}
 
 \begin{definition}[Schéma implicite]
-    Un schéma numérique est dit implicite si le pas de temps $n+1$ est obtenu grâce au pas de temps $n$ \textbf{et} $n+1$, c'est à dire : 
+    Un schéma numérique est dit implicite si le pas de temps $n+1$ est obtenu au moins en partie grace au pas de temps $n+1$, souvent écrit comme:
     \begin{align}
         u^{n+1} = u^n + + f(u^{n+1} ,\Delta t ).
     \end{align}
@@ -33,14 +35,18 @@ l'objectif est d'avoir $u^n \approx u(t=n\Delta t)$.
 \end{definition}
 De fait une itération implicite est souvent plus coûteuse qu'une itération d'un schéma explicite
 \footnote{En particulier si la dimension de la solution $d$ est grande.}. 
-Cependant pour des raisons de stabilités les méthodes explicites peuvent nécessiter des pas de temps bien plus fin, et donc bien plus d'itérations.
+Cependant pour des raisons de stabilités (voir \ref{par:stabilite_edo}) les méthodes explicites peuvent nécessiter des pas de temps bien plus fin, et donc bien plus d'itérations.
 Le choix entre méthode explicite et implicite dépend de bien des facteurs (du problème, du niveau de précision voulu, de la difficulté d'implémentation etc...)
 c'est un enjeu central de la simulation numérique.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Stabilité des schémas numériques}
+\subsection{Ordre des schémas numériques}
+%%% AFAIRE 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Stabilité des schémas numériques}\label{par:stabilite_edo}
 Un schéma numérique d'ordre $p$ converge vers la solution exacte de l'EDO avec une erreur qui décroît asymptotiquement en $\Delta t^p$ lorsque le pas de temps diminue.
 Cependant, cette convergence n'est garantie que si le schéma reste stable.
-L'instabilité se manifeste par une divergence de la solution numérique : au-delà d'un pas de temps critique $\Delta t_0$, la norme de la solution discrète $\|u^n\|$ tend vers l'infini\footnote{Phénomène communément appelé "explosion" de la solution numérique.}.
+L'instabilité d'un schéma désigne la divergence de la solution numérique : au-delà d'un pas de temps critique $\Delta t_0$, la norme de la solution discrète $\|u^n\|$ tend vers l'infini\footnote{Phénomène communément appelé "explosion" de la solution numérique.}.
 Cette instabilité peut s'interpréter de deux manières complémentaires : d'un point de vue mathématique, le schéma se comporte comme une suite géométrique de raison $|r| > 1$ ; d'un point de vue physique, le schéma introduit artificiellement de l'énergie dans le système à chaque itération.
 La contrainte de stabilité impose donc $\Delta t < \Delta t_0$. Lorsque ce seuil est très restrictif, la résolution de l'EDO nécessite un nombre important d'itérations, augmentant considérablement le coût calculatoire. 
 Comme évoqué précédemment les méthodes explicites sont généralement plus bien sensibles à cette limitation que les méthodes implicites.
