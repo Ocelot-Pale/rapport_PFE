@@ -39,7 +39,7 @@
 
 % Table des matières
 \usepackage{tocloft}
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{4}  % Numéroter jusqu'aux paragraphs
 \renewcommand{\thesubsubsection}{\Alph{subsubsection}}
 \renewcommand{\theparagraph}{\thesubsubsection.\roman{paragraph}}
@@ -212,46 +212,39 @@ Je tiens à remercier...
 \chapter{Contribution}
     \input{chapitres/4_contributions/0_intro.tex}
     \newpage
-    \section{Étude de mathodes ImEx sur une équation de diffusion-réaciton}
+    \section{Étude de méthodes ImEx sur une équation de diffusion-réaction}
         \input{chapitres/4_contributions/1_contribution/0_intro.tex}
-        
         \newpage
-        \subsection{L'équation de Nagumo}
-            \input{chapitres/4_contributions/1_contribution/1_nagumo.tex}
+        \subsection{L'équation de Nagumo}\input{chapitres/4_contributions/1_contribution/1_nagumo.tex}
         \newpage
-        \subsection{Les méthodes ImEx}
-            \input{chapitres/4_contributions/1_contribution/2_imex.tex}
+        \subsection{Les méthodes ImEx}\input{chapitres/4_contributions/1_contribution/2_imex.tex}
         \newpage
-        \subsection{Analyse de stabilité}
-            \input{chapitres/4_contributions/1_contribution/3_stabilite.tex}
-        \subsection{Étude de la convergence}
-            \input{chapitres/4_contributions/1_contribution/4_convergence.tex}
-        \subsection{Conclusion}
-            \input{chapitres/4_contributions/1_contribution/5_conclusion.tex}
-    % Travail 1 
-        % Réalisaiton
-        % conclusion
-    % Travail 2
-        % Réalisaiton
-        % conclusion
-    % Travail 3 
-        % Réalisaiton
-        % conclusion
+        \subsection{Analyse de stabilité}\input{chapitres/4_contributions/1_contribution/3_stabilite.tex}
+        \subsection{Étude de la convergence}\input{chapitres/4_contributions/1_contribution/4_convergence.tex}
+        \subsection{Conclusion}\input{chapitres/4_contributions/1_contribution/5_conclusion.tex}
+    
+    \section{Impact de la multirésolution adaptative sur l'erreur d'une méthode des lignes}
+        \input{chapitres/4_contributions/2_contribution/0_intro.tex}
+        \subsection{Cadre de l'étude}                   \input{chapitres/4_contributions/2_contribution/1_cadre.tex}
+        \subsection{Calcul des équations équivalentes}  \input{chapitres/4_contributions/2_contribution/2_eq_equiv.tex}
+        \subsection{Complément expérimental}            \input{chapitres/4_contributions/2_contribution/3_experimental.tex}
+        \subsection{Conclusion}                         \input{chapitres/4_contributions/2_contribution/4_conclusion.tex}
 
 \chapter{Conclusion}
     %Conclusion scientifique
-    %Conclusion profesionelle et personelle
+    %Conclusion professionnelle et personnelle
 
 \newpage
 
 % Bibliographie
 \printbibliography
+\addcontentsline{toc}{chapter}{Bibliographie}
 
 \newpage
 
 % Annexes
 \appendix
-
+\chapter*{Annexes}
 \section{Annexe A : Titre de l'annexe}
 Contenu de la première annexe.
 
