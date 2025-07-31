@@ -1,9 +1,10 @@
 \documentclass[11pt]{report}
 
 % Encodage & langue
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
+\usepackage{fourier}  % Utopia + symboles mathématiques
+\usepackage[utf8]{inputenc}
 % Packages graphiques
 \usepackage{tikz}
 \usepackage{tikz-cd}
@@ -224,11 +225,12 @@ Je tiens à remercier...
         \subsection{Analyse de stabilité}\input{chapitres/4_contributions/1_contribution/3_stabilite.tex}
         \subsection{Étude de la convergence}\input{chapitres/4_contributions/1_contribution/4_convergence.tex}
         \subsection{Conclusion}\input{chapitres/4_contributions/1_contribution/5_conclusion.tex}
+    
     \newpage
     \section{Impact de la multirésolution adaptative sur l'erreur d'une méthode des lignes}
         \input{chapitres/4_contributions/2_contribution/0_intro.tex}
         \subsection{Cadre de l'étude}                   \input{chapitres/4_contributions/2_contribution/1_cadre.tex}
-        \subsection{Calcul des équations équivalentes}  \input{chapitres/4_contributions/2_contribution/2_eq_equiv.tex}
+        \subsection{Obtention des équations équivalentes}  \input{chapitres/4_contributions/2_contribution/2_eq_equiv.tex}
         \subsection{Complément expérimental}            \input{chapitres/4_contributions/2_contribution/3_experimental.tex}
         \subsection{Conclusion}                         \input{chapitres/4_contributions/2_contribution/4_conclusion.tex}
 

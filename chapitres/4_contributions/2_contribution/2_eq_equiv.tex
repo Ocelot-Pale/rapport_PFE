@@ -1,0 +1,40 @@
+\subsubsection{Équation équivalente du schéma sans MRA}
+    \begin{align}
+        \frac{\partial u}{\partial t}  =&+ D \frac{\partial^{2}u}{\partial x^{2}} 
+        + \Delta x^{2} \frac{D}{12}             \frac{\partial^{4}u}{\partial x^{4}} 
+        -  \Delta t^{2} \frac{D^{3}}{6}          \frac{\partial^{6}u}{\partial x^{6}} 
+        -  \Delta t^{3} \frac{D^{4}}{24}        \frac{\partial^{8}u}{\partial x^{8}}.
+    \end{align}
+    Le schéma de base est donc bien d'ordre deux en espace et en temps.
+    En supposant une relation de stabilité du type $\lambda = \frac{D\, \Delta t }{\Delta x^2}$:
+    \begin{align}
+        \frac{\partial u}{\partial t}  =&\; D \frac{\partial^{2}u}{\partial x^{2}} 
+        + \Delta x^{2} \frac{D}{12}             \frac{\partial^{4}u}{\partial x^{4}}
+        - \Delta x^{4} \frac{D \lambda^2}{6}     \frac{\partial^{6}u}{\partial x^{6}}
+        - \Delta x^{6} \frac{D \lambda^3}{24}    \frac{\partial^{8}u}{\partial x^{8}}.
+    \end{align}
+
+\subsubsection{Équation équivalente du schéma avec MRA}
+        \begin{align}
+        \frac{\partial u}{\partial t} =&\; D \frac{\partial^2 u}{\partial x^2} \\\notag
+        &- \frac{\Delta t}{2} D^2\, \bigl( 2^{2\Delta l}- 1 \bigr)          \frac{\partial^4 u}{\partial x^4}
+        - \Delta t^2\, \frac{D^3}{6}          \frac{\partial^6 u}{\partial x^6}
+        - \Delta t^3\, \frac{D^4}{24}         \frac{\partial^8 u}{\partial x^8} \\\notag
+        &+ 2^{2\Delta l}\, \frac{D\, \Delta x^2}{12}    \frac{\partial^4 u}{\partial x^4}
+        - 2^{2\Delta l}\, \frac{D\, \Delta l\, \Delta x^2}{4} \frac{\partial^4 u}{\partial x^4}
+    \end{align}
+    Nous constatons que formellement le schéma est formellement d'ordre un.
+    Cela suggère donc que théoriquement, la multirésolution devrait faire perdre l'ordre de convergence temporelle de la méthode des lignes.
+    Cependant en pratique pour des raisons de stabilité on impose $\lambda= \frac{D \Delta t } {\Delta x^2}$.
+    Cela masque la perte en ordre\footnote{Cela à été vérifié expérimentalement} puisque cela mène à l'éqution équivalente:
+
+    \begin{align}
+        \frac{\partial u}{\partial t}
+        =&+ D \frac{\partial^{2}u}{\partial x^{2}}\\\notag
+        &+ \Delta x^{2}\Bigl(\frac{2^{2 \Delta l} D  \lambda \frac{\partial^{4}u}{\partial x^{4}}}{2} 
+        -  \frac{2^{2 \Delta l} D \Delta l \frac{\partial^{4}u}{\partial x^{4}}}{4} 
+        -  \frac{D \lambda \frac{\partial^{4}u}{\partial x^{4}}}{2} 
+        +  \frac{2^{2 \Delta l} D\frac{\partial^{4}u}{\partial x^{4}}}{12}\Bigr)\\\notag
+        &- \Delta x^{6} \frac{D \lambda^{3} \frac{\partial^{8}u}{\partial x^{8}}}{24} 
+        - \Delta x^{4} \frac{D \lambda^{2} \frac{\partial^{6}u}{\partial x^{6}}}{6} 
+    \end{align}
