@@ -1,4 +1,5 @@
 \subsubsection{Équation équivalente du schéma sans MRA}
+    Le calcul de l'équation équivalente sans MRA donne:
     \begin{align}
         \frac{\partial u}{\partial t}  =&+ D \frac{\partial^{2}u}{\partial x^{2}} 
         + \Delta x^{2} \frac{D}{12}             \frac{\partial^{4}u}{\partial x^{4}} 
@@ -15,7 +16,8 @@
     \end{align}
 
 \subsubsection{Équation équivalente du schéma avec MRA}
-        \begin{align}
+    Dans le cas avec MRA, le logiciel de calcul formel donne l'équation équivalente:
+    \begin{align}
         \frac{\partial u}{\partial t} =&\; D \frac{\partial^2 u}{\partial x^2} \\\notag
         &- \frac{\Delta t}{2} D^2\, \bigl( 2^{2\Delta l}- 1 \bigr)          \frac{\partial^4 u}{\partial x^4}
         - \Delta t^2\, \frac{D^3}{6}          \frac{\partial^6 u}{\partial x^6}
@@ -23,10 +25,10 @@
         &+ 2^{2\Delta l}\, \frac{D\, \Delta x^2}{12}    \frac{\partial^4 u}{\partial x^4}
         - 2^{2\Delta l}\, \frac{D\, \Delta l\, \Delta x^2}{4} \frac{\partial^4 u}{\partial x^4}
     \end{align}
-    Nous constatons que formellement le schéma est formellement d'ordre un.
+    Nous constatons que formellement le schéma est formellement d'ordre un en temps.
     Cela suggère donc que théoriquement, la multirésolution devrait faire perdre l'ordre de convergence temporelle de la méthode des lignes.
-    Cependant en pratique pour des raisons de stabilité on impose $\lambda= \frac{D \Delta t } {\Delta x^2}$.
-    Cela masque la perte en ordre\footnote{Cela à été vérifié expérimentalement} puisque cela mène à l'éqution équivalente:
+    Cependant en pratique la contrainte de stabilité impose une relation type CFL $\lambda = \frac{D \Delta t } {\Delta x^2} < 1/2$.
+    Cela masque la perte en ordre\footnote{Cela à été vérifié expérimentalement} puisque cela mène à l’élution équivalente:
 
     \begin{align}
         \frac{\partial u}{\partial t}
@@ -68,4 +70,13 @@
         $D^{2}\frac{\partial^{4} u}{\partial x^{4}}$. Cependant au cours du processus de compression-reconstruction, cette approximation est entachée d'un facteur $2^{2 \Delta l}$.
         En d'autres termes le terme spatial construit pour compenser un terme temporel a été modifié par la multi-résolution, alors que le terme temporel lui n'est pas affecté par la multirésolution.
         Ainsi, les deux termes ne se compensent plus et l'ordre est perdu.
-
+\subsection{Conclusion}
+    Il a été ici mis en lumière que la multirésolution-adaptative appliquée à méthode des lignes très simple
+    peut théoriquement mener à un couplage des erreurs espace-temps polluant l'ordre initial de la méthode.
+    En particulier l'étape de reconstruction-reconstruction altère des termes spatiaux qui ne compensent plus certaines erreurs temporelles. 
+    %AFAIRE -> FINIR LA CONCLUSION 
+    % Pour l'heure il conviendrait d'étudier ce phénomène sur d'autre méthodes, d'autres équations et surtout de l'étudier expérimentalement.
+    % Je ne parviens pas à mettre en lumière ce phénomène expérimentalement. 
+    % D'abord ce n'est pas possible de reproduire fidèlement cette situation car en pratique la condition de stabilité force $\Delta t \propto \Delta x^2$. 
+    % Ensuite j'ai essayé de mettre en lumière le phénomène sur une méthode implicite (RKI2 SDIRK) mais le phénomène n'a pas été observé. 
+    % ...     à suivre    ... 
