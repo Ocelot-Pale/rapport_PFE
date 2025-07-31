@@ -38,3 +38,34 @@
         &- \Delta x^{6} \frac{D \lambda^{3} \frac{\partial^{8}u}{\partial x^{8}}}{24} 
         - \Delta x^{4} \frac{D \lambda^{2} \frac{\partial^{6}u}{\partial x^{6}}}{6} 
     \end{align}
+\subsection{Comparaison}
+    Un ordre de précision a été perdu en temps. Nous essayons a présent de comprendre quel mécanisme mène à cette baisse de performances.
+    Ma démarche consiste à comparer les équations équivalentes avec et sans multirésolution, \textbf{avant} d'appliquer la procéduer de Cauchy-Kovaleskaya.
+    \paragraph{Sans MRA}
+        L'équation modifiée sans multirésolution, avant procédure de Cauchy-Kovaleskaya est:
+        \begin{align}
+            \frac{\partial u}{\partial t}  &= D \frac{\partial^{2} u}{\partial x^{2}} \\\notag
+                &+ \frac{1}{2} \underbrace{\Bigl(D^{2}\frac{\partial^{4} u}{\partial x^{4}} - \frac{\partial^{2} u}{\partial t^{2}} \Bigr)}_{\substack{\text{Se compense par} \\ \text{la procédure de} \\ \text{Cauchy-Kovaleskaya}}} \Delta t
+                + \frac{D}{12} \frac{\partial^{4} u}{\partial x^{4}}  \Delta x^{2}
+                - \frac{1}{24} \frac{\partial^{4} u}{\partial t^{4}}  \Delta t^{3} 
+                - \frac{1}{6}  \frac{\partial^{3} u}{\partial t^{3}}  \Delta t^{2}.
+        \end{align}
+        La méthode est bien d'ordre un, car à l'ordre un : $\frac{\partial u}{\partial t}  = D \frac{\partial^{2} u}{\partial x^{2}}$ et donc le terme $D^{2}\frac{\partial^{4} u}{\partial x^{4}} - \frac{\partial^{2} u}{\partial t^{2}}$
+        se compense au cours de la procédure de Cauchy-Kovaleskaya.
+    \paragraph{Avec MRA}
+        L'équation modifiée avec multirésolution, avant procédure de Cauchy-Kovaleskaya est:
+        \begin{align}
+            \frac{\partial u}{\partial  t} =&D \frac{\partial^{2} u}{\partial x^{2}}\\\notag
+            &+ \frac{\Delta t}{2} \underbrace{\Bigl(2^{2 \Delta l} D^{2}           \frac{\partial^{4} u}{\partial x^{4}} -\frac{\partial^{2} u}{\partial t^{2}} \Bigr)}_{\text{Ne se compensent plus.}}
+            -\frac{\Delta t^{3}}{24}                          \frac{\partial^{4} u}{\partial t^{4}} 
+            - \frac{\Delta t^{2}}{6}                           \frac{\partial^{3} u}{\partial t^{3}}
+            +\frac{\Delta x^{2}}{12} (1 - 3\Delta l)    2^{2 \Delta l} D \frac{\partial^{4} u}{\partial x^{4}}
+        \end{align}
+        Dans ce cas le terme en facteur du $\Delta t$ ne se s'annule plus. En effet le terme $D^{2}\frac{\partial^{4} u}{\partial x^{4}}$ est devenu au cours de la reconstruction
+        $2^{2 \Delta l} D^{2}\frac{\partial^{4} u}{\partial x^{4}}$. En conséquence, la méthode perds un ordre de convergence temporel.\par
+        Ce mécanisme s'explique de la manière suivante: dans l'équation équivalente, le terme $\frac{\partial^{2} u}{\partial t^{2}}$ apparaît indépendamment de la discrétisation spatiale
+        \footnote{Il emerge de la différence $u_k^{n+1} - u_k^{n}$ à $k$ fixé.}. La méthode des lignes initiale crée un terme \textit{sur mesure} pour le compenser en approximant le terme spatial
+        $D^{2}\frac{\partial^{4} u}{\partial x^{4}}$. Cependant au cours du processus de compression-reconstruction, cette approximation est entachée d'un facteur $2^{2 \Delta l}$.
+        En d'autres termes le terme spatial construit pour compenser un terme temporel a été modifié par la multi-résolution, alors que le terme temporel lui n'est pas affecté par la multirésolution.
+        Ainsi, les deux termes ne se compensent plus et l'ordre est perdu.
+
