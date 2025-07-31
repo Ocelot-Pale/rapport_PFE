@@ -1,0 +1,164 @@
+\subsubsection{Problème cible}
+    Nous cherchons à résoudre le problème de diffusion suivant :
+    \begin{align}
+        \dt{u} = D \dxx{u}.
+    \end{align}
+    Nous ignorons les problématiques de conditions de bords.
+        \paragraph{Méthode des lignes utilisée}
+            Pour résoudre cette équation aux dérivées partielles, nous utilisons une méthode des lignes. 
+            D'abord un schéma volume fini pour la discrétisation spatiale menant à l'équation semi-discrétisée suivante : 
+            \begin{align}
+                \dt{U}(t) = \frac{D}{\Delta x} \Bigl(\frac{U_{k+1} - 2 U_{k} + U_{k-1}}{\Delta x}\Bigr)
+            \end{align}
+            Puis une méthode de Runge und Kutta explicite d'ordre deux sur l’opérateur linéaire donne :
+            \begin{align}
+                U_k^{n+1} &= U_k^n\\ \notag
+                &+ D \frac{\Delta t}{\Delta x} \Bigl(\frac{U_{k+1} - 2 U_{k} + U_{k-1}}{\Delta x}\Bigr)\\ \notag
+                &+ D^2 \frac{\Delta t^2}{\Delta x^2} \Bigl(\frac{U_{k+2} -4 U_{k+1}  +6 U_{k} -4 U_{k-1} + U_{k-2}}{\Delta x^2}\Bigr).
+            \end{align}
+            Cela s'écrit sous la forme conservative suivante:
+            \begin{align}
+                u^{n+1}_k = u^n_k + \lambda \Bigl( \Phi^n_{k+1/2} - \Phi^n_{k-1/2} \Bigr)
+            \end{align}
+            Avec : 
+            \begin{align}
+                \lambda = D \frac{\Delta t}{\Delta x^2}
+            \end{align}
+
+            \begin{align}
+                \Phi^n_{k+1/2} = u^n_{k+1} - u^n_{k} + \frac{1}{2} \lambda \bigl( u^n_{k+2} - 3  u^n_{k+1} + 3 u^n_{k} - u^n_{k-1} \bigr),\\
+                \Phi^n_{k-1/2} = u^n_{k} - u^n_{k-1} + \frac{1}{2} \lambda \bigl( u^n_{k+1} - 3  u^n_{k} + 3 u^n_{k-1} - u^n_{k-2} \bigr).  
+            \end{align}
+
+        \paragraph{multirésolution adaptative}
+        % AFAIRE --> déplacer la partie purement descriptive de la MRA dans une section du préambule technique 
+            La multirésolution adaptative consiste à compresser le maillage, puis a effectuer les calculs sur le maillage compressé.
+            Le schéma classique est le suivant : 
+            \begin{enumerate}
+                \item Partir d'un état compressé au pas de temps $n$.
+                \item Calculer la solution au pas de temps $n+1$
+                \item Compresser de nouveau selon un seuil de compression $\varepsilon$ grâce à une transformée multiéchelle.
+            \end{enumerate}
+            Lors de la compression, la transformée multiéchelle représente la solution sur plusieurs niveaux de détails, du plus global, au plus local.
+            Plus le niveau est profond, c'est à dire plus il est local, moins les détails associés portent d'information. 
+            L'opération de compression est réalisée en supprimant en chaque cellules, les niveaux dont la valeur des détails
+            passent sous un certain seuil \footnote{Typiquement $2^{\Delta l} \varepsilon$ où ${\Delta l}$} \cite{postelApprox} .
+
+            Ce seuil $\varepsilon$ n'est pas l'unique juge lors la compression, des heuristiques reposant sur la quantité d'information des détails de niveau supérieur
+            sont utilisées pour ne pas seuiller systématiquement. L'objectif est en quelque sorte d'anticiper le besoin de détails\footnote{Même si la quantité d'information laisse entendre que 
+            certains détails pourraient être ignorés, l'intuition physique pose sont veto et force certains détails à être conservés par précaution, par exemple si un front front d'onde arrive.}.
+            La plus connue est l'heuristique d'Ami Harten \cite{harten1994}.
+
+            Plusieurs stratégies existent pour réaliser le calcul d'un pas de temps à l'autre. Généralement, on estime les quantités au temps $n+1$ aux niveaux courants, 
+            à partir des quantité au niveau courant au temps $n$. Ensuite une opération de reconstruction-prédiction détermine le niveau de finesse requis de la solution au temps $n+1$.
+            Il est également possible de calculer les quantités du temps $n+1$ au niveau courant, à partir 
+            des quantités au temps $n$ \textbf{reconstruites à un niveau plus fin}. Bien que cela aie une faible efficacité computationnelle, cela réduirait les erreurs liés à la multirésolution
+            selon la qualité du prédicteur employé comme discuté en \cite{belloti_et_al_2025}. Ici nous allons étudier théoriquement les erreurs dans un contexte similaire. 
+            Nous nous plaçons sur une cellule à un niveau de détail fixé, les flux sont calculés à partir de quantités reconstruites à un niveau de détails $\Delta l$ plus fin.
+            Le raisonnement et les ressources de calcul formel de \cite{belloti_et_al_2025} on été d'une aide précieuse.
+
+            \textbf{Calcul du flux au travers de $\Delta l$ niveaux:\\}
+            Lorsque l'on applique le procédé de multirésolution, étant donné une cellule à un niveau de détail donné $l$, on cherche à faire évoluer la valeur à l'étape $n$ vers la valeur à l'étape $n+1$. 
+            Pour ce faire, il faut évaluer les flux à partir les cellules voisines. Dès lors plusieurs choix s'offrent à nous. Où bien on utilise les cellules voisines à leurs niveaux courants, où bien on use de l'opérateur 
+            de reconstruction afin d'estimer les cellules voisines à des niveaux plus fins.\par
+            Dans un premier temps le stencil est choisi égal à 1. L'opérateur de prédiction d'un niveau à l'autre s'écrit alors : 
+            \begin{align}
+                \hat u^{l+1}_{2k} &= +\frac{1}{8} u^l_{k-1} + u^l_k - \frac{1}{8} u^l_{k+1},\\
+                \hat u^{l+1}_{2k+1} &= -\frac{1}{8} u^l_{k-1} + u^l_k + \frac{1}{8} u^l_{k+1}.
+            \end{align}
+            Puis en notant $\doublehat{u}^{l+\Delta l}_{(\cdot)}$ cet opérateur de prédiction itéré au travers de $\Delta l$ niveaux\footnote{
+                Au sens où l'on applique le prédicteur à des données déjà issues d'une prédiction.
+            } : 
+            \begin{align}
+                \begin{bmatrix}
+                    \doublehat{u}^{(l+\Delta l)}_{2^{\Delta l}k-2}\\
+                    \doublehat{u}^{(l+\Delta l)}_{2^{\Delta l}k-1}\\
+                    \doublehat{u}^{(l+\Delta l)}_{2^{\Delta l}k}\\
+                    \doublehat{u}^{(l+\Delta l)}_{2^{\Delta l}k+1}\\
+                \end{bmatrix}
+                    =
+                \underbrace{
+                \begin{bmatrix}
+                    +1/8 & 1 & -1/8 & 0 \\
+                    -1/8 & 1 & +1/8 & 0 \\
+                    0 & +1/8 & 1 & -1/8 \\
+                    0 & -1/8 & 1 & +1/8 
+                \end{bmatrix}^{\Delta l}}_{\text{Matrice de passage } P \text{ pour }s=1.}
+                \cdot
+                \begin{bmatrix}
+                    u^l_{k-2}\\
+                    u^l_{k-1}\\
+                    u^l_{k}\\
+                    u^l_{k+1}\\
+                \end{bmatrix}
+            \end{align}
+
+            En particulier, si la cellule étudiée est au niveau courant $l$ alors on choisira d'aller approximer le flux au niveau le plus fin, c'est à dire avec $\dlbar = \bar l - l$.
+            Dès lors les flux approximés au niveau fins sont : 
+            \begin{align}
+                \doublehat{\Phi}_{k-1/2} &= \doublehat{u}^{l+\dlbar}_{2^{\dlbar} k} -  \doublehat{u}^{l+\dlbar}_{2^{\dlbar} k-1} + \frac{1}{2} \lambda 
+                % \Bigl(
+                    % \doublehat{u}^{l+\dlbar}_{2^{\dlbar} k+1}
+                    % - 3 \doublehat{u}^{l+\dlbar}_{2^{\dlbar} k}
+                    % + 3 \doublehat{u}^{l+\dlbar}_{2^{\dlbar} k-1}
+                    % - \doublehat{u}^{l+\dlbar}_{2^{\dlbar} k-2}
+                % \Bigr),\\
+            \end{align}
+            %     \doublehat{\Phi}_{k+1/2} &=  \doublehat{u}^{l+\dlbar}_{2^{\dlbar} (k+1)} -  \doublehat{u}^{l+\dlbar}_{2^{\dlbar} (k+1)-1} + \frac{1}{2} \lambda \Bigl(
+            %         \doublehat{u}^{l+\dlbar}_{2^{\dlbar} (k+1)+1}
+            %         - 3 \doublehat{u}^{l+\dlbar}_{2^{\dlbar} (k+1)}
+            %         + 3 \doublehat{u}^{l+\dlbar}_{2^{\dlbar} (k+1)-1}
+            %         - \doublehat{u}^{l+\dlbar}_{2^{\dlbar} (k+1)-2}
+            %     \Bigr)
+            
+            Cela s'écrit sous la forme matricielle suivante (utile pour utiliser les outils de calcul formel).
+            \begin{align}
+                \doublehat{\Phi}_{k-1/2}
+                    &=
+                \begin{bmatrix}
+                    -\frac{\lambda}{2}&
+                    (\frac{3}{2} \lambda - 1)&
+                    (1 - \frac{3}{2} \lambda)&
+                    \frac{\lambda}{2}&
+                \end{bmatrix}
+                \begin{bmatrix}
+                    +1/8 & 1 & -1/8 & 0\\
+                    -1/8 & 1 & +1/8 & 0\\
+                    0 & +1/8 & 1 & -1/8\\
+                    0 & -1/8 & 1 & +1/8\\
+                \end{bmatrix}^{\dlbar}
+                \begin{bmatrix}
+                    u^l_{k-2}\\
+                    u^l_{k-1}\\
+                    u^l_{k}\\
+                    u^l_{k+1}\\
+                \end{bmatrix}
+            \end{align}
+            \begin{align}
+                \doublehat{\Phi}_{k+1/2}
+                    &=
+                \begin{bmatrix}
+                    -\frac{\lambda}{2}&
+                    (\frac{3}{2} \lambda - 1)&
+                    (1 - \frac{3}{2} \lambda)&
+                    \frac{\lambda}{2}&
+                \end{bmatrix}
+                \begin{bmatrix}
+                    +1/8 & 1 & -1/8 & 0\\
+                    -1/8 & 1 & +1/8 & 0\\
+                    0 & +1/8 & 1 & -1/8\\
+                    0 & -1/8 & 1 & +1/8\\
+                \end{bmatrix}^{\dlbar}
+                \begin{bmatrix}
+                    u^l_{k-1}\\
+                    u^l_{k}\\
+                    u^l_{k+1}\\
+                    u^l_{k+2}\\
+                \end{bmatrix}.
+            \end{align}
+
+            Attention le schéma final est légèrement différent car il fait ici intervenir deux pas d'espace: $\Delta x$ le pas au niveau le plus fin
+            et $\Tilde {\Delta x} = 2^{\Delta l} \Delta x$ le pas du niveau courrant. Ainsi le schéma final est :
+            \begin{align}
+                {u}^{n+1}_k = {u}^n_k + \frac{\lambda}{2^{\Delta l}} \Bigl( \doublehat{\Phi}^n_{k+1/2} - \doublehat{\Phi}^n_{k-1/2} \Bigr)
+            \end{align}
