@@ -5,8 +5,8 @@ Enfin les particules \textbf{réagissent} entre-elles et ces réactions modifien
 du milieu fluide.
 Les équations d'advection, diffusion, réaction modélisent donc ces trois phénomènes et leurs couplages respectifs.
 
-\subsection{Les trois opérateurs}
-\subsubsection{Advection}
+\subsubsection{Les trois opérateurs}
+\paragraph{Advection}
     L'advection désigne le transport d'une quantité par un flot. L'opérateur d'advection le plus simple est l'opérateur
     de transport $c \frac{\partial}{\partial x}$:
     \begin{align}\frac{\partial u}{\partial t} = c \frac{\partial u}{\partial x}\end{align}
@@ -17,7 +17,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     Ainsi ils sont peu raides mais résonnants. Les méthodes explicites sont généralement les plus adaptées pour les traiter.
     %       AFAIRE ---> trouver une référence pour justifier que les opérateurs d'advections sont à valeurs propres imaginaires.
 
-\subsubsection{Diffusion}
+\paragraph{Diffusion}
     La diffusion désigne l'\textit{éparpillement} de particules au sein d'un milieu fluide
     \footnote{En théorie de l'information cela décrit la tendance de l'entropie augmenter et l'information à se moyenner, se flouter.}.
     Ce phénomène est la limite macroscopique du déplacement microscopiques 
@@ -38,7 +38,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     des méthodes explicites stabilisées qui parviennent à gérer la raideur moyenne\footnote{Nous reviendrons sur ce qualificatif au prochain paragraphe.} comme les méthodes 
     ROK2 et ROK4\cite{abdulle2002fourth}.
 
-\subsubsection{Réaction}
+\paragraph{Réaction}
     Les phénomène sont en général bien adaptés aux méthodes implicites car extrêmement raides et locaux.
     En effet,les temps typiques d'une réaction chimique\footnote{
     En réalité une réaction chimique simple (une simple combustion $H_2/O_2$ fait intervenir une dizaine de composés et reactions intermédiaires, dont les temps typiques sont très faibles.)} sont de l'ordre de la nano-seconde.
@@ -49,11 +49,11 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     les méthodes explicites peuvent se paralléliser. En d'autres termes il est possible de mettre en oeuvre une méthode implicite par cellule,
     ce qui revient à inverser un opérateur de petite dimension en chaque cellule, et il n'est pas nécessaire d'inverser un énorme système.
 
-\subsection{Difficultés mathématiques intrinsèques}
+\subsubsection{Difficultés mathématiques intrinsèques}
     La simulations des équations d'advections-réaction-diffusion se heurte à deux difficultés majeur, le couplage des trois opérateurs mentionnés précédemment
     et le caractère multi-échelles des solutions.
 
-    \subsubsection{Première difficulté: le couplage des opérateurs}
+    \paragraph{Première difficulté: le couplage des opérateurs}
         Les développements précédents auront convaincu le lecteur que résoudre chaque phénomène individuellement, n'est pas insurmontable. 
         Cependant, les résoudre tous en même temps, c'est à dire les coupler, est en pratique très difficile.
         En effet, lorsque l'on couple les trois opérateurs, il en résulte un unique opérateur qui doit être traité par une méthode numérique.
@@ -61,7 +61,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
         à l'inverse si l'on choisit une méthode implicite, la non-localité de la diffusion demande l'inversion d'un système de taille déraisonnable. 
         Cette approche naïve, monolithique, n'est donc pas adaptée. Il faut trouver d'autres stratégies de pour simuler ces équations d’advection-réaction-diffusion.
 
-    \subsubsection{Seconde difficulté: le caractère multi-échelles des solutions}
+    \paragraph{Seconde difficulté: le caractère multi-échelles des solutions}
         Les solutions des solutions étudiées sont souvent multi-échelles, en temps et en espace. Cela signifie que certaines zones spatio-temporelles nécessitent
         une finesse d'approximation élevée pour pouvoir reproduire fidèlement le comportement physique, alors qu'en d'autres zones une approximation
         grossière est suffisante. Prenons l'exemple d'un incendie dans un local. Au début le foyer est très restreint et seul cette zone doit être maillée finement, 
@@ -72,9 +72,9 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
         il y a alors une grande inefficacité\footnote{À cela s'ajoute le fait que ce problème augmente fortement avec la dimension.}.
 
 
-\subsection{Les stratégies de simulation}
+\subsubsection{Les stratégies de simulation}
     Pour surmonter ces difficultés, des stratégies d'adaptation de maillage et d'intégration en temps spécifiques doivent être utilisées de concert. 
-    \subsubsection{L'adaptation de maillage}
+    \paragraph{L'adaptation de maillage}
     Pour prendre avantage du caractère multi-échelle des solutions étudiées, il est courant de procéder à de l'adaptation de maillage.
     C'est à dire mailler avec une finesse différentes chaque zone du domaine et être en mesure de faire évoluer ce maillage de concorde avec l'évolution du problème dans le temps.
     La méthode d'adaption de maillage sur lequel nous nous concentrons est la multirésolution-adaptative par transformée d'ondelettes introduite par Ami Harten dans les années 1990 \cite{harten1994}.
@@ -86,14 +86,14 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     \label{fig:samurai}
     \end{figure}
 
-        \paragraph{La multi-résolution adaptative}
+        \subparagraph{La multi-résolution adaptative}
         La multiresoltion adaptative se base sur une compression de la solution par transformée d'ondelette\footnote{C'est même procédé qui est à l'oeuvre dans la compression d'image \texttt{jpg}.}.
         Les détails mathématiques seront données plus tard et s’appuieront notamment sur \cite{postePoly}. Pour l'heure le lecteur doit simplement comprendre que la compression se fait de la manière suivante:
         une transformée en ondelette permet de représenter la solution sur différentes échelle d'espace\footnote{Par exemple les échelles $\Delta x, \Delta x/2,\Delta x/4,\dots, \Delta x/2^n$}. 
         Cela permet de quantifier l'information contenue à en chaque échelle d'espace. Enfin la compression consiste à ignorer les échelles ne comprenant pas assez d'information
         par rapport à un seuil $\varepsilon$ fixé par l'utilisateur.
 
-        \paragraph{Autres méthodes}
+        \subparagraph{Autres méthodes}
         Il existe d'autre stratégies pour raffiner le maillage autour des zones sensibles que la transformée en ondelette. 
         La plus classique est une adaptation basée sur les gradients. Si les gradients sont élevés c'est que la solution est complexe,
         et donc un maillage fin est nécessaire pour la représenter fidèlement. Cette approche est simple à mettre en oeuvre et part de la même heuristique 
@@ -102,11 +102,11 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
         \footnote{\href{https://w.ww.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}{https://www.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}}.
         % AFAIRE : ajouter une ref pour les adaptations basées sur les gradients, une justification sur le caractère moins facile a analyser et éventuellement d'autres méthodes de raffinement.
 
-    \subsubsection{Les techniques d'intégration}
+    \paragraph{Les techniques d'intégration}
         Comme expliqué précédemment, la simulation de chaque opérateur est faisable individuellement mais très difficile conjointement.
         Les stratégies pour intégrer les trois opérateurs en même temps, reposent donc sur le fait de les intégrer... séparément.
 
-        \paragraph{La séparation d'opérateurs}
+        \subparagraph{La séparation d'opérateurs}
             La séparation d'opérateurs (en Anglais: \textit{splitting}) consiste à intégrer successivement chaque opérateur.
             L'intégration d'un opérateur $A$, dans une équation comme :
             \begin{align}\frac{\partial u}{\partial t} = Au.\end{align}
@@ -123,7 +123,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
             Une étude extensive de l'usage du splitting, pour les équations d'advection-diffusion-réaction couplées à la multiresoltion adaptative 
             a été réalisée dans la thèse de Max Duarte, préparée à Centrale Paris sous la direction de Marc Massot \cite{duart2011}.
 
-        \paragraph{Les méthodes ImEx}
+        \subparagraph{Les méthodes ImEx}
             Nous détaillerons ces méthode en \ref{par:ImEx_presentation}. Pour l'heure le lecteur doit savoir que ces méthodes ImEx
             \footnote{Les méthodes évoquées ici sont les méthodes ImEx Runge et Kutta (RK-ImEx). Il existe également des méthodes ImEx couplées espace-temps\cite{rebou2024}.}  \cite{pareschi2010implicitexplicitrungekuttaschemesapplications} \cite{KENNEDY2003139}
             sont très proches de la séparation d'opérateurs dans leurs implémentation, seulement elles apportent plus de cohérence mathématiques
@@ -138,7 +138,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
             % AFAIRE AJOUTER UN LIEN VERS LE CHAPITRE DÉDIÉ
             % AFAIRE SE DEMANDER SI POUR U? OPÉRATEUR LINÉAIRE RKImEx ET SPLITTING C EST PAREIL MAIS SI LE RKImEx NE SERAIT PAS PLUS PERTINENT EN NON LINÉAIRE.
 
-\subsection{Conclusion}
+\subsubsection{Conclusion}
 Cette introduction a mis en évidence la complexité intrinsèque des équations d'advection-diffusion-réaction, 
 qui réside dans le couplage de trois phénomènes physiques aux propriétés mathématiques antagonistes. 
 L'advection, peu raide, la diffusion, moyennement raide et non-locale, et la réaction, extrêmement raide mais locale, 
