@@ -29,32 +29,32 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     Cet opérateur est donc moyennement raide (comparé aux opérateurs de réaction). Ainsi on pourrait penser qu'une méthode implicite est adéquate. Cependant ce n'est pas toujours le cas.
     En effet le coefficient de diffusion est généralement fonction de la température, et donc l’opérateur $D(T) \Delta(\cdot)$ varie souvent en temps et en espace. 
     Ainsi il faut inverser à chaque itération l'opérateur implicite. Cette lourde tâche est rendue plus ardue par le fait que l'opérateur de diffusion couple tout l'espace, c'est à dire qu'il est non local.
-    \footnote{Si l'opérateur de diffusion eu été local il aurait pu être inversé en résolvant plusieurs petit systèmes et ce, potentiellement en parallèle.
+    \footnote{Si l'opérateur de diffusion eût été local il aurait pu être inversé en résolvant plusieurs petits systèmes et ce, potentiellement en parallèle.
     Cela serait bien moins coûteux qu'inverser un grand système. 
     Par exemple inverser un matrice pleine de taille $10^6$ demande environ $10^{18}$ opérations, alors qu'inverser 100 systèmes de taille $10^4$
-    n'en demande $100 \times 10^{12} = 10^{14}$ soit dix mille fois moins. Si ces résolution sont parallélisé l'accélération est d'un million. Malheureusement comme
+    n'en demande $100 \times 10^{12} = 10^{14}$ soit dix mille fois moins. Si ces résolutions sont parallélisés l'accélération est d'un million. Malheureusement comme
     l'opérateur de diffusion couple tout l'espace ce n'est pas possible en dimension deux ou trois.},
     il faut inverser une matrice de taille $d >> 1$ dont la structure
-    peut être très hétérogène (car le coefficient de diffusion varie dans l'espace). Aujourd'hui il est semble plus pertinent
-    des méthodes explicites stabilisées qui parviennent à gérer la raideur moyenne comme les méthodes 
-    ROK2 et ROK4\cite{abdulle2002fourth}. Sans entrer dans les détails, le clé de ces méthodes constituer une méthode numérique explicite standard et ensuite d'ajouter des étages 
+    peut être très hétérogène (car le coefficient de diffusion varie dans l'espace). Aujourd'hui il semble plus pertinent
+    d'utiliser des méthodes explicites stabilisées qui parviennent à gérer la raideur moyenne comme les méthodes 
+    ROK2 et ROK4\cite{abdulle2002fourth}. Sans entrer dans les détails, la clé de ces méthodes consiste à prendre une méthode numérique explicite standard et lui ajouter des étages 
     de sorte à ce que la fonction d'amplification résultante soit la fonction d'amplification de la méthode standard multipliée par un polynôme minimal sur $\mathbb R^-$
     comme un polynôme de Tchebichev.
 
 \paragraph{Réaction}
-    Les phénomène de réaction sont en général bien adaptés aux méthodes implicites car ils sont locaux et extrêmement raides.
+    Les phénomènes de réaction sont en général bien adaptés aux méthodes implicites car ils sont locaux et extrêmement raides.
     En effet, les temps typiques d'une réaction chimique\footnote{
-    En réalité une réaction chimique aussi simple en apparence qu'un combustion $H_2/O_2$ fait intervenir une dizaine de composés et reactions intermédiaires, dont les temps typiques sont très faibles.)} sont de l'ordre de la nano-seconde.
+    En réalité une réaction chimique aussi simple en apparence qu'une combustion $H_2/O_2$ fait intervenir une dizaine de composés et réactions intermédiaires, dont les temps typiques sont très faibles.)} sont de l'ordre de la nano-seconde.
     %AFAIRE AJOUTER UNE JUSTIFICATION
     De fait, les réactions chimiques sont très difficiles à simuler par des méthodes explicites.
     En revanche les méthodes implicites sont très efficaces dans ce contexte. En effet l'inversion de l'opérateur implicite 
     peut être décomposé en plusieurs résolutions de petits systèmes ce qui est moins coûteux et parallélisable. Cela est permis grâce à la localité des réactions chimiques
-    (à chaque pas de temps les particules les particules au sein d'une cellules ne réagissent qu'avec les autres particules de la même cellule).
+    (à chaque pas de temps les particules au sein d'une cellule ne réagissent qu'avec les autres particules de la même cellule).
     En pratique cela signifie qu'il est possible de mettre en oeuvre une petite méthode implicite par cellule plutôt qu'une gargantuesque méthode globale; 
-    ce qui revient à inverser un opérateur de petite dimension en chaque cellule et ne pas d'inverser un énorme système.
+    ce qui revient à inverser un opérateur de petite dimension en chaque cellule et non inverser un énorme système.
 
 \subsubsection{Difficultés mathématiques intrinsèques}
-    La simulations des équations d'advections-réaction-diffusion se heurte à deux difficultés majeur, le couplage des trois opérateurs mentionnés précédemment
+    La simulations des équations d'advection-réaction-diffusion se heurte à deux difficultés majeures, le couplage des trois opérateurs mentionnés précédemment
     et le caractère multi-échelles des solutions.
 
     \paragraph{Première difficulté: le couplage des opérateurs}
@@ -63,12 +63,12 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
         En effet, lorsque l'on couple les trois opérateurs, il en résulte un unique opérateur qui doit être traité par une méthode numérique.
         C'est là que surgissent les difficultés: si la méthode est explicite (éventuellement stabilisée), la raideur de la réaction impose des pas de temps extrêmement restrictifs,
         à l'inverse si l'on choisit une méthode implicite, la non-localité de la diffusion demande l'inversion d'un système de taille déraisonnable. 
-        Cette approche naïve, monolithique, n'est donc pas adaptée. Il faut trouver d'autres stratégies de pour simuler ces équations d’advection-réaction-diffusion.
+        Cette approche naïve, monolithique, n'est donc pas adaptée. Il faut trouver d'autres stratégies pour simuler ces équations d’advection-réaction-diffusion.
 
     \paragraph{Seconde difficulté: le caractère multi-échelles des solutions}
-        Les solutions des solutions étudiées sont souvent multi-échelles, en temps et en espace. Cela signifie que certaines zones spatio-temporelles nécessitent
+        Les solutions étudiées sont souvent multi-échelles, en temps et en espace. Cela signifie que certaines zones spatio-temporelles nécessitent
         une finesse d'approximation élevée pour pouvoir reproduire fidèlement le comportement physique, alors qu'en d'autres zones une approximation
-        grossière est suffisante. Prenons l'exemple d'un incendie dans un local. Au début le foyer est très restreint et seul cette zone doit être maillée finement, 
+        grossière est suffisante. Prenons l'exemple d'un incendie dans un local. Au début le foyer est très restreint et seule cette zone doit être maillée finement, 
         car partout ailleurs \textit{il ne se passe rien}, petit à petit l'incendie se propage et la zone à mailler finement augmente. Un autre exemple de phénomène 
         multi-échelle serait une détonation, il faut mailler finement, au foyer de l'explosion et le front de l'onde de choc. Mais la zone non atteinte par l'explosion, 
         qui n'a pas encore reçu le choc, pourrait être maillée très grossièrement. 
