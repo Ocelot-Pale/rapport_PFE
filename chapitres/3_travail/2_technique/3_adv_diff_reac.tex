@@ -54,26 +54,27 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     ce qui revient à inverser un opérateur de petite dimension en chaque cellule et non inverser un énorme système.
 
 \subsubsection{Difficultés mathématiques intrinsèques}
-    La simulations des équations d'advection-réaction-diffusion se heurte à deux difficultés majeures, le couplage des trois opérateurs mentionnés précédemment
-    et le caractère multi-échelles des solutions.
+    La simulations des équations d'advection-réaction-diffusion se heurte à deux difficultés majeures, \textbf{le couplage des trois opérateurs} mentionnés précédemment
+    et \textbf{le caractère multi-échelles des solutions}.
 
     \paragraph{Première difficulté: le couplage des opérateurs}
-        Les développements précédents auront convaincu le lecteur que résoudre chaque phénomène individuellement, n'est pas insurmontable. 
-        Cependant, les résoudre tous en même temps, c'est à dire les coupler, est en pratique très difficile.
-        En effet, lorsque l'on couple les trois opérateurs, il en résulte un unique opérateur qui doit être traité par une méthode numérique.
+        Le développement précédent montre que résoudre chaque phénomène individuellement, n'est pas insurmontable. 
+        Toutefois, les résoudre tous en même temps, c'est à dire les coupler, est en pratique très difficile.
+        En effet, lorsque ces trois opérateurs sont couplés, il en résulte un unique opérateur qui doit être traité par une méthode numérique.
         C'est là que surgissent les difficultés: si la méthode est explicite (éventuellement stabilisée), la raideur de la réaction impose des pas de temps extrêmement restrictifs,
-        à l'inverse si l'on choisit une méthode implicite, la non-localité de la diffusion demande l'inversion d'un système de taille déraisonnable. 
-        Cette approche naïve, monolithique, n'est donc pas adaptée. Il faut trouver d'autres stratégies pour simuler ces équations d’advection-réaction-diffusion.
+        à l'inverse si la méthode est implicite, la non-localité de la diffusion demande l'inversion d'un système de taille déraisonnable. 
+        Cette approche naïve, monolithique, n'est donc pas adaptée. Il faut par conséquent, trouver d'autres stratégies.
 
     \paragraph{Seconde difficulté: le caractère multi-échelles des solutions}
-        Les solutions étudiées sont souvent multi-échelles, en temps et en espace. Cela signifie que certaines zones spatio-temporelles nécessitent
-        une finesse d'approximation élevée pour pouvoir reproduire fidèlement le comportement physique, alors qu'en d'autres zones une approximation
-        grossière est suffisante. Prenons l'exemple d'un incendie dans un local. Au début le foyer est très restreint et seule cette zone doit être maillée finement, 
-        car partout ailleurs \textit{il ne se passe rien}, petit à petit l'incendie se propage et la zone à mailler finement augmente. Un autre exemple de phénomène 
-        multi-échelle serait une détonation, il faut mailler finement, au foyer de l'explosion et le front de l'onde de choc. Mais la zone non atteinte par l'explosion, 
+        Les solutions étudiées sont souvent multi-échelles, en temps \underline{et} en espace. Cela signifie que certaines zones spatio-temporelles requièrent
+        une finesse d'approximation élevée pour pouvoir reproduire fidèlement le comportement physique, tandis qu'en d'autres zones une approximation
+        grossière est suffisante. Prenons l'exemple d'un incendie. Au début le foyer est très restreint et seule cette zone doit être maillée finement, 
+        car partout ailleurs \textit{il ne se passe rien}. Petit à petit l'incendie se propage et la zone à mailler finement augmente. Un autre exemple de phénomène 
+        multi-échelle est la détonation, il faut mailler finement, au foyer de l'explosion et le front de l'onde de choc. Mais la zone non atteinte par l'explosion, 
         qui n'a pas encore reçu le choc, pourrait être maillée très grossièrement. 
-        Ainsi si l'on maille naïvement, il est envisageable qu'à certains instants, 90\% du domaine soit maillé avec un pas d'espace 100 fois plus fin que nécessaire;
-        il y a alors une grande inefficacité\footnote{À cela s'ajoute le fait que ce problème augmente fortement avec la dimension.}.
+        Dans ces conditions, il est imaginable qu'un maillage naïf mène à ce qu'en certains instants, 90\% du domaine soit maillé avec un pas d'espace 100 fois plus fin que nécessaire,
+        or en trois dimension mailler 100 fois trop finement multiplie par un million le nombre de cellules.
+        Il y a alors une grande inefficacité computationnelle.
 
 
 \subsubsection{Les stratégies de simulation}
