@@ -10,44 +10,48 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     L'advection désigne le transport d'une quantité par un flot. L'opérateur d'advection le plus simple est l'opérateur
     de transport $c \frac{\partial}{\partial x}$:
     \begin{align}\frac{\partial u}{\partial t} = c \frac{\partial u}{\partial x}\end{align}
-    De manière générale un opérateur d’advection d'une quantité $u$ par un flot $\underline a$ s'écrit $\underline a \cdot \underline{\nabla} u$.
-    Par exemple dans les équations de Navier-Stokes, l'opérateur $\underline{v} \cdot \underline{\underline \nabla} \, \underline{v}$ représente 
-    la vitesse $\underline v$ qui est transportée par elle même. Une version simplifiée de ce phénomène est l'équation bien connue de Bürgers.\par 
+    De manière générale l'opérateur d’advection d'une quantité $u$ par un flot $\underline a$ s'écrit $\underline a \cdot \underline{\nabla} u$.
+    Par exemple dans les équations de Navier-Stokes, le terme $\underline{v} \cdot \underline{\underline \nabla} \, \underline{v}$ modélise 
+    la vitesse $\underline v$ transportée par elle même. Une version simplifiée de ce phénomène est l'équation bien connue de Bürgers.\par 
     Les opérateurs d'advections sont généralement à valeurs propres imaginaires\footnote{Par abus, s'il s'agit d'un opérateur non-linéaire on lui associera les valeurs propres de sa Jacobienne.}.
-    Ainsi ils sont peu raides mais résonnants. Les méthodes explicites sont généralement les plus adaptées pour les traiter.
+    Ainsi ils sont peu raides mais résonnants. Les méthodes explicites sont souvent les plus adaptées pour les traiter.
     %       AFAIRE ---> trouver une référence pour justifier que les opérateurs d'advections sont à valeurs propres imaginaires.
 
 \paragraph{Diffusion}
     La diffusion désigne l'\textit{éparpillement} de particules au sein d'un milieu fluide
     \footnote{En théorie de l'information cela décrit la tendance de l'entropie augmenter et l'information à se moyenner, se flouter.}.
-    Ce phénomène est la limite macroscopique du déplacement microscopiques 
-    des particules à cause de l'agitation thermique. L'opérateur de diffusion le plus classique est celui de l'équation de la chaleur:
+    Ce phénomène est la limite macroscopique du déplacement microscopique
+    des particules dû à l'agitation thermique. L'opérateur de diffusion le plus classique est celui de l'équation de la chaleur:
     \begin{align} \frac{\partial u}{\partial t} = D \Delta u.\end{align}
     Le spectre de cet opérateur est $\mathbb R^-$, il est donc infiniment raide. Lorsqu'il est discrétisé seul une partie de sa raideur est captée,
     en pratique la raideur de l'opérateur augmente de manière quadratique avec la finesse de la discrétisation spatiale.\par
     %       AFAIRE ---> trouver une référence (ou faire la démo) pour le spectre.
-    Cet opérateur est donc moyennement raide. Ainsi on pourrait penser qu'une méthode implicite est adéquate. Cependant ce n'est généralement pas le cas.
-    En effet le coefficient de diffusion est généralement fonction de la température, et donc l’opérateur $D(T) \times \Delta(\cdot)$ varie génialement dans le temps et l'espace. 
-    Ainsi il faut inverser à chaque itération l'opérateur implicite, et comme c'est un opérateur non local
-    \footnote{Si l'opérateur de diffusion était local on pourrait résoudre plusieurs petit systèmes, potentiellement en parallèle ce qui est bien moins coûteux qu'inverser 
-    un grand système. Pour se convaincre, inverser un matrice pleine de taille $10^6$ coûte au moins $10^{18}$ opérations, alors qu'inverser 100 systèmes de taille $10^4$
-    coûte $100 \times 10^{12} = 10^{14}$ soit dix mille fois moins, et si ces résolution étaient parallélisé ce serait un million de fois moins.},
+    Cet opérateur est donc moyennement raide (comparé aux opérateurs de réaction). Ainsi on pourrait penser qu'une méthode implicite est adéquate. Cependant ce n'est pas toujours le cas.
+    En effet le coefficient de diffusion est généralement fonction de la température, et donc l’opérateur $D(T) \Delta(\cdot)$ varie souvent en temps et en espace. 
+    Ainsi il faut inverser à chaque itération l'opérateur implicite. Cette lourde tâche est rendue plus ardue par le fait que l'opérateur de diffusion couple tout l'espace, c'est à dire qu'il est non local.
+    \footnote{Si l'opérateur de diffusion eu été local il aurait pu être inversé en résolvant plusieurs petit systèmes et ce, potentiellement en parallèle.
+    Cela serait bien moins coûteux qu'inverser un grand système. 
+    Par exemple inverser un matrice pleine de taille $10^6$ demande environ $10^{18}$ opérations, alors qu'inverser 100 systèmes de taille $10^4$
+    n'en demande $100 \times 10^{12} = 10^{14}$ soit dix mille fois moins. Si ces résolution sont parallélisé l'accélération est d'un million. Malheureusement comme
+    l'opérateur de diffusion couple tout l'espace ce n'est pas possible en dimension deux ou trois.},
     il faut inverser une matrice de taille $d >> 1$ dont la structure
-    peut être très hétérogène.
-    (car le coefficient de diffusion dépend de $T$ et du milieu, donc \textit{in fine} de $\underline x$). Aujourd'hui il est d'usage d'utiliser 
-    des méthodes explicites stabilisées qui parviennent à gérer la raideur moyenne\footnote{Nous reviendrons sur ce qualificatif au prochain paragraphe.} comme les méthodes 
-    ROK2 et ROK4\cite{abdulle2002fourth}.
+    peut être très hétérogène (car le coefficient de diffusion varie dans l'espace). Aujourd'hui il est semble plus pertinent
+    des méthodes explicites stabilisées qui parviennent à gérer la raideur moyenne comme les méthodes 
+    ROK2 et ROK4\cite{abdulle2002fourth}. Sans entrer dans les détails, le clé de ces méthodes constituer une méthode numérique explicite standard et ensuite d'ajouter des étages 
+    de sorte à ce que la fonction d'amplification résultante soit la fonction d'amplification de la méthode standard multipliée par un polynôme minimal sur $\mathbb R^-$
+    comme un polynôme de Tchebichev.
 
 \paragraph{Réaction}
-    Les phénomène sont en général bien adaptés aux méthodes implicites car extrêmement raides et locaux.
-    En effet,les temps typiques d'une réaction chimique\footnote{
-    En réalité une réaction chimique simple (une simple combustion $H_2/O_2$ fait intervenir une dizaine de composés et reactions intermédiaires, dont les temps typiques sont très faibles.)} sont de l'ordre de la nano-seconde.
+    Les phénomène de réaction sont en général bien adaptés aux méthodes implicites car ils sont locaux et extrêmement raides.
+    En effet, les temps typiques d'une réaction chimique\footnote{
+    En réalité une réaction chimique aussi simple en apparence qu'un combustion $H_2/O_2$ fait intervenir une dizaine de composés et reactions intermédiaires, dont les temps typiques sont très faibles.)} sont de l'ordre de la nano-seconde.
     %AFAIRE AJOUTER UNE JUSTIFICATION
     De fait, les réactions chimiques sont très difficiles à simuler par des méthodes explicites.
-    Et les méthodes implicites ne sont pas très chères dans ce contexte, en effet comme les réactions sont locales 
-    (à chaque pas de temps les particules les particules au sein d'une cellules ne réagissent qu'avec les autres particules de la même cellule)
-    les méthodes explicites peuvent se paralléliser. En d'autres termes il est possible de mettre en oeuvre une méthode implicite par cellule,
-    ce qui revient à inverser un opérateur de petite dimension en chaque cellule, et il n'est pas nécessaire d'inverser un énorme système.
+    En revanche les méthodes implicites sont très efficaces dans ce contexte. En effet l'inversion de l'opérateur implicite 
+    peut être décomposé en plusieurs résolutions de petits systèmes ce qui est moins coûteux et parallélisable. Cela est permis grâce à la localité des réactions chimiques
+    (à chaque pas de temps les particules les particules au sein d'une cellules ne réagissent qu'avec les autres particules de la même cellule).
+    En pratique cela signifie qu'il est possible de mettre en oeuvre une petite méthode implicite par cellule plutôt qu'une gargantuesque méthode globale; 
+    ce qui revient à inverser un opérateur de petite dimension en chaque cellule et ne pas d'inverser un énorme système.
 
 \subsubsection{Difficultés mathématiques intrinsèques}
     La simulations des équations d'advections-réaction-diffusion se heurte à deux difficultés majeur, le couplage des trois opérateurs mentionnés précédemment
