@@ -166,8 +166,8 @@ class LaTeXWordTracker:
         
         # Graphique 1: Évolution temporelle
         ax1 = axes[0, 0]
-        ax1.plot(df['date'], df['words'], 'o-', linewidth=2.5, markersize=5, 
-                color=magma_colors[4], alpha=0.9)
+        ax1.plot(df['date'], df['words'], '-+', linewidth=2.5, markersize=1,
+                color=magma_colors[1], alpha=0.9)
         ax1.set_title('Nombre de mots dans le temps')
         ax1.set_xlabel('Date')
         ax1.set_ylabel('Nombre de mots')
@@ -187,7 +187,7 @@ class LaTeXWordTracker:
             daily_stats.columns = ['date_only', 'words_start', 'words_end', 'full_date']
             daily_stats['daily_change'] = daily_stats['words_end'] - daily_stats['words_start']
             
-            positive_days = daily_stats[daily_stats['daily_change'] > 0]
+            positive_days = daily_stats[daily_stats['daily_change'] != 0]
             negative_days = daily_stats[daily_stats['daily_change'] < 0]
             zero_days = daily_stats[daily_stats['daily_change'] == 0]
             
