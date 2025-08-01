@@ -1,7 +1,7 @@
-Les d'approximation d'EDPs d'évolution comportent souvent une étape nécessitant la résolution d'une équation différentielle ordinaire (EDO
+Les techniques d'approximation d'EDPs d'évolution comportent souvent une étape nécessitant la résolution d'une équation différentielle ordinaire (EDO
 \footnote{On utilisera aussi le terme \textit{système dynamique}, même si en toute rigueur ce concept est un peu plus large.}),
 c'est à dire une équation différentielle ne faisant intervenir qu'une seule variable différenciée (ici le temps). Nous commençons donc cette section par rappeler 
-quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins nous nous restreignons au EDO du premier ordre.}.\par
+quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins nous nous restreignons aux EDOs du premier ordre.}.\par
 
 \begin{definition}[Équation différentielle ordinaire]
     Une équation différentielle ordinaire est une équation de la forme :
@@ -12,9 +12,9 @@ quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins n
 \end{definition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    SCHEMA EXPLICITES ET IMPLICITES
 \subsubsection{Schémas explicites et implcites.}
-L'approximation des EDO se fait grâce à des schéma numériques; formellement un schéma numérique est un élément de $(\mathbb{R}^d)^\mathbb{N}$. 
-Ceux-ci se divisent en deux catégories, les schéma explicites et les schéma implicite
-Seuls les schéma à un pas sont ici présentés et non pas les schémas multi-pas. Ce choix est fait en raison de la barrière de Dhalquist
+L'approximation des EDO se fait grâce à des schémas numériques; formellement un schéma numérique est un élément de $(\mathbb{R}^d)^\mathbb{N}$. 
+Ceux-ci se divisent en deux catégories, les schémas explicites et les schémas implicites
+Seuls les schémas à un pas sont ici présentés et non pas les schémas multi-pas. Ce choix est fait en raison de la barrière de Dahlquist
 \footnote{\url{https://fr.wikipedia.org/wiki/Methode_lineaire_a_pas_multiples\#Premiere_et_deuxieme_limites_de_Dahlquist}}.
 Donné un pas de discrétisation temporel $\Delta t$, on note $u^n$ l'approximation de la solution d'une EDO au pas de temps $n$, c'est à dire au temps $t^n = n \Delta t$.
 L'objectif est d'avoir $u^n \approx u(t=n\Delta t)$.
@@ -27,9 +27,9 @@ L'objectif est d'avoir $u^n \approx u(t=n\Delta t)$.
 \end{definition}
 
 \begin{definition}[Schéma implicite]
-    Un schéma numérique est dit implicite si le pas de temps $n+1$ est obtenu au moins en partie grace au pas de temps $n+1$, souvent écrit comme:
+    Un schéma numérique est dit implicite si le pas de temps $n+1$ est obtenu au moins en partie grâce au pas de temps $n+1$, souvent écrit comme:
     \begin{align}
-        u^{n+1} = u^n + + f(u^{n+1} ,\Delta t ).
+        u^{n+1} = u^n + f(u^{n+1} ,\Delta t ).
     \end{align}
     Ainsi, une itération d'un schéma implicite nécessite l'inversion d'un système linéaire ou non linéaire. 
 \end{definition}
@@ -60,13 +60,13 @@ Les schémas explicites sont généralement plus prompts aux instabilités que l
     \label{fig:stabilite_schema}
 \end{figure}
 \begin{definition}[Stabilité d'un schéma numérique]
-    Un schéma numérique $\bigl( u^n \bigr)_{n \in \mathbb{R}^d} \in\bigl(\mathbb{R}^d \bigr)^{\mathbb{N}}$ est stable si et seulement si :
+    Un schéma numérique $\bigl( u^n \bigr)_{n \in \mathbb{N}} \in\bigl(\mathbb{R}^d \bigr)^{\mathbb{N}}$ est stable si et seulement si :
     \begin{align}
         \Vert u^{n+1} \Vert \leq \Vert u^n \Vert.
     \end{align}
     Cette condition est souvent vérifiée à la condition que le pas de discrétisation $\Delta t$ n'excède pas un seuil de stabilité $\Delta_0$ fonction de l'ODE et le schéma d'intégration.
 \end{definition}
-La stabilité d'une méthode d'intégration d'EDO dépend entre autre de l'opérateur intervenant dans l'équation (le $A$ dans l'équation \ref{def:def_ODE}).
+La stabilité d'une méthode d'intégration d'EDO dépend entre autres de l'opérateur intervenant dans l'équation (le $A$ dans l'équation \ref{def:def_ODE}).
 Un opérateur tendant à poser des problèmes de stabilité est dit raide.
 \begin{definition}[Problème raide]
     Un système dynamique, est dit raide si les méthodes explicites ne sont pas adaptées à sa résolution.
@@ -75,15 +75,15 @@ Un opérateur tendant à poser des problèmes de stabilité est dit raide.
     \frac{\text d u}{\text{d}t} = A(u,t), \quad u(t) \in \mathbb{R}^d, \forall t\geq 0.
     \end{align}
     est dit raide si la jacobienne de $A$, $J_A$ possède des valeurs propres négatives de grande amplitudes devant les autres valeurs propres.
-    Si tel est le, cas plusieurs relaxation sont mises en jeu mais chacune avec des temps caractéristiques d'ordres de grandeur différents.
+    Si tel est le cas, plusieurs relaxations sont mises en jeu mais chacune avec des temps caractéristiques d'ordres de grandeur différents.
     Pour les méthodes explicites, si le pas de temps n'est pas assez petit, la relaxation rapide est mal résolue et
-    impose un gradient fort trop longtemps (le gradient aurait du s'atténuer mais à une échelle rapide pour être captée pour le pas de temps) ce qui 
+    impose un gradient fort trop longtemps (le gradient devrait s'atténuer, mais à une échelle trop rapide pour être captée pour le pas de temps du schéma) ce qui 
     déstabilise la méthode.
 \end{definition}
 En simplifiant, si un opérateur est raide, il impose une condition de stabilité très restrictive aux méthodes explicites et 
 force à choisir des méthodes implicites\footnote{La réalité est plus nuancée, nous le verrons.}.
-\begin{exemple}[Équation de Dhalquist]
-    Pour saisir de manière plus intuitive le concept de raideur, prenons le cas de l'équation de Dhalquist
+\begin{exemple}[Équation de Dahlquist]
+    Pour saisir de manière plus intuitive le concept de raideur, prenons le cas de l'équation de Dahlquist
     \footnote{C'est le cas le plus simple d'une valeur propre négative}:
     \begin{align}
         \frac{\text d u }{\text d t} &= - \lambda u,\quad \lambda > 0\\\notag
@@ -94,12 +94,12 @@ force à choisir des méthodes implicites\footnote{La réalité est plus nuancé
     Au delà, $u(t>\frac{10}{\lambda}) = o(u_0)$, la dynamique est terminée.
     Ainsi, si l'on souhaite simuler le comportement d'un tel système, il faut choisir des pas de temps petits devant $\vert \lambda \vert^{-1}$.
     Lorsque $\lambda$ est de grande amplitude cela devient très contraignant... Si l'on souhaite utiliser des méthodes explicites, c'est encore pire car la raideur du système 
-    n'est plus un simple contrainte de précision mais de stabilité. En effet si l'on cherche à approximer le système par un schéma d'Euler explicite, alors : 
+    n'est plus une simple contrainte de précision mais de stabilité. En effet si l'on cherche à approximer le système par un schéma d'Euler explicite, alors : 
     $U^{n+1} = U^n (1 - \lambda \Delta t)$ alors la contrainte de stabilité est $\Delta t \, \lambda < 1/2$ ce qui est contraignant si $\lambda$ est grand. 
-    Si $\lambda = 10^5$ alors il faut avoir $\Delta t \approx 10^{-5}$ donc pour simuler le système entre $t=0$ et $t=1$ il faut cent-milles points !
+    Si $\lambda = 10^5$ alors il faut avoir $\Delta t \approx 10^{-5}$ donc pour simuler le système entre $t=0$ et $t=1$ il faut cent mille points !
     A l'inverse si l'on choisit un schéma d'Euler implicite: $u^{n+1} = u^n - \lambda \Delta t u^{n+1}$, alors la condition de stabilité devient : 
     $\Vert(1+\lambda \Delta t)^{-1}\Vert \leq 1$ ce qui est toujours vrai, quelque soit $- \lambda \in \mathbb{R}^-$, la raideur du système n'est pas un problème pour la méthode implicite.
     On comprend mieux la définition précédente \textit{Un système dynamique, est dit raide si les méthodes explicites ne sont pas adaptées à sa résolution.}
 \end{exemple}
-Il existe plusieurs type de stabilité comme la A-stabilité (méthode stable indépendamment de la raideur du problème), la L-stabilité (schéma amortissant les hautes fréquences),
-par soucis de concision nous n'irons pas plus loins mais ces notions sont développées par exemple dans \cite{HairerAndWanner1}.
+Il existe différents types de stabilité comme la A-stabilité (méthode stable indépendamment de la raideur du problème), la L-stabilité (schéma amortissant les hautes fréquences),
+par souci de concision cette partie s'achève ici mais ces notions sont développées par exemple dans \cite{HairerAndWanner1}.
