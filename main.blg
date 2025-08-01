@@ -1,9 +1,0 @@
-[0] Config.pm:307> INFO - This is Biber 2.19
-[0] Config.pm:310> INFO - Logfile is 'main.blg'
-[31] biber-darwin:340> INFO - === Fri Aug  1, 2025, 07:53:38
-[38] Biber.pm:419> INFO - Reading 'main.bcf'
-[76] Biber.pm:979> INFO - Found 16 citekeys in bib section 0
-[82] Biber.pm:4419> INFO - Processing section 0
-[87] Biber.pm:4610> INFO - Looking for bibtex file 'bibliographie/bibliographie.bib' for section 0
-[88] bibtex.pm:1713> INFO - LaTeX decoding ...
-[95] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliographie/bibliographie.bib'
