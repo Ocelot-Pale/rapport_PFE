@@ -109,37 +109,48 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
         % AFAIRE : ajouter une ref pour les adaptations basées sur les gradients, une justification sur le caractère moins facile a analyser et éventuellement d'autres méthodes de raffinement.
 
     \paragraph{Les techniques d'intégration}
-        Comme expliqué précédemment, la simulation de chaque opérateur est faisable individuellement mais très difficile conjointement.
-        Les stratégies pour intégrer les trois opérateurs en même temps, reposent donc sur le fait de les intégrer... séparément.
+        Comme expliqué précédemment, la simulation phénomène intervenant dans les problèmes d'advection-diffusion-réaction est aisée individuellement mais très difficile conjointement.
+        Des stratégies pour intégrer les trois opérateurs en même temps sont donc nécessaires. Elles reposent en réalité sur le fait d'intégrer chaque opérateur... séparément (ou presque).
 
         \subparagraph{La séparation d'opérateurs}
-            La séparation d'opérateurs (en Anglais: \textit{splitting}) consiste à intégrer successivement chaque opérateur.
+            La séparation d'opérateurs (en Anglais: \textit{operator splitting}) consiste à intégrer successivement chaque opérateur.
             L'intégration d'un opérateur $A$, dans une équation comme :
             \begin{align}\frac{\partial u}{\partial t} = Au.\end{align}
-            s'écrit avec la notion d'exponentielle de matrice\footnote{Ou de manière plus rigoureuse avec la notion de semi-groupe.}:
-            \begin{align}u(t) = e^{tA}u_0.\end{align}
-            Ainsi si l'on a deux opérateurs:
+            Peut s'écrire formellement avec la notion d'exponentielle de matrice\footnote{Ou de manière plus rigoureuse et plus générale avec la notion de semi-groupe.}:
+            \begin{align}u(\Delta t) = e^{\Delta tA}u_0.\end{align}
+            Si deux opérateurs $A$ et $B$ interviennent dans l'EDP cela donne:
             \begin{align}\frac{\partial u}{\partial t} = (A+B)u.\end{align}
-            \begin{align}u(t) = e^{t(A+B)}u_0 \approx e^{t(B)}e^{t(A)}u_0.\end{align}
-            Ce n'est qu'une approximation car $e^{t(A+B)} = e^{t(B)}e^{t(A)}$ n'est vrai que si les opérateurs $A$ et $B$ commutent.
-            Cependant c'est vrai à l'ordre $O(t)$. Cela correspond au splitting de Lie
-            \footnote{Un autre schéma : $e^{t/2(A+B)} = e^{t(B)}e^{t(A)} e^{t/2(B)}$, le splitting de Strang existe et est précis à l'ordre 2 en temps.}
-            Cette méthode permet de traiter les opérateurs l'un après l'autre, indépendamment les uns des autres, avec une méthode numérique qui lui est adaptée.
-            Cela rend la méthode très simple de mise en oeuvre. En revanche, il est difficile de monter au-delà de l'ordre deux en temps.\par
+            \begin{align}u(\Delta t) = e^{\Delta t (A+B)}u_0 \end{align}
+            Il est alors tentant d'écrire:
+            \begin{align}u(\Delta t)\approx e^{\Delta t(B)}e^{\Delta t(A)}u_0.\end{align}
+            Ce n'est Malheureusement qu'une approximation car $e^{\Delta t(A+B)} = e^{\Delta t(B)}e^{\Delta t(A)}$ n'est vrai que si les opérateurs $A$ et $B$ commutent.
+            Cependant c'est vrai à l'ordre $O(\Delta t)$. 
+            Il est donc possible de simuler le problème en séparant les opérateurs de la manière suivante: 
+            \begin{align}
+                \text{Étape 1: simuler }&v=e^{\Delta t A}u^n,\\
+                \text{Étape 2: simuler }&u^{n+1}=e^{\Delta t B}v,\\
+            \end{align}
+            Cet algorithme correspond au schéma de splitting de Lie, introduisant un erreur de l'ordre $\Delta t$. 
+            Il existe un autre schéma: le splitting de Strang qui est précis à l'ordre $\Delta t^2$ grâce au développement $e^{\Delta t (A+B)} = e^{\Delta t B}e^{\Delta t A} e^{\Delta t B}$.
+            Ces méthodes de séparation d'opérateurs, très simple à mise en oeuvre, permettent de traiter les opérateurs indépendamment les uns à la suite des autres; chacun avec une méthode numérique adaptée.
+            Malheureusement elles sont aveugles certains couplages entre les différents et il est difficile de monter au-delà de l'ordre deux en temps.\par
+            % AFAIRE --> quels sont les éventuels phénomènes de couplages ? En quoi c'est un problème si l'ordre est formellement bon ?
             Une étude extensive de l'usage du splitting, pour les équations d'advection-diffusion-réaction couplées à la multiresoltion adaptative 
             a été réalisée dans la thèse de Max Duarte, préparée à Centrale Paris sous la direction de Marc Massot \cite{duart2011}.
+            Cela a montré que les techniques d'opérateurs sont très efficaces mais qu'en pratique, une perte de l'ordre formel peut avoir lieu.
 
         \subparagraph{Les méthodes ImEx}
-            Nous détaillerons ces méthode en \ref{par:ImEx_presentation}. Pour l'heure le lecteur doit savoir que ces méthodes ImEx
-            \footnote{Les méthodes évoquées ici sont les méthodes ImEx Runge et Kutta (RK-ImEx). Il existe également des méthodes ImEx couplées espace-temps\cite{rebou2024}.}  \cite{pareschi2010implicitexplicitrungekuttaschemesapplications} \cite{KENNEDY2003139}
-            sont très proches de la séparation d'opérateurs dans leurs implémentation, seulement elles apportent plus de cohérence mathématiques
-            et facilite la montée en ordre. De manière général, une méthode Runge et Kutta et une technique d'intégration en temps 
-            qui se décompose en plusieurs étapes (aussi appelés étages).
-            Cette succession d'étages engendre différentes approximations et une combinaison adéquate des ces approximations assure la montée en ordre de la méthode.
-            Dans les méthodes RK-ImEx à chaque étage, l'approximation obtenu en ajoutant une contribution explicite d'un des opérateur (celui pour lequel une méthode explicite est adaptée, par exemple d'advection)
-            et une contribution implicite de l'autre opérateur (celui pour lequel un méthode implicite est adaptée, par exemple la diffusion).
-            Ainsi, un traitement différent est appliqué à chaque opérateur tout en conservant une méthode avec une cohésion globale\footnote{Cependant dans la méthode de splitting,
-            nous avions le luxe de choisir chaque méthode de résolution indépendamment des autres, ici ce n'est plus le cas il fait respecter des relations d'ordre,
+            Ces méthodes sont détaillées en \ref{par:ImEx_presentation}. Ces méthodes ImEx
+            \footnote{Les méthodes présentées ici sont les méthodes ImEx Runge et Kutta (RK-ImEx). Il existe également des méthodes ImEx couplées espace-temps\cite{rebou2024}.}  \cite{pareschi2010implicitexplicitrungekuttaschemesapplications} \cite{KENNEDY2003139}
+            sont très proches de la séparation d'opérateurs lors l'implémentation. Toutefois, elles apportent plus de cohérence mathématique
+            et facilitent la montée en ordre. 
+            Une méthode Runge et Kutta est une technique d'intégration en temps dont chaque itération se décompose en plusieurs étapes (aussi appelés étages).
+            Chaque étage engendre une nouvelle approximation, puis en fin d'itération une combinaison linéaire des ces approximations intermédiaires donne la solution au pas de temps suivant.
+            Ces méthodes permettent de monter en ordre efficacement.
+            Dans les méthodes Runge et Kutta ImEx à chaque étage, l'approximation associée est obtenue en ajoutant d'une part contributions explicites des opérateurs pour lequel les méthodes explicites sont adaptées,
+            et d'autre part des contributions implicites des opérateurs pour lesquels les méthodes implicites sont requises.
+            Ainsi, un traitement différent est appliqué à chaque opérateur tout en conservant une méthode globalement cohérente\footnote{Cependant dans la méthode de splitting,
+            offrait le luxe de choisir chaque méthode de résolution indépendamment des autres, ici ce n'est plus le cas il fait respecter des relations d'ordre,
             plus de cohésion mais plus de contrainte.}.
             % AFAIRE AJOUTER UN LIEN VERS LE CHAPITRE DÉDIÉ
             % AFAIRE SE DEMANDER SI POUR U? OPÉRATEUR LINÉAIRE RKImEx ET SPLITTING C EST PAREIL MAIS SI LE RKImEx NE SERAIT PAS PLUS PERTINENT EN NON LINÉAIRE.
