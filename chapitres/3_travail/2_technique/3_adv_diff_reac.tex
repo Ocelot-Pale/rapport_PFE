@@ -28,7 +28,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
     %       AFAIRE ---> trouver une référence (ou faire la démo) pour le spectre.
     Cet opérateur est donc moyennement raide (comparé aux opérateurs de réaction). Ainsi on pourrait penser qu'une méthode implicite est adéquate. Cependant ce n'est pas toujours le cas.
     En effet le coefficient de diffusion est généralement fonction de la température, et donc l’opérateur $D(T) \Delta(\cdot)$ varie souvent en temps et en espace. 
-    Ainsi il faut inverser à chaque itération l'opérateur implicite. Cette lourde tâche est rendue plus ardue par le fait que l'opérateur de diffusion couple tout l'espace, c'est à dire qu'il est non local.
+    Ainsi il faut inverser à chaque itération l'opérateur implicite. Cette lourde tâche est rendue plus ardue par le fait que l'opérateur de diffusion couple tout l'espace, c'est-à-dire qu'il est non local.
     \footnote{Si l'opérateur de diffusion eût été local il aurait pu être inversé en résolvant plusieurs petits systèmes et ce, potentiellement en parallèle.
     Cela serait bien moins coûteux qu'inverser un grand système. 
     Par exemple inverser un matrice pleine de taille $10^6$ demande environ $10^{18}$ opérations, alors qu'inverser 100 systèmes de taille $10^4$
@@ -59,7 +59,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
 
     \paragraph{Première difficulté: le couplage des opérateurs}
         Le développement précédent montre que résoudre chaque phénomène individuellement, n'est pas insurmontable. 
-        Toutefois, les résoudre tous en même temps, c'est à dire les coupler, est en pratique très difficile.
+        Toutefois, les résoudre tous en même temps, c'est-à-dire les coupler, est en pratique très difficile.
         En effet, lorsque ces trois opérateurs sont couplés, il en résulte un unique opérateur qui doit être traité par une méthode numérique.
         C'est là que surgissent les difficultés: si la méthode est explicite (éventuellement stabilisée), la raideur de la réaction impose des pas de temps extrêmement restrictifs,
         à l'inverse si la méthode est implicite, la non-localité de la diffusion demande l'inversion d'un système de taille déraisonnable. 
@@ -78,31 +78,32 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
 
 
 \subsubsection{Les stratégies de simulation}
-    Pour surmonter ces difficultés, des stratégies d'adaptation de maillage et d'intégration en temps spécifiques doivent être utilisées de concert. 
+    Pour surmonter ces difficultés, il est d'usage d'utiliser de concert des stratégies d'adaptation de maillage et d'intégration en temps spécifiques. 
     \paragraph{L'adaptation de maillage}
-    Pour prendre avantage du caractère multi-échelle des solutions étudiées, il est courant de procéder à de l'adaptation de maillage.
-    C'est à dire mailler avec une finesse différentes chaque zone du domaine et être en mesure de faire évoluer ce maillage de concorde avec l'évolution du problème dans le temps.
-    La méthode d'adaption de maillage sur lequel nous nous concentrons est la multirésolution-adaptative par transformée d'ondelettes introduite par Ami Harten dans les années 1990 \cite{harten1994}.
-    Cette méthode est très étudiée par l'équipe du CMAP et a donnée lieu au développement du logiciel Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}.
+    Pour tirer parti du caractère multi-échelle des solutions, il est courant de recourir à des méthodes d'adaptation de maillage.
+    C'est-à-dire d'employer une résolution variable pour la grille de calcul selon les différentes zones du domaine. 
+    L'adaptation doit se mettre à jour au fil des itérations pour suivre la dynamique de la solution car la répartition de la complexité physique évolue tout au long de la simulation.
+    La méthode d'adaptation de maillage sur laquelle le stage se concentre est la multirésolution-adaptative par transformée d'ondelettes introduite par Ami Harten dans les années 1990 \cite{harten1994}.
+    Cette méthode est très étudiée par l'équipe du CMAP et a donné lieu au développement du logiciel Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}.
     \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{media/3_/3_/exemple_compression_samurai.png}
-    \caption{Exemple de maillage adapté par multiresoltion adaptative grâce au logiciel \href{https://github.com/hpc-maths/samurai}{Samurai}.}
+    \caption{Exemple de maillage adapté par multirésolution adaptative grâce au logiciel \href{https://github.com/hpc-maths/samurai}{Samurai}.}
     \label{fig:samurai}
     \end{figure}
 
         \subparagraph{La multi-résolution adaptative}
-        La multiresoltion adaptative se base sur une compression de la solution par transformée d'ondelette\footnote{C'est même procédé qui est à l'oeuvre dans la compression d'image \texttt{jpg}.}.
-        Les détails mathématiques seront données plus tard et s’appuieront notamment sur \cite{postePoly}. Pour l'heure le lecteur doit simplement comprendre que la compression se fait de la manière suivante:
-        une transformée en ondelette permet de représenter la solution sur différentes échelle d'espace\footnote{Par exemple les échelles $\Delta x, \Delta x/2,\Delta x/4,\dots, \Delta x/2^n$}. 
-        Cela permet de quantifier l'information contenue à en chaque échelle d'espace. Enfin la compression consiste à ignorer les échelles ne comprenant pas assez d'information
-        par rapport à un seuil $\varepsilon$ fixé par l'utilisateur.
+        La multirésolution adaptative se base sur une compression de la solution par transformée d'ondelettes\footnote{C'est le même procédé qui est à l'oeuvre dans la compression d'image \texttt{jpg}.}.
+        Les détails mathématiques sont donnés plus tard et s'appuient notamment sur \cite{postePoly} mais pour résumer, la compression se fait de la manière suivante:
+        une transformée multi-échelle sur une base d'ondelettes représente la solution sur différentes échelles d'espace\footnote{Par exemple les échelles $\Delta x, \Delta x/2,\Delta x/4,\dots, \Delta x/2^n$.}. 
+        Cela quantifie l'information portée par chaque niveau de résolution. Enfin la compression consiste à ignorer les échelles comprenant moins d'information
+        qu'un seuil de compression $\varepsilon$ fixé par l'utilisateur.
 
         \subparagraph{Autres méthodes}
-        Il existe d'autre stratégies pour raffiner le maillage autour des zones sensibles que la transformée en ondelette. 
-        La plus classique est une adaptation basée sur les gradients. Si les gradients sont élevés c'est que la solution est complexe,
-        et donc un maillage fin est nécessaire pour la représenter fidèlement. Cette approche est simple à mettre en oeuvre et part de la même heuristique 
-        que la multiresoltion adaptative, cependant elle est moins systématique (pas de quantification de l'information perdue) et plus difficile à analyser. 
+        Il existe d'autres stratégies pour raffiner la grille de calcul que la multirésolution adaptative.
+        La plus classique est l'adaptation basée sur la magnitude des gradients de la solution. Une grande magnitude des gradients révèle une complexité locale de la solution,
+        appelant une fine résolution du maillage. Cette approche est simple à mettre en oeuvre et part de la même heuristique 
+        que la multirésolution adaptative (détecter où se trouve la complexité de la solution), cependant elle est moins systématique (pas de quantification intrinsèque de l'information perdue) et plus difficile à analyser. 
         Elle est cependant utilisée dans des logiciels industriels comme Ansys 
         \footnote{\href{https://w.ww.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}{https://www.ansys.com/fr-fr/blog/how-to-accelerate-ansys-fluent-simulations-with-adaptive-meshing}}.
         % AFAIRE : ajouter une ref pour les adaptations basées sur les gradients, une justification sur le caractère moins facile a analyser et éventuellement d'autres méthodes de raffinement.
