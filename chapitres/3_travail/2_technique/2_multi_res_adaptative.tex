@@ -22,33 +22,58 @@ du logiciel Samurai.
 Enfin l'impact de la multi-résolution sur la qualité des solutions numériques est abordé. 
 
 \subsubsection{La transformée multi-échelle}
-    Cette partie se veut avant tout introductive, elle omets ou simplifie certaines notions; plus de détails sont donnés en \cite{postePoly}.
+    Cette partie présente la transformée multi-échelle discrète. La transformée multi-échelle continue en simulation numérique,
+    c'est bien sûr la version discrète qui est utile.
+    Elle se veut avant tout introductive et omets ou simplifie certaines notions; plus de détails sont donnés en \cite{postePoly}.
 
     \paragraph{Définition mathématique}
         Les explications sont développées en dimensions un à des fins pédagogiques, la plupart des concepts s'entendent naturellement aux dimensions supérieures. 
-        La notion d'ondelette se définit de la manière suivante:
-        \begin{definition}
-            Une ondelette est une fonction $\Phi \in L^2(\mathbb R)$ à support compact de moyenne nulle.
-            Il faut en plus que la famille $\Bigl( \Phi(t/s - \tau ) \bigr)_{ (\tau,s)\in \mathbb{R}^2 }$ forme une base de $L^2(\mathbb{R})$
+        De plus, la discrétisation de l'espace se fait selon une grille dyadique, d'autre choix pourraient être fait mais c'est un choix simple, naturel et standard.
+        Il faut détailler cette notion.
+        \begin{definition}[Grille dyadique]
+            Une grille dyadique ou discrétisation dyadique d'un intervalle $I \subset \mathbb R$ est une série de partitions de $I$ indexées 
+            par des entiers $j \in J \subset \mathbb N^*$.
+            La discrétisation de niveau $j$ correspond à une partitions de $I$ en $2^j$ intervalles (voir fig. \ref{fig:schema_sdyadique}). Ainsi à chaque changement de niveau, du niveau $j$ vers le niveau $j+1$,
+            la résolution de la discrétisation est doublée. Les cases de cette partition dyadique sont indexées par deux entiers: $j$ le niveau de résolution de la grille
+            et $k$ l'index de la case au sein de ce niveau. En particulier les cases $2k$ et $2k+1$ du niveau $j+1$ correspondent à la case $k$ du niveau $j$.
         \end{definition}
-        Alors la transformée en ondelette peut être définie\footnote{}:
-        \begin{definition}
-            Données $f \in L^2(\mathbb R)$, la transformée multi-échelle $g$ de $f$ sur une ondelette de base $\Phi$ se définie comme:
+        \input{media/3_/2_/schema_dyadique.tex}
+        Dans ce qui suit il est supposé sans perte de généralité que la discrétisation se fait sur l'intervalle $[0,1]$,
+        ainsi le niveau $j$ correspond à des cellules de tailles $1/{2^j}$ et la cellule $k$ du niveau $j$ est centrée en
+        $x_k^j = \frac{k+(k+1)}{2} \frac{1}{2^j} = \frac{2k+1}{2^j}.$
+        La notion d'ondelette se définit de la manière suivante:
+        \begin{definition}[Ondelette]
+            Une ondelette est une fonction $\Phi \in L^2(\mathbb R)$ à support compact de moyenne nulle.
+            Pour qu'une ondelette soit pertinente dans le cas de la transformée en multi-échelle il est requis
+            que la famille $\Bigl(x \mapsto \Phi( 2^j k - x ) \bigr)_{ (j,k)\in \mathbb{Z} \times \mathbb{Z} }$ forme une base de $L^2(\mathbb{R})$.
+            En effet la transformée en ondelette sera une projection sur cette base, un peu comme la transformée de Fourrier est une projection sur les 
+            fonctions trigonométriques.
+        \end{definition}
+        Alors la transformée en ondelette discrète peut être définie:
+        \begin{definition}[Transformée en ondelette discrète - \textit{Discrete Wavelet Transform, DWT}] Donnée une fonction $f$,
+            le coefficient $\gamma_k^j$ de sa DWT sur la cellule $k$ au niveau de résolution $j$ est:
             \begin{align}
-                g: (\tau,s) \mapsto \frac{1}{\sqrt{s}}\int_{\mathbb R} \Phi\Bigl(\frac{t}{s}  - \tau\Bigr) \cdot f^*(t)\: \text{d}t.
+                &\gamma_k^j = \frac{1}{N_j} \int_\mathbb{R} \Phi(2^j\cdot k - t)f(t) \text{d} t,\\\notag
+                &\text{Où $N_j$ est un coefficient normalisation dépendant du niveau $j$.}
             \end{align}
-            Contrairement à une transformée de Fourier, cette la fonction résultante non pas d'une mais de deux variables; et pour cause, 
+            Contrairement à une transformée de Fourier, les coefficients ne dépendent pas d'une mais de deux variables. En effet, 
             la transformée en ondelette est plus riche d'informations. Là où la transformée de Fourier ne donne qu'une information 
             sur le contenu fréquentiel d'un signal, la transformée en ondelette donne une information sur le contenu en fréquence \underline{et}
             sur la localisation de ce contenu fréquentiel.
-            Le paramètre $s$ de \textit{dilatation} fixe l'échelle analysée, c'est à dire la longueur d'onde analysée. Par exemple si $s=5$, 
-            alors $g(\tau,s=5)$ permet d'analyser le contenu des longueurs d'ondes $s=5$. Le paramètre de translation $\tau$ permet de localiser 
-            le contenu fréquentiel. Par exemple $g(100,5)> g(30,5)$ cela signifie qu'au voisinage de $100$ le contenu de $f$ en fréquences $1/5$
-            est plus élevé qu'au voisinage de $30$. Pour développer l'intuition il est possible de voir (c'est faux en toute rigueur)
+            L'indice $j$ de \textit{dilatation} fixe l'échelle analysée, c'est à dire la longueur d'onde analysée. Par exemple si $j=5$, 
+            les coefficients $\gamma^5_k$ donne une information sur l'information portée par les longueurs d'onde de l'ordre de $2^{-5} = 1/32$.
+            La variable $k$ précise l'indice de la cellule analysée.
+            Par exemple $\Vert \gamma^5_10 \Vert > \Vert \gamma^5_5 \Vert$ signifie que l'information portée par l'échelle $1/32$
+            est plus importante au voisinage de la case $10$ qu'au voisinage de la case $5$.
+            De même si $\Vert \gamma^j_7 \Vert > \Vert \gamma^{j+1}_{14} \Vert$ cela signifie qu'au voisinage de $x=\frac{7}{2^j}$
+            les longueurs d'ondes $\frac{1}{2^j}$ sont plus présentes que les longueurs d'ondes $\frac{1}{2^{j+1}}.$
+            Pour se fixer les idées, c'est comme si la transformée de Fourrier n'avait qu'une vision globale du contenu en fréquence, 
+            quelle ne voyait que la moyenne sur le domaine de la transformée en ondelette pour chaque longueur d'onde.
             \begin{align}
-                \Vert TF\bigl[ f \bigr](s) \Vert^2 \sim \int_\mathbb{R} g(\tau,s) \, \text{d} \tau.
+                \Vert TF\bigl[ f \bigr](\omega = 2^j) \Vert^2 \sim \Vert \sum_{k} \gamma^j_k \Vert^2.
             \end{align}
         \end{definition}
+
     \paragraph{}
 \subsubsection{L'adaptation}
     \paragraph{}
