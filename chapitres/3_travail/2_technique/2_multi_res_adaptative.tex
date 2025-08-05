@@ -74,8 +74,16 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
             \end{align}
         \end{definition}
 
-    \paragraph{}
-\subsubsection{L'adaptation}
+    \paragraph{La notion de détails}
+    La multi-résolution adaptative se sert de la transformée multi-échelle pour adapter le maillage, c'est à dire compresser l'information (voir \ref{par:adaptation}).
+    Cela requiert la notion de détail. Cette notion permet de ne pas utiliser la transformée en ondelette pour quantifier dans l'absolu le contenu porté par une échelle particulière,
+    mais plutôt à comprendre en quoi il s'éloigne de ce que les échelles supérieures pourraient laisser supposer. En clair à partir d'une résolution donnée $j$,
+    on définit un \textbf{prédicteur} polynomial, qui tente d'inférer l'allure de la fonction au niveau $j+1$. Le \textbf{détail} ne cherche pas naïvement à quantifier et localiser
+    l'information contenue aux échelles du niveau $j+1$ mais plutôt, à quantifier l'écart à la prédiction polynomiale.
+    \subparagraph{Le prédicteur}
+    \subparagraph{Les détails}
+
+\subsubsection{L'adaptation}\label{par:adaptation}
     \paragraph{}
     \paragraph{}
 \subsubsection{Algorithmes de simunlation numérique}
