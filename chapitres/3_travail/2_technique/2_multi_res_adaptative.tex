@@ -8,18 +8,48 @@
 %       IMPLÉMENTATIONS
 %           MÉTHODES CLASSIQUES 
 %           SAMURAI
+
 La multi-résolution adaptative (MRA) est une méthode très efficace pour les problèmes multi-échelles. 
 L'objectif est de concentrer les efforts computationnels là où ils sont nécessaires. 
 Concrètement cela consiste à augmenter la résolution de la grille de calcul où la solution est complexe et la diminuer où la solution est simple à décrire.
 La MRA est donc une méthode de HPC (\textit{high performance computing}) puisqu'elle vise à optimiser l'allocation des ressources de calcul.\par
-Cette partie introduit le lecteur à cette méthode en présentant d'abord le concept mathématique de transformée multi-échelle qui est à la base de la MRA. 
+Cette partie introduit le lecteur à cette méthode en présentant d'abord le concept mathématique de transformée multi-échelle (ou transformée en ondelette)
+qui est à la base de la MRA. 
 Puis il est expliqué comment la transformée multi-échelle permet d'adapter le maillage pour optimiser la charge computationnelle.
 Une fois ces prérequis établis, l'algorithme typique de mise en oeuvre de la multi-résolution adaptative est décrit.
 S’ensuit alors naturellement une présentation des différentes implémentations de la MRA, avec une attention particulière sur celle développée au CMAP au travers 
 du logiciel Samurai.
 Enfin l'impact de la multi-résolution sur la qualité des solutions numériques est abordé. 
-\subsubsection{La transfomée multi-échelle}
-    \paragraph{}
+
+\subsubsection{La transformée multi-échelle}
+    Cette partie se veut avant tout introductive, elle omets ou simplifie certaines notions; plus de détails sont donnés en \cite{postePoly}.
+
+    \paragraph{Définition mathématique}
+        Les explications sont développées en dimensions un à des fins pédagogiques, la plupart des concepts s'entendent naturellement aux dimensions supérieures. 
+        La notion d'ondelette se définit de la manière suivante:
+        \begin{definition}
+            Une ondelette est une fonction $\Phi \in L^2(\mathbb R)$ à support compact de moyenne nulle.
+            Il faut en plus que la famille $\Bigl( \Phi(t/s - \tau )\bigr)_{(\tau,s)\in \mathbb{R}^2 }$ forme une base de $L^2(\mathbb R)$
+            \end{align} 
+        \end{definition}
+        Alors la transformée en ondelette peut être définie\footnote{}:
+        \begin{definition}
+            Données $f \in L^2(\mathbb R)$, la transformée multi-échelle $g$ de $f$ sur une ondelette de base $\Phi$ se définie comme:
+            \begin{align}
+                g: (\tau,s) \mapsto \frac{1}{\sqrt{s}}\int_{\mathbb R} \Phi\Bigl(\frac{t}{s}  - \tau\Bigr) \cdot f^*(t)\: \text{d}t.
+            \end{align}
+            Contrairement à une transformée de Fourier, cette la fonction résultante non pas d'une mais de deux variables; et pour cause, 
+            la transformée en ondelette est plus riche d'informations. Là où la transformée de Fourier ne donne qu'une information 
+            sur le contenu fréquentiel d'un signal, la transformée en ondelette donne une information sur le contenu en fréquence \underline{et}
+            sur la localisation de ce contenu fréquentiel.
+            Le paramètre $s$ de \textit{dilatation} fixe l'échelle analysée, c'est à dire la longueur d'onde analysée. Par exemple si $s=5$, 
+            alors $g(\tau,s=5)$ permet d'analyser le contenu des longueurs d'ondes $s=5$. Le paramètre de translation $\tau$ permet de localiser 
+            le contenu fréquentiel. Par exemple $g(100,5)> g(30,5)$ cela signifie qu'au voisinage de $100$ le contenu de $f$ en fréquences $1/5$
+            est plus élevé qu'au voisinage de $30$. Pour développer l'intuition il est possible de voir (c'est faux en toute rigueur)
+            \begin{align}
+                \Vert TF\bigl[f\bigr](s) \Vert^2 \sim \int_\mathbb{R} g(\tau,s) \, \text d \tau.
+            \end{align}
+        \end{definition}
     \paragraph{}
 \subsubsection{L'adaptation}
     \paragraph{}
