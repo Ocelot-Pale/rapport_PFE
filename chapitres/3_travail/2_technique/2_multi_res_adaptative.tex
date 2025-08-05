@@ -76,17 +76,17 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
 
     \paragraph{La notion de détails}
         La multi-résolution adaptative se sert de la transformée multi-échelle pour adapter le maillage, c'est à dire compresser l'information (voir \ref{par:adaptation}).
-        Cela requiert l'introduction de la notion de détail. Ce concept permet de ne pas utiliser la transformée en ondelette pour quantifier dans l'absolu le contenu porté par une échelle particulière,
+        Cela requiert l'introduction de la notion de détail. Ce concept permet de ne pas utiliser la transformée en ondelette pour quantifier le contenu absolu porté par une échelle particulière,
         mais plutôt à comprendre en quoi ce contenu s'éloigne de ce que les échelles supérieures pourraient laisser supposer, en quoi il est \textit{inattendu}.
-        En clair à partir d'une résolution donnée $j$, on définit un \textbf{prédicteur} polynomial, qui tente d'inférer l'allure de la fonction au niveau $j+1$.
+        Pour résumer à partir d'un niveau de résolution $j$, on définit un \textbf{prédicteur} polynomial, qui tente d'inférer l'allure de la fonction au niveau $j+1$.
         Puis le \textbf{détail} ne cherche pas naïvement à quantifier et localiser l'information contenue aux échelles du niveau $j+1$ mais plutôt, 
         à quantifier l'écart à la prédiction polynomiale.
         \subparagraph{Le prédicteur}
-            Donné un point central $(x_0,y_0)$, et $2s$ voisins $(x_-s,y_-s),(x_{-s+1},y_{-s+1})\dots (x_{s-1},y_{s-1}),(x_s,y_s)$, un prédicteur polynomial 
+            Donné un point central $(x_0,y_0)$, et $2s$ voisins $(x_{-s},y_{-s}),(x_{-s+1},y_{-s+1})\dots (x_{s-1},y_{s-1}),(x_s,y_s)$, un prédicteur polynomial 
             ponctuel cherche le polynôme $P$ de degré $2s$ passant par ces $2s+1$ points. Cela permet d'inférer des valeurs pour $y$ en tout point $x$.
             Pour trouver $P(X) = \sum_{k=0}^{2s} a_k X^k$ revient à résoudre le système linéaire:
             \begin{align}
-                \forall j \in {-s,\dots 0 ,\dots,s}: y_j = \sum_{k=0}^{2s} a_k x_j^k
+                \forall j \in \{-s,\dots 0 ,\dots,s\}: y_j = \sum_{k=0}^{2s} a_k x_j^k
             \end{align}
             Ce stage se focalise sur des volumes finis, donc ce n'est pas un prédicteur ponctuel qui est utilisé mais un prédicteur sur la valeur moyenne. 
             Il ne cherche à imposer les valeurs en chaque point mais à fixer la valeurs moyenne sur chaque cellule,
