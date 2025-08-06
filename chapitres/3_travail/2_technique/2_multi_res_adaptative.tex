@@ -155,9 +155,21 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
             l'intuition physique pose son véto puisque les échelles supérieurs sont de grandes magnitudes et que cela présage que dans 
             les pas de temps a venir les échelles seront nécessaires à la fidèle capture des phénomènes physiques simulés. Par exemple cela peut signifier qu'un front
             d'onde est en train d'arriver dans les zone étudiée, il faut donc que la simulation puisse en capter toute la richesse.
-\subsubsection{Algorithmes de simunlation numérique}
-    \paragraph{}
-    \paragraph{}
+\subsubsection{Algorithmes de simulation numérique}
+    \paragraph{Algorithme général}
+            L'intégration de la MRA un algorithme de simulation physique se fait de la manière suivante: 
+            tous les $n_{MRA}$ pas de temps (éventuellement être à chaque pas de temps), 
+            la solution physique est adaptée selon le procédé explicité ci-dessus. Les détails précédemment omis
+            devenant nécessaires sont obtenus grâce au prédicteur. Puis la simulation se poursuite à partir de cette grille de calcul adapté.
+            L'économie de mémoire se fait puisque tous les détails ne sont pas stockés et l'économie de calculs puisque moins de cellules sont mises en 
+            jeu lors du déroulement de l’algorithme de simulation.\par
+            Par exemple, en dimension une, si une zone est adapté avec un niveau de détail de niveau 5, la densité de cellule sur lequel il faut réaliser des est de $2^5$
+            et la densité mémoire est de $\sum_{j=0}^5 2^j$. Si le niveau le plus fin de la grille est par exemple 9, il y a un gain computationnel théorique de l'ordre de 
+            $2^{9-5}=16$ et en terme de mémoire une économie de l'ordre de $\frac{\sum_{j=0}^5}{2^8} > 10$. Ce gain est exponentiel avec la dimension du problème.
+    \paragraph{Le cas volumes finis}
+            Il faut détailler ce qui signifie \textit{poursuivre la simulation sur la grille de calcul adaptée} dans le cadre des volumes finis.
+            
+    \paragraph{Le débat sur la reconstruction}
 \subsubsection{Impact sur les solutions}
     \paragraph{}
     \paragraph{}
