@@ -127,7 +127,7 @@ Les équations d'advection, diffusion, réaction modélisent donc ces trois phé
             Cependant c'est vrai à l'ordre $O(\Delta t)$. 
             Il est donc possible de simuler le problème en séparant les opérateurs de la manière suivante: 
             \begin{align}
-                \text{Étape 1: simuler }&v=e^{\Delta t A}u^n,\\
+                \text{Étape 1: simuler }&v=e^{\Delta t A}u^n,\notag\\\notag
                 \text{Étape 2: simuler }&u^{n+1}=e^{\Delta t B}v,\\
             \end{align}
             Cet algorithme correspond au schéma de splitting de Lie, introduisant une erreur de l'ordre $\Delta t$. 
