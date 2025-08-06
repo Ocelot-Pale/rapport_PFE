@@ -99,7 +99,7 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
             En pratique on ne réalise pas l'opération comme expliqué plus haut puisque à prédicteur et ondelette fixés $\Phi$, il existe une \textit{ondelette duale} $\Psi$
             qui permet directement d'obtenir les détails pour la DWT sur $\Phi$ en réalisant une DWT sur $\Psi$ ce qui accélère considérablement les calculs.\par
             Une autre façon de voir la notion de détail est la suivante:
-            pour un niveau de résolution $j$ on note $V_j = \text{Vect}\Bigl((Phi_k^j)_k\Bigr)$, c'est à dire l'ensemble de fonction 
+            pour un niveau de résolution $j$ on note $V_j = \text{Vect}\Bigl((\Phi_k^j)_k\Bigr)$, c'est à dire l'ensemble de fonction 
             représentables par les ondelettes de niveau $j$.
             Pour les ondelettes classiques\footnote{C'est en tout cas vrai pour les ondelettes de Haar\cite{postePoly}.} la relation suivante est vérifiée
             $V_0 \subset V_1 \subset V_2 \subset \ldots \subset V_N$. Et bien alors l'espace des détails, celui accessible par l'ondelette duale est $Q_{j+1}$
@@ -167,12 +167,17 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
             et la densité mémoire est de $\sum_{j=0}^5 2^j$. Si le niveau le plus fin de la grille est par exemple 9, il y a un gain computationnel théorique de l'ordre de 
             $2^{9-5}=16$ et en terme de mémoire une économie de l'ordre de $\frac{\sum_{j=0}^5}{2^8} > 10$. Ce gain est exponentiel avec la dimension du problème.
     \paragraph{Le cas volumes finis}
-            Il faut détailler ce qui signifie \textit{poursuivre la simulation sur la grille de calcul adaptée} dans le cadre des volumes finis.
-
+            Il faut détailler ce qui signifie dans le cadre des volumes finis, \textit{poursuivre la simulation sur la grille de calcul adaptée}.
+            Le maillage adapté est constitué de cellules de tailles différents.
+            Il s'agit alors pour chacune de ces cellules de prédire la valeur moyenne en son sein au pas de temps suivant, c'est à dire faire évoluer le maillage.
+            Cela se fait à partir des valeurs de cellules de part et d'autres de la cellule.
     \paragraph{Le débat sur la reconstruction}
 \subsubsection{Impact sur les solutions}
     \paragraph{}
     \paragraph{}
 \subsubsection{Implémentations de la multi-résolution}
     \paragraph{Méthodes usuelles}
+            \subparagraph{Les approches \textit{patch-based}}
+            \subparagraph{Les approches \textit{cell-based}}
     \paragraph{Le logiciel Samurai}
+            \subparagraph{Un tructure de données originale}
