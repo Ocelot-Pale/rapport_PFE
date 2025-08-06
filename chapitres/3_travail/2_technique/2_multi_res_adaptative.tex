@@ -126,21 +126,35 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
             \begin{align}
                 \Vert TF\bigl[ f \bigr](\omega = 2^j) \Vert^2 \sim \Vert \sum_{k} d^j_k \Vert^2.
             \end{align}
+            \par 
+            Grâce à cette notion de détaille la décomposition multi-échelle permet une description de la solution physique où l'apport à la solution de chaque échelle,
+            de chaque distance typique est quantifié, les coefficients $d_k^j$ décrivant l'information contenue dans les échelles de l'ordre de $2^{-j}$.
 \subsubsection{L'adaptation}\label{par:adaptation}
-    \paragraph{La compression}
-            Pour compresser une fonction, le processus est très simple, il suffit de fixer un seuil de compression $\varepsilon > 0$,
+    \paragraph{La compression par décomposition multi-échelle}
+            Pour compresser une fonction (ou une image comme dans le processus \texttt{jpg}), le processus est très simple, il suffit de fixer un seuil de compression $\varepsilon > 0$,
             de calculer les coefficients de détails de la fonction, 
             puis d'omettre (en pratique de retirer de la mémoire) les coefficient dont la norme est inférieure à $\varepsilon$.
             En pratique le coefficient de compression dépend du niveau étudié puisque le volume des cellules mise en jeu chute avec le niveau $j$
             (un détail de $10^{-2}$ à moins d'importance s'il porte sur des cellules de taille $10$ que sur des cellules de taille $10^{-5}$).
             En pratique l'algorithme serait le suivant:
-            \begin{enumerate}
+            \begin{enumerate}  
                 \item Calculer les coefficients $d_k^j$.
-                \item Pour chaque niveau $j$ et chaque coefficient $d_k^j$: Si $d_k^j < \varepsilon_j = 2^{-j}\varepsilon$, alors $d_k^j\leftarrow 0$.
+                \item Pour chaque niveau $j$ et chaque coefficient $d_k^j$: Si $\vert d_k^j \vert < \varepsilon_j = 2^{-j}\varepsilon$, alors $d_k^j\leftarrow 0$, les coefficients sont seuillés.
                 \item[] Pour reconstruire au niveau de résolution souhaité: utiliser les détails jusqu'au niveau $j$ le plus fin conservé puis utiliser le prédicteur 
                 pour interpoler jusqu'au niveau désiré. Le vocabulaire est heureusement choisit, pour compresser on omet les détails négligeables l'on conserve les détails importants.
             \end{enumerate}
-    \paragraph{L'adaptation}
+    \paragraph{L'adaptation de maillage et l'heuristique d'Harten}
+            L'adaptation de maillage, est une variation de la compression par décomposition multi-échelles précédemment décrite. 
+            C'est est une opération de compression de solutions physiques \textit{prudente}.
+            Les coefficients y sont seuillés de manière moins impitoyable: certains coefficients qui devraient être écartés
+            par la compression sont malgré tout préservés. Ce choix se fait sur la base d'intuitions physiques, 
+            la plus connue étant \textot{l'heuristique d'Harten}, introduite par Ami Harten \cite{harten1994}, le père de la MRA.
+            Elle stipule que même si un coefficient de détail $d_k^j$ devrait être supprimé, si le niveau de détail du niveau supérieur 
+            (c'est à dire $d^{j-1}_{\lfloor k/2 \rfloor}$) est particulièrement élevé, par exemple qu'il est par deux fois supérieur au seuil $\varepsilon_{j-1}$,
+            alors le coefficient doit être conservé. En d'autre terme, même si la compression considère l'information à l'échelle $j$ négligeable,
+            l'intuition physique pose son véto puisque les échelles supérieurs sont de grandes magnitudes et que cela présage que dans 
+            les pas de temps a venir les échelles seront nécessaires à la fidèle capture des phénomènes physiques simulés. Par exemple cela peut signifier qu'un front
+            d'onde est en train d'arriver dans les zone étudiée, il faut donc que la simulation puisse en capter toute la richesse.
 \subsubsection{Algorithmes de simunlation numérique}
     \paragraph{}
     \paragraph{}
