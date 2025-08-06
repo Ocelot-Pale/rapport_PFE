@@ -1,0 +1,91 @@
+commit,date,words,unique_words,files,message,date_only
+bc73c8b4,2025-07-24 17:20:52,526,285,3,First Commit,2025-07-24
+b8687c27,2025-07-24 19:23:06,1415,619,6,création des fichiers d'intro des secitons 3 et 4,2025-07-24
+2bcb457a,2025-07-24 19:56:33,1498,644,7,Ajoute du titre + rédaction de l'intro du chaptire,2025-07-24
+2d5bdf36,2025-07-25 11:52:47,1761,737,8,Ajout des premières définitions,2025-07-25
+69fcfae1,2025-07-25 12:13:22,1841,767,8,Réorgianisation en chapitre + ajout des définition,2025-07-25
+87c809e0,2025-07-25 12:14:04,1840,766,8,correction mineure,2025-07-25
+fb5d197a,2025-07-25 15:13:13,2285,863,11,Ajoute de la partie sur les schémas implcites et e,2025-07-25
+cf5e571d,2025-07-25 18:59:33,2337,894,12,Ajoute de la partie sur les équations d'advection-,2025-07-25
+8509dabe,2025-07-25 19:01:31,2337,894,12,ajout du readme,2025-07-25
+02330ceb,2025-07-28 09:37:24,2598,960,12,Ajout des références sur ROK4,2025-07-28
+1cc99673,2025-07-28 09:46:30,2613,963,12,Début de rédaction de la partie sur les opérateurs,2025-07-28
+4e03854e,2025-07-28 09:55:15,2725,982,12,réaction 2/2,2025-07-28
+ff8cc09b,2025-07-28 10:01:51,2842,1010,12,rédaction du paragraphe sur les difficultés,2025-07-28
+e11c39d7,2025-07-28 10:20:17,2988,1051,12,complétion de la partie sur les difficulté en ajou,2025-07-28
+88bcfd8c,2025-07-28 10:32:57,3008,1060,12,amélioration rédaction,2025-07-28
+e6cee508,2025-07-28 11:06:07,3100,1082,12,"ajout de quelque biblio (Posel, Belotti et al 2025",2025-07-28
+7f036117,2025-07-28 11:42:52,2673,976,12,introduction à la multi-res + présentation rapide ,2025-07-28
+7df527e9,2025-07-28 11:54:20,2707,982,12,introduciton aux stratégies d'intégration pour les,2025-07-28
+f1f39462,2025-07-28 12:20:46,2591,958,12,introduciton au splitting 2/2,2025-07-28
+43bce786,2025-07-28 14:47:16,2677,978,12,détail splitting + ajout ref. à Max Duarte,2025-07-28
+0d8850bd,2025-07-28 15:50:46,2942,1037,12,Écriture de la partie ImEx + ccl,2025-07-28
+8e955a03,2025-07-28 15:58:01,2942,1037,12,ajoute des références CarpenterKenedy et Parescci,2025-07-28
+67d363e1,2025-07-28 16:20:28,3081,1063,13,ajout des objecitfs du stage,2025-07-28
+5b4d6999,2025-07-28 16:23:43,3090,1065,13,orthographe,2025-07-28
+26bd3448,2025-07-28 16:36:28,3074,1065,13,ajoute des mots-clés,2025-07-28
+d2296360,2025-07-29 08:24:12,3220,1084,14,préambule contributions,2025-07-29
+99ae6d5b,2025-07-29 08:43:22,3306,1095,14,présentation étude Nagumo ImEx,2025-07-29
+c1322d22,2025-07-29 10:14:16,3343,1105,19,références Nagumo Spatiale,2025-07-29
+3753ac18,2025-07-29 10:16:14,3343,1105,19,correction page référence nagumo,2025-07-29
+833d8f83,2025-07-29 10:47:24,3431,1119,19,ajout d'un graphique pour illustrer la raideur de ,2025-07-29
+426f1af4,2025-07-29 14:02:16,3387,1117,19,fin nagumo,2025-07-29
+0957ed7b,2025-07-29 14:15:04,3389,1119,19,précision sur le role du coeff de réaction (notion,2025-07-29
+2e903d9b,2025-07-29 14:25:47,3389,1119,19,corerction du graphique sur le terme de réaction d,2025-07-29
+324bf407,2025-07-29 18:23:40,3827,1205,19,des digrammes de stabilité sur Nagumo avec explica,2025-07-29
+6a78e0ab,2025-07-29 20:57:41,3827,1205,19,modification du système de numérotation,2025-07-29
+04b18d60,2025-07-30 06:59:44,3827,1205,19,compteur de mots,2025-07-30
+1080f1e8,2025-07-30 07:00:14,3827,1205,19,supression resquirements.txt,2025-07-30
+70047800,2025-07-30 07:56:59,4212,1259,19,intro ImEx + exemple ImEX111,2025-07-30
+b84b4d64,2025-07-30 08:02:12,4212,1255,19,corrections orthographiques mineures,2025-07-30
+18547086,2025-07-30 08:24:25,4261,1265,19,cadre général ImEx 1/X,2025-07-30
+01a85e58,2025-07-30 09:13:34,4577,1328,19,méthodes ImEx 2/2 (revoir orthographe),2025-07-30
+673288fa,2025-07-30 09:30:39,4579,1320,19,orthographe,2025-07-30
+bee64404,2025-07-30 09:32:16,4579,1319,19,ajout d'une référence interne vers les méthodes Im,2025-07-30
+54965d42,2025-07-30 09:32:50,4579,1319,19,othographe,2025-07-30
+2497380c,2025-07-30 10:38:34,4580,1304,19,orthographe,2025-07-30
+184b3d77,2025-07-30 10:42:56,4580,1304,19,réorganisaiton mineure,2025-07-30
+d44852e4,2025-07-30 15:07:16,4818,1352,19,analyse résultat stabilité [init] 1/...,2025-07-30
+2bdd21fb,2025-07-30 15:18:10,4818,1352,19,maj graphiques stabilités,2025-07-30
+a5add2e5,2025-07-30 16:00:48,4894,1360,19,"analyse stabilité 2/... [début paramètres k,D]",2025-07-30
+52b3169d,2025-07-30 16:15:37,5153,1402,19,"analyse stabilité 3/... [analyse k=1,D=1]",2025-07-30
+4afad23b,2025-07-30 16:26:44,5153,1402,19,minor,2025-07-30
+6cfbf45f,2025-07-30 17:44:24,5243,1412,19,"analyse stabilité 4/... [analyse k=0.1,D=10]",2025-07-30
+ca1144f2,2025-07-30 18:11:27,5295,1418,19,"analyse stabilité 5/... [analyse k=500,D=2e-4]",2025-07-30
+ccdccf9d,2025-07-30 18:18:40,5296,1418,19,minor,2025-07-30
+f6d9e832,2025-07-31 07:16:18,5309,1420,24,création des fichiers de l'étude 2 + réaorganisati,2025-07-31
+a71d9f4c,2025-07-31 07:41:29,5467,1442,24,etude n°2 - intro - 1/X,2025-07-31
+5a757276,2025-07-31 08:00:57,6190,1538,24,etude n°2 - probleme cible - 2/X,2025-07-31
+176a8f55,2025-07-31 16:56:44,6228,1540,24,mineur,2025-07-31
+c00ee788,2025-07-31 16:59:07,6228,1540,24,mineur - biblio Daru et Tenaud,2025-07-31
+4387bbc8,2025-07-31 17:07:53,6293,1546,24,précision des différence avec Belloti et al.,2025-07-31
+b31533be,2025-07-31 17:08:30,6293,1546,24,mise en page,2025-07-31
+9d63c958,2025-07-31 17:26:01,6449,1567,24,ajoute des équations équivalentes calculées,2025-07-31
+443a39c1,2025-07-31 17:30:35,6682,1593,24,ajout comparaison avant Cauchy-Kovaleskaya,2025-07-31
+de7f90bf,2025-07-31 17:39:47,6755,1601,24,conclusion eq equiv + mineur,2025-07-31
+efacff25,2025-07-31 18:19:22,6755,1602,24,minor,2025-07-31
+517782c7,2025-07-31 18:55:38,6755,1601,24,restructuration,2025-07-31
+b111469b,2025-07-31 18:58:07,6762,1602,24,révision -> travail et obj - intro,2025-07-31
+cdd1f0ac,2025-07-31 19:27:13,6781,1607,24,correctif -> problématique,2025-07-31
+009cd25e,2025-07-31 19:31:01,6830,1612,24,minor,2025-07-31
+e6891c2b,2025-07-31 19:34:26,6830,1612,24,minor,2025-07-31
+60a88a10,2025-07-31 21:02:34,6870,1618,24,reprise de la partie EDO - 1,2025-07-31
+8c865055,2025-08-01 07:35:28,6877,1613,24,correction de fond partie EDO,2025-08-01
+0b406a72,2025-08-01 07:47:17,6875,1612,24,correction orthographe EDO,2025-08-01
+3d00ce7c,2025-08-01 07:55:17,6875,1612,24,minor,2025-08-01
+ab7b399d,2025-08-01 07:57:10,6875,1612,24,minor,2025-08-01
+570abebd,2025-08-01 09:16:34,6874,1610,24,révision intro eq-div-adv,2025-08-01
+98e0d5f7,2025-08-01 09:44:25,6893,1615,24,révision adv-diff-reac --> les trois opérateurs,2025-08-01
+d6008c7f,2025-08-01 09:55:20,6893,1615,24,orthographe -> adv-diff-reac -> 3 opérateurs,2025-08-01
+73b7981d,2025-08-01 10:06:03,6893,1615,24,révision -> ADR -> difficultés maths.,2025-08-01
+4ffa401f,2025-08-04 11:32:04,6891,1616,24,révision -> a-d-r -> strat. sim. -> mesh reffineme,2025-08-04
+6c38a7bf,2025-08-04 13:34:18,6919,1625,24,révision -> stratégies inté. en temps 1/2,2025-08-04
+3858f3fb,2025-08-04 13:47:37,6938,1626,24,revision -> a-d-r -> techniques d'inté. 2/2,2025-08-04
+2e02116b,2025-08-04 15:41:30,7104,1647,24,tech->-mra->introduction,2025-08-04
+bc9c8bdf,2025-08-05 07:58:33,7242,1670,24,transfo. multiEchelle 1,2025-08-05
+3d847b6c,2025-08-05 08:01:43,7241,1670,24,correction mineure,2025-08-05
+83868e89,2025-08-05 10:48:17,7742,1727,25,transfo. multiEchelle 2,2025-08-05
+ab81362d,2025-08-05 11:01:33,7853,1745,25,transfo. multiEchelle 3 -> notion de détail 1,2025-08-05
+30e9ff53,2025-08-05 11:19:23,7976,1763,25,transfo. multiEchelle 4 -> notion de détail 2,2025-08-05
+0eded005,2025-08-05 11:24:24,7976,1764,25,mineur,2025-08-05
+4e1b499a,2025-08-05 12:00:00,7976,1764,25,mineur,2025-08-05
