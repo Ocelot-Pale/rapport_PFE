@@ -85,7 +85,7 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
             qui vient corriger la valeur en $x_k^j$.
             Le prédicteur dépend donc du nombre de voisins pris de part et d'autre, ce nombre noté $s$ et appelé le \textit{stencil} du prédicteur.
             Plus $s$ est grand plus l'opération de prédiction est précise (mais peut éventuellement devenir bruitée\footnote{Ce n'est pas détaillé ici mais le lecteur se réfèrera à la théorie de l'interpollation...})
-            et plus elle est couteuse. Le cout exact n'est pas évident à estimer puisque qu'une combinaison linéaire
+            et plus elle est coûteuse. Le coût exact n'est pas évident à estimer puisque qu'une combinaison linéaire
             quelques termes se fait en $O(1)$ sur les machines modernes, toutefois quelques subtilités détaillé en \ref{par:adaptation} interviennent.
             Ainsi les valeurs usuelles tu stencil sont généralement $s=1$ ou $s=2$
 
@@ -127,8 +127,20 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
                 \Vert TF\bigl[ f \bigr](\omega = 2^j) \Vert^2 \sim \Vert \sum_{k} d^j_k \Vert^2.
             \end{align}
 \subsubsection{L'adaptation}\label{par:adaptation}
-    \paragraph{}
-    \paragraph{}
+    \paragraph{La compression}
+            Pour compresser une fonction, le processus est très simple, il suffit de fixer un seuil de compression $\varepsilon > 0$,
+            de calculer les coefficients de détails de la fonction, 
+            puis d'omettre (en pratique de retirer de la mémoire) les coefficient dont la norme est inférieure à $\varepsilon$.
+            En pratique le coefficient de compression dépend du niveau étudié puisque le volume des cellules mise en jeu chute avec le niveau $j$
+            (un détail de $10^{-2}$ à moins d'importance s'il porte sur des cellules de taille $10$ que sur des cellules de taille $10^{-5}$).
+            En pratique l'algorithme serait le suivant:
+            \begin{enumerate}
+                \item Calculer les coefficients $d_k^j$.
+                \item Pour chaque niveau $j$ et chaque coefficient $d_k^j$: Si $d_k^j < \varepsilon_j = 2^{-j}\varepsilon$, alors $d_k^j\leftarrow 0$.
+                \item[] Pour reconstruire au niveau de résolution souhaité: utiliser les détails jusqu'au niveau $j$ le plus fin conservé puis utiliser le prédicteur 
+                pour interpoler jusqu'au niveau désiré. Le vocabulaire est heureusement choisit, pour compresser on omet les détails négligeables l'on conserve les détails importants.
+            \end{enumerate}
+    \paragraph{L'adaptation}
 \subsubsection{Algorithmes de simunlation numérique}
     \paragraph{}
     \paragraph{}
