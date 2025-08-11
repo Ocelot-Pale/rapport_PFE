@@ -69,19 +69,56 @@
     divers concepts ont étés développés. Ce qui suit introduit les notions pertinentes pour comprendre les travaux du stage. 
 
     \subsubsection{Stabilité d'un schéma numérique}
-        Les schéma simulant les équations au dérivées partielles ont les mêmes nécessités de stabilité, que ceux simulant les EDOs. 
-        D'ailleurs les méthodes des lignes transforment précisément l'EDP en EDO. 
-        Pour éviter les redondance, le lecteur se référera à la partie \ref{par:stabilite_edo}.
+        Les schémas simulant les équations au dérivées partielles ont les mêmes nécessités de stabilité, que ceux simulant les EDOs. 
+        D'ailleurs les méthodes des lignes transforment précisément une EDP en EDO. 
+        Pour éviter les redondances, le lecteur se référera à la partie \ref{par:edo}.
     \subsubsection{Analyse de l'erreure}
         L'analyse de l'ordre de convergence d'un schéma permet de quantifier l'erreur asymptotique 
-        (c'est à dire quand les pas de temps et d'espace sont "assez petits")que commet le schéma.
-        L'équation équivalente du schéma permet de comprendre ce qui résout simule "vraiment" le schéma et notamment la dynamique de l'erreur.
-        \begin{definition}[Équation modifiée]
+        (c'est à dire lorsque les pas de temps et d'espace sont "assez petits") que commet le schéma.
+        \paragraph{Ordre de convergence d'un schéma}
+        \begin{definition}[Ordre de convergence d'un schéma]
             ...
         \end{definition}
-        L'équation modifiée du schéma peut devenir plus interprétable si dérivées temporelles d'ordres supérieurs à un sont remplacés par 
-        des dérivées spatiales, cela est permis grâce à la procédure dite de Cauchy-Kovaleskaya.
-        \begin{definition}[Procédure de Cauchy-Kovaleskaya]
-            ...
+        \paragraph{Equation équivalente}
+        \begin{definition}[Équation équivalente]
+        L'équation équivalente d'un schéma est l'EDP dont la solution satisfait le schéma.
+        Elle est calculée par des développements de Taylor en temps et en espace.
+        Comparer l'équation équivalente et l'équation cible fait alors naturellement apparaître les termes d'erreur et leur dynamique.
         \end{definition}
-    
+
+        Ce qui suit décrit une méthode générique pour obtenir l'équation équivalente d'un schéma, la notion d'équation équivalente est clé dans la contribution en \ref{par:intro_contrib_eq_equiv}.
+
+        \subparagraph{Première étape : développement de Taylor}
+
+        L'existence d'une fonction assez régulière vérifiant le schéma est supposée.
+        Dans le schéma numérique les termes $u^{n+\delta_t}_{k+\delta_x}$ sont remplacés par leur pendant
+        continu : $u(x+\delta_x \Delta x, t + \delta_t \Delta t)$. Le développement de Taylor suivant est alors réalisé :
+        \begin{align}
+        u(x+\delta_x \Delta x, t + \delta_t \Delta t) = u(x,t)
+        &+ \sum_{i=1}^{\infty} \frac{(\delta_x \Delta x)^i}{i!}
+        \frac{\partial^i u}{\partial x^i}(x,t) \notag \\
+        &+ \sum_{j=1}^{\infty} \frac{(\delta_t \Delta t)^j}{j!}
+        \frac{\partial^j u}{\partial t^j}(x,t) \notag \\
+        &+ \sum_{i,j \geq 1} \frac{(\delta_x \Delta x)^i (\delta_t \Delta t)^j}{i! \cdot j!}
+        \frac{\partial^{i+j} u}{\partial x^i \partial t^j}(x,t)
+        \end{align}
+
+        L'équation aux dérivées partielles qui apparaît est l'équation équivalente. Elle peut être tronquée à l'ordre voulu.
+
+        \subparagraph{Deuxième étape : procédure de Cauchy-Kovaleskaya (optionnelle)}
+
+        Afin d'enrichir l'analyse, et permettre le développement de schémas couplés espace-temps, l'étape précédente peut être suivie d'une procédure de Cauchy-Kovaleskaya.
+        La procédure de Cauchy-Kovaleskaya consiste à utiliser la relation entre les dérivées en espace et en temps données par l'équation cible et remplacer les dérivées en temps par des dérivées en espace dans l'équation équivalente.
+        Par exemple, pour un schéma ayant pour équation cible la diffusion $\frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial x^2}$, cela consiste à écrire de manière itérée :
+        \begin{align}
+        \frac{\partial^2 u}{\partial t^2} &= D^2 \frac{\partial^4 u}{\partial x^4} \notag \\
+        \frac{\partial^3 u}{\partial t^3} &= D^3 \frac{\partial^6 u}{\partial x^6} \notag \\
+        &\vdots \notag \\
+        \frac{\partial^n u}{\partial t^n} &= D^n \frac{\partial^{2n} u}{\partial x^{2n}}
+        \end{align}
+
+        \subparagraph{Dernière étape : relation entre le pas de temps et d'espace (optionnelle)}
+
+        Lorsque le schéma est utilisé en pratique, il est courant d'imposer une relation entre les pas d'espace et de temps, par exemple une condition de stabilité du type
+        $\Delta t \propto \frac{\Delta x^2}{D}$.
+        Il est donc utile d'injecter cette relation dans l'équation équivalente pour comprendre le comportement du schéma en conditions réelles.
