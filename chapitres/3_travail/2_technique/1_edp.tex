@@ -1,4 +1,4 @@
-\subsubsection{Méthodes des lignes et schéma couplé espaces temps.}
+    \subsubsection{Les méthodes des lignes.}
     \begin{definition}[Méthode des lignes]
         Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
         Elle consiste à discrétiser les opérateurs spatiaux de l'équation afin d'obtenir une équation semi-discrétisée en espace,
@@ -13,8 +13,7 @@
     \node[above=.1cm of edo, font=\bfseries] {Méthode des lignes};
     \end{tikzpicture}
 
-    \begin{definition}[Méthodes d'intégration espace temps]
-    \end{definition}
+    Il existe également des approches plus sophistiquées, comme les méthodes espace-temps couplées, mais ce stage se concentre sur les méthodes des lignes classiques. Un exemple d'une telle méthode est donnée en \cite{DARU2004563}.
 \subsubsection{Les volumes finis}
     Le paradigme numérique utilisé dans le stage est celui des volumes finis, particulièrement adaptés au lois de conservations.
     Les volumes finis discrétisent la valeur moyenne sur les mailles, là où les différences finies discrétisent la valeur au nœuds du maillage et 
@@ -40,7 +39,7 @@
         physiquement il quantifie "l'entrée de $f(u)$" au sein de la cellule $C_j$. En une dimension $\Phi_j = f(u^+_j) - f(u^-_j)$;
         le flux dépend simplement des valeurs à l'interface de la cellule.
     \end{definition}
-    La définition précédent est une intégrale de bord faisant intervenir les valeurs exactes de $u$ le long de l'interface.
+    La définition précédente est une intégrale de bord faisant intervenir les valeurs exactes de $u$ le long de l'interface.
     Malheureusement, paradigme des volumes n'offre qu'un accès au valeurs moyennes de $u$ sur chaque cellule.
     Ainsi, il faut approximer $\Phi_j$ à partir des valeurs moyennes.
     \begin{definition}[Flux numérique]
@@ -76,10 +75,27 @@
         L'analyse de l'ordre de convergence d'un schéma permet de quantifier l'erreur asymptotique 
         (c'est à dire lorsque les pas de temps et d'espace sont "assez petits") que commet le schéma.
         \paragraph{Ordre de convergence d'un schéma}
-        \begin{definition}[Ordre de convergence d'un schéma]
-            ...
+        Les schémas numériques sont désignés par $\bigl(U^n_j\bigr)_{n,j}$ où $n$ représente le pas de temps 
+        et $j$ la cellule. Ainsi, si la grille contient $c$ cellules, 
+        pour tout $n$, $U^n$ est un élément de l'espace vectoriel $\mathbb{R}^c$.
+        Le vecteur $\bigl(u(x_j,t^n)\bigr)_{j \in \{1,\ldots,c\}}$ est noté $u(\cdot,t^n)$.
+
+        \begin{definition}[Erreur globale]
+        L'erreur globale $E_G$ d'un schéma $\bigl(U^n_j\bigr)_{n,j}$ sur un temps $T_f = N_f \Delta t$ peut être définie comme l'erreur au temps final :
+        \begin{align}
+        E_G = \Delta x^d \Vert U^{N_f} - u(\cdot , T_f) \Vert
+        \end{align}
+        où $\Vert \cdot \Vert$ désigne une norme sur $\mathbb{R}^c$.
+        Ou bien comme l'intégrale de l'erreur sur tous les pas de temps :
+        \begin{align}
+        E_G = \sum_{k=0}^{N_f}\Delta x^d \Vert U^{k} - u(\cdot , t^k) \Vert
+        \end{align}
         \end{definition}
-        \paragraph{Equation équivalente}
+        \begin{definition}[Ordre de convergence d'un schéma]
+            Un schéma $\Bigl(U^n_j\Bigr)_{n,j}$ est dit convergent à l'ordre $p$ en temps et $q$ en espace si 
+            son erreur de globale s'écrit: $E_G = O(\Delta t^{p} + \Delta x^{q})$.
+        \end{definition}
+        \paragraph{Equation équivalente}\label{par:eq_equiv}
         \begin{definition}[Équation équivalente]
         L'équation équivalente d'un schéma est l'EDP dont la solution satisfait le schéma.
         Elle est calculée par des développements de Taylor en temps et en espace.
@@ -120,5 +136,7 @@
         \subparagraph{Dernière étape : relation entre le pas de temps et d'espace (optionnelle)}
 
         Lorsque le schéma est utilisé en pratique, il est courant d'imposer une relation entre les pas d'espace et de temps, par exemple une condition de stabilité du type
-        $\Delta t \propto \frac{\Delta x^2}{D}$.
+        $\Delta t \propto Delta x$ ou $\Delta t \propto Delta x^2$.
         Il est donc utile d'injecter cette relation dans l'équation équivalente pour comprendre le comportement du schéma en conditions réelles.
+
+        Ces outils d'analyse numérique constituent les fondements nécessaires pour aborder la simulation numérique des EDPs. La section suivante présente la multi-résolution adaptative qui permet de réduire le coût en calcul et en mémoire de ces méthodes.
