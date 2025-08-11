@@ -1,71 +1,87 @@
 \subsubsection{Méthodes des lignes et schéma couplé espaces temps.}
-\begin{definition}[Méthode des lignes]
-    Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
-    Elle consiste à discrétiser les opérateurs spatiaux de l'équation afin d'obtenir une équation semi-discrétisée en espace,
-    puis à utiliser une technique d'intégration en temps, pour obtenir la discrétisation complète de l'équation.
-\end{definition}
-\begin{tikzpicture}[node distance=4.3cm,box/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, align=center},arrow/.style={-{Stealth[length=3mm]}, thick},label/.style={font=\small, align=center}]
-\node[box, fill=blue!20] (edp) {EDP};
-\node[box, fill=green!20, right=of edp] (edo) {Équation\\semi-discrétisée\\(EDO)};
-\node[box, fill=orange!20, right=of edo] (schema) {Schéma\\final};
-\draw[arrow] (edp) -- node[above, label] {Discrétisation des\\opérateurs spatiaux} (edo);
-\draw[arrow] (edo) -- node[above, label] {Méthode d'intégration\\temporelle} (schema);  
-\node[above=.1cm of edo, font=\bfseries] {Méthode des lignes};
-\end{tikzpicture}
+    \begin{definition}[Méthode des lignes]
+        Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
+        Elle consiste à discrétiser les opérateurs spatiaux de l'équation afin d'obtenir une équation semi-discrétisée en espace,
+        puis à utiliser une technique d'intégration en temps, pour obtenir la discrétisation complète de l'équation.
+    \end{definition}
+    \begin{tikzpicture}[node distance=4.3cm,box/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, align=center},arrow/.style={-{Stealth[length=3mm]}, thick},label/.style={font=\small, align=center}]
+    \node[box, fill=blue!20] (edp) {EDP};
+    \node[box, fill=green!20, right=of edp] (edo) {Équation\\semi-discrétisée\\(EDO)};
+    \node[box, fill=orange!20, right=of edo] (schema) {Schéma\\final};
+    \draw[arrow] (edp) -- node[above, label] {Discrétisation des\\opérateurs spatiaux} (edo);
+    \draw[arrow] (edo) -- node[above, label] {Méthode d'intégration\\temporelle} (schema);  
+    \node[above=.1cm of edo, font=\bfseries] {Méthode des lignes};
+    \end{tikzpicture}
 
-\begin{definition}[Méthodes d'intégration espace temps]
-\end{definition}
+    \begin{definition}[Méthodes d'intégration espace temps]
+    \end{definition}
 \subsubsection{Les volumes finis}
-Le paradigme numérique utilisé dans le stage est celui des volumes finis, particulièrement adaptés au lois de conservations.
-Les volumes finis discrétisent la valeur moyenne sur les mailles, là où les différences finies discrétisent la valeur au nœuds du maillage et 
-les éléments finis discrétisent l'espace fonctionnel lui même. Les explications suivantes sont présentés avec plus de détails dans \cite{LeVeque1990}.
-\begin{definition}[Volumes finis]
-    Donné un maillage de pas de discrétisation $\Delta x$ d'un domaine $\Omega$ en cellules $(C_j)_{j\in J}$ de volume de l'ordre $\Delta x^d$ (ou $d$ est la dimension), 
-    la discrétisation par volume fini approxime les quantités:
+    Le paradigme numérique utilisé dans le stage est celui des volumes finis, particulièrement adaptés au lois de conservations.
+    Les volumes finis discrétisent la valeur moyenne sur les mailles, là où les différences finies discrétisent la valeur au nœuds du maillage et 
+    les éléments finis discrétisent l'espace fonctionnel lui même. Les explications suivantes sont présentés avec plus de détails dans \cite{LeVeque1990}.
+    \begin{definition}[Volumes finis]
+        Donné un maillage de pas de discrétisation $\Delta x$ d'un domaine $\Omega$ en cellules $(C_j)_{j\in J}$ de volume de l'ordre $\Delta x^d$ (ou $d$ est la dimension), 
+        la discrétisation par volume fini approxime les quantités:
+        \begin{align}
+            U_j = \frac{1}{\vert C_j \vert} \int_{C_j} u(x) d\Omega.
+        \end{align}
+    \end{definition}
+    Les volumes finis brillent lors de la simulation les lois de conservations, c'est à dire les EDPs de la forme :
     \begin{align}
-        U_j = \frac{1}{\vert C_j \vert} \int_{C_j} u(x) d\Omega.
+        \dt{u} = div(f(u)).
     \end{align}
-\end{definition}
-Les volumes finis brillent lors de la simulation les lois de conservations, c'est à dire les EDPs de la forme :
-\begin{align}
-    \dt{u} = div(f(u)).
-\end{align}
-En effet lorsque cette relation est moyennée sur une cellule $C_j$ du maillage, cela donne: 
-\begin{align}
-    \int_{C_j} \dt{u}&= \int_{C_j}  div(f(u)),\\
-    \dt{U_j} &= \int_{\partial C_j} f(u).\label{eq:apar_flux}
-\end{align}
-\begin{definition}[Flux physique]
-    Dans l'équation \ref{eq:apar_flux}, le terme $\int_{\partial C_j} f(u)$ est appelé $\Phi_j$ le terme de \textit{flux} de la cellule $j$;
-    physiquement il quantifie "l'entrée de $f(u)$" au sein de la cellule $C_j$. En une dimension $\Phi_j = f(u^+_j) - f(u^-_j)$;
-    le flux dépend simplement des valeurs à l'interface de la cellule.
-\end{definition}
-La définition précédent est une intégrale de bord faisant intervenir les valeurs exactes de $u$ le long de l'interface.
-Malheureusement, paradigme des volumes n'offre qu'un accès au valeurs moyennes de $u$ sur chaque cellule.
-Ainsi, il faut approximer $\Phi_j$ à partir des valeurs moyennes.
-\begin{definition}[Flux numérique]
-    Un \textit{flux numérique} $\Psi$ est fonction permettant d’approximer $\Phi_j$ à partir des valeurs moyennes sur la cellule $j$ et les cellules voisines:
-    $\Psi(U_{j-s} , \ldots , U_j ,\ldots , U_{j+s})$. Le nombre de cellules intervenant dans le calcul $s$ est appelé le \textit{stencil}.
-\end{definition}
+    En effet lorsque cette relation est moyennée sur une cellule $C_j$ du maillage, cela donne: 
+    \begin{align}
+        \int_{C_j} \dt{u}&= \int_{C_j}  div(f(u)),\\
+        \dt{U_j} &= \int_{\partial C_j} f(u).\label{eq:apar_flux}
+    \end{align}
+    \begin{definition}[Flux physique]
+        Dans l'équation \ref{eq:apar_flux}, le terme $\int_{\partial C_j} f(u)$ est appelé $\Phi_j$ le terme de \textit{flux} de la cellule $j$;
+        physiquement il quantifie "l'entrée de $f(u)$" au sein de la cellule $C_j$. En une dimension $\Phi_j = f(u^+_j) - f(u^-_j)$;
+        le flux dépend simplement des valeurs à l'interface de la cellule.
+    \end{definition}
+    La définition précédent est une intégrale de bord faisant intervenir les valeurs exactes de $u$ le long de l'interface.
+    Malheureusement, paradigme des volumes n'offre qu'un accès au valeurs moyennes de $u$ sur chaque cellule.
+    Ainsi, il faut approximer $\Phi_j$ à partir des valeurs moyennes.
+    \begin{definition}[Flux numérique]
+        Un \textit{flux numérique} $\Psi$ est fonction permettant d’approximer $\Phi_j$ à partir des valeurs moyennes sur la cellule $j$ et les cellules voisines:
+        $\Psi(U_{j-s} , \ldots , U_j ,\ldots , U_{j+s})$. Le nombre de cellules intervenant dans le calcul $s$ est appelé le \textit{stencil}.
+    \end{definition}
 
-\begin{definition}[Flux numérique d'ordre $p$]
-    Pour être exploitable, un flux numérique doit être \textit{consistant} à un ordre $p\geq 1$ avec la loi de conservation étudiée.
-    Donné une solution $u$ de régularité $C^{p+1}$ un flux numérique est dit consistant à l'ordre $p$ si, $\forall j$:
+    \begin{definition}[Flux numérique d'ordre $p$]
+        Pour être exploitable, un flux numérique doit être \textit{consistant} à un ordre $p\geq 1$ avec la loi de conservation étudiée.
+        Donné une solution $u$ de régularité $C^{p+1}$ un flux numérique est dit consistant à l'ordre $p$ si, $\forall j$:
+        \begin{align}
+            \vert \Psi \bigl( \tilde U_{j-s}(t) , \ldots ,\tilde  U_j(t), \ldots ,  \tilde U_{j+s}(t)\bigr) -  \Phi_j \vert = O(\Delta x^p).
+        \end{align}
+        Où $\tilde U_j$ désigne la moyenne exacte (et non une approximation) de $u$ sur la cellule $C_j$.
+    \end{definition}
+    D'un point de vue méthode des lignes, le paradigme des volumes finis donne l'équation semi-discrétisée en espace suivante:
     \begin{align}
-        \vert \Psi \bigl( U_{j-s}(t) , \ldots , U_j(t), \ldots ,  U_{j+s}(t)\bigr) -  \Phi_j \vert = O(\Delta x^p).
+        \dt{U_j(t)} = \Psi \bigl( U_{j-s}(t) , \ldots , U_j(t), \ldots ,  U_{j+s}(t)\bigr),
     \end{align}
-    Où $\tilde U_j$ désigne la moyenne exacte (et non une approximation) de $u$ sur la cellule $C_j$.
-\end{definition}
-D'un point de vue méthode des lignes, le paradigme des volumes finis donne l'équation semi-discrétisée en espace suivante:
-\begin{align}
-    \dt{U_j(t)} = \Psi \bigl( U_{j-s}(t) , \ldots , U_j(t), \ldots ,  U_{j+s}(t)\bigr),
-\end{align}
-il ne reste qu'à l'intégrer grâce à une méthode d'intégration des EDOs.
+    il ne reste qu'à l'intégrer grâce à une méthode d'intégration des EDOs.
 
 
 \subsection{Analyse de schéma numériques}
-Stabilité... Convergence...
-\begin{definition}[Procédure de Cauchy-Kovaleskaya]
-\end{definition}
-\begin{definition}[Équation modifiée]
-\end{definition}
+    Pour qualifier une schéma numérique, sur différents sujets comme 
+    la faisabilité de sa mise en oeuvre, la qualité de la solution qu'il fourni ou encore la dynamique de l'erreur qu'il introduit, 
+    divers concepts ont étés développés. Ce qui suit introduit les notions pertinentes pour comprendre les travaux du stage. 
+
+    \subsubsection{Stabilité d'un schéma numérique}
+        Les schéma simulant les équations au dérivées partielles ont les mêmes nécessités de stabilité, que ceux simulant les EDOs. 
+        D'ailleurs les méthodes des lignes transforment précisément l'EDP en EDO. 
+        Pour éviter les redondance, le lecteur se référera à la partie \ref{par:stabilite_edo}.
+    \subsubsection{Analyse de l'erreure}
+        L'analyse de l'ordre de convergence d'un schéma permet de quantifier l'erreur asymptotique 
+        (c'est à dire quand les pas de temps et d'espace sont "assez petits")que commet le schéma.
+        L'équation équivalente du schéma permet de comprendre ce qui résout simule "vraiment" le schéma et notamment la dynamique de l'erreur.
+        \begin{definition}[Équation modifiée]
+            ...
+        \end{definition}
+        L'équation modifiée du schéma peut devenir plus interprétable si dérivées temporelles d'ordres supérieurs à un sont remplacés par 
+        des dérivées spatiales, cela est permis grâce à la procédure dite de Cauchy-Kovaleskaya.
+        \begin{definition}[Procédure de Cauchy-Kovaleskaya]
+            ...
+        \end{definition}
+    
