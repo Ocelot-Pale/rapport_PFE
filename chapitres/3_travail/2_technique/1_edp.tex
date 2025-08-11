@@ -52,9 +52,15 @@ Ainsi, il faut approximer $\Phi_j$ à partir des valeurs moyennes.
     Pour être exploitable, un flux numérique doit être \textit{consistant} à un ordre $p\geq 1$ avec la loi de conservation étudiée.
     Donné une solution $u$ de régularité $C^{p+1}$ un flux numérique est dit consistant à l'ordre $p$ si, $\forall j$:
     \begin{align}
-        \vert \Psi \bigl(\tilde U_{j-s} , \ldots ,\tilde U_j, \ldots , \tilde U_{j+s}\bigr) -  \Phi_j \vert = O(\Delta x^p).
+        \vert \Psi \bigl( U_{j-s}(t) , \ldots , U_j(t), \ldots ,  U_{j+s}(t)\bigr) -  \Phi_j \vert = O(\Delta x^p).
     \end{align}
+    Où $\tilde U_j$ désigne la moyenne exacte (et non une approximation) de $u$ sur la cellule $C_j$.
 \end{definition}
+D'un point de vue méthode des lignes, le paradigme des volumes finis donne l'équation semi-discrétisée en espace suivante:
+\begin{align}
+    \dt{U_j(t)} = \Psi \bigl( U_{j-s}(t) , \ldots , U_j(t), \ldots ,  U_{j+s}(t)\bigr),
+\end{align}
+il ne reste qu'à l'intégrer grâce à une méthode d'intégration des EDOs.
 
 
 \subsection{Analyse de schéma numériques}
