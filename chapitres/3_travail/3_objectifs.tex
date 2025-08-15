@@ -1,8 +1,14 @@
-Mon premier objectif a été de comparer les performances des méthodes ImEx avec une méthode de séparation d'opérateur car sur le papier ces deux méthodes sont très proches.
-J'ai mis en lumière leurs différents domaines de stabilité et réalisé des tests de convergence. Cette étude a été réalisée sur une équation simple mais très représentative des équations de réaction-diffusion,
-l'équation de Nagumo.\par%AFAIRE : AJOUTER UNE REF
-Mon second objectif était d'explorer l'impact théorique de la multi-résolution adaptative (MRA) sur un schéma numérique classique.
-J'ai mené une analyse d'erreur sur une équation de diffusion résolue par une méthode des lignes d'ordre deux, et j'ai découvert % AFAIRE: VALIDER CE RÉSULTAT PACQUE C'EST BIZARRE...
-que la multirésolution-adaptative peut dégrader l'ordre de convergence d'une méthode. J'ai par la suite tenté (sans succès) de mettre en 
-évidence ce résultat expérimentalement grâce au code Samurai. J'ai choisi de travailler sur la diffusion pour compléter le travail 
-réalisé par l'équipe en \cite{belloti_et_al_2025} qui se centrait sur l'advection.
+Ce stage vise à évaluer des stratégies numériques modernes pour les équations d'advection-diffusion-réaction (ADR).
+Équations portent deux difficultés majeures: \textit{des opérateurs de raideurs multiples} et \textit{une ample variété d'échelles spatiales} (voir \ref{par:adv-diff-reaction}).
+\subparagraph{Premier objectif: éprouver les méthodes ImEx comme alternative au \textit{splitting} pour la gestion des raideurs multiples}
+    Le \textit{splitting} est une méthode très populaire pour intégrer des opérateurs de raideur différentes. 
+    Cependant des méthodes alternatives dites implicites-explicites présentent des avantages tangibles, comme une meilleure montée en ordre et 
+    une gestion intrinsèque du couplage des opérateurs entre opérateurs. 
+    Les méthodes ImEx ont donc été comparées sur un cas particulier; sur le pan théorique (zone de stabilité etc...) et expérimental (étude de convergence...).
+\subparagraph{Second objectif: étude de l'erreur apportée par la multi-résolution adaptative lorsque utilisée pour gérer les différentes échelles spatiales}
+    La multi-résolution adaptative est très étudiée dans la communauté scientifique et par l'équipe comme outils pour palier le caractère multi-échelles des solutions des équations d'ADR.
+    Une analyse d'erreur théorique a été conduite sur une équation de diffusion résolue par une méthode numérique usuelle à laquelle s'ajoute une étape de multi-résolution.
+    La décision de travailler sur l'équation de diffusion a été prise pour compléter le travail réalisé par l'équipe en \cite{belloti_et_al_2025} qui se centrait sur les opérateurs d'advection.
+    L'analyse d'erreur met en lumière un mécanisme apporté par la multirésolution-adaptative pouvant dégrader l'ordre de convergence d'une méthode numérique classique.
+    Une expérience numérique a par la suite été menée pour entreprendre d'observer ce phénomène dans un contexte pratique.
+Ces deux objectifs permettent d'apporter différents éléments de compréhension sur le comportement des stratégies de simulation des équations d'ADR.
