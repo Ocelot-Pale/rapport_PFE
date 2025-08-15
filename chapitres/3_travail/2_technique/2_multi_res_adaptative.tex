@@ -170,7 +170,10 @@ Enfin l'impact de la multi-résolution sur la qualité des solutions numériques
             Il faut détailler ce qui signifie dans le cadre des volumes finis, \textit{poursuivre la simulation sur la grille de calcul adaptée}.
             Le maillage adapté est constitué de cellules de tailles différents.
             Il s'agit alors pour chacune de ces cellules de prédire la valeur moyenne en son sein au pas de temps suivant, c'est à dire faire évoluer le maillage.
-            Cela se fait à partir des valeurs de cellules de part et d'autres de la cellule.
+            Cela se fait en évaluant un flux à partir des valeurs de la solution aux interfaces de la cellule. 
+            Tout l'objet des volumes finis est: à partir de valeurs moyennes sur les cellules voisines, estimer les valeurs ponctuelles aux interfaces. 
+            La MRA amène alors une subtilité, les schémas volume finis usuels s'appuient sur des cellules de volumes similaires de l'ordre de $\Delta x^d$.
+            Cependant, 
     \paragraph{Le débat sur la reconstruction}
 \subsubsection{Impact sur les solutions}
     \paragraph{}
