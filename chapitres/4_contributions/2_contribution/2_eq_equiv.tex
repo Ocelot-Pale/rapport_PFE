@@ -1,4 +1,5 @@
-\subsubsection{Équation équivalente du schéma sans MRA}
+\subsubsection{Calcul des équations équivalentes}
+\paragraph{Équation équivalente du schéma sans MRA}
     Le calcul de l'équation équivalente sans MRA donne:
     \begin{align}
         \frac{\partial u}{\partial t}  =&+ D \frac{\partial^{2}u}{\partial x^{2}} 
@@ -15,7 +16,7 @@
         - \Delta x^{6} \frac{D \lambda^3}{24}    \frac{\partial^{8}u}{\partial x^{8}}.
     \end{align}
 
-\subsubsection{Équation équivalente du schéma avec MRA}
+\paragraph{Équation équivalente du schéma avec MRA}
     Dans le cas avec MRA, le logiciel de calcul formel donne l'équation équivalente:
     \begin{align}
         \frac{\partial u}{\partial t} =&\; D \frac{\partial^2 u}{\partial x^2} \\\notag
@@ -40,10 +41,10 @@
         &- \Delta x^{6} \frac{D \lambda^{3} \frac{\partial^{8}u}{\partial x^{8}}}{24} 
         - \Delta x^{4} \frac{D \lambda^{2} \frac{\partial^{6}u}{\partial x^{6}}}{6} 
     \end{align}
-\subsection{Comparaison}
+\subsubsection{Comparaison}
     Un ordre de précision a été perdu en temps. Nous essayons a présent de comprendre quel mécanisme mène à cette baisse de performances.
     Ma démarche consiste à comparer les équations équivalentes avec et sans multirésolution, \textbf{avant} d'appliquer la procéduer de Cauchy-Kovaleskaya.
-    \subsubsection{Sans MRA}
+    \paragraph{Sans MRA}
         L'équation modifiée sans multirésolution, avant procédure de Cauchy-Kovaleskaya est:
         \begin{align}
             \frac{\partial u}{\partial t}  &= D \frac{\partial^{2} u}{\partial x^{2}} \\\notag
@@ -54,7 +55,7 @@
         \end{align}
         La méthode est bien d'ordre un, car à l'ordre un : $\frac{\partial u}{\partial t}  = D \frac{\partial^{2} u}{\partial x^{2}}$ et donc le terme $D^{2}\frac{\partial^{4} u}{\partial x^{4}} - \frac{\partial^{2} u}{\partial t^{2}}$
         se compense au cours de la procédure de Cauchy-Kovaleskaya.
-    \subsubsection{Avec MRA}
+    \paragraph{Avec MRA}
         L'équation modifiée avec multirésolution, avant procédure de Cauchy-Kovaleskaya est:
         \begin{align}
             \frac{\partial u}{\partial  t} =&D \frac{\partial^{2} u}{\partial x^{2}}\\\notag
@@ -70,7 +71,7 @@
         $D^{2}\frac{\partial^{4} u}{\partial x^{4}}$. Cependant au cours du processus de compression-reconstruction, cette approximation est entachée d'un facteur $2^{2 \Delta l}$.
         En d'autres termes le terme spatial construit pour compenser un terme temporel a été modifié par la multi-résolution, alors que le terme temporel lui n'est pas affecté par la multirésolution.
         Ainsi, les deux termes ne se compensent plus et l'ordre est perdu.
-\subsubsection{Conclusion}
+\subsubsection{Conclusion sur le résultat obtenu grâce aux équations équivalentes}
     Il a été ici mis en lumière que la multirésolution-adaptative appliquée à méthode des lignes très simple
     peut théoriquement mener à un couplage des erreurs espace-temps polluant l'ordre initial de la méthode.
     En particulier l'étape de reconstruction-reconstruction altère des termes spatiaux qui ne compensent plus certaines erreurs temporelles. 
