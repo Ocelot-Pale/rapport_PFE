@@ -10,7 +10,7 @@
     tout en offrant une solution analytique connue pour comparer l'erreur. 
     En effet le problème posé sur $\mathbb R^+ \times \mathbb R$ (sans conditions de bord): 
     \begin{align}
-        \dt{u} = \dxx{u},\\\notag
+        \dt{u} = \dxx{u},\label{eq:pb_dif}\\\notag
         u(t=0,x) = \frac{1}{\sqrt{4 \pi a }} \exp\Bigl( - \frac{x^2}{4a}\Bigr)
     \end{align}
     Admet pour solution :
@@ -19,6 +19,14 @@
     \end{align}
     La solution numérique avec conditions de bord a été comparée avec la solution analytique sans conditions de bord, 
     au vu de la taille du domaine et des temps de simulation cela ne devrait pas interférer de manière mesurable.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=.8\textwidth]{media/4_travail/1_AMR/illustration/Diffusion_Gaussienne_RKE2_Dirichlet.pdf}
+        \caption{Illustration d'une simulation du cas test \ref{eq:pb_dif} avec conditions de Dirichlet homogène et
+        affichage de l'erreur locale au temps final.}
+        \label{fig:diffusion_gaussienne}
+    \end{figure}
 \subsubsection{Des défis expérimentaux}
     L'observation du mécanisme de perte d'ordre mis théoriquement à jour précédemment 
     est une tâche ardue.
@@ -28,6 +36,14 @@
         ce qui en pratique donne $\Delta t \ll \Delta x$. De fait, la majorité des erreurs sont liés au pas d'espace "grand" devant le pas de temps, et donc
         si l'on fixe le pas d'espace pour faire converger la méthode en temps, l'erreur est déjà saturée en temps et on n'observe rien. 
         C'est un classique de l'analyse numérique.
+        \begin{figure}[htbp]
+            \centering
+            \includegraphics[width=\textwidth]{media/4_travail/1_AMR/convergence/convergence_temps_SATURATION.pdf}
+            \caption{Saturation de la convergence temporelle avec une méthode RKE2 sur l'équation de diffusion. 
+                        L'erreur L² stagne malgré la diminution du pas de temps, illustrant la domination 
+                        de l'erreur spatiale due à la contrainte CFL $\Delta t \propto \Delta x^2$.}
+            \label{fig:saturation_rke2}
+        \end{figure}
     \paragraph{Une tentative infructueuse}
         Suite à cette limite, l'expérience a été retentée avec une méthode voisine, une RK2, mais sans contrainte de stabilité. 
         Le code de calcul Samurai a donc été relancé avec une méthode RK implicite d'ordre deux, plus précisément une SDIRK.
@@ -38,6 +54,14 @@
             \item D'autres problèmes biaisent l'expérience (voir paragraphe suivant).
             \item Les calculs ou les prémisses du développement théorique précédent des équations équivalentes sont faux.
         \end{enumerate}
+        \begin{figure}[htbp]
+            \centering
+            \includegraphics[width=\textwidth]{media/4_travail/1_AMR/convergence/convergence_temps_SDIRK_ORDRE2.pdf}
+            \caption{Convergence temporelle d'ordre 2 avec une méthode SDIRK-RK2 sur l'équation de diffusion. 
+                        L'ordre théorique est préservé indépendamment des paramètres MRA, contrastant avec 
+                        nos prédictions théoriques établies pour les méthodes explicites.}
+            \label{fig:convergence_sdirk}
+        \end{figure}
     \paragraph{Des biais multiples}
         D'autres biais expérimentaux peuvent expliquer l'invisibilité du phénomène.
         Par exemple l'étude précédente ne prend pas en compte les conditions de bord.
