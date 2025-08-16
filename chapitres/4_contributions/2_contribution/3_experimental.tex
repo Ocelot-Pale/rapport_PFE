@@ -1,3 +1,11 @@
+\subsubsection{Présentation du cas test}
+    Pour tâcher d'observer la perte d'ordre des expériences numériques ont été menées grâce au logiciel Samurai.
+    Les expériences ont portées sur la simulation de l'équation de diffusion en 1D avec une solution initiale 
+    en forme de courbe de Gauß avec conditions de Neumann homogènes au bords. 
+    Pour limiter les effets de bords (qui non pris en compte dans l'analyse précédente) le domaine à été pris \textit{grand}
+    devant la largeur de la gaussienne initiale et le temps final assez petit pour que la diffusion n'atteigne pas le bord (qualitativement).
+    L'erreur à été calculée comme la norme $L^2$ de l'erreur au temps final centrée sur la gaussienne
+    \footnote{On calcul l'erreur autour de la gaussienne et pas sur tout le domaine car sinon elle serait artificiellement faible puisque la solution est quasi-nulle sur le reste du domaine qui a été pris grand pour éviter les effets de bord.}.
 \subsubsection{Des défis expérimentaux}
     L'observation du mécanisme de perte d'ordre mis théoriquement à jour précédemment 
     est une tâche ardue.
@@ -28,6 +36,5 @@
         Cependant cette fonctionnalité n'étant pas encore disponible dans le logiciel de calcul, l'expérience a été réalisée sans reconstruire ls flux au niveau 
         le plus fin mais en prenant la valeur disponible au niveau courant de compression. Il semble peu probable que ce soit la cause de la non-observation du phénomène 
         de perte d'ordre mais cela reste un biais potentiel. Enfin peut être qu'un bug s'est glissé dans mon implémentation mais cela semble peu probable 
-        puisque ce serait une erreur d'implémentation qu'il "améliore" l'ordre de convergence... 
-        l'ordre.
-\subsection{... DEPEND DE LA SUITE ...}
+        puisque ce serait une erreur d'implémentation qu'il "améliore" l'ordre de convergence...
+\subsubsection{... DEPEND DE LA SUITE ...}
