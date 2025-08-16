@@ -1,11 +1,24 @@
 \subsubsection{Présentation du cas test}
     Pour tâcher d'observer la perte d'ordre des expériences numériques ont été menées grâce au logiciel Samurai.
     Les expériences ont portées sur la simulation de l'équation de diffusion en 1D avec une solution initiale 
-    en forme de courbe de Gauß avec conditions de Neumann homogènes au bords. 
+    en forme de courbe de Gau\ss\, avec conditions de Dirichlet homogènes au bords. 
     Pour limiter les effets de bords (qui non pris en compte dans l'analyse précédente) le domaine à été pris \textit{grand}
     devant la largeur de la gaussienne initiale et le temps final assez petit pour que la diffusion n'atteigne pas le bord (qualitativement).
     L'erreur à été calculée comme la norme $L^2$ de l'erreur au temps final centrée sur la gaussienne
     \footnote{On calcul l'erreur autour de la gaussienne et pas sur tout le domaine car sinon elle serait artificiellement faible puisque la solution est quasi-nulle sur le reste du domaine qui a été pris grand pour éviter les effets de bord.}.
+    Ce cas test est pertinent car il offre une solution lisse mais avec des gradients (donc l'AMR doit compresser à divers endroits)
+    tout en offrant une solution analytique connue pour comparer l'erreur. 
+    En effet le problème posé sur $\mathbb R^+ \times \mathbb R$ (sans conditions de bord): 
+    \begin{align}
+        \dt{u} = \dxx{u},\\\notag
+        u(t=0,x) = \frac{1}{\sqrt{4 \pi a }} \exp\Bigl( - \frac{x^2}{4a}\Bigr)
+    \end{align}
+    Admet pour solution :
+    \begin{align}
+        u(t=0,x) = \frac{1}{\sqrt{4 \pi a (1+t)}} \exp\Bigl(-\frac{x^2}{4a(1+t)}\Bigr)
+    \end{align}
+    La solution numérique avec conditions de bord a été comparée avec la solution analytique sans conditions de bord, 
+    au vu de la taille du domaine et des temps de simulation cela ne devrait pas interférer de manière mesurable.
 \subsubsection{Des défis expérimentaux}
     L'observation du mécanisme de perte d'ordre mis théoriquement à jour précédemment 
     est une tâche ardue.
