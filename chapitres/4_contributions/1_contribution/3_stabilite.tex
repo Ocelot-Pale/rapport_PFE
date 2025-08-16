@@ -1,13 +1,15 @@
-Nous étudions la viabilité des RK-ImEx sur l'équation de Nagumo. Pour cela nous étudions sa stabilité.
+L'objectif est d'appréhender la viabilité des RK-ImEx sur l'équation de Nagumo. Dans ce but, leur stabilité est étudiée.
 Dans un premier temps, une étude générale de la stabilité de des RK-ImEx est menée.
-Dans un second temps, l'étude se centre sur l'application à l'équation de Nagumo.
+Puis, l'étude de stabilité se centre sur l'application à l'équation de Nagumo.
 
 \subsubsection{Étude de stabilité générale des RK-ImEx}
-    Lorsque l'on use d'une méthode ImEx, les deux (ou plus) opérateurs sont découplés, c'est bien là l'intérêt.
-    Cependant cela complique légèrement l'analyse usuelle de stabilisé. En effet la fonction de stabilité attend alors deux variables, %AFAIRE -> ajouter les renvois vers la partie introduction à l'étude de stabilité etc...
-    le coefficient spectral associé à l'opérateur traité explicitement et le coefficient spectral associé à l'opérateur traité implicitement.
-    Ainsi, pour chaque couple de valeur propre, la fonction de stabilité prend une valeur différente et comme les coefficients spectraux sont complexes, 
-    on ne peut plus visualiser d'un simple coup d'œil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci est de dimension quatre
+    Avec une méthode ImEx, les deux opérateurs de l'EDP sont découplés, c'est là l'intérêt.
+    Cependant cela complexifie l'analyse usuelle de stabilisé. 
+    En effet la fonction de stabilité attend alors deux variables, %AFAIRE -> ajouter les renvois vers la partie introduction à l'étude de stabilité etc...
+    le coefficient spectral $Z_E$ associé à l'opérateur traité explicitement et
+     le coefficient spectral $Z_I$ associé à l'opérateur traité implicitement.
+    Ainsi, pour chaque couple $(Z_E,Z_I)$ d'indices spectraux, la fonction de stabilité prend une valeur différente, et comme les coefficients spectraux sont des nombres complexes, 
+    on ne peut plus visualiser d'un simple coup d'œil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci se trouve dans un espace de dimension quatre
     \footnote{En effet la fonction de stabilité $R \mathbb C \times \mathbb C \rightarrow \mathbb R$ et $\dim  \mathbb C \times \mathbb C=4$.}.
     \paragraph{Calcul des fonction d'amplification }
     Afin d'étudier la stabilité linéaire des méthodes, les fonctions d'amplifications ont été numériquement.
