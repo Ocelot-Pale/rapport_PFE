@@ -29,6 +29,19 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red!70!black},
+  frame=single,
+  breaklines=true,
+}
 
 % En-têtes et pieds de page
 \usepackage{fancyhdr}
@@ -254,9 +267,12 @@ Je tiens à remercier...
 \newpage
 
 % Annexes
-% \appendix
-% \chapter*{Annexes}
-% \section{Annexe A : Titre de l'annexe}
+\appendix
+\chapter*{Annexes}
+\addcontentsline{toc}{chapter}{Annexes}
+\section*{Annexe A : Évaluation numérique des fonctions de stabilité}
+\input{chapitres/9_Annexes/A_stab.tex}
+
 % Contenu de la première annexe.
 
 % \section{Annexe B : Titre de l'annexe}

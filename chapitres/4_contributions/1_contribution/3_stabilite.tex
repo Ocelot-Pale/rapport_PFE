@@ -1,6 +1,9 @@
 L'objectif est d'appréhender la viabilité des RK-ImEx sur l'équation de Nagumo. Dans ce but, leur stabilité est étudiée.
 Dans un premier temps, une étude générale de la stabilité de des RK-ImEx est menée.
-Puis, l'étude de stabilité se centre sur l'application à l'équation de Nagumo.
+Puis, l'étude de stabilité se centre sur l'application à l'équation de Nagumo. L'ensemble des codes utilisés pour évaluer numériquement et afficher les domaines de stabilités
+sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stability_Nagumo}{https://github.com/Ocelot-Pale/ImEx\_stability\_Nagumo}.
+
+
 
 \subsubsection{Étude de stabilité générale des RK-ImEx}
     Avec une méthode ImEx, les deux opérateurs de l'EDP sont découplés, c'est là l'intérêt.
@@ -9,11 +12,21 @@ Puis, l'étude de stabilité se centre sur l'application à l'équation de Nagum
     le coefficient spectral $Z_E$ associé à l'opérateur traité explicitement et
      le coefficient spectral $Z_I$ associé à l'opérateur traité implicitement.
     Ainsi, pour chaque couple $(Z_E,Z_I)$ d'indices spectraux, la fonction de stabilité prend une valeur différente, et comme les coefficients spectraux sont des nombres complexes, 
-    on ne peut plus visualiser d'un simple coup d'œil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci se trouve dans un espace de dimension quatre
+    on ne peut plus visualiser d'un simple coup d'oeil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci se trouve dans un espace de dimension quatre
     \footnote{En effet la fonction de stabilité $R \mathbb C \times \mathbb C \rightarrow \mathbb R$ et $\dim  \mathbb C \times \mathbb C=4$.}.
     \paragraph{Calcul des fonction d'amplification }
-    Afin d'étudier la stabilité linéaire des méthodes, les fonctions d'amplifications ont été numériquement.
-    %AFAIRE ---> faire les calculs analytiques ... :)
+    Afin d'étudier la stabilité linéaire des méthodes, les fonctions d'amplifications ont été numériquement évaluées grâce à une fonction informatique. 
+    La démarche est la suivante:
+    \begin{enumerate}
+        \item Entrer les valeurs de $(Z_E,Z_I)$ pour lesquelles la fonction de stabilité doit être évaluée
+        \item Simuler un pas schéma en partant de $u_0 = 1$ appliqué à une équation du type Dahlquist :\\$\dt{u} = \lambda_E u + \lambda_I u$
+        \begin{enumerate}
+            \item Construire toutes les approximations intermédiaires avec les valeurs 
+            \item Construire l'approximation finale $u_1$
+        \end{enumerate}
+        \item Évaluer la norme de $U_1$
+    \end{enumerate}
+    L'implémentation concrète est fournie en Annexe A.
 
 
 \subsubsection{Étude de stabilité appliquée à l'équation de Nagumo}
