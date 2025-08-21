@@ -1,0 +1,142 @@
+% !TeX program = pdflatex
+\documentclass[10pt,aspectratio=169]{beamer}
+
+% ---------------------------------------
+% Langue & encodage
+% ---------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+
+% ---------------------------------------
+% Maths & utiles
+% ---------------------------------------
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{hyperref}
+
+% ---------------------------------------
+% Couleurs & thème minimal
+% ---------------------------------------
+\definecolor{Primary}{HTML}{6C5CE7}   % mauve-bleuté
+\definecolor{Secondary}{HTML}{A39BFF} % plus clair
+\definecolor{Accent}{HTML}{2D9CDB}    % bleu accent discret
+\definecolor{Dark}{HTML}{1F2430}
+\definecolor{Light}{HTML}{F6F7FB}
+
+\setbeamercolor{normal text}{fg=Dark,bg=white}
+\setbeamercolor{structure}{fg=Primary}
+\setbeamercolor{title}{fg=white,bg=Primary}
+\setbeamercolor{frametitle}{fg=Primary,bg=Light}
+\setbeamercolor{block title}{fg=white,bg=Primary}
+\setbeamercolor{block body}{bg=Light}
+\setbeamercolor{itemize item}{fg=Primary}
+\setbeamercolor{itemize subitem}{fg=Secondary}
+\setbeamercolor{page number in head/foot}{fg=Primary}
+
+\setbeamertemplate{navigation symbols}{} % pas d'icônes
+\setbeamertemplate{frametitle}{
+  \vspace{2pt}
+  \begin{beamercolorbox}[wd=\paperwidth,sep=5pt,leftskip=10pt]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle
+    \ifx\insertframesubtitle\@empty\relax\else\\[-2pt]
+      \usebeamerfont{framesubtitle}\footnotesize\insertframesubtitle
+    \fi
+  \end{beamercolorbox}
+}
+
+% Pied de page minimal avec numérotation
+\setbeamertemplate{footline}{
+  \leavevmode
+  \hbox{\hspace*{\dimexpr\paperwidth-1.8cm\relax}
+    \begin{beamercolorbox}[wd=1.6cm,ht=2.8ex,dp=1ex,center]{page number in head/foot}
+      \insertframenumber/\inserttotalframenumber
+    \end{beamercolorbox}}
+  \vspace{0.2ex}
+}
+
+% Plan en début de section
+\AtBeginSection[]{
+  \begin{frame}{Plan}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+% ---------------------------------------
+% Métadonnées
+% ---------------------------------------
+\title[ PFE — ENSTA Paris ]{Stratégies modernes pour l'intégration des équations d'advection–réaction–diffusion\\
+{\small (ImEx \& Multi\-Résolution Adaptative)}}
+\author[Alexandre EDELINE]{\textbf{Alexandre EDELINE}}
+\institute[ENSTA Paris \& CMAP]{
+  ENSTA Paris \\
+  Laboratoire: CMAP \\
+  Tuteurs laboratoire: Marc MASSOT, Christian TENAUD \\
+  Tuteur ENSTA: Patrick CIARLET
+}
+\date{Avril — Septembre 2025}
+
+% Optionnel : logos (placez vos fichiers dans figs/)
+\titlegraphic{%
+  \vspace{-2cm}
+  \includegraphics[height=3cm]{../media/0_cover/Logo_ENSTA_Paris.jpg}
+  \hfill
+  \includegraphics[height=3cm]{../media/0_cover/cmap.jpg}
+}
+
+% ---------------------------------------
+% Corps
+% ---------------------------------------
+\begin{document}
+
+% Page de titre
+{
+\setbeamertemplate{footline}{} % pas de numérotation sur la page de titre
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+}
+
+% Plan global
+\begin{frame}{Plan}
+  \tableofcontents
+\end{frame}
+
+% ---------------------------------------
+% Slides importées (une diapo par fichier)
+% ---------------------------------------
+% \section{Introduction \& Objectifs}
+% \input{slides/01-intro}
+
+% \section{Contexte \& Problématique}
+% \input{slides/02-contexte}
+
+% \section{Méthodes ImEx}
+% \input{slides/03-imex}
+
+% \section{Multi-Résolution Adaptative (MRA)}
+% \input{slides/04-mra}
+
+% \section{Expériences Numériques}
+% \input{slides/05-experiences}
+
+% \section{Résultats \& Discussion}
+% \input{slides/06-resultats}
+
+% \section{Conclusion}
+% \input{slides/07-conclusion}
+
+% \section{Perspectives}
+% \input{slides/08-perspectives}
+
+% \appendix
+% \section*{Annexes}
+% \input{slides/98-references}
+% \input{slides/99-remerciements}
+
+\end{document}
