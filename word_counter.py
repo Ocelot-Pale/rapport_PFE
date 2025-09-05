@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Traceur d'évolution du nombre de mots dans un repo LaTeX
 Usage: python word_tracker.py
