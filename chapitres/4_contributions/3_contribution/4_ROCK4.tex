@@ -16,7 +16,17 @@ tout en assouplissant significativement la contrainte de stabilité.
     Si le paramètres de compression est très restrictif $\varepsilon = 10^{-5}$ (colonne de gauche), les 4 algorithmes sont équivalents, en effet il n'y a presque jamais d'adaptation de maillage, car le seuil de compression est trop restrictif.
     Pour des paramètres de compression plus raisonnables ($\varepsilon = 10^{-4}$ et $\varepsilon = 10^{-3}$), les observations sont plus riches.
     Lorsque les erreurs temporelles de dominent pas, les trois algorithmes d'AMR améliorent la convergence - ce qui est surprenant. Cependant leur convergence s'arrête plus tôt, du fait des 
-    erreurs spatiales liées à l'AMR et pour des pas de temps assez petit, le schéma sans AMR demeure meilleur.
+    erreurs spatiales liées à l'AMR et pour des pas de temps assez petit, le schéma sans AMR demeure meilleur. Pour un pas de temps où l'erreur en temps domine, 
+    en figure \ref{fig:flux_reconstruction_error} est tracé l'erreur au temps final pour chacune des méthodes est tracé et il semble effectivement que les méthodes avec AMR lissent
+    "mieux" que la méthode sans AMR qui semble un peu plus bruité. 
+
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{media/4_travail/3/Error_comparaison_according_to_flux_reconstruction_method.pdf}
+    \caption{Erreur au pas de temps final pour les différentes méthodes, avec une constante CFL de diffusion $D\,\Delta t / \Delta x^2 = 1500$, correspondant à des solutions où l'erreur temporelle reste dominante.}
+    \label{fig:flux_reconstruction_error}
+    \end{figure}
+
     Pour des pas de temps menant à une erreur spatiale dominante, les résultats sont similaires à ce qui avait été observées, plus les flux sont évaluées à partir de reconstructions fines, 
     plus le plateau de saturation en erreur spatiales est important.
     \subsubsection{Conclusion}
