@@ -25,3 +25,8 @@ tout en assouplissant significativement la contrainte de stabilité.
         \item L'AMR tend à faire chuter plus rapidement l'erreur temporelle qu'avec une méthode non adaptée spatialement, et cela indépendamment de la méthode d'évaluation du flux numérique.
         \item L'AMR mène à un plateau de convergence plus élevée que sans AMR (l'erreur spatiale domine). Ce qui est étonnant est que cette saturation de l'erreur arrive d'autant plus vite que les flux sont évaluées à partir de reconstructions fines; même observation qu'avec la méthode ERK2.
     \end{enumerate}
+    Ces résultats ne valent a priori que sur une équation de diffusion "pure" et la relation d'ordre entre les erreurs qui parait incohérente n'est peut être que le résultat d'un 
+    "heureux effet lissant" qu'apporte l'AMR et qui est plus prononcé encore si l'on évalue les flux au niveau courant (algorithme 1).
+    La prochaine section se propose donc de reprendre l'expérimentation sur une équation de diffusion-réaction, présentant une onde progressive ce qui s'approche un peu plus
+    d'un contexte de simulation industrielle réaliste.
+    Dès lors, il ne s'agit plus pour le schéma de simplement lisser mais également suivre la dynamique d'un front d'onde ! Peut-être que les résultats seront différents.
