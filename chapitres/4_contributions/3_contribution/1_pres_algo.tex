@@ -13,6 +13,8 @@ il est la norme en MRA car ne ne requiert aucun calcul supplémentaire, les vale
 Le second algorithme consiste à systématiquement les valeurs de la grille la plus fine. Intuitivement c'est le plus précis, mais cela peut s'avérer très coûteux car 
 la grille plus fine n'est pas directement accessible. Par exemple si la MRA à choisir une grille plus grossière de 4 niveau par rapport à la grille la plus fine, il 
 faut reconstruire les valeurs au travers de 4 niveau. Enfin le troisième algorithme est un compromis entre les deux méthode précédents, il consiste à utiliser calculer les flux à partir des valeurs un niveau en deçà du niveau courant, pour gagner un peu en précision sans pour autant s'exposer à des coûts prohibitifs.
+En \cite{belloti_et_al_2025}, la différence théorique entre les deux premiers algorithmes a été étudiée sur des problèmes d'advection linéaires,
+une comparaison expérimentale entre les trois algorithmes à été  réalisée sur des problèmes d'advections linéaires et non-linéaires.
 \begin{figure}[htpb]
 \begin{center}
 \begin{tikzpicture}

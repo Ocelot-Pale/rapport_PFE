@@ -1,0 +1,28 @@
+La première expérience numérique a donc été faire sur l'équation de diffusion avec le même schéma numérique que dans l'étude théorique précédente (\textit{cf}\ref{par:intro_contrib_eq_equiv});
+c'est à dire une discrétisation spatiale d'ordre deux du Laplacien intégré en temps avec une méthode Runge et Kutta explicite d'ordre 2. 
+Il pourrait sembler plus astucieux d'utiliser une méthode implicite pour s'affranchir des problèmes de stabilité, cependant l'inversion d'un système linéaire couplé à 
+la reconstruction des flux à des niveaux plus fin (non-standard, algos 2 et 3) est très difficile techniquement et aurait ralenti l'étude.
+A cause de la contrainte de stabilité $\Delta t \propto \Delta x^2$, seules des solutions convergées en temps (erreur spatiale dominante) ont pu être observées (cette contrainte sera levée par la suite en \ref{}).\par 
+\subsubsection{Résultats numériques}
+Il résulte expérimentalement que dans ce contexte, étonnamment, l'algorithme un (le plus grossier) offre la plus faible erreur et que plus l'algorithme reconstruit finement les flux plus l'erreur est grande. 
+A titre d'exemple, sur une solution initiale gaussienne, avec une seuil de compression $\varepsilon = 10^{-4}$ et un maillage présentant jusqu'à 4 niveau de finesse, les erreurs $L^2$ au temps final $T_f=1$ sont les suivantes:\par
+\begin{center}\begin{tabular}{|c|c|c|}
+\hline
+Algo $n^o$ & Niveau d'évaluation des flux & Erreur $L^2$ \\
+\hline
+1 & Courant           & $1 \times 10^{-4}$ \\
+2 & Inférieur direct  & $2 \times 10^{-4}$ \\
+3 & Plus fin          & $3 \times 10^{-4}$ \\
+référence & Sans AMR& $2 \times 10^{-5}$ \\
+\hline
+\end{tabular}\end{center}
+Bien sûr, l'algorithme sans AMR reste celui avec la plus petite erreur.
+\subsubsection{Analyse et hypothèses}
+Ce résultat est assez surprenant puisqu'on s'attendrait à ce qu'une reconstruction plus précise du flux donne de meilleurs résultats.
+Dès lors plusieurs hypothèses peuvent être émises:
+\begin{enumerate}
+    \item Le fait de reconstruire \textit{déstabilise} la méthode.
+    \item L'usage de cellules plus grandes pour évaluer les flux augmente le caractère diffusif du schéma.
+    \item Peut-être que cet effet n'a lieu que sur des solutions où l'erreur spatiale domine et que les résultats seraient différents lorsque l'erreur temporelle reste dominante.
+\end{enumerate}
+La première hypothèse est éprouvée dans la prochaine section \ref{par:stab_amr} et une méthode stabilisée est utilisée en \ref{} pour explorer numériquement la troisième hypothèse.
