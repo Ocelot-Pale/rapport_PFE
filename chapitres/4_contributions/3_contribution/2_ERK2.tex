@@ -22,7 +22,7 @@ Bien sûr, l'algorithme sans AMR reste celui avec la plus petite erreur.
 Ce résultat est assez surprenant puisqu'on s'attendrait à ce qu'une reconstruction plus précise du flux donne de meilleurs résultats.
 Face à ces résultats, plusieurs hypothèses sont émises:
 \begin{enumerate}
-    \item Le fait de reconstruire \textit{déstabilise} la méthode.
+    \item La reconstruction introduit des \textit{instabilités} dans le schéma.
     \item L'usage de cellules plus grandes pour évaluer les flux augmente le caractère diffusif du schéma et réduit "accidentellement" l'erreur.
     \item Peut-être que cette tendance ne vaut que sur des solutions où l'erreur spatiale domine et que les résultats seraient différents lorsque l'erreur temporelle reste dominante.
 \end{enumerate}
