@@ -15,7 +15,15 @@ fines car l’implémentation prendrait actuellement trop de temps.
 
 
 \subsubsection{Résultats de l'expérience}
-Les résultats de l'expérience sont donnés en figure \ref{}
+Les résultats de l'expérience sont donnés en figure \ref{fig:flux_reconstruction_nagumo}, selon le pas de temps les observation sont:
+\begin{itemize}
+    \item[$\diamond$] \textbf{Pas de temps "petits" - erreur spatiale dominante:} L'erreur se comporte pareillement au cas de la diffusion pure, plus les flux sont reconstruit finement, plus l'erreur augmente.
+    \item[$\diamond$] \textbf{Pas de temps "grands" - erreur temporelle dominante:} L'erreur se comporte encore comme dans le cas de la diffusion pure, la méthode de reconstruction n'induite pas de variations sensibles de l'erreur.
+    \item[$\diamond$] \textbf{Pas de temps 'intermédiaires" - erreur spatio-temporelle: } C'est l'observation la plus intéressante: plus les flux sont finement évalués, plus l'erreur chute brutalement. 
+            Comme si \textit{la reconstruction fine des flux de diffusion prévenait un couplage des erreurs en temps et en espace}. Plus l'onde est raide, plus l'effondrement de l'erreur est marqué
+            ce qui suggère que cette amélioration vient avant tout d'un meilleur suivi du front d'onde. Enfin, quand le pas de temps continue de diminuer, l'erreur remonte comme si 
+            une sorte d'instabilité polluait la solution (voir figure AFAIRE). 
+\end{itemize}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{media/4_travail/3/flux_reconstruction_method_nagumo.pdf}
