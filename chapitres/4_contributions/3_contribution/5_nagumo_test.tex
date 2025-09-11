@@ -1,5 +1,5 @@
-Cette section vise à observer l'impact du niveau de reconstruction des flux quand l'opérateur de diffusion est couplé à un autre opérateur. 
-L'équation de diffusion est remplacée par l'équation de Nagumo (voir \ref{par:analyser_operateurs_nagumo}) qui ajoute un terme de réaction. 
+Cette expérience permet d'observer l'impact du niveau de reconstruction des flux quand l'opérateur de diffusion est couplé à un opérateur de diffusion et faisant émerger des dynamiques de couplage.
+L'équation de diffusion est donc remplacée par l'équation de Nagumo (voir \ref{par:analyser_operateurs_nagumo}).
 Des ondes progressives sont solution de cette équation, le schéma numérique donc doit être en mesure de suivre la dynamique du front d'onde.
 
 \subsubsection{Résumé de l'expérience}
@@ -9,9 +9,9 @@ C'est à dire :
     \item[$\diamond$] Profil de l'onde propagative comme état initial.
     \item[$\diamond$] Domaine étendu avec conditions de Neumann aux limites pour limiter les effets de bord
 \end{itemize}
-La seule différence majeur réside dans le remplacement de la méthode Runge et Kutta ImEx par un schéma de splitting avec une méthode stabilisée explicite pour la diffusion (ROCK 2 \cite{AbdulleMedovikov2001}).
-Ce choix découle de la nécessité d'éviter toute inversion de système linéaires lorsque l'on reconstruit les flux à partir d'approximation 
-fines car l’implémentation prendrait actuellement trop de temps.
+L'unique différence majeur est le remplacement de la méthode Runge et Kutta ImEx par un schéma de séparation d'opérateur avec une méthode stabilisée explicite pour la diffusion (ROCK 2 \cite{AbdulleMedovikov2001}).
+Ce choix découle, comme précédemment expliqué, de la nécessité d'éviter toute inversion de système linéaire lorsque les flux sont reconstruits à partir de reconstructions
+fines.
 
 
 \subsubsection{Résultats de l'expérience}
