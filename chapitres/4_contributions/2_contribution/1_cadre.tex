@@ -28,34 +28,29 @@
                 \Psi^n_{k+1/2} &= \frac{1}{\Delta x^2} \left(\frac{1}{2} u^n_{k+2} -  \frac{3}{2}  u^n_{k+1} +  \frac{3}{2} u^n_{k} -  \frac{1}{2} u^n_{k-1}\right),\\\notag
                 \Psi^n_{k-1/2} &= \frac{1}{\Delta x^2} \left(\frac{1}{2} u^n_{k+1} -  \frac{3}{2}  u^n_{k}   +  \frac{3}{2}u^n_{k-1} -  \frac{1}{2}u^n_{k-2}\right).\notag
             \end{align}
-
-        \subsubsection{multirésolution adaptative}
-        % AFAIRE --> déplacer la partie purement descriptive de la MRA dans une section du préambule technique 
-            La multirésolution adaptative consiste à compresser le maillage, puis a effectuer les calculs sur le maillage compressé.
+\newpage
+        \subsubsection{La multirésolution adaptative, différents différents paradigmes ?}
+            La multirésolution adaptative est présenté avec plus de détails dans le préambule mathématique en \ref{par:explication_MRA}.    
+            Pour rappel, MRA consiste à compresser le maillage, puis a effectuer les calculs sur le maillage compressé.
             Le schéma classique est le suivant : 
             \begin{enumerate}
                 \item Partir d'un état compressé au pas de temps $n$.
                 \item Calculer la solution au pas de temps $n+1$
-                \item Compresser de nouveau selon un seuil de compression $\varepsilon$ grâce à une transformée multiéchelle.
+                \item Compresser de nouveau selon un seuil de compression $\varepsilon$ grâce à une transformée multiéchelle et à l'heuristique d'Harten.
             \end{enumerate}
-            Lors de la compression, la transformée multiéchelle représente la solution sur plusieurs niveaux de détails, du plus global, au plus local.
-            Plus le niveau est profond, c'est à dire plus il est local, moins les détails associés portent d'information. 
-            L'opération de compression est réalisée en supprimant en chaque cellules, les niveaux dont la valeur des détails
-            passent sous un certain seuil \footnote{Typiquement $2^{\Delta l} \varepsilon$ où ${\Delta l}$} \cite{postelApprox} .
-
-            Ce seuil $\varepsilon$ n'est pas l'unique juge lors la compression, des heuristiques reposant sur la quantité d'information des détails de niveau supérieur
-            sont utilisées pour ne pas seuiller systématiquement. L'objectif est en quelque sorte d'anticiper le besoin de détails\footnote{Même si la quantité d'information laisse entendre que 
-            certains détails pourraient être ignorés, l'intuition physique pose sont veto et force certains détails à être conservés par précaution, par exemple si un front front d'onde arrive.}.
-            La plus connue est l'heuristique d'Ami Harten \cite{harten1994}.
-
-            Plusieurs stratégies existent pour réaliser le calcul d'un pas de temps à l'autre. Généralement, on estime les quantités au temps $n+1$ aux niveaux courants, 
-            à partir des quantité au niveau courant au temps $n$. Ensuite une opération de reconstruction-prédiction détermine le niveau de finesse requis de la solution au temps $n+1$.
-            Il est également possible de calculer les quantités du temps $n+1$ au niveau courant, à partir 
-            des quantités au temps $n$ \textbf{reconstruites à un niveau plus fin}. Bien que cela aie une faible efficacité computationnelle, cela réduirait les erreurs liés à la multirésolution
-            selon la qualité du prédicteur employé comme discuté en \cite{belloti_et_al_2025}. Ici nous allons étudier théoriquement les erreurs dans un contexte similaire. 
-            Nous nous plaçons sur une cellule à un niveau de détail fixé, les flux sont calculés à partir de quantités reconstruites à un niveau de détails $\Delta l$ plus fin.
-            Le raisonnement et les ressources de calcul formel de \cite{belloti_et_al_2025} on été d'une aide précieuse.
-
+            Plusieurs stratégies existent pour réaliser le calcul d'un pas de temps à l'autre. La valeur d'une cellule à un niveau de détail donné est approchée au temps pas de temps suivant
+            grâce à un flux numérique évalué soit
+            \begin{itemize}
+                \item[$\diamond$] à partir des cellules voisines au même niveau de détails. C'est la méthode dite \textit{sans reconstruction des flux}. C'est la paradigme classique en MRA.
+                \item[$\diamond$] à partir des cellules voisines au niveau le plus fin. C'est la méthode dite \textit{avec reconstruction des flux au niveau le plus fin}.
+                Cette approche n'est pas standard en MRA, elle nécessite une reconstruction grâce à l'opérateur prédiction de la solution au travers de plusieurs niveau. 
+                Toutefois il est attendu que cela réduise l'erreur puisqu'elle permet d'évaluer le flux numérique à partir de valeurs plus précises.
+                Pour des problèmes d'advection, ces gains ont été établis théoriquement et validé expérimentalement en \cite{belloti_et_al_2025}.
+                Ce travail réalise une étude similaire pour les problèmes de diffusion.
+            \end{itemize}
+            Cette contribution fournis les équations équivalentes des schémas sans MRA, avec MRA et sans reconstruction des flux et avec MRA et avec reconstruction des flux;
+            à partir de quoi elle analyse les erreurs théoriques portées par chacune de ces approches.
+            Dans la suite, seul est décrit le procédé de MRA avec reconstruction des flux car c'est le plus complexe et par soucis de concision, les calculs sans reconstruction des flux ne sont pas détaillés.
             \textbf{Calcul du flux au travers de $\Delta l$ niveaux:\\}
             Lorsque l'on applique le procédé de multirésolution, étant donné une cellule à un niveau de détail donné $l$, on cherche à faire évoluer la valeur à l'étape $n$ vers la valeur à l'étape $n+1$. 
             Pour ce faire, il faut évaluer les flux à partir les cellules voisines. Dès lors plusieurs choix s'offrent à nous. Où bien on utilise les cellules voisines à leurs niveaux courants, où bien on use de l'opérateur 

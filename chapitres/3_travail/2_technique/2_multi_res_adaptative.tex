@@ -9,6 +9,10 @@
 %           MÉTHODES CLASSIQUES 
 %           SAMURAI
 
+% Ce seuil $\varepsilon$ n'est pas l'unique juge lors la compression, des heuristiques reposant sur la quantité d'information des détails de niveau supérieur
+% sont utilisées pour ne pas seuiller systématiquement. L'objectif est en quelque sorte d'anticiper le besoin de détails\footnote{Même si la quantité d'information laisse entendre que 
+% certains détails pourraient être ignorés, l'intuition physique pose sont veto et force certains détails à être conservés par précaution, par exemple si un front front d'onde arrive.}.
+% La plus connue est l'heuristique d'Ami Harten \cite{harten1994}.
 La multi-résolution adaptative (MRA) est une méthode très efficace pour les problèmes multi-échelles. 
 L'objectif est de concentrer les efforts computationnels là où ils sont nécessaires. 
 Concrètement cela consiste à augmenter la résolution de la grille de calcul où la solution est complexe et la diminuer où la solution est simple à décrire.
