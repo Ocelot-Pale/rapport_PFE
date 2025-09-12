@@ -1,24 +1,30 @@
 \subsubsection{Calcul des équations équivalentes}
 Tout le calculs ont été réalisés grâce à la bibliothèque de calcul formel \texttt{Sympy} et les codes 
 sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2}{\nolinkurl{https://github.com/Ocelot-Pale/etude_MR_RK2}}.
-\paragraph{Équation équivalente du schéma sans MRA}
+\paragraph{Équation équivalente du schéma de référence (sans multirésolution adaptative)}
     Le calcul de l'équation équivalente sans MRA donne:
     \begin{align}
-        \frac{\partial u}{\partial t}  =&+ D \frac{\partial^{2}u}{\partial x^{2}} 
+        \frac{\partial u}{\partial t}  =&D \frac{\partial^{2}u}{\partial x^{2}}
         + \Delta x^{2} \frac{D}{12}             \frac{\partial^{4}u}{\partial x^{4}} 
         -  \Delta t^{2} \frac{D^{3}}{6}          \frac{\partial^{6}u}{\partial x^{6}} 
         -  \Delta t^{3} \frac{D^{4}}{24}        \frac{\partial^{8}u}{\partial x^{8}}.
     \end{align}
-    Le schéma de base est donc bien d'ordre deux en espace et en temps.
-    En supposant une relation de stabilité du type $\lambda = \frac{D\, \Delta t }{\Delta x^2}$:
+    Le schéma de référence est donc bien d'ordre deux en espace et en temps.
+\paragraph{Équation équivalente avec multirésolution adaptative et sans reconstruction des flux}
+    Lorsque la multirésolution adaptative usuelle (sans reconstruction des flux) est introduite dans le schéma, en supposant une adaptation de $\Delta l$ niveaux de détails, 
+    l'équation équivalente devient: 
     \begin{align}
-        \frac{\partial u}{\partial t}  =&\; D \frac{\partial^{2}u}{\partial x^{2}} 
-        + \Delta x^{2} \frac{D}{12}             \frac{\partial^{4}u}{\partial x^{4}}
-        - \Delta x^{4} \frac{D \lambda^2}{6}     \frac{\partial^{6}u}{\partial x^{6}}
-        - \Delta x^{6} \frac{D \lambda^3}{24}    \frac{\partial^{8}u}{\partial x^{8}}.
+        \frac{\partial}{\partial t} u=
+            D \frac{\partial^{2}u}{\partial x^{2}}
+            +\Delta (2^{\Delta l}x)^{2}  \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}
+            -\Delta t^{2} \frac{D^{3}}{6}   \frac{\partial^{6}u}{\partial x^{6}}
+            -\Delta t^{3} \frac{D^{4} }{24} \frac{\partial^{8}u}{\partial x^{8}}
     \end{align}
+    En somme, sans reconstruction des flux, le schéma avec MRA se comporte sans surprises comme le schéma de référence mais sur un maillage plus grossier. 
+    La constante d'erreur en espace est alors de l'ordre de $2^{2\Delta l} \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}$ 
+    au lieu de $\frac{D}{12}\frac{\partial^{4}u}{\partial x^{4}}$.
 
-\paragraph{Équation équivalente du schéma avec MRA}
+\paragraph{Équation équivalente avec multirésolution adaptative et avec reconstruction des flux}
     Dans le cas avec MRA, le logiciel de calcul formel donne l'équation équivalente:
     \begin{align}
         \frac{\partial u}{\partial t} =&\; D \frac{\partial^2 u}{\partial x^2} \\\notag
