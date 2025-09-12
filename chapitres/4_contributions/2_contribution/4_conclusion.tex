@@ -1,5 +1,6 @@
-D'après les calculs formels réalisés, la reconstruction la plus fine des flux sur un problème de diffusion semble mener à une perte d'ordre en temps sur un schéma méthode des lignes.
-Cela n'est pas le cas lorsque les flux sont évalués au niveau courant.
-Toutefois cela n'a pas pu être mis en lumière expérimentalement lié aux difficultés intrinsèque au problème (contrainte de stabilité, difficulté de calcul des eq. equiv. pour d'autres schéma...).
-Face à ces difficultés et soucieux d'étudier expérimentalement la partie suivante est une troisième contribution dédiée à étudier expérimentalement l'impact 
-de la reconstruction du flux sur les problèmes de diffusion.
+En conclusion, en résolvant le problème de diffusion grâce à la méthode des lignes proposée, la multi-résolution adaptative usuelle (sans reconstruction des flux)
+préserve l'ordre du schéma. En revanche et contre toute attente, lorsque les flux sont reconstruits au niveau le plus fin, l'ordre deux en temps du semble formellement réduit à un.
+Malheureusement ce phénomène n'a pas pu être mis en lumière expérimentalement, notamment à cause de la contrainte de stabilité.
+Face à ces difficultés des expériences numériques plus ambitieuses ont été entreprises 
+(méthodes stabilisées, différents niveaux de reconstruction, extension à d'autre cas que la diffusion "pure" etc...).
+C'est l'object de la contribution suivante qui étudie empiriquement l'impact de la reconstruction ou non du flux sur les problèmes de diffusion puis de diffusion-réaction.
