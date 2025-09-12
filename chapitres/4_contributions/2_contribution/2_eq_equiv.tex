@@ -16,16 +16,15 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
     \begin{align}
         \frac{\partial}{\partial t} u=
             D \frac{\partial^{2}u}{\partial x^{2}}
-            +\Delta (2^{\Delta l}x)^{2}  \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}
+            + (2^{\Delta l} \Delta x)^{2}  \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}
             -\Delta t^{2} \frac{D^{3}}{6}   \frac{\partial^{6}u}{\partial x^{6}}
             -\Delta t^{3} \frac{D^{4} }{24} \frac{\partial^{8}u}{\partial x^{8}}
     \end{align}
     En somme, sans reconstruction des flux, le schéma avec MRA se comporte sans surprises comme le schéma de référence mais sur un maillage plus grossier. 
     La constante d'erreur en espace est alors de l'ordre de $2^{2\Delta l} \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}$ 
     au lieu de $\frac{D}{12}\frac{\partial^{4}u}{\partial x^{4}}$.
-
 \paragraph{Équation équivalente avec multirésolution adaptative et avec reconstruction des flux}
-    Dans le cas avec MRA, le logiciel de calcul formel donne l'équation équivalente:
+    En évaluant les flux à partir des cellules reconstruites au niveau le plus fin, l'équation équivalente est:
     \begin{align}
         \frac{\partial u}{\partial t} =&\; D \frac{\partial^2 u}{\partial x^2} \\\notag
         &- \frac{\Delta t}{2} D^2\, \bigl( 2^{2\Delta l}- 1 \bigr)          \frac{\partial^4 u}{\partial x^4}
@@ -34,11 +33,10 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
         &+ 2^{2\Delta l}\, \frac{D\, \Delta x^2}{12}    \frac{\partial^4 u}{\partial x^4}
         - 2^{2\Delta l}\, \frac{D\, \Delta l\, \Delta x^2}{4} \frac{\partial^4 u}{\partial x^4}
     \end{align}
-    Nous constatons que formellement le schéma est formellement d'ordre un en temps.
-    Cela suggère donc que théoriquement, la multirésolution devrait faire perdre l'ordre de convergence temporelle de la méthode des lignes.
-    Cependant en pratique la contrainte de stabilité impose une relation type CFL $\lambda = \frac{D \Delta t } {\Delta x^2} < 1/2$.
-    Cela masque la perte en ordre\footnote{Cela à été vérifié expérimentalement} puisque cela mène à l’élution équivalente:
-
+    Ce schéma est d'ordre un en temps contrastant avec l'ordre deux des deux schémas précédents.
+    Ainsi, théoriquement la reconstruction au plus fin des flux réduit l'ordre de convergence temporelle de la méthode des lignes.
+    Cependant en pratique le caractère explicite de la méthode ERK2 impose la contrainte de stabilité $\lambda = \frac{D \Delta t } {\Delta x^2} < 1/2$
+    masquant la perte d'ordre puisque cela mène à l’élution équivalente:
     \begin{align}
         \frac{\partial u}{\partial t}
         =&+ D \frac{\partial^{2}u}{\partial x^{2}}\\\notag
@@ -50,9 +48,10 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
         - \Delta x^{4} \frac{D \lambda^{2} \frac{\partial^{6}u}{\partial x^{6}}}{6} 
     \end{align}
 \subsubsection{Comparaison}
-    Un ordre de précision a été perdu en temps. Nous essayons a présent de comprendre quel mécanisme mène à cette baisse de performances.
-    Ma démarche consiste à comparer les équations équivalentes avec et sans multirésolution, \textbf{avant} d'appliquer la procéduer de Cauchy-Kovaleskaya.
-    \paragraph{Sans MRA}
+    Pour comprendre le mécanisme menant à cette perte d'ordre,
+    l'équation équivalente du schéma avec AMR et reconstruction des flux est comparée à celle du schéma de référence, 
+    \textbf{avant} d'appliquer la procédure de Cauchy-Kovaleskaya; c'est à dire sans exploiter $\dt{u}=D \dxx{u}$.
+    \paragraph{Sans multirésolution (schéma de référence)}
         L'équation modifiée sans multirésolution, avant procédure de Cauchy-Kovaleskaya est:
         \begin{align}
             \frac{\partial u}{\partial t}  &= D \frac{\partial^{2} u}{\partial x^{2}} \\\notag
@@ -80,12 +79,7 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
         En d'autres termes le terme spatial construit pour compenser un terme temporel a été modifié par la multi-résolution, alors que le terme temporel lui n'est pas affecté par la multirésolution.
         Ainsi, les deux termes ne se compensent plus et l'ordre est perdu.
 \subsubsection{Conclusion sur le résultat obtenu grâce aux équations équivalentes}
-    Il a été ici mis en lumière que la multirésolution-adaptative appliquée à méthode des lignes très simple
+    Il a été ici mis en lumière que la reconstruction des flux au plus fin sur appliquée à méthode des lignes très simple
     peut théoriquement mener à un couplage des erreurs espace-temps polluant l'ordre initial de la méthode.
-    En particulier l'étape de reconstruction-reconstruction altère des termes spatiaux qui ne compensent plus certaines erreurs temporelles. 
-    %AFAIRE -> FINIR LA CONCLUSION 
-    % Pour l'heure il conviendrait d'étudier ce phénomène sur d'autre méthodes, d'autres équations et surtout de l'étudier expérimentalement.
-    % Je ne parviens pas à mettre en lumière ce phénomène expérimentalement. 
-    % D'abord ce n'est pas possible de reproduire fidèlement cette situation car en pratique la condition de stabilité force $\Delta t \propto \Delta x^2$. 
-    % Ensuite j'ai essayé de mettre en lumière le phénomène sur une méthode implicite (RKI2 SDIRK) mais le phénomène n'a pas été observé. 
-    % ...     à suivre    ... 
+    Alors que cela n'arrive pas lorsque les flux sont évaluées plus grossièrement.
+    En particulier l'étape de reconstruction-reconstruction altère des termes spatiaux qui ne compensent plus certaines erreurs temporelles et perturbent l'ordre de la méthode Runge et Kutta.
