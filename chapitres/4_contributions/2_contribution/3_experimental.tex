@@ -45,21 +45,16 @@
             \label{fig:saturation_rke2}
         \end{figure}
     \paragraph{Une tentative infructueuse}
-        Suite à cette limite, l'expérience a été retentée avec une méthode voisine, une RK2, mais sans contrainte de stabilité. 
+        Suite à cette limite, l'expérience a été retentée avec une méthode voisine mais sans contrainte de stabilité. 
         Le code de calcul Samurai a donc été relancé avec une méthode RK implicite d'ordre deux, plus précisément une SDIRK.
-        Avec cette méthode, l'ordre deux est observé et ce qu'importe les paramètre de l'AMR.
-        Plusieurs hypothèses peuvent expliquer ce résultat:
-        \begin{enumerate}
-            \item Le phénomène n'est pas présent sur cette méthode implicite.
-            \item D'autres problèmes biaisent l'expérience (voir paragraphe suivant).
-            \item Les calculs ou les prémisses du développement théorique précédent des équations équivalentes sont faux.
-        \end{enumerate}
+        Cependant, la reconstruction des flux au niveau le plus fin est difficile à mettre en oeuvre pour les méthode implicites et donc
+        le schéma n'a été éprouvé qu'avec la MRA classique. Dans ce cas l'ordre deux en temps est bien maintenu (voir fig. \ref{fig:convergence_sdirk}), comme ce que prévoyais l'équation équivalente 
+        pour la ERK2. Toutefois cela ne dit rien du comportement avec reconstruction au niveau le plus fin.
         \begin{figure}[htbp]
             \centering
             \includegraphics[width=\textwidth]{media/4_travail/1_AMR/convergence/convergence_temps_SDIRK_ORDRE2.pdf}
-            \caption{Convergence temporelle d'ordre 2 avec une méthode SDIRK-RK2 sur l'équation de diffusion. 
-                        L'ordre théorique est préservé indépendamment des paramètres MRA, contrastant avec 
-                        nos prédictions théoriques établies pour les méthodes explicites.}
+            \caption{Convergence temporelle d'ordre 2 avec une méthode SDIRK-RK2 sur l'équation de diffusion pour différentes profondeurs de maillages adaptés.
+                        L'ordre théorique est préservé comme attendu, puisque les flux sont évalués au niveau courants.}
             \label{fig:convergence_sdirk}
         \end{figure}
     \paragraph{Des biais multiples}

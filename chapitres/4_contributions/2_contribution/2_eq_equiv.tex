@@ -62,8 +62,8 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
         \end{align}
         La méthode est bien d'ordre un, car à l'ordre un : $\frac{\partial u}{\partial t}  = D \frac{\partial^{2} u}{\partial x^{2}}$ et donc le terme $D^{2}\frac{\partial^{4} u}{\partial x^{4}} - \frac{\partial^{2} u}{\partial t^{2}}$
         se compense au cours de la procédure de Cauchy-Kovaleskaya.
-    \paragraph{Avec MRA}
-        L'équation modifiée avec multirésolution, avant procédure de Cauchy-Kovaleskaya est:
+    \paragraph{multirésolution avec reconstruction des flux}
+        L'équation modifiée avec multirésolution et reconstruction des flux, sans appliquer procédure de Cauchy-Kovaleskaya est:
         \begin{align}
             \frac{\partial u}{\partial  t} =&D \frac{\partial^{2} u}{\partial x^{2}}\\\notag
             &+ \frac{\Delta t}{2} \underbrace{\Bigl(2^{2 \Delta l} D^{2}           \frac{\partial^{4} u}{\partial x^{4}} -\frac{\partial^{2} u}{\partial t^{2}} \Bigr)}_{\text{Ne se compensent plus.}}

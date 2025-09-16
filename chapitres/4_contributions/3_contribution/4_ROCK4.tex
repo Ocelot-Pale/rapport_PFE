@@ -6,7 +6,7 @@ Grâce Ponio, l’expérience précédent à été réitérée en remplaçant la
 Cette méthode reste explicite (ce qui permet grâce à Samurai d'étudier facilement les différentes façons d'évaluer les flux) 
 tout en assouplissant significativement la contrainte de stabilité.
 \subsubsection{Résultats numériques}
-    Les résultats sont présentés en fig. \ref{}. Chaque graphique correspond à un paramétrage différent de l'AMR. 
+    Les résultats sont présentés en fig. \ref{fig:convergence_diffusion_rok4}. Chaque graphique correspond à un paramétrage différent de l'AMR. 
     Les colonnes correspondent à différents niveau de compression: $\varepsilon \in \{10^{-5}, 10^{-4}, 10^{-3}\}$.
     Les lignes correspondent à différents niveau de profondeurs du maillage: $\Delta l^{max} \in \{1,2,4\}$.
     Sur chaque graphique l'erreur $L^2$ tracée en fonction du pas de temps pour chaque méthode de calcul du flux numérique.
@@ -14,12 +14,46 @@ tout en assouplissant significativement la contrainte de stabilité.
     La courbe marron ($\texttt{flux\_recons\_lvl=0}$) est celle de l'algorithme 1, standard en AMR - reconstruction des flux avec les cellules du niveau courant.
     La courbe verte  ($\texttt{flux\_recons\_lvl=-1}$) représente l’algorithme 2 où les cellules servant à l'évaluation des flux sont systématiquement reconstruites au niveau le plus fin.
     Enfin la courbe bleu ($\texttt{flux\_recons\_lvl=1}$) représente l'algorithme 3 où la solution est reconstruite d'un niveau pour évaluer le flux numérique.
-    \begin{figure}[h!]
+
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{media/4_travail/3/Error_comparaison_according_to_flux_reconstruction_method.pdf}
-    \caption{Erreur au pas de temps final pour les différentes méthodes, avec une constante CFL de diffusion $D\,\Delta t / \Delta x^2 = 1500$, correspondant à des solutions où l'erreur temporelle reste dominante.}
-    \label{fig:erreur_diffusion_according_to_flux_recons_method}
-    \end{figure}
+    \includegraphics[width=\textwidth]{media/4_travail/3/flux_reconstruction_method_diffusion.pdf}
+    \caption{THE CAPTION}
+    \label{fig:convergence_diffusion_rok4}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\centering
+\rotatebox{90}{%
+\begin{minipage}{\textheight}
+\centering
+\begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{media/4_travail/3/01_error_profile_big_cfl.png}
+    \subcaption{Constante CFL Élevée}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{media/4_travail/3/02_error_profile_medium_cfl.png}
+    \subcaption{Constante CFL Moyenne}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{media/4_travail/3/03_error_profile_small_cfl.png}
+    \subcaption{Constante CFL Petite}
+\end{subfigure}
+
+\caption{Profils d'erreur pour différentes valeurs de la constante CFL. C'est le pas d'espace est fixé, 
+cela revient simplement à changer le pas de temps.}
+\label{fig:error_profiles_landscape}
+\end{minipage}%
+}
+\end{figure}
+\clearpage
+
+
+    
     Si le paramètres de compression est très restrictif $\varepsilon = 10^{-5}$ (colonne de gauche), les 4 algorithmes sont équivalents, en effet il n'y a presque jamais d'adaptation de maillage, car le seuil de compression est trop restrictif.
     Pour des paramètres de compression plus raisonnables ($\varepsilon = 10^{-4}$ et $\varepsilon = 10^{-3}$), les observations sont plus riches.
     Lorsque les erreurs temporelles de dominent pas, les trois algorithmes d'AMR améliorent la convergence - ce qui est surprenant. Cependant leur convergence s'arrête plus tôt, du fait des 
