@@ -6,22 +6,35 @@ Grâce Ponio, l’expérience précédent à été réitérée en remplaçant la
 Cette méthode reste explicite (ce qui permet grâce à Samurai d'étudier facilement les différentes façons d'évaluer les flux) 
 tout en assouplissant significativement la contrainte de stabilité.
 \subsubsection{Résultats numériques}
-    Les résultats sont présentés en fig. \ref{fig:convergence_diffusion_rok4}. Chaque graphique correspond à un paramétrage différent de l'AMR. 
-    Les colonnes correspondent à différents niveau de compression: $\varepsilon \in \{10^{-5}, 10^{-4}, 10^{-3}\}$.
-    Les lignes correspondent à différents niveau de profondeurs du maillage: $\Delta l^{max} \in \{1,2,4\}$.
-    Sur chaque graphique l'erreur $L^2$ tracée en fonction du pas de temps pour chaque méthode de calcul du flux numérique.
-    La courbe blanche correspond à la solution sans AMR sur la grille la plus fine, elle sert de référence.
-    La courbe marron ($\texttt{flux\_recons\_lvl=0}$) est celle de l'algorithme 1, standard en AMR - reconstruction des flux avec les cellules du niveau courant.
-    La courbe verte  ($\texttt{flux\_recons\_lvl=-1}$) représente l’algorithme 2 où les cellules servant à l'évaluation des flux sont systématiquement reconstruites au niveau le plus fin.
-    Enfin la courbe bleu ($\texttt{flux\_recons\_lvl=1}$) représente l'algorithme 3 où la solution est reconstruite d'un niveau pour évaluer le flux numérique.
-
+    Les résultats sont présentés en fig. \ref{fig:convergence_diffusion_rok4}. Chaque graphique correspond à un paramétrage différent de l'MRA. 
+    Les solutions sont comparées à une solution convergée en temps afin d'isoler les erreurs temporelles et celles liées à la MRA de l'erreur spatiale.
+    La grille la plus fine du maillage de niveau 12, ce qui correspond à $2^{12}$ cellules et le maillage peut être représenté sur 6 niveaux, donc du niveau $12$ au niveau $12-6=6$.
+    Le graphique de droite correspond à un seuil de compression modéré ($\varepsilon = 10^{-5}$) et celui de gauche à un seuil de compression plus restrictif ($\varepsilon = 10^{-6}$).
+    Sur chaque graphique l'erreur $L^2$ est tracée en fonction du pas de temps pour chaque méthode de calcul du flux numérique:
+{\contour{black}{\textcolor{antiquewhite}{{sans MRA (grille fine)}}}} ;
+{\contour{black}{\textcolor{crimson}{{MRA niveau courant}}}} ;
+{\contour{black}{\textcolor{peru}{{reconstruction d'un niveau}}}} ;
+{\contour{black}{\textcolor{navy}{{reconstruction au niveau le plus fin}}}}.
+    Les principales observations sont:
+    \begin{enumerate}
+        \item Pour un petit pas de temps: plus les flux sont reconstruit finement plus l'erreur augmente, ce qui est étonnant mais cohérent avec l'expérience numérique précédente.
+        \item Pour un grand pas de temps: la méthode d'évaluation du flux importe peu. Les erreurs en temps dominent les erreurs liés à la MRA.
+        \item Il existe une gamme de pas de temps intermédiaires où les méthodes reconstruisant les flux sur-performent la MRA classique \textbf{et} (étonnant !) la méthode sur grille fine.
+    \end{enumerate}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{media/4_travail/3/flux_reconstruction_method_diffusion.pdf}
     \caption{THE CAPTION}
     \label{fig:convergence_diffusion_rok4}
 \end{figure}
-
+    Afin d'éclairer ces résultats surprenants, la figure \ref{fig:error_profiles_landscape} présente le profil des erreurs pour les différents régimes de pas de temps: petit, intermédiaire, grand.\par
+    \textbf{Pour la méthode sur grille fine et la méthode MRA classique :} le profil présente une \textit{cloche centrale} qui "s'écrase" au fur et à mesure que le pas de temps se réduit, de fait l'erreur chute avec le pas de temps.\\
+    \textbf{En revanche pour les méthodes impliquant une reconstruction:} le profil présente également une \textit{cloche centrale} mais au lieu de s'écraser,
+    elle change progressivement de convexité et de signe.
+    Elle est d'abord positive convexe pour les grands pas de temps puis concave négative pour les petits pas de temps.
+    Pour un régime intermédiaire, la cloche est aplatie en zéro ce qui provoque pour ces pas de temps, la chute brutale de l'erreur.\par
+    Ce comportement très intéressant - le changement de signe de la cloche - résulte du couplage entre les erreurs en temps du schéma et les erreurs de la reconstruction de la MRA. 
+    Dans la suite, nous allons relier cette observations au équations équivalentes précédemment établies.
 \clearpage
 \begin{figure}[p]
 \centering
@@ -51,27 +64,3 @@ cela revient simplement à changer le pas de temps.}
 }
 \end{figure}
 \clearpage
-
-
-    
-    Si le paramètres de compression est très restrictif $\varepsilon = 10^{-5}$ (colonne de gauche), les 4 algorithmes sont équivalents, en effet il n'y a presque jamais d'adaptation de maillage, car le seuil de compression est trop restrictif.
-    Pour des paramètres de compression plus raisonnables ($\varepsilon = 10^{-4}$ et $\varepsilon = 10^{-3}$), les observations sont plus riches.
-    Lorsque les erreurs temporelles de dominent pas, les trois algorithmes d'AMR améliorent la convergence - ce qui est surprenant. Cependant leur convergence s'arrête plus tôt, du fait des 
-    erreurs spatiales liées à l'AMR et pour des pas de temps assez petit, le schéma sans AMR demeure meilleur. Pour un pas de temps où l'erreur en temps domine, 
-    en figure \ref{fig:flux_reconstruction_error} est tracé l'erreur au temps final pour chacune des méthodes est tracé et il semble effectivement que les méthodes avec AMR lissent
-    "mieux" que la méthode sans AMR qui semble un peu plus bruité. 
-
-
-    Pour des pas de temps menant à une erreur spatiale dominante, les résultats sont similaires à ce qui avait été observées, plus les flux sont évaluées à partir de reconstructions fines, 
-    plus le plateau de saturation en erreur spatiales est important.
-    \subsubsection{Conclusion}
-    Deux conclusions sont à tirer de cette expérience:
-    \begin{enumerate}
-        \item L'AMR tend à faire chuter plus rapidement l'erreur temporelle qu'avec une méthode non adaptée spatialement, et cela indépendamment de la méthode d'évaluation du flux numérique.
-        \item L'AMR mène à un plateau de convergence plus élevée que sans AMR (l'erreur spatiale domine). Ce qui est étonnant est que cette saturation de l'erreur arrive d'autant plus vite que les flux sont évaluées à partir de reconstructions fines; même observation qu'avec la méthode ERK2.
-    \end{enumerate}
-    Ces résultats ne valent a priori que sur une équation de diffusion "pure" et la relation d'ordre entre les erreurs qui parait incohérente n'est peut être que le résultat d'un 
-    "heureux effet lissant" qu'apporte l'AMR et qui est plus prononcé encore si l'on évalue les flux au niveau courant (algorithme 1).
-    La prochaine section se propose donc de reprendre l'expérimentation sur une équation de diffusion-réaction, présentant une onde progressive ce qui s'approche un peu plus
-    d'un contexte de simulation industrielle réaliste.
-    Dès lors, il ne s'agit plus pour le schéma de simplement lisser mais également suivre la dynamique d'un front d'onde ! Peut-être que les résultats seront différents.
