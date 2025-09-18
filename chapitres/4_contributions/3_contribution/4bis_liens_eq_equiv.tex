@@ -1,0 +1,21 @@
+Les équations équivalentes (obtenues en \ref{par:contrib_2}) offrent une piste pour comprendre le comportements différents des erreurs des méthodes reconstruisant le flux de celles ne le reconstruisant pas.
+L'analyse théorique est toujours faite au travers des équation équivalente des schémas issu de la méthode ERK2 et non de ROCK2; 
+toutefois, cela fournit un cadre de réflexion cohérent puisque ROCK2 reste une ERK2 avec des étages de stabilisation.
+Lorsque l'on compare les équations équivalentes des méthodes de MRA avec et sans reconstruction, les termes qui diffèrent au premier ordre non nul sont : 
+\begin{align}
+    \notag
+    &\text{MRA sans reconstruction: }& 2^{2 \Delta l} \frac{D}{12}\Delta x^2 \frac{\partial^4 u}{\partial x^4}
+    \\\notag
+    &\text{MRA avec reconstruction: }& \left( 2^{2 \Delta l}\frac{D}{12}(1-3\Delta l) + \frac{D}{2} \lambda (2^{\Delta l} - 1)\right) \Delta x^2 \frac{\partial^4 u}{\partial x^4}
+\end{align}
+Avec reconstruction un terme dépend de la constante CFL diffusive $\lambda = \frac{D \Delta t}{\Delta x^2}$. Ainsi le coefficient devant cette erreur en $\partial_x^4 u$ 
+est positif pour grands $\lambda$ (à pas de temps fixé, cela correspond à de grands $\Delta t$) et négatif pour de petits pas de temps. Pour un certain pas de temps, le coefficient s'annule.
+Ce terme modulerait donc le signe et l'amplitude de l'erreur porté par la dérivée quatrième. 
+L'effondrement de l'erreur sur une courte gamme de pas de temps pour les méthode 
+reconstruisant le flux ne serait que le résultat de l'annulation \textit{fortuite} de ce terme; lorsqu'il change continûment de signe. 
+C'est pour l'instant la seule explication que je puisse apporter au observation expérimentales.
+Elle semble crédible puisqu'elle permet de décrire le mécanisme observé expérimentalement et qu'il résulte de l'étude de la principale différence entre les deux méthodes. 
+Un autre point qui pointe dans cette direction est que le profil de l'erreur ressemble fortement la dérivée spatiale d'ordre quatre de la solution comme peut le constater le lecteur:
+\begin{figure}
+    
+\end{figure}
