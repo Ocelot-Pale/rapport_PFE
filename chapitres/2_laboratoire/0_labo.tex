@@ -1,48 +1,18 @@
-\subsection{Historique et activités}
-Le Centre de Mathématiques Appliquées de l'École Polytechnique\footnote{\href{https://cmap.ip-paris.fr}{https://cmap.ip-paris.fr}} (CMAP) a été créé en 1974 lors du déménagement de l'École Polytechnique vers Palaiseau. 
-Cette création répond au besoin émergent de mathématiques appliquées face au développement des méthodes de conception et de simulation par calcul numérique dans de nombreuses applications industrielles de l'époque(nucléaire, aéronautique, recherche pétrolière, spatial, automobile).
+\subsection{Le laboratoire.}
+Le Centre de Mathématiques Appliquées de l'École Polytechnique\footnote{\href{https://cmap.ip-paris.fr}{https://cmap.ip-paris.fr}} (CMAP) a été créé en 1974.
+Cette création répond au besoin émergent de mathématiques appliquées face au développement des méthodes de conception et de simulation par calcul numérique dans de nombreuses applications industrielles de l'époque (nucléaire, aéronautique, recherche pétrolière, spatial, automobile).
 Le laboratoire fut fondé grâce à l'impulsion de trois professeurs : Laurent \textsc{Schwartz}, Jacques-Louis \textsc{Lions} et Jacques \textsc{Neveu}. Jean-Claude \textsc{Nédélec} en fut le premier directeur, et la première équipe de chercheurs associés comprenait P.A. \textsc{Raviart}, P. \textsc{Ciarlet}, R. \textsc{Glowinski}, R. \textsc{Temam}, J.M. \textsc{Thomas} et J.L. \textsc{Lions}. 
 Les premières recherches se concentraient principalement sur l'analyse numérique des équations aux dérivées partielles.
 Le CMAP s'est diversifié au fil des décennies, intégrant notamment les probabilités dès 1976, puis le traitement d'images dans les années 1990 et les mathématiques financières à partir de 1997. 
-Le laboratoire a formé plus de 230 docteurs depuis sa création et a donné naissance à plusieurs startups spécialisées dans les applications industrielles des mathématiques appliquées.
 
-\subsection{La recherche au CMAP}
-Le CMAP comprend trois pôles  de recherche: le pôle analyse, le pôle probabilités et le pôle décision et données. Chaque pôle accueil en son sein plusieurs équipes :
-\begin{enumerate}
-    \item \textbf{Analyse}
-        \begin{itemize}
-            \item[$\diamond$] EDP pour la physique.
-            \item[$\diamond$] Mécanique, Matériaux, Optimisation de Formes.
-            \item[$\diamond$] HPC@Maths (calcul haute performance).
-            \item[$\diamond$] PLATON (quantification des incertitudes en calcul scientifique), avec l'INRIA.
-        \end{itemize}
-    \item \textbf{Probabilités}
-        \begin{itemize}
-            \item[$\diamond$] Mathématiques financières.
-            \item[$\diamond$] Population, système particules en interaction.
-            \item[$\diamond$] ASCII (interactions stochastiques coopératives), avec l'INRIA.
-            \item[$\diamond$] MERGE (évolution, reproduction, croissance et émergence), avec l'INRIA.
-        \end{itemize}
-    \item \textbf{Décision et données}
-        \begin{itemize}
-            \item[$\diamond$] Statistiques, apprentissage, simulation, image.
-            \item[$\diamond$] RandOpt (optimisation aléatoire).
-            \item[$\diamond$] Tropical (algèbre $(\max , +)$), avec l’INRIA.
-        \end{itemize}
-\end{enumerate}
-J'ai intégré l'équipe \textbf{HPC@Maths} \textbf{pole analyse}.
-De nombreuses équipe sont partagées entre le CMAP et l'INRIA ce qui démontre l'aspect appliqué du laboratoire.
-
-\subsection{L'équipe HPC@Math et l’environnement de travail}
-\paragraph{L'équipe HPC@Math}
-    L'équipe HPC@Math\footnote{\href{https://initiative-hpc-maths.gitlab.labos.polytechnique.fr/site/index.html}{https://initiative-hpc-maths.gitlab.labos.polytechnique.fr/site/index.html}} travaille à l'interface des mathématiques de la physique (mécanique des fluides, thermodynamique) et de l'informatique pour développer 
-    des méthodes numériques complètes (schéma, analyse d'erreur, implémentation) pour la simulation des EDP. 
-    L’équipe se centre sur les problèmes multi-échelles; les EDPs cibles qui typiquement étudiées sont les équations d'advection-réaction-diffusion qui représente 
-    de manière générale le couplage entre la mécanique des fluides, la thermodynamique et la chimie (typiquement un problème de combustion).
-    Tout cela se fait dans le contexte HPC (high performance computing). Le HPC désigne l'usage optimal des ressources informatiques disponibles
-    cela peut être développer une simulation efficace sur une petite machine comme des schéma hautement parallélisable 
-    dans des paradigmes de calculs hybrides ou dans des contextes hexascale (échelle hexaflopique)
-    \footnote{Plateformes de calculs ayant une capacité de calcul théorique de $10^{16}$ opérations par seconde (hexaflops).}. 
-    Ainsi l'application des méthodes développées
-    est au cœur des réflexions de l'équipe. 
-\paragraph{Envrionnement de travail}
+Le laboratoire a formé plus de 230 docteurs depuis sa création et a donné naissance à plusieurs \textit{startups} spécialisées dans les applications industrielles des mathématiques appliquées.
+Le CMAP comprend trois pôles  de recherche: le pôle analyse, le pôle probabilités et le pôle décision et données.
+J'ai intégré l'équipe \textbf{HPC@Maths} du \textbf{pole analyse}.
+\subsection{L'équipe HPC@Math}
+    L'équipe HPC@Math\footnote{\href{https://initiative-hpc-maths.gitlab.labos.polytechnique.fr/site/index.html}{https://initiative-hpc-maths.gitlab.labos.polytechnique.fr/site/index.html}} 
+    travaille à l'interface des mathématiques, de l'informatique et de la physique (mécanique des fluides, thermodynamique) pour développer 
+    des méthodes numériques efficaces pour la simulation des EDP. 
+    L’équipe s'intéresse entre-autre aux problèmes multi-échelles, au travers des équations d'advection-réaction-diffusion.
+    Les travaux de l'équipe s'inscrive toujours dans contexte HPC (high performance computing). 
+    Ce terme désigne l'usage optimal des ressources informatiques disponibles et de leur architectures. 
+    Chaque méthode est développée en se demandant si elle pourra être facilement parallélisé, si elle pourra être déployer sur GPU ou sur un cluster de calcul de manière efficace. 

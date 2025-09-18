@@ -22,7 +22,12 @@
     1. Présentation du Labo et de l'équipe.
     2. Introduction du sujet
     3. Objectifs du stage
+    4. Plan
 2. Préambule technique.
     Marteler la nature de ce chapitre et que le lecteur confirmé peut le sauter.
+3. Contributions
+    1. 
+    2. 
+    3. 
 # Révision à faire 
 - Abstract (trop mielleux)
