@@ -221,9 +221,12 @@ Je tiens à remercier...
 \input{chapitres/2_laboratoire/0_labo.tex }
 \section{Présentation du sujet et problématique générale}
 \input{chapitres/2_laboratoire/1_sujet_problematique.tex}
+\section{Organisation du rapport}
+\input{chapitres/2_laboratoire/2_structure.tex}
 
 \newpage
 \chapter{Description du travail objectifs et état de l'art}
+    \label{par:tech}
     \input{chapitres/3_travail/0_intro.tex}
     \newpage
     \section{Quelques notions techniques}
@@ -237,6 +240,7 @@ Je tiens à remercier...
 
 \newpage
 \chapter{Contribution}
+    \label{par:contrib}
     \input{chapitres/4_contributions/0_intro.tex}
     \newpage
     \section{Étude de méthodes ImEx sur une équation de diffusion-réaction}
@@ -264,6 +268,7 @@ Je tiens à remercier...
     
     \newpage
     \section{Impact de la qualité de reconstruction des flux pour les problèmes diffusion avec AMR.}
+        \label{par:contrib_3}
         \input{chapitres/4_contributions/3_contribution/0_obj_methode_plan.tex}
         \subsection{Présentation des trois algorithmes}     \input{chapitres/4_contributions/3_contribution/1_pres_algo.tex}
         \subsection{Expérience numérique avec une méthode Runge et Kutta explicite}     \input{chapitres/4_contributions/3_contribution/2_ERK2.tex}

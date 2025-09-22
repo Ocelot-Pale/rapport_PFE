@@ -33,22 +33,22 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
     (raideur, localités différentes). Plus de détails sont donnés en \ref{}.\par
 
     \textbf{La première difficulté} pousse à utiliser des stratégies d'adaptation de maillage. L'objectif est de disposer d'un maillage fin seulement là ou la complexité de la solution le requiert.
-    Plusieurs techniques existent et se déclinent en deux grandes catégories\cite{}:
+    Plusieurs techniques existent et se déclinent en deux grandes catégories\cite{Vivarelli2025Fluids}:
     \begin{enumerate}
         \item Les méthodes \textit{features-based} qui utilise une quantité locale de la solution et ses gradients pour prédire la \textit{complexité} de la solution en chaque point 
         et adapter en conséquence.
         \item Les méthodes \textit{goal-based} qui cherchent à optimiser une fonction de coût reflétant la qualité générale de la solution selon l'adaptation choisie.
         Généralement la fonction de coût est issue d'un problème adjoint sur une quantité d’intérêt.
     \end{enumerate}
-    Le stage ce centre sur la multi-résolution adaptative \cite{}, une méthode d'adaptation s'appuyant sur une transformée en ondelette.
+    Le stage ce centre sur la multi-résolution adaptative \cite{harten1994}, une méthode d'adaptation s'appuyant sur une transformée en ondelette.
     Elle ne tombe dans aucune des deux catégories précédente, étant basée avant tout sur des arguments issus de la théorie de l'information.\par
 
     \textbf{La seconde difficulté} décourage l'usage de schémas monolithiques qui traiteraient tous les opérateurs de la même manière 
     (leur properties étant très distinctes aucun une schéma monolithique ne répondra aux besoins des trois opérateurs en même temps).
     Cela motive l'emploi de schémas découplant les traitements subis par chaque opérateur. Parmi les méthodes les plus établies se trouvent 
-    les techniques de séparation d'opérateurs et notre objet d'étude: les méthodes ImEx.
+    les techniques de séparation d'opérateurs (\textit{splitting}) et notre objet d'étude: les méthodes ImEx.
 
-\subsection{Motivation du sujet initial et de l'orientation effective des recherches}
+\subsection{Motivation du sujet initial et orientation effective des recherches}
     \subsubsection{Motivation du sujet initial}
     Le sujet initial était d'étudier l'usage conjoint des méthodes ImEx et de la MRA pour trancher l’existence ou non de couplages délétères entre ces deux méthodes.\par 
 
@@ -64,20 +64,27 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
     ou encore a des méthodes ImEx, couplées espace-temps, faites sur mesures pour une équation spécifique \cite{rebou2024}.
 
     \paragraph{Interactions entre adaptation spatiale et le découplage des opérateurs}
-
+        L'interaction entre le \textit{splitting} et la MRA a été explicitement traité dans la thèse de Max Duarte.    
+        Toutefois l'interaction entre les méthodes d'adaptation en espace et les schémas découplant les traitements infligés à chaque opérateur (ImEx, \textit{splitting}) n'est que peu traité.
+        Cependant c'est un sujet qui transparaît dans de nombreux articles, par exemple \cite{Zhang2025IMEXTSA} traite d'une méthode ImEx adapté en espace et en temps, et l'on peut comparer les erreurs entre l'ImEx non-adaptée et 
+        l'ImEx adaptée seulement en espace et celle adaptée en espace-temps. On y distingue bien la problématique du couplage entre les traitements en temps et en espace mais ce n'est pas clairement étudié.
+        \textbf{Ainsi l'étude d'éventuel mécanismes de couplages entre les méthodes ImEx et la MRA est très pertinent car elle comble un trou dans la literature et permet de justifier (ou pas)
+        une combinaison sur le papier très efficace pour les équations d'ADR.}
     \subsubsection{Une bifurcation en cours de recherche}
-        Comme mentionné précédemment,j'ai bifurqué vers un autre sujet au cours de mes recherches. Je détaille donc les circonstances et motivations de ce changement de trajectoire.\par 
-
+        Comme mentionné précédemment, mes recherches ont bifurqué vers un sujet voisin. Je détaille donc les circonstances et motivations de ce changement de trajectoire.\par 
         J'ai commencé par me familiariser avec méthodes ImEx (ARK) en les comparants à la séparation d'opérateurs en terme de stabilité et de convergence sur une équation simple.
-        
-        Puis, comme je devais étudier le couplage ImEx et MRA de façon fine, mes tuteurs m'ont conseillé pour m’entraîner, 
-        d'étudier d'abord l'impact théorique de la MRA sur une simple équation de diffusion, sans schéma en temps complexe (pas d'ImEx).
-
-        J'ai étudié donc ce cas avec \texttt{(I)} une MRA standard mais j'ai également exploré \texttt{(II)} une implémentation non-standard de la MRA, où bien que la solution soit compressée, 
+        Puis, comme je devais étudier le couplage ImEx et MRA de façon fine, mes tuteurs m'ont conseillé, pour m’entraîner, 
+        d'étudier d'abord l'impact de la MRA sur une simple équation de diffusion, sans schéma en temps complexe (pas d'ImEx).
+        J'ai donc étudié ce cas avec \texttt{(I)} une MRA standard mais j'ai également exploré \texttt{(II)} une implémentation non-standard de la MRA, où bien que la solution soit compressée, 
         les valeurs servant à l'évaluation des flux numériques sont systématiquement reconstruites (décompressions locales).
-        La différence n'est à ma connaissance pas étudiée par la littérature, 
-        c'est un sujet qui a récemment été soulevé au CMAP et étudiée sur les problèmes d’advections \cite{belloti_et_al_2025} 
+        La différence n'est à ma connaissance pas étudiée par la littérature;
+        c'est un sujet qui a récemment émergé au CMAP et a été traité sur les problèmes d’advections en \cite{belloti_et_al_2025} 
         concluant que l'implémentation non-standard (avec reconstruction des flux) était plus précise.
-        \textbf{Cependant} mon analyse théorique sur l'équation de diffusion a donnés des résultats opposés à ceux obtenus sur les problems d'advection.
-        Intrigué par ces résultats j'ai voulu les confirmer, les documenter et les expliquer. De fait cette découverte inopinée m'a fait bifurquer vers un autre objet d'étude: 
-        l'impact du niveau d'évaluation du flux numériques sur les problèmes de diffusion et de diffusion-réaction. 
+        \textbf{Cependant} mon analyse pour la diffusion a donné des conclusions opposés à celles de l'advection.
+        Intrigué par ces résultats j'ai voulu les confirmer, les documenter et les expliquer.
+        De fait cette découverte inopinée m'a fait bifurquer vers un autre objet d'étude: 
+        l'impact du niveau d'évaluation du flux numériques sur les problèmes de diffusion et de diffusion-réaction.\par
+    \newpage
+    \section{Problématique principale}
+    La problématique dominante du stage est donc: \textbf{Quel est l'impact du niveau d'évaluation des flux numériques des schéma volumes finis avec multi-résolution adaptative
+    pour les problèmes de diffusion et de réaction diffusion.}
