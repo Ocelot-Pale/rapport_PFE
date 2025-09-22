@@ -1,19 +1,83 @@
-Ce travail participe à l'élaboration de méthodes numériques pour l'approximation des équations aux dérivées partielles d'évolution.
-En particulier les équations d'advection-diffusion-réaction (présentation en \ref{par:adv-diff-reaction}). Elles décrivent par exemple les systèmes physiques couplant
-mécanique des fluides, thermodynamique et réactions chimiques\footnote{Typiquement des problèmes de combustion.}.
-Ces équations sont difficiles à simuler du fait de leur caractère multi-échelle
-\footnote{Une réaction chimique a des temps et distances typiques généralement plusieurs ordres de grandeur plus faibles que les temps et distances typiques de la mécanique des fluides.}.
-Pour gérer les différentes échelles spatiales, des méthodes de compression de maillage sont souvent mises en oeuvre. 
-La méthode de compression utilisée et étudiée ici est la multirésolution adaptative \cite{harten1994}.
-Les différentes échelles temporelles\footnote{En termes techniques, les différents termes des équations étudiées ont des raideurs très différentes.}
-sont usuellement gérées par force brute ou par séparation d'opérateurs. 
-Pour pallier le problème de la large gamme d'échelles temporelles rencontrées, une approche hybride est ici étudiée: les méthodes implicites-explicites (ImEx) \cite{ASCHER1997151}.
-Ce travail vise donc principalement à comprendre comment la multirésolution adaptative interagit avec les différentes méthodes d'intégration temporelle.
-Il s'intéresse aux questions suivantes:
-\begin{itemize}
-\item[$\diamond$] {Comment les effets de la compression de maillage par multirésolution adaptative (MRA) sur les solutions numériques
-dépendent-ils du problème étudié et de la méthode numérique sur lesquelles elle se greffent ?}
-\item[$\diamond$] {Comment évoluent les propriétés des méthodes ImEx selon les caractéristiques des opérateurs des équations de diffusion-réaction}
-                \footnote{Même si l'objectif est bien les équations d'advection-diffusion-réaction, l'étude s'est concentrée par simplicité sur l'interaction entre phénomènes de diffusion et de réactions.}
-                { ?}
-\end{itemize}
+% Ce travail participe à l'élaboration de méthodes numériques pour l'approximation des équations aux dérivées partielles d'évolution.
+% En particulier les équations d'advection-diffusion-réaction (présentation en \ref{par:adv-diff-reaction}). Elles décrivent par exemple les systèmes physiques couplant
+% mécanique des fluides, thermodynamique et réactions chimiques\footnote{Typiquement des problèmes de combustion.}.
+% Ces équations sont difficiles à simuler du fait de leur caractère multi-échelle
+% \footnote{Une réaction chimique a des temps et distances typiques généralement plusieurs ordres de grandeur plus faibles que les temps et distances typiques de la mécanique des fluides.}.
+% Pour gérer les différentes échelles spatiales, des méthodes de compression de maillage sont souvent mises en oeuvre. 
+% La méthode de compression utilisée et étudiée ici est la multirésolution adaptative \cite{harten1994}.
+% Les différentes échelles temporelles\footnote{En termes techniques, les différents termes des équations étudiées ont des raideurs très différentes.}
+% sont usuellement gérées par force brute ou par séparation d'opérateurs. 
+% Pour pallier le problème de la large gamme d'échelles temporelles rencontrées, une approche hybride est ici étudiée: les méthodes implicites-explicites (ImEx) \cite{ASCHER1997151}.
+% Ce travail vise donc principalement à comprendre comment la multirésolution adaptative interagit avec les différentes méthodes d'intégration temporelle.
+% Il s'intéresse aux questions suivantes:
+% \begin{itemize}
+% \item[$\diamond$] {Comment les effets de la compression de maillage par multirésolution adaptative (MRA) sur les solutions numériques
+% dépendent-ils du problème étudié et de la méthode numérique sur lesquelles elle se greffent ?}
+% \item[$\diamond$] {Comment évoluent les propriétés des méthodes ImEx selon les caractéristiques des opérateurs des équations de diffusion-réaction}
+%                 \footnote{Même si l'objectif est bien les équations d'advection-diffusion-réaction, l'étude s'est concentrée par simplicité sur l'interaction entre phénomènes de diffusion et de réactions.}
+%                 { ?}
+% \end{itemize}
+L'objet initial du stage était d'étudier l'usage conjoint de méthodes implicites-explicites (ImEx) et de l'adaptation de maillage par 
+multirésolution adaptative (MRA) pour la simulation des équations d'advections-diffusion-réaction.
+Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l'étude de l'erreur liée à la MRA sur l'opérateur de diffusion.   
+\subsection{Les équations d'advections-réaction-diffusion}
+    \subsubsection{Application des équations d'ADR}
+    Les equations d'ADR sont une gamme d'équations au dérivées partielles (EDP) comportant un opérateur d'advection (transport par un flux),
+    un opérateur de diffusion (éparpillement de la matière par l'agitation thermique) et un opérateur de réaction (modélisant une ou plusieurs réactions chimiques).
+    Ces EDPs modélisent l'interaction entre la mécanique des fluides et des réactions chimiques: les différentes espèces chimiques sont advectées par l'écoulement et diffusent au sein du fluide;
+    selon de leur répartition elles réagissent entre elles, ce qui modifie en retour les propriétés du fluide (température, pression, masse volumique...). 
+    Ces EDPs sont entre-autre au coeur des problèmes de combustion (moteurs), d'explosion (militaire, sécurité industrielle), d’électrochimie (batteries, industrie), 
+    et défluents (industrie polluantes).
+    \subsubsection{Les difficultés des équations d'ADR et stratégies numériques}
+    Les équations d'ADR présente deux difficultés majeures aux numériciens: le caractère multi-échelle des solutions et les propriétés antagonists des opérateurs quelles mets en jeu
+    (raideur, localités différentes). Plus de détails sont donnés en \ref{}.\par
+
+    \textbf{La première difficulté} pousse à utiliser des stratégies d'adaptation de maillage. L'objectif est de disposer d'un maillage fin seulement là ou la complexité de la solution le requiert.
+    Plusieurs techniques existent et se déclinent en deux grandes catégories\cite{}:
+    \begin{enumerate}
+        \item Les méthodes \textit{features-based} qui utilise une quantité locale de la solution et ses gradients pour prédire la \textit{complexité} de la solution en chaque point 
+        et adapter en conséquence.
+        \item Les méthodes \textit{goal-based} qui cherchent à optimiser une fonction de coût reflétant la qualité générale de la solution selon l'adaptation choisie.
+        Généralement la fonction de coût est issue d'un problème adjoint sur une quantité d’intérêt.
+    \end{enumerate}
+    Le stage ce centre sur la multi-résolution adaptative \cite{}, une méthode d'adaptation s'appuyant sur une transformée en ondelette.
+    Elle ne tombe dans aucune des deux catégories précédente, étant basée avant tout sur des arguments issus de la théorie de l'information.\par
+
+    \textbf{La seconde difficulté} décourage l'usage de schémas monolithiques qui traiteraient tous les opérateurs de la même manière 
+    (leur properties étant très distinctes aucun une schéma monolithique ne répondra aux besoins des trois opérateurs en même temps).
+    Cela motive l'emploi de schémas découplant les traitements subis par chaque opérateur. Parmi les méthodes les plus établies se trouvent 
+    les techniques de séparation d'opérateurs et notre objet d'étude: les méthodes ImEx.
+
+\subsection{Motivation du sujet initial et de l'orientation effective des recherches}
+    \subsubsection{Motivation du sujet initial}
+    Le sujet initial était d'étudier l'usage conjoint des méthodes ImEx et de la MRA pour trancher l’existence ou non de couplages délétères entre ces deux méthodes.\par 
+
+    \paragraph{L'histoire de la MRA}
+    L'origine de la multirésolution adaptative remonte aux années 1990 et les travaux d'Ami Harten \cite{harten1994} et a été prolongé entre autre dans \cite{Kaibara2001,Cohen2003}.
+    Cette technique permettant de réduire drastiquement les temps de simulation a été largement appliquée \cite{}...
+
+    \paragraph{Le découplage des opérateurs, les méthodes ImEx}
+    La nécessité de résoudre des équations d'évolutions dont les opérateurs présentaient des propriétés antagonistes mena aux premières méthodes ImEx dans la fin des années 1990 
+    avec notamment les méthodes Runge et Kutta additives (ARK) par Asher \textit{et al} \cite{ASCHER1997151} complétés dans les année 2000 par \cite{KENNEDY2003139} puis par \cite{FITZHUGH1961445}. 
+    L'objectif étant de dépasser la séparation d'opérateurs \cite{Strang1968} qui se généralise mal au delà de l'ordre deux et deux deux opérateurs \cite{}% trouver des justifications...
+    Cela a pavé la voie à des méthodes ImEx plus complexes intégrant par exemples des méthodes stabilisées \cite{Abdulle2013} 
+    ou encore a des méthodes ImEx, couplées espace-temps, faites sur mesures pour une équation spécifique \cite{rebou2024}.
+
+    \paragraph{Interactions entre adaptation spatiale et le découplage des opérateurs}
+
+    \subsubsection{Une bifurcation en cours de recherche}
+        Comme mentionné précédemment,j'ai bifurqué vers un autre sujet au cours de mes recherches. Je détaille donc les circonstances et motivations de ce changement de trajectoire.\par 
+
+        J'ai commencé par me familiariser avec méthodes ImEx (ARK) en les comparants à la séparation d'opérateurs en terme de stabilité et de convergence sur une équation simple.
+        
+        Puis, comme je devais étudier le couplage ImEx et MRA de façon fine, mes tuteurs m'ont conseillé pour m’entraîner, 
+        d'étudier d'abord l'impact théorique de la MRA sur une simple équation de diffusion, sans schéma en temps complexe (pas d'ImEx).
+
+        J'ai étudié donc ce cas avec \texttt{(I)} une MRA standard mais j'ai également exploré \texttt{(II)} une implémentation non-standard de la MRA, où bien que la solution soit compressée, 
+        les valeurs servant à l'évaluation des flux numériques sont systématiquement reconstruites (décompressions locales).
+        La différence n'est à ma connaissance pas étudiée par la littérature, 
+        c'est un sujet qui a récemment été soulevé au CMAP et étudiée sur les problèmes d’advections \cite{belloti_et_al_2025} 
+        concluant que l'implémentation non-standard (avec reconstruction des flux) était plus précise.
+        \textbf{Cependant} mon analyse théorique sur l'équation de diffusion a donnés des résultats opposés à ceux obtenus sur les problems d'advection.
+        Intrigué par ces résultats j'ai voulu les confirmer, les documenter et les expliquer. De fait cette découverte inopinée m'a fait bifurquer vers un autre objet d'étude: 
+        l'impact du niveau d'évaluation du flux numériques sur les problèmes de diffusion et de diffusion-réaction. 
