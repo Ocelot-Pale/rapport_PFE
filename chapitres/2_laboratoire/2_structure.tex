@@ -1,17 +1,22 @@
-Le rapport est structuré de la manière suivante: le second chapitre (\ref{par:tech}) est un préambule mathématique et algorithmique qui détailles plusieurs notions utiles 
-pour comprendre mes contributions. Le lecteur expérimenté peut sauter ce chapitre et s'y référer au cours de sa lecture si certain terme lui semblent flou.
-Le troisième chapitre (\ref{par:contrib}) détaille les principales réalisations de mon stage et l'ultime chapitre (\ref{par:cc}) conclu ce rapport.\par 
-\textbf{Le second chapitre }présente entre autre: les méthodes de discrétisation des EDOs et EDPs, 
-les équations d'advections-diffusion-réactions, 
-quelques notions et outils pour analyser les schémas numériques
-et enfin la multi-résolution adaptative.\par
-\textbf{Le troisième chapitre } propose trois contributions :
-\begin{enumerate}
-    \item Une étude (en \ref{par:contrib_1}) de la stabilité de deux méthodes ImEx ARK suivi d'une comparaison avec un schéma de splitting de leur stabilité et convergence pour 
-    l'équation-test dite de Nagumo.
-    \item Une étude théorique (en \ref{par:contrib_2}), via le calcul d'équations équivalentes, du comportement de l'erreur d'une schéma méthode des lignes pour un problème de diffusion.
-    Cela dans trois contextes: \texttt{(I)} sans multi-résolution adaptative, \texttt{(II)} avec MRA standard, \texttt{(III)} avec MRA non-standard (reconstruction des flux).
-    \item Une étude expérimentale (en \ref{par:contrib_3}) des différences entre les trois schéma de MRA mentionné précédemment et une mise en relation des résultats théoriques de la contributions précédentes 
-    et des observations expérimentales.
-\end{enumerate}\par
-\textbf{La conclusion } se décline en trois parties thématiques: scientifique, technique et personnelle.
+Le rapport est structuré comme suit.
+\begin{itemize}
+\item[$\circ$] Ce chapitre pose le contexte, la problématique et les objectifs.
+\item[$\circ$] Le Chapitre \ref{par:tech} sert de préambule mathématique et algorithmique:
+il rappelle les méthodes de discrétisation pour EDO et EDP, les équations d'advection-diffusion-réaction, 
+quelques outils d'analyse de schémas numériques (stabilité, équations équivalentes), ainsi que les principes de la multi-résolution adaptative; 
+le lecteur expérimenté peut le parcourir rapidement et s'y référer au besoin.
+\item[$\circ$] Le Chapitre \ref{par:contrib} rassemble trois contributions:
+\begin{itemize}
+    \item[$\diamond$] (\ref{par:contrib_1}): Une étude de la stabilité de deux méthodes ImEx ARK;
+    suivie d'une comparaison avec un schéma de splitting de leur stabilité et convergence pour l'équation-test de Nagumo (réaction-diffusion).
+    \item[$\diamond$] (\ref{par:contrib_2}): Une étude théorique, via le calcul d'équations équivalentes, 
+    du comportement de l'erreur d'une schéma méthode des lignes pour un problème de diffusion. 
+    Cela dans trois contextes: 
+    \texttt{(I)} sans multi-résolution adaptative, 
+    \texttt{(II)} avec MRA standard,
+    \texttt{(III)} avec MRA non-standard (reconstruction des flux).
+    \item[$\diamond$] (\ref{par:contrib_3}): Une étude expérimentale des différences entre les trois schéma de MRA mentionné précédemment 
+    permettant de mettre en relation les résultats théoriques de la contributions \ref{par:contrib_2} avec les observations expérimentales.
+\end{itemize}
+\item[$\circ$] Le dernier chapitre (chapitre \ref{par:cc}) conclut en trois volets : scientifique, technique et personnel.
+\end{itemize}

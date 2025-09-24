@@ -5,7 +5,7 @@
     - Pourquoi ?
         - Les méthodes sont bien connues séparément 
         - Biblio. 
-    - Objectif Général : S'attaquer aux principaux défis qu’amènent les éq. d'ADR. Comment ?
+    - Objectif Général : S'attaquer aux principaux défis qu'amènent les éq. d'ADR. Comment ?
         Trouver des méthodes numériques qui : 
         1. Contournent les difficultés liées au couplage d'opérateurs. C'est-à-dire proposant une large plage de stabilité et maintenant un coût par itération raisonnable.
         2. Trient parti de la variété d'échelles spatiales des solutions au lieu de les subir.

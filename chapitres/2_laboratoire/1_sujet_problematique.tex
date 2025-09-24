@@ -26,8 +26,8 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
     un opérateur de diffusion (éparpillement de la matière par l'agitation thermique) et un opérateur de réaction (modélisant une ou plusieurs réactions chimiques).
     Ces EDPs modélisent l'interaction entre la mécanique des fluides et des réactions chimiques: les différentes espèces chimiques sont advectées par l'écoulement et diffusent au sein du fluide;
     selon de leur répartition elles réagissent entre elles, ce qui modifie en retour les propriétés du fluide (température, pression, masse volumique...). 
-    Ces EDPs sont entre-autre au coeur des problèmes de combustion (moteurs), d'explosion (militaire, sécurité industrielle), d’électrochimie (batteries, industrie), 
-    et d’effluents (industrie polluantes).
+    Ces EDPs sont entre-autre au coeur des problèmes de combustion (moteurs), d'explosion (militaire, sécurité industrielle), d'électrochimie (batteries, industrie), 
+    et d'effluents (industrie polluantes).
     \subsubsection{Les difficultés des équations d'ADR et stratégies numériques}
     Les équations d'ADR présente deux difficultés majeures aux numériciens: le caractère multi-échelle des solutions et les propriétés antagonistes des opérateurs quelles mets en jeu
     (raideur, localités différentes - \textit{cf.} \ref{par:adv-diff-reaction}).\par
@@ -39,7 +39,7 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
         \item Les méthodes \textit{features-based} utilisant une quantité locale de la solution (par exemple la vitesse de l'écoulement) 
         et ses gradients pour inférer la \textit{complexité} de la solution en chaque point et adapter le maillage en conséquence.
         \item Les méthodes \textit{goal-based} optimisant une fonction de coût reflétant la qualité globale de la solution selon l'adaptation choisie.
-        Généralement la fonction de coût est issue d'un problème adjoint sur une quantité d’intérêt.
+        Généralement la fonction de coût est issue d'un problème adjoint sur une quantité d'intérêt.
     \end{enumerate}
     Le stage se centre sur la multi-résolution adaptative \cite{harten1994}, une méthode d'adaptation s'appuyant sur une transformée en ondelette.
     Elle ne tombe dans aucune des deux catégories précédente, étant surtout fondée avant tout sur des arguments issus de la théorie de l'information 
@@ -52,7 +52,7 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
 
 \subsection{Motivation du sujet initial et orientation effective des recherches}
     \subsubsection{Motivation du sujet initial}
-    Le sujet initial était d'étudier l'usage conjoint des méthodes ImEx et de la MRA pour déterminer l’existence ou non de couplages délétères entre ces deux méthodes.\par 
+    Le sujet initial était d'étudier l'usage conjoint des méthodes ImEx et de la MRA pour déterminer l'existence ou non de couplages délétères entre ces deux méthodes.\par 
 
     \paragraph{Histoires et étude de la MRA}
     L'origine de la multirésolution adaptative remonte aux années 1990 et les travaux d'Ami Harten \cite{harten1994} et a été prolongé entre autre dans \cite{Kaibara2001,Cohen2003}.
@@ -78,10 +78,10 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
     \subsubsection{Une bifurcation en cours de recherche}
         Comme mentionné précédemment, mes recherches ont bifurqué vers un sujet voisin. Voici circonstances et motivations de ce changement de trajectoire:
         Puisque je devais étudier le couplage ImEx et MRA de façon fine, mes tuteurs m'ont conseillé 
-        de d'abord m’entraîner sur une cas simplifié: une simple équation de diffusion résolu avec MRA.
+        de d'abord m'entraîner sur une cas simplifié: une simple équation de diffusion résolu avec MRA.
         J'ai donc étudié théoriquement l'erreur sur \texttt{(I)} une MRA standard d'une part. Et d'autre part sur \texttt{(II)} schéma non-standard de MRA, où la solution compressée mais les valeurs servant à l'évaluation des flux numériques sont systématiquement reconstruites (décompressions locales); ce qui n'est pas le cas dans le schéma \texttt{I}.
         La différence entre les deux schéma n'est à ma connaissance pas étudiée par la littérature;
-        c'est un sujet qui a récemment émergé au CMAP et qui a été étudié en \cite{belloti_et_al_2025} pour les problèmes d’advections 
+        c'est un sujet qui a récemment émergé au CMAP et qui a été étudié en \cite{belloti_et_al_2025} pour les problèmes d'advections 
         concluant que l'implémentation non-standard (avec reconstruction des flux) était plus précise.
         \textbf{Cependant} l'analyse pour la diffusion a mené à des conclusions opposés.
         Intrigué par ces résultats j'ai voulu les confirmer, les documenter et les expliquer.
@@ -89,7 +89,7 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
         l'impact du niveau d'évaluation du flux numériques sur les problèmes de diffusion et de diffusion-réaction.
     \newpage
     \section{Problématique principale}
-    Avec un schéma MRA, la solution est donc représenté sur plusieurs grilles de finesses différentes.
+    Avec un schéma MRA, la solution est donc représentée sur plusieurs grilles de finesses différentes.
     L'adaptation (compression) consiste à ignorer l'information contenue sur les grilles les plus fines là où la solution est assez régulière;
     un niveau de résolution maximal (grille fine) pourra être retrouvé (moyennant une erreur de compression) grâce à une reconstruction (décompression) par 
     interpolation polynomiale.
