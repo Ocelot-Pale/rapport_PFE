@@ -24,8 +24,8 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
     \subsubsection{Application des équations d'ADR}
     Les equations d'ADR sont une gamme d'équations au dérivées partielles (EDP) comportant un opérateur d'advection (transport par un flux),
     un opérateur de diffusion (éparpillement de la matière par l'agitation thermique) et un opérateur de réaction (modélisant une ou plusieurs réactions chimiques).
-    Ces EDPs modélisent l'interaction entre la mécanique des fluides et des réactions chimiques: les différentes espèces chimiques sont advectées par l'écoulement et diffusent au sein du fluide;
-    selon de leur répartition elles réagissent entre elles, ce qui modifie en retour les propriétés du fluide (température, pression, masse volumique...). 
+    Ces EDPs modélisent l'interaction entre la mécanique des fluides et des réactions chimiques. Typiquement, différentes espèces chimiques sont \textit{advectées} par l'écoulement et \textit{diffusent} au sein du fluide;
+    selon de leur répartition elles \textit{réagissent} entre elles, ce qui modifie en retour les propriétés du fluide (température, pression, masse volumique...). 
     Ces EDPs sont entre-autre au coeur des problèmes de combustion (moteurs), d'explosion (militaire, sécurité industrielle), d'électrochimie (batteries, industrie), 
     et d'effluents (industrie polluantes).
     \subsubsection{Les difficultés des équations d'ADR et stratégies numériques}
@@ -33,20 +33,21 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
     (raideur, localités différentes - \textit{cf.} \ref{par:adv-diff-reaction}).\par
 
     \textbf{La première difficulté} pousse à utiliser des stratégies d'adaptation de maillage pour disposer d'un maillage précis seulement où cela est nécessaire à la représentation fidèle de solution
-    \footnote{Si la solution est très régulière par endroit, il n'est pas nécessaire d'avoir des mailles trop fines, c'est un coût en calcul est en mémoire non-nécessaire.}.
-    Plusieurs techniques d'adaptation existent et se déclinent en deux grandes catégories\cite{Vivarelli2025Fluids}:
+    \footnote{Si la solution est très régulière par endroit, il n'est pas nécessaire d'avoir des mailles trop fines, c'est un coût en calcul est en mémoire non-nécessaire.
+    A l’inverses là où la solution est complexe, ce coût est justifié puisque nécessaire à la representation fidèle de la solution.}.
+    Plusieurs stratégies d'adaptation existent et se déclinent en deux grandes catégories\cite{Vivarelli2025Fluids}:
     \begin{enumerate}
-        \item Les méthodes \textit{features-based} utilisant une quantité locale de la solution (par exemple la vitesse de l'écoulement) 
+        \item Les approches \textit{features-based} utilisent une quantité locale de la solution (par exemple la vitesse de l'écoulement) 
         et ses gradients pour inférer la \textit{complexité} de la solution en chaque point et adapter le maillage en conséquence.
-        \item Les méthodes \textit{goal-based} optimisant une fonction de coût reflétant la qualité globale de la solution selon l'adaptation choisie.
+        \item Les approches \textit{goal-based} utilisent une fonction de coût reflétant la qualité globale de la solution selon l'adaptation choisie.
         Généralement la fonction de coût est issue d'un problème adjoint sur une quantité d'intérêt.
     \end{enumerate}
-    Le stage se centre sur la multi-résolution adaptative \cite{harten1994}, une méthode d'adaptation s'appuyant sur une transformée en ondelette.
-    Elle ne tombe dans aucune des deux catégories précédente, étant surtout fondée avant tout sur des arguments issus de la théorie de l'information 
+    Le stage se centre sur la \textit{multi-résolution} adaptative \cite{harten1994}, une méthode d'adaptation s'appuyant sur une transformée en ondelette.
+    Elle ne tombe dans aucune des deux catégories précédente, étant fondée avant tout sur des arguments issus de la théorie de l'information 
     (\textit{cf.} \ref{par:explication_MRA}).\par
 
     \textbf{La seconde difficulté} décourage l'usage de schémas d'intégration en temps monolithiques (d'un seul bloc) qui traiteraient tous les opérateurs de la même manière.
-    Leurs propriétés étant très distinctes aucun schéma monolithique ne répondra aux besoins des trois opérateurs en même temps.
+    Leurs propriétés étant très distinctes aucun schéma monolithique ne peut répondre aux besoins des trois opérateurs en même temps.
     Cela motive l'emploi de schémas découplant les traitements subis par chaque opérateur. Parmi les méthodes les plus établies se trouvent 
     les techniques de séparation d'opérateurs (\textit{splitting}) et notre objet d'étude: les méthodes ImEx.
 
@@ -55,26 +56,30 @@ Cependant, mes explorations scientifique menèrent mes recherches plutôt vers l
     Le sujet initial était d'étudier l'usage conjoint des méthodes ImEx et de la MRA pour déterminer l'existence ou non de couplages délétères entre ces deux méthodes.\par 
 
     \paragraph{Histoires et étude de la MRA}
-    L'origine de la multirésolution adaptative remonte aux années 1990 et les travaux d'Ami Harten \cite{harten1994} et a été prolongé entre autre dans \cite{Kaibara2001,Cohen2003}.
-    Cette technique permettant de réduire drastiquement les temps de simulation a été largement appliquée \cite{}...
+    L'origine de la multirésolution adaptative remonte aux travaux d'Ami Harten \cite{harten1994} dans les années 1990. Ils furent par la suite prolongés entre autre dans \cite{Kaibara2001,Cohen2003}.
+    Cette technique permettant de réduire drastiquement les temps de simulation a été largement appliquée et est une approche très compétitive \cite{compare_MRA_AMR} pouvant tirer parti des infrastructures de calcul moderne (multi-coeur, GPU) \cite{GPU_bench}.
 
-    \paragraph{Le découplage des opérateurs, les méthodes ImEx}
-    La nécessité de résoudre des équations d'évolutions dont les opérateurs présentaient des propriétés antagonistes mena aux premières méthodes ImEx dans la fin des années 1990 
+    \paragraph{Le découplage temporel des opérateurs, les méthodes ImEx}
+    La nécessité de résoudre des équations d'évolutions dont les opérateurs présentaient des propriétés antagonistes mena aux premières méthodes ImEx à la fin des années 1990 
     avec notamment les méthodes Runge et Kutta additives (ARK) par Asher \textit{et al} \cite{ASCHER1997151} complétés dans les année 2000 par \cite{KENNEDY2003139} puis par \cite{FITZHUGH1961445}. 
-    L'objectif étant de dépasser la séparation d'opérateurs \cite{Strang1968} qui se généralise mal au delà de l'ordre deux et deux deux opérateurs \cite{}% trouver des justifications...
+    L'objectif étant de dépasser la séparation d'opérateurs \cite{Strang1968} qui pose sérieux problèmes au delà l'ordre deux ou encore lorsque l'on cherche à découpler plus de deux opérateurs.
     Cela a pavé la voie à des méthodes ImEx plus complexes intégrant par exemples des méthodes stabilisées \cite{Abdulle2013} 
-    ou encore a des méthodes ImEx, couplées espace-temps, faites sur mesures pour une équation spécifique \cite{rebou2024}.
+    ou encore à des méthodes ImEx couplées espace-temps, faites sur mesures pour une équation spécifique \cite{rebou2024}.
 
     \paragraph{Interactions entre adaptation spatiale et le découplage des opérateurs}
-        L'interaction entre le \textit{splitting} et la MRA a été explicitement traité dans la thèse de Max Duarte \ref{duart2011}.    
-        Toutefois l'interaction entre les méthodes d'adaptation en espace et les schémas découplant les traitements infligés à chaque opérateur (ImEx, \textit{splitting})
-        reste peu traité dans la literature, alors même que cette problématique transparaît dans de nombreux articles.
+        L'adaptation de maillage apporte de termes d'erreurs,
+        le schéma de découplage temporel ajoute d'autres termes d'erreurs, 
+        une \textit{interaction} se produirait si l'usage conjoint 
+        de l'adaptation de maillage et du découplage temporel introduisait de nouveaux termes d'erreurs ne résultant que de l'\textit{interaction},
+        du \textit{couplage}, d'\textit{interférences} entre les deux stratégies. L'idée est donc de déterminer si ces termes d'erreurs existent et si oui quelle est leur magnitude ? Portent-ils significativement préjudice à la qualité du schéma ? 
+        L'interaction entre le \textit{splitting} et la MRA a été explicitement traité dans la thèse de Max Duarte \cite{duart2011}.    
+        Toutefois cette problématique reste peu traitée dans la literature, alors même qu'elle transparaît dans de nombreux articles.
         Par exemple \cite{Zhang2025IMEXTSA} traite d'une méthode ImEx adapté en espace et en temps et l'on voit dans leur résultat qu'il y a un fort 
         couplage entre l'erreur liée à l'adaptation en temps et celle liée à l'adaptation en espace
         \footnote{C'est à dire que si l'on note $E_T$ l'erreur du schéma adapté en temps et $E_S$ l'erreur du schéma adapté en espace,
         alors l'erreur du schéma adapté en espace et en temps $E_{ST}$ ne vérifie pas du tout $E_{ST}\approx E_S + E_T$ mais plutôt $E_{ST} \gg E_S + E_T$.}. 
         On y distingue bien la problématique du couplage entre les traitements en temps et en espace mais ce n'est pas clairement étudié.
-        \textbf{Ainsi l'étude d'éventuel mécanismes de couplages entre les méthodes ImEx et la MRA est très pertinent car elle comble un trou dans la literature et permet de justifier (ou non) une combinaison de méthodes très efficace sur le papier pour les équations d'ADR.}
+        \textbf{Ainsi l'étude d'éventuels mécanismes de couplage entre les méthodes ImEx et la MRA est très pertinent car elle comble un trou dans la literature et permet de justifier (ou non) une combinaison de méthodes très efficace sur le papier pour les équations d'ADR.}
     \subsubsection{Une bifurcation en cours de recherche}
         Comme mentionné précédemment, mes recherches ont bifurqué vers un sujet voisin. Voici circonstances et motivations de ce changement de trajectoire:
         Puisque je devais étudier le couplage ImEx et MRA de façon fine, mes tuteurs m'ont conseillé 
