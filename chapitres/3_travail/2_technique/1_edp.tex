@@ -1,4 +1,4 @@
-    \subsubsection{Les méthodes des lignes.}
+    \subsection{Les méthodes des lignes.}
     \begin{definition}[Méthode des lignes]
         Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
         Elle consiste à discrétiser les opérateurs spatiaux de l'équation afin d'obtenir une équation semi-discrétisée en espace,
@@ -14,7 +14,7 @@
     \end{tikzpicture}
 
     Il existe également des approches plus sophistiquées, comme les méthodes espace-temps couplées, mais ce stage se concentre sur les méthodes des lignes classiques. Un exemple d'une telle méthode est donnée en \cite{DARU2004563}.
-\subsubsection{Les volumes finis}
+\subsection{Les volumes finis}
     Le paradigme numérique utilisé dans le stage est celui des volumes finis, particulièrement adaptés au lois de conservations.
     Les volumes finis discrétisent la valeur moyenne sur les mailles, là où les différences finies discrétisent la valeur au nœuds du maillage et 
     les éléments finis discrétisent l'espace fonctionnel lui même. Les explications suivantes sont présentés avec plus de détails dans \cite{LeVeque1990}.
@@ -67,14 +67,14 @@
     la faisabilité de sa mise en oeuvre, la qualité de la solution qu'il fourni ou encore la dynamique de l'erreur qu'il introduit, 
     divers concepts ont étés développés. Ce qui suit introduit les notions pertinentes pour comprendre les travaux du stage. 
 
-    \subsubsection{Stabilité d'un schéma numérique}
+    \subsection{Stabilité d'un schéma numérique}
         Les schémas simulant les équations au dérivées partielles ont les mêmes nécessités de stabilité, que ceux simulant les EDOs. 
         D'ailleurs les méthodes des lignes transforment précisément une EDP en EDO. 
         Pour éviter les redondances, le lecteur se référera à la partie \ref{par:edo}.
-    \subsubsection{Analyse de l'erreure}
+    \subsection{Analyse de l'erreure}
         L'analyse de l'ordre de convergence d'un schéma permet de quantifier l'erreur asymptotique 
         (c'est à dire lorsque les pas de temps et d'espace sont "assez petits") que commet le schéma.
-        \paragraph{Ordre de convergence d'un schéma}
+        \subsubsection{Ordre de convergence d'un schéma}
         Les schémas numériques sont désignés par $\bigl(U^n_j\bigr)_{n,j}$ où $n$ représente le pas de temps 
         et $j$ la cellule. Ainsi, si la grille contient $c$ cellules, 
         pour tout $n$, $U^n$ est un élément de l'espace vectoriel $\mathbb{R}^c$.
@@ -95,7 +95,7 @@
             Un schéma $\Bigl(U^n_j\Bigr)_{n,j}$ est dit convergent à l'ordre $p$ en temps et $q$ en espace si 
             son erreur de globale s'écrit: $E_G = O(\Delta t^{p} + \Delta x^{q})$.
         \end{definition}
-        \paragraph{Equation équivalente}\label{par:eq_equiv}
+        \subsubsection{Equation équivalente}\label{par:eq_equiv}
         \begin{definition}[Équation équivalente]
         L'équation équivalente d'un schéma est l'EDP dont la solution satisfait le schéma.
         Elle est calculée par des développements de Taylor en temps et en espace.
@@ -104,7 +104,7 @@
 
         Ce qui suit décrit une méthode générique pour obtenir l'équation équivalente d'un schéma, la notion d'équation équivalente est clé dans la contribution en \ref{par:intro_contrib_eq_equiv}.
 
-        \subparagraph{Première étape : développement de Taylor}
+        \paragraph{Première étape : développement de Taylor}
 
         L'existence d'une fonction assez régulière vérifiant le schéma est supposée.
         Dans le schéma numérique les termes $u^{n+\delta_t}_{k+\delta_x}$ sont remplacés par leur pendant
@@ -121,7 +121,7 @@
 
         L'équation aux dérivées partielles qui apparaît est l'équation équivalente. Elle peut être tronquée à l'ordre voulu.
 
-        \subparagraph{Deuxième étape : procédure de Cauchy-Kovaleskaya (optionnelle)}
+        \paragraph{Deuxième étape : procédure de Cauchy-Kovaleskaya (optionnelle)}
 
         Afin d'enrichir l'analyse, et permettre le développement de schémas couplés espace-temps, l'étape précédente peut être suivie d'une procédure de Cauchy-Kovaleskaya.
         La procédure de Cauchy-Kovaleskaya consiste à utiliser la relation entre les dérivées en espace et en temps données par l'équation cible et remplacer les dérivées en temps par des dérivées en espace dans l'équation équivalente.
@@ -133,7 +133,7 @@
         \frac{\partial^n u}{\partial t^n} &= D^n \frac{\partial^{2n} u}{\partial x^{2n}}
         \end{align}
 
-        \subparagraph{Dernière étape : relation entre le pas de temps et d'espace (optionnelle)}
+        \paragraph{Dernière étape : relation entre le pas de temps et d'espace (optionnelle)}
 
         Lorsque le schéma est utilisé en pratique, il est courant d'imposer une relation entre les pas d'espace et de temps, par exemple une condition de stabilité du type
         $\Delta t \propto Delta x$ ou $\Delta t \propto Delta x^2$.

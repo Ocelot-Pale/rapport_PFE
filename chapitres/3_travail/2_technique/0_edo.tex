@@ -11,7 +11,7 @@ quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins n
     \end{align}
 \end{definition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    SCHEMA EXPLICITES ET IMPLICITES
-\subsubsection{Schémas explicites et implcites.}
+\subsection{Schémas explicites et implcites.}
 L'approximation des EDO se fait grâce à des schémas numériques; formellement un schéma numérique est un élément de $(\mathbb{R}^d)^\mathbb{N}$. 
 Ceux-ci se divisent en deux catégories, les schémas explicites et les schémas implicites
 Seuls les schémas à un pas sont ici présentés et non pas les schémas multi-pas. Ce choix est fait en raison de la barrière de Dahlquist
@@ -39,11 +39,11 @@ Cependant pour des raisons de stabilités (voir \ref{par:stabilite_edo}) les mé
 Le choix entre méthode explicite et implicite dépend de bien des facteurs (du problème, du niveau de précision voulu, de la difficulté d'implémentation etc...)
 c'est un enjeu central de la simulation numérique.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Ordre des schémas numériques}
+\subsection{Ordre des schémas numériques}
 %%% AFAIRE 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Stabilité des schémas numériques}\label{par:stabilite_edo}
+\subsection{Stabilité des schémas numériques}\label{par:stabilite_edo}
 Un schéma numérique d'ordre $p$ converge vers la solution exacte de l'EDO avec une erreur qui décroît asymptotiquement en $\Delta t^p$ lorsque le pas de temps diminue.
 Cependant, cette convergence n'est garantie que si le schéma reste stable.
 L'instabilité d'un schéma désigne la divergence de la solution numérique : au-delà d'un pas de temps critique $\Delta t_0$, la norme de la solution discrète $\|u^n\|$ tend vers l'infini\footnote{Phénomène communément appelé "explosion" de la solution numérique.}.
