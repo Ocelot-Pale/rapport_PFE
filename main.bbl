@@ -1,0 +1,964 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{Abdulle2013}{article}{}
+      \name{author}{2}{}{%
+        {{hash=7865aef3b43531c698c0d0da1dd943e9}{%
+           family={Abdulle},
+           familyi={A\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b86bcf402b2d6892e3b8418a0eb733fb}{%
+           family={Vilmart},
+           familyi={V\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{8d8223151caa898c2836ab4f7aaf6f1d}
+      \strng{fullhash}{8d8223151caa898c2836ab4f7aaf6f1d}
+      \strng{bibnamehash}{8d8223151caa898c2836ab4f7aaf6f1d}
+      \strng{authorbibnamehash}{8d8223151caa898c2836ab4f7aaf6f1d}
+      \strng{authornamehash}{8d8223151caa898c2836ab4f7aaf6f1d}
+      \strng{authorfullhash}{8d8223151caa898c2836ab4f7aaf6f1d}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computational Physics}
+      \field{title}{PIROCK: A swiss-knife partitioned implicit--explicit orthogonal Runge--Kutta Chebyshev integrator for stiff diffusion--advection--reaction problems with or without noise}
+      \field{volume}{242}
+      \field{year}{2013}
+      \field{pages}{869\bibrangedash 888}
+      \range{pages}{20}
+    \endentry
+    \entry{abdulle2002fourth}{article}{}
+      \name{author}{1}{}{%
+        {{hash=0b7eb205bdeed85883818d3605f2820d}{%
+           family={Abdulle},
+           familyi={A\bibinitperiod},
+           given={Assyr},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Society for Industrial}%
+        {Applied Mathematics}%
+      }
+      \strng{namehash}{0b7eb205bdeed85883818d3605f2820d}
+      \strng{fullhash}{0b7eb205bdeed85883818d3605f2820d}
+      \strng{bibnamehash}{0b7eb205bdeed85883818d3605f2820d}
+      \strng{authorbibnamehash}{0b7eb205bdeed85883818d3605f2820d}
+      \strng{authornamehash}{0b7eb205bdeed85883818d3605f2820d}
+      \strng{authorfullhash}{0b7eb205bdeed85883818d3605f2820d}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Journal on Scientific Computing}
+      \field{number}{6}
+      \field{title}{Fourth Order Chebyshev Methods with Recurrence Relation}
+      \field{volume}{23}
+      \field{year}{2002}
+      \field{pages}{2041\bibrangedash 2054}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1137/S1064827500379549
+      \endverb
+    \endentry
+    \entry{AbdulleMedovikov2001}{article}{}
+      \name{author}{2}{}{%
+        {{hash=0b7eb205bdeed85883818d3605f2820d}{%
+           family={Abdulle},
+           familyi={A\bibinitperiod},
+           given={Assyr},
+           giveni={A\bibinitperiod}}}%
+        {{hash=0cc936392a2fad02589c33c1ae24594c}{%
+           family={Medovikov},
+           familyi={M\bibinitperiod},
+           given={Alexei\bibnamedelima A.},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{482b58d9df04237f9b06babceab4a628}
+      \strng{fullhash}{482b58d9df04237f9b06babceab4a628}
+      \strng{bibnamehash}{482b58d9df04237f9b06babceab4a628}
+      \strng{authorbibnamehash}{482b58d9df04237f9b06babceab4a628}
+      \strng{authornamehash}{482b58d9df04237f9b06babceab4a628}
+      \strng{authorfullhash}{482b58d9df04237f9b06babceab4a628}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Numerische Mathematik}
+      \field{number}{1}
+      \field{title}{Second order Chebyshev methods based on orthogonal polynomials}
+      \field{volume}{90}
+      \field{year}{2001}
+      \field{pages}{1\bibrangedash 18}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1007/s002110100292
+      \endverb
+    \endentry
+    \entry{ASCHER1997151}{article}{}
+      \name{author}{3}{}{%
+        {{hash=77cd505720b6810a72ebb7d3f84bfa30}{%
+           family={Ascher},
+           familyi={A\bibinitperiod},
+           given={Uri\bibnamedelima M.},
+           giveni={U\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=fafc0004839dd59cea146dad75306b08}{%
+           family={Ruuth},
+           familyi={R\bibinitperiod},
+           given={Steven\bibnamedelima J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=465175ad121c843f806482f9c2c2f925}{%
+           family={Spiteri},
+           familyi={S\bibinitperiod},
+           given={Raymond\bibnamedelima J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{305443e22ed82d24c637815e9af41fab}
+      \strng{fullhash}{305443e22ed82d24c637815e9af41fab}
+      \strng{bibnamehash}{305443e22ed82d24c637815e9af41fab}
+      \strng{authorbibnamehash}{305443e22ed82d24c637815e9af41fab}
+      \strng{authornamehash}{305443e22ed82d24c637815e9af41fab}
+      \strng{authorfullhash}{305443e22ed82d24c637815e9af41fab}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0168-9274}
+      \field{journaltitle}{Applied Numerical Mathematics}
+      \field{note}{Special Issue on Time Integration}
+      \field{number}{2}
+      \field{title}{Implicit-explicit Runge-Kutta methods for time-dependent partial differential equations}
+      \field{volume}{25}
+      \field{year}{1997}
+      \field{pages}{151\bibrangedash 167}
+      \range{pages}{17}
+      \verb{doi}
+      \verb https://doi.org/10.1016/S0168-9274(97)00056-1
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0168927497000561
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0168927497000561
+      \endverb
+    \endentry
+    \entry{belloti_et_al_2025}{article}{}
+      \name{author}{7}{}{%
+        {{hash=daa4494504782c7933978cf6b99f6cf8}{%
+           family={Belloti},
+           familyi={B\bibinitperiod}}}%
+        {{hash=631fabbbed794f6108db599e7d2692a7}{%
+           family={Gouarin},
+           familyi={G\bibinitperiod}}}%
+        {{hash=2ddb49200915d337035fd704a12cd276}{%
+           family={Massot},
+           familyi={M\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=312f3b71e742c6ba6725fe830abb77d5}{%
+           family={Massot},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e2a0d3eff26d462049d5f2083890467a}{%
+           family={Matalon},
+           familyi={M\bibinitperiod}}}%
+        {{hash=63dbd61f3b7ac19a9b869198695ceca7}{%
+           family={Séries},
+           familyi={S\bibinitperiod}}}%
+        {{hash=0023cf843496d3e675bf42f564113152}{%
+           family={Tenaud},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{df9e98449ff701f8af5e8c1fb0148817}
+      \strng{fullhash}{3facbb8132a9b551d226518fc5b81496}
+      \strng{bibnamehash}{df9e98449ff701f8af5e8c1fb0148817}
+      \strng{authorbibnamehash}{df9e98449ff701f8af5e8c1fb0148817}
+      \strng{authornamehash}{df9e98449ff701f8af5e8c1fb0148817}
+      \strng{authorfullhash}{3facbb8132a9b551d226518fc5b81496}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Modified equation and error analyses on adaptative meshes for the resolution of evolutionary PDEs with Finite Volume schemes}
+      \field{year}{2025}
+    \endentry
+    \entry{bouchet2020laplacien}{report}{}
+      \name{author}{1}{}{%
+        {{hash=48ea60545912fb869f877341bea5b6fe}{%
+           family={Bouchet},
+           familyi={B\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {ENS Rennes}%
+      }
+      \strng{namehash}{48ea60545912fb869f877341bea5b6fe}
+      \strng{fullhash}{48ea60545912fb869f877341bea5b6fe}
+      \strng{bibnamehash}{48ea60545912fb869f877341bea5b6fe}
+      \strng{authorbibnamehash}{48ea60545912fb869f877341bea5b6fe}
+      \strng{authornamehash}{48ea60545912fb869f877341bea5b6fe}
+      \strng{authorfullhash}{48ea60545912fb869f877341bea5b6fe}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Agrégation externe de mathématiques 2019-2020, Leçons 144, 155, 222, 226, 233}
+      \field{title}{Le laplacien discret 1D}
+      \field{type}{Notes de cours}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://perso.eleves.ens-rennes.fr/~mbouc892/lapdisc1d.pdf
+      \endverb
+      \verb{url}
+      \verb https://perso.eleves.ens-rennes.fr/~mbouc892/lapdisc1d.pdf
+      \endverb
+    \endentry
+    \entry{Cohen2003}{article}{}
+      \name{author}{4}{}{%
+        {{hash=5258a6d1cefdefb9223e82231a1193e8}{%
+           family={Cohen},
+           familyi={C\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6535e5da554c690e54afd4c3cfef1653}{%
+           family={Kaber},
+           familyi={K\bibinitperiod},
+           given={S.\bibnamedelimi M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=0607019ea0ba36b2f2fdd55fd930eadd}{%
+           family={Müller},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9aaedd5f94c9d6012a62addee14126db}{%
+           family={Postel},
+           familyi={P\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{ebfc96cc1b2c9d8ed6156f1d38c3f8f9}
+      \strng{fullhash}{aaa04fd1be2e43acd53d1fd1af6659ba}
+      \strng{bibnamehash}{ebfc96cc1b2c9d8ed6156f1d38c3f8f9}
+      \strng{authorbibnamehash}{ebfc96cc1b2c9d8ed6156f1d38c3f8f9}
+      \strng{authornamehash}{ebfc96cc1b2c9d8ed6156f1d38c3f8f9}
+      \strng{authorfullhash}{aaa04fd1be2e43acd53d1fd1af6659ba}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematics of Computation}
+      \field{title}{Fully adaptive multiresolution finite volume schemes for conservation laws}
+      \field{volume}{72}
+      \field{year}{2003}
+    \endentry
+    \entry{DARU2004563}{article}{}
+      \name{author}{2}{}{%
+        {{hash=cdef74c900e96ffc34ccdeb9dde5cd33}{%
+           family={Daru},
+           familyi={D\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+        {{hash=d4da3543f40cb06e3b2c90257b883ece}{%
+           family={Tenaud},
+           familyi={T\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{ef4fb1ab228dd51b83efbca2524bfb48}
+      \strng{fullhash}{ef4fb1ab228dd51b83efbca2524bfb48}
+      \strng{bibnamehash}{ef4fb1ab228dd51b83efbca2524bfb48}
+      \strng{authorbibnamehash}{ef4fb1ab228dd51b83efbca2524bfb48}
+      \strng{authornamehash}{ef4fb1ab228dd51b83efbca2524bfb48}
+      \strng{authorfullhash}{ef4fb1ab228dd51b83efbca2524bfb48}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0021-9991}
+      \field{journaltitle}{Journal of Computational Physics}
+      \field{number}{2}
+      \field{title}{High order one-step monotonicity-preserving schemes for unsteady compressible flow calculations}
+      \field{volume}{193}
+      \field{year}{2004}
+      \field{pages}{563\bibrangedash 594}
+      \range{pages}{32}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.jcp.2003.08.023
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0021999103004327
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0021999103004327
+      \endverb
+      \keyw{High order scheme,Unsteady flows,Compressible flows,Shock capturing scheme}
+    \endentry
+    \entry{compare_MRA_AMR}{article}{}
+      \name{author}{4}{}{%
+        {{hash=5fe0eb8d561f94e1545b90356725d977}{%
+           family={Deiterding},
+           familyi={D\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+        {{hash=f820c35f6e16a2c87158a84eda883a12}{%
+           family={Domingues},
+           familyi={D\bibinitperiod},
+           given={Margarete\bibnamedelima O.},
+           giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+        {{hash=0ab0ed75e8f4c20173cfff91101a9cfe}{%
+           family={Gomes},
+           familyi={G\bibinitperiod},
+           given={Sônia\bibnamedelima M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=5704365c4d1cd1af34fedace900eae15}{%
+           family={Schneider},
+           familyi={S\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4e831661c324dc1bad71ca3c1b21839}
+      \strng{fullhash}{47013d1724042419f403d62fc1de79ed}
+      \strng{bibnamehash}{f4e831661c324dc1bad71ca3c1b21839}
+      \strng{authorbibnamehash}{f4e831661c324dc1bad71ca3c1b21839}
+      \strng{authornamehash}{f4e831661c324dc1bad71ca3c1b21839}
+      \strng{authorfullhash}{47013d1724042419f403d62fc1de79ed}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Journal on Scientific Computing}
+      \field{number}{5}
+      \field{title}{Comparison of Adaptive Multiresolution and Adaptive Mesh Refinement Applied to Simulations of the Compressible Euler Equations}
+      \field{volume}{38}
+      \field{year}{2016}
+      \field{pages}{S173\bibrangedash S193}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1137/15M1026043
+      \endverb
+    \endentry
+    \entry{duart2011}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=b3cc25bfcc4961740c956896d5987671}{%
+           family={Duarte},
+           familyi={D\bibinitperiod},
+           given={Max\bibnamedelima Pedro},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b3cc25bfcc4961740c956896d5987671}
+      \strng{fullhash}{b3cc25bfcc4961740c956896d5987671}
+      \strng{bibnamehash}{b3cc25bfcc4961740c956896d5987671}
+      \strng{authorbibnamehash}{b3cc25bfcc4961740c956896d5987671}
+      \strng{authornamehash}{b3cc25bfcc4961740c956896d5987671}
+      \strng{authorfullhash}{b3cc25bfcc4961740c956896d5987671}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{2011ECAP0057}
+      \field{title}{Méthodes numériques adaptives pour la simulation de la dynamique de fronts de réaction multi-échelle en temps et en espace}
+      \field{type}{phdthesis}
+      \field{year}{2011}
+      \verb{urlraw}
+      \verb http://www.theses.fr/2011ECAP0057/document
+      \endverb
+      \verb{url}
+      \verb http://www.theses.fr/2011ECAP0057/document
+      \endverb
+    \endentry
+    \entry{FITZHUGH1961445}{article}{}
+      \name{author}{1}{}{%
+        {{hash=d5f139228c01bc378e792449647ee62c}{%
+           family={FitzHugh},
+           familyi={F\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{d5f139228c01bc378e792449647ee62c}
+      \strng{fullhash}{d5f139228c01bc378e792449647ee62c}
+      \strng{bibnamehash}{d5f139228c01bc378e792449647ee62c}
+      \strng{authorbibnamehash}{d5f139228c01bc378e792449647ee62c}
+      \strng{authornamehash}{d5f139228c01bc378e792449647ee62c}
+      \strng{authorfullhash}{d5f139228c01bc378e792449647ee62c}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0006-3495}
+      \field{journaltitle}{Biophysical Journal}
+      \field{number}{6}
+      \field{title}{Impulses and Physiological States in Theoretical Models of Nerve Membrane}
+      \field{volume}{1}
+      \field{year}{1961}
+      \field{pages}{445\bibrangedash 466}
+      \range{pages}{22}
+      \verb{doi}
+      \verb https://doi.org/10.1016/S0006-3495(61)86902-6
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0006349561869026
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0006349561869026
+      \endverb
+    \endentry
+    \entry{Hairer1981}{article}{}
+      \name{author}{1}{}{%
+        {{hash=547b6b3ff11140a2b5bf2c1abb588ff2}{%
+           family={Hairer},
+           familyi={H\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{547b6b3ff11140a2b5bf2c1abb588ff2}
+      \strng{fullhash}{547b6b3ff11140a2b5bf2c1abb588ff2}
+      \strng{bibnamehash}{547b6b3ff11140a2b5bf2c1abb588ff2}
+      \strng{authorbibnamehash}{547b6b3ff11140a2b5bf2c1abb588ff2}
+      \strng{authornamehash}{547b6b3ff11140a2b5bf2c1abb588ff2}
+      \strng{authorfullhash}{547b6b3ff11140a2b5bf2c1abb588ff2}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0945-3245}
+      \field{journaltitle}{Numerische Mathematik}
+      \field{number}{4}
+      \field{title}{Order conditions for numerical methods for partitioned ordinary differential equations}
+      \field{volume}{36}
+      \field{year}{1981}
+      \field{pages}{431\bibrangedash 445}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1007/BF01395956
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/BF01395956
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/BF01395956
+      \endverb
+    \endentry
+    \entry{HairerAndWanner1}{book}{}
+      \name{author}{3}{}{%
+        {{hash=83e9309b497414bd7c7550110d37b3d7}{%
+           family={Hairer},
+           familyi={H\bibinitperiod},
+           given={Ernst},
+           giveni={E\bibinitperiod}}}%
+        {{hash=e2a327e4bae8c663573f99fda9abbf8e}{%
+           family={N{ø}rsett},
+           familyi={N\bibinitperiod},
+           given={Syvert\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=6715424cc951a02c09b3082a661642ab}{%
+           family={Wanner},
+           familyi={W\bibinitperiod},
+           given={Gerhard},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin, Heidelberg}%
+      }
+      \strng{namehash}{421fb1b1a33804a98ee63d6fca553680}
+      \strng{fullhash}{421fb1b1a33804a98ee63d6fca553680}
+      \strng{bibnamehash}{421fb1b1a33804a98ee63d6fca553680}
+      \strng{authorbibnamehash}{421fb1b1a33804a98ee63d6fca553680}
+      \strng{authornamehash}{421fb1b1a33804a98ee63d6fca553680}
+      \strng{authorfullhash}{421fb1b1a33804a98ee63d6fca553680}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{isbn}{978-3-540-56670-0}
+      \field{series}{Springer Series in Computational Mathematics}
+      \field{title}{Solving Ordinary Differential Equations {I}: Nonstiff Problems}
+      \field{volume}{8}
+      \field{year}{1993}
+      \field{pages}{XV\bibrangessep 528}
+      \range{pages}{2}
+      \verb{doi}
+      \verb 10.1007/978-3-540-78862-1
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/978-3-540-78862-1
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/978-3-540-78862-1
+      \endverb
+    \endentry
+    \entry{harten1994}{article}{}
+      \name{author}{1}{}{%
+        {{hash=2b63438904574a967c62c6f652673c40}{%
+           family={Harten},
+           familyi={H\bibinitperiod},
+           given={Ami},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{2b63438904574a967c62c6f652673c40}
+      \strng{fullhash}{2b63438904574a967c62c6f652673c40}
+      \strng{bibnamehash}{2b63438904574a967c62c6f652673c40}
+      \strng{authorbibnamehash}{2b63438904574a967c62c6f652673c40}
+      \strng{authornamehash}{2b63438904574a967c62c6f652673c40}
+      \strng{authorfullhash}{2b63438904574a967c62c6f652673c40}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0021-9991}
+      \field{journaltitle}{Journal of Computational Physics}
+      \field{number}{2}
+      \field{title}{Adaptive Multiresolution Schemes for Shock Computations}
+      \field{volume}{115}
+      \field{year}{1994}
+      \field{pages}{319\bibrangedash 338}
+      \range{pages}{20}
+      \verb{doi}
+      \verb https://doi.org/10.1006/jcph.1994.1199
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0021999184711995
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0021999184711995
+      \endverb
+    \endentry
+    \entry{Kaibara2001}{incollection}{}
+      \name{author}{2}{}{%
+        {{hash=f9295c1eb1b830a8e44e286bd6d93707}{%
+           family={Kaibara},
+           familyi={K\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e1596adfe86bdc946a9750488a3bf3d3}{%
+           family={Gomes},
+           familyi={G\bibinitperiod},
+           given={S.\bibnamedelimi M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=fa01bb533c50a3644db770733a52fd74}{%
+           family={Toro},
+           familyi={T\bibinitperiod},
+           given={E.\bibnamedelimi F.},
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Kluwer Academic/Plenum Publishers}%
+      }
+      \strng{namehash}{a90f881e5e8a491bdb6d0f1fa6f9cf85}
+      \strng{fullhash}{a90f881e5e8a491bdb6d0f1fa6f9cf85}
+      \strng{bibnamehash}{a90f881e5e8a491bdb6d0f1fa6f9cf85}
+      \strng{authorbibnamehash}{a90f881e5e8a491bdb6d0f1fa6f9cf85}
+      \strng{authornamehash}{a90f881e5e8a491bdb6d0f1fa6f9cf85}
+      \strng{authorfullhash}{a90f881e5e8a491bdb6d0f1fa6f9cf85}
+      \strng{editorbibnamehash}{fa01bb533c50a3644db770733a52fd74}
+      \strng{editornamehash}{fa01bb533c50a3644db770733a52fd74}
+      \strng{editorfullhash}{fa01bb533c50a3644db770733a52fd74}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Godunov Methods: Theory and Applications}
+      \field{title}{A fully adaptive multiresolution scheme for shock computations}
+      \field{year}{2001}
+    \endentry
+    \entry{keener1998mathematical}{book}{}
+      \name{author}{2}{}{%
+        {{hash=c15d4b24d0ad370c9c8de96f6c30c71d}{%
+           family={Keener},
+           familyi={K\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+        {{hash=778dc377fa769a1f37e0ba7ffb33a065}{%
+           family={Sneyd},
+           familyi={S\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{ae5cff8dd9ccb4dda2649bc26080843c}
+      \strng{fullhash}{ae5cff8dd9ccb4dda2649bc26080843c}
+      \strng{bibnamehash}{ae5cff8dd9ccb4dda2649bc26080843c}
+      \strng{authorbibnamehash}{ae5cff8dd9ccb4dda2649bc26080843c}
+      \strng{authornamehash}{ae5cff8dd9ccb4dda2649bc26080843c}
+      \strng{authorfullhash}{ae5cff8dd9ccb4dda2649bc26080843c}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{1}
+      \field{isbn}{978-0-387-22706-1}
+      \field{series}{Interdisciplinary Applied Mathematics}
+      \field{title}{Mathematical Physiology}
+      \field{year}{1998}
+      \field{pages}{281}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1007/b98841
+      \endverb
+    \endentry
+    \entry{KENNEDY2003139}{article}{}
+      \name{author}{2}{}{%
+        {{hash=75f49cc5ef26bb759e9f583924d8f873}{%
+           family={Kennedy},
+           familyi={K\bibinitperiod},
+           given={Christopher\bibnamedelima A.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=d0b25b6aa9a3f54aeaf3e1424ea08c96}{%
+           family={Carpenter},
+           familyi={C\bibinitperiod},
+           given={Mark\bibnamedelima H.},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{8ae379a95a1e83769a67ba43369bb606}
+      \strng{fullhash}{8ae379a95a1e83769a67ba43369bb606}
+      \strng{bibnamehash}{8ae379a95a1e83769a67ba43369bb606}
+      \strng{authorbibnamehash}{8ae379a95a1e83769a67ba43369bb606}
+      \strng{authornamehash}{8ae379a95a1e83769a67ba43369bb606}
+      \strng{authorfullhash}{8ae379a95a1e83769a67ba43369bb606}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0168-9274}
+      \field{journaltitle}{Applied Numerical Mathematics}
+      \field{number}{1}
+      \field{title}{Additive Runge–Kutta schemes for convection–diffusion–reaction equations}
+      \field{volume}{44}
+      \field{year}{2003}
+      \field{pages}{139\bibrangedash 181}
+      \range{pages}{43}
+      \verb{doi}
+      \verb https://doi.org/10.1016/S0168-9274(02)00138-1
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0168927402001381
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0168927402001381
+      \endverb
+    \endentry
+    \entry{LeVeque1990}{book}{}
+      \name{author}{1}{}{%
+        {{hash=c5fc096f540a44e56f892cc83176f0fb}{%
+           family={LeVeque},
+           familyi={L\bibinitperiod},
+           given={Randall\bibnamedelima J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Basel}%
+      }
+      \list{publisher}{1}{%
+        {Birkhäuser Verlag}%
+      }
+      \strng{namehash}{c5fc096f540a44e56f892cc83176f0fb}
+      \strng{fullhash}{c5fc096f540a44e56f892cc83176f0fb}
+      \strng{bibnamehash}{c5fc096f540a44e56f892cc83176f0fb}
+      \strng{authorbibnamehash}{c5fc096f540a44e56f892cc83176f0fb}
+      \strng{authornamehash}{c5fc096f540a44e56f892cc83176f0fb}
+      \strng{authorfullhash}{c5fc096f540a44e56f892cc83176f0fb}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-3-7643-2464-3}
+      \field{series}{Lectures in Mathematics ETH Zürich}
+      \field{title}{Numerical Methods for Conservation Laws}
+      \field{year}{1990}
+      \verb{doi}
+      \verb 10.1007/978-3-0348-5116-9
+      \endverb
+    \endentry
+    \entry{pareschi2010implicitexplicitrungekuttaschemesapplications}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=342b41968d0f17bf32c5362ff744a74f}{%
+           family={Pareschi},
+           familyi={P\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=7c8bb934a346247c2b7449915506e94a}{%
+           family={Russo},
+           familyi={R\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{20c09ee6acd3d6eb2cb6bc6ef789110a}
+      \strng{fullhash}{20c09ee6acd3d6eb2cb6bc6ef789110a}
+      \strng{bibnamehash}{20c09ee6acd3d6eb2cb6bc6ef789110a}
+      \strng{authorbibnamehash}{20c09ee6acd3d6eb2cb6bc6ef789110a}
+      \strng{authornamehash}{20c09ee6acd3d6eb2cb6bc6ef789110a}
+      \strng{authorfullhash}{20c09ee6acd3d6eb2cb6bc6ef789110a}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{math.NA}
+      \field{eprinttype}{arXiv}
+      \field{title}{Implicit-explicit Runge-Kutta schemes and applications to hyperbolic systems with relaxation}
+      \field{year}{2010}
+      \verb{eprint}
+      \verb 1009.2757
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1009.2757
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1009.2757
+      \endverb
+    \endentry
+    \entry{postePoly}{unpublished}{}
+      \name{author}{1}{}{%
+        {{hash=e3e823d4a328990b09f4ca1673d9c422}{%
+           family={Postel},
+           familyi={P\bibinitperiod},
+           given={Marie},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{e3e823d4a328990b09f4ca1673d9c422}
+      \strng{fullhash}{e3e823d4a328990b09f4ca1673d9c422}
+      \strng{bibnamehash}{e3e823d4a328990b09f4ca1673d9c422}
+      \strng{authorbibnamehash}{e3e823d4a328990b09f4ca1673d9c422}
+      \strng{authornamehash}{e3e823d4a328990b09f4ca1673d9c422}
+      \strng{authorfullhash}{e3e823d4a328990b09f4ca1673d9c422}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Polycopié, Laboratoire Jacques-Louis Lions, Université Pierre et Marie Curie}
+      \field{title}{Approximations multiéchelles}
+    \endentry
+    \entry{rebou2024}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=9eabf5c15f41bf8b1035e57a455d75eb}{%
+           family={Reboul},
+           familyi={R\bibinitperiod},
+           given={Louis},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{9eabf5c15f41bf8b1035e57a455d75eb}
+      \strng{fullhash}{9eabf5c15f41bf8b1035e57a455d75eb}
+      \strng{bibnamehash}{9eabf5c15f41bf8b1035e57a455d75eb}
+      \strng{authorbibnamehash}{9eabf5c15f41bf8b1035e57a455d75eb}
+      \strng{authornamehash}{9eabf5c15f41bf8b1035e57a455d75eb}
+      \strng{authorfullhash}{9eabf5c15f41bf8b1035e57a455d75eb}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{2024IPPAX134}
+      \field{title}{Development and analysis of efficient multi-scale numerical methods, with applications to plasma discharge simulations relying on multi-fluid models}
+      \field{type}{phdthesis}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb http://www.theses.fr/2024IPPAX134/document
+      \endverb
+      \verb{url}
+      \verb http://www.theses.fr/2024IPPAX134/document
+      \endverb
+    \endentry
+    \entry{GPU_bench}{article}{}
+      \name{author}{4}{}{%
+        {{hash=77b6260afec4f4d9993f2bfc29c9a2ef}{%
+           family={Rossinelli},
+           familyi={R\bibinitperiod},
+           given={Diego},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d94aa7396693daa4a55a33d97d0a174b}{%
+           family={Hejazialhosseini},
+           familyi={H\bibinitperiod},
+           given={Babak},
+           giveni={B\bibinitperiod}}}%
+        {{hash=3ea76c1e78e91424d5a39097e8e07bb1}{%
+           family={Spampinato},
+           familyi={S\bibinitperiod},
+           given={Daniele\bibnamedelima G.},
+           giveni={D\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=d0a18518b57cef85c32665e92ec3dea1}{%
+           family={Koumoutsakos},
+           familyi={K\bibinitperiod},
+           given={Petros},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{077a10b77d10a22972e22f13e0349ff3}
+      \strng{fullhash}{1c4b6f50461bf77cae4a84ad78e55b9b}
+      \strng{bibnamehash}{077a10b77d10a22972e22f13e0349ff3}
+      \strng{authorbibnamehash}{077a10b77d10a22972e22f13e0349ff3}
+      \strng{authornamehash}{077a10b77d10a22972e22f13e0349ff3}
+      \strng{authorfullhash}{1c4b6f50461bf77cae4a84ad78e55b9b}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Journal on Scientific Computing}
+      \field{number}{2}
+      \field{title}{Multicore/Multi-GPU Accelerated Simulations of Multiphase Compressible Flows Using Wavelet Adapted Grids}
+      \field{volume}{33}
+      \field{year}{2011}
+      \field{pages}{512\bibrangedash 540}
+      \range{pages}{29}
+      \verb{doi}
+      \verb 10.1137/100795930
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1137/100795930
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1137/100795930
+      \endverb
+    \endentry
+    \entry{Strang1968}{article}{}
+      \name{author}{1}{}{%
+        {{hash=93733dfde0c47db226efad798ab3b662}{%
+           family={Strang},
+           familyi={S\bibinitperiod},
+           given={Gilbert},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{93733dfde0c47db226efad798ab3b662}
+      \strng{fullhash}{93733dfde0c47db226efad798ab3b662}
+      \strng{bibnamehash}{93733dfde0c47db226efad798ab3b662}
+      \strng{authorbibnamehash}{93733dfde0c47db226efad798ab3b662}
+      \strng{authornamehash}{93733dfde0c47db226efad798ab3b662}
+      \strng{authorfullhash}{93733dfde0c47db226efad798ab3b662}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Journal on Numerical Analysis}
+      \field{number}{3}
+      \field{title}{On the construction and comparison of difference schemes}
+      \field{volume}{5}
+      \field{year}{1968}
+      \field{pages}{506\bibrangedash 517}
+      \range{pages}{12}
+    \endentry
+    \entry{Vivarelli2025Fluids}{article}{}
+      \name{author}{3}{}{%
+        {{hash=581b43291ba6f4d01002c7f3aabfdbe4}{%
+           family={Vivarelli},
+           familyi={V\bibinitperiod},
+           given={Guglielmo},
+           giveni={G\bibinitperiod}}}%
+        {{hash=874b050699ea125e31f92ba1a50a0a35}{%
+           family={Qin},
+           familyi={Q\bibinitperiod},
+           given={Ning},
+           giveni={N\bibinitperiod}}}%
+        {{hash=28799a1e9e96cafa30e3089fc4edc238}{%
+           family={Shahpar},
+           familyi={S\bibinitperiod},
+           given={Shahrokh},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MDPI}%
+      }
+      \strng{namehash}{bf59d78073c5cb59b825acb95fd49737}
+      \strng{fullhash}{bf59d78073c5cb59b825acb95fd49737}
+      \strng{bibnamehash}{bf59d78073c5cb59b825acb95fd49737}
+      \strng{authorbibnamehash}{bf59d78073c5cb59b825acb95fd49737}
+      \strng{authornamehash}{bf59d78073c5cb59b825acb95fd49737}
+      \strng{authorfullhash}{bf59d78073c5cb59b825acb95fd49737}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2311-5521}
+      \field{journaltitle}{Fluids}
+      \field{month}{5}
+      \field{number}{5}
+      \field{title}{A Review of Mesh Adaptation Technology Applied to Computational Fluid Dynamics}
+      \field{volume}{10}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.3390/fluids10050129
+      \endverb
+      \verb{urlraw}
+      \verb https://www.mdpi.com/2311-5521/10/5/129
+      \endverb
+      \verb{url}
+      \verb https://www.mdpi.com/2311-5521/10/5/129
+      \endverb
+    \endentry
+    \entry{Zhang2025IMEXTSA}{article}{}
+      \name{author}{4}{}{%
+        {{hash=9f39b2419bdc2451c451fe22fc45eea4}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Xuke},
+           giveni={X\bibinitperiod}}}%
+        {{hash=edefadf2737f4300dd8a9daa07b31f02}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Bin},
+           giveni={B\bibinitperiod}}}%
+        {{hash=57ba13ea1efe60c5683169b75f2eadca}{%
+           family={Zhong},
+           familyi={Z\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=bd1ec8e7ae3d2ae6062b2cd64c9b7800}{%
+           family={Le},
+           familyi={L\bibinitperiod},
+           given={Jialing},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{c7f82b912962bc82ae922251e71a51d5}
+      \strng{fullhash}{457752d6870286357f0b9ee0070e866d}
+      \strng{bibnamehash}{c7f82b912962bc82ae922251e71a51d5}
+      \strng{authorbibnamehash}{c7f82b912962bc82ae922251e71a51d5}
+      \strng{authornamehash}{c7f82b912962bc82ae922251e71a51d5}
+      \strng{authorfullhash}{457752d6870286357f0b9ee0070e866d}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0021-9991}
+      \field{journaltitle}{Journal of Computational Physics}
+      \field{month}{11}
+      \field{title}{Time-space adaptive implicit--explicit method for unsteady detonations}
+      \field{volume}{540}
+      \field{year}{2025}
+      \field{pages}{114266}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.jcp.2025.114266
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

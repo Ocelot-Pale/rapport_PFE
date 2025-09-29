@@ -16,7 +16,13 @@ Pour les grandes CFL le coefficient ... est ... et pour les petites CFL il est .
 chute de l'erreur pour ces CFL, l'erreur s'allégeant du terme d'ordre deux.\\
 \textbf{Validation expérimentale:} Pour valider cette hypothèse, une régression linéaire entre l'erreur numérique et la dérivée $4^e$ de la solution a été réalisée par 
 une méthode des moindres carrées : $$\min_{\alpha \in \mathbb R} \Vert \alpha \partial_x^4 u - \text{err} \Vert^2.$$
-Ce modèle explique bien l'erreur pour les petites CFL ($R^2>0.9$) mais mal pour les grandes CFL ($R^2 \sim 0.7$).
+Ce modèle (fig. \ref{fig:derive4_vs_err}) explique bien l'erreur pour les petites CFL ($R^2>0.9$) mais mal pour les grandes CFL ($R^2 \sim 0.7$).
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{media/4_travail/3/erreur_vs_deriv4.pdf}
+    \caption{Régression entre l'erreur numérique expérimentale (AMR + reconstruction fine) et la dérivées $4^e$ de la solution.}
+    \label{fig:derive4_vs_err}
+\end{figure}
 \subsubsection{Seconde Hypothèse}
 \textbf{Une seconde observation} a alors complété la première: \textit{à grande CFL, l'erreur ne ressemble pas à l'opposé de $\partial_x^4 u$ mais à 
 $\partial_x^6 u$.}\\
