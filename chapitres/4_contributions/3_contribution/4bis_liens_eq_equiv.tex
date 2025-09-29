@@ -1,21 +1,43 @@
-Les équations équivalentes (obtenues en \ref{par:contrib_2}) offrent une piste pour comprendre le comportements différents des erreurs des méthodes reconstruisant le flux de celles ne le reconstruisant pas.
-L'analyse théorique est toujours faite au travers des équation équivalente des schémas issu de la méthode ERK2 et non de ROCK2; 
-toutefois, cela fournit un cadre de réflexion cohérent puisque ROCK2 reste une ERK2 avec des étages de stabilisation.
-Lorsque l'on compare les équations équivalentes des méthodes de MRA avec et sans reconstruction, les termes qui diffèrent au premier ordre non nul sont : 
+Pour comprendre les résultats de convergence précédents (\ref{par:etude_diff_rock4}), le profil des erreurs a été tracé (voir \ref{fig:error_profiles_landscape}) pour chaque méthode numérique et pour différents régimes de CFL ; puis 
+ces observations ont été reliées aux équations équivalentes développées en \ref{par:contrib_2}. 
+Cette mise en relation est cohérente car les équations équivalentes ont été calculées pour un schéma d'intégration en temps ERK2 et l'expérience a été réalisée avec 
+ROCK2 qui est une ERK2 stabilisée.\\
+Les résultats précédents ont d'abord été confirmés:
+\begin{enumerate}
+    \item Pour les petites CFL, les méthodes avec reconstruction sont moins précisés que les méthodes sans reconstruction.
+    \item Il existe une gamme de CFL très précise pour laquelle les schémas avec reconstruction sur-performent les autres méthodes.
+\end{enumerate}
+Une première hypothèse a été formulée mais elle a été par la suite invalidée. Une seconde hypothèse à alors été proposées qui a elle été validée.
+\subsubsection{Première Hypothèse}
+\textbf{L'observation} suivante a de plus été faite: \textit{il semble que le profil de l'erreur avec reconstruction ressemble à la dérivée spatiale d'ordre quatre
+de la solution et que le signe de cette erreur change avec la CFL}.\\
+\textbf{Une première hypothèse} a d'abord été proposée: \textit{l'évolution du profil d'erreur selon la CFL s'explique par le terme ... dans l'équation équivalente \ref{}.
+Pour les grandes CFL le coefficient ... est ... et pour les petites CFL il est ....} Enfin pour $\lambda = \dots$ ce coefficient serait null expliquant 
+chute de l'erreur pour ces CFL, l'erreur s'allégeant du terme d'ordre deux.\\
+\textbf{Validation expérimentale:} Pour valider cette hypothèse, une régression linéaire entre l'erreur numérique et la dérivée $4^e$ de la solution a été réalisée par 
+une méthode des moindres carrées : $$\min_{\alpha \in \mathbb R} \Vert \alpha \partial_x^4 u - \text{err} \Vert^2.$$
+Ce modèle explique bien l'erreur pour les petites CFL ($R^2>0.9$) mais mal pour les grandes CFL ($R^2 \sim 0.7$).
+\subsubsection{Seconde Hypothèse}
+\textbf{Une seconde observation} a alors complété la première: \textit{à grande CFL, l'erreur ne ressemble pas à l'opposé de $\partial_x^4 u$ mais à 
+$\partial_x^6 u$.}\\
+\textbf{Une seconde hypothèse} a alors été émise: \textit{l'erreur s'explique aux grandes CFL car dans l'équation équivalente le terme $\lambda^2 \Delta x^4 \partial_x^6 u $ 
+domine et aux petites CFL car le terme $\lambda \delta x^2 \partial_x^4 u$ domine.} Les piètres performances de la méthode avec reconstruction pour de petites CFL 
+s'explique alors simplement, il y a plus de coefficients devant le terme d'erreur $\Delta x^2 \partial_x^4 u$, dominant pour les petites CFL:
 \begin{align}
-    \notag
-    &\text{MRA sans reconstruction: }& 2^{2 \Delta l} \frac{D}{12}\Delta x^2 \frac{\partial^4 u}{\partial x^4}
-    \\\notag
-    &\text{MRA avec reconstruction: }& \left( 2^{2 \Delta l}\frac{D}{12}(1-3\Delta l) + \frac{D}{2} \lambda (2^{\Delta l} - 1)\right) \Delta x^2 \frac{\partial^4 u}{\partial x^4}
+    .\\
+    .
 \end{align}
-Avec reconstruction un terme dépend de la constante CFL diffusive $\lambda = \frac{D \Delta t}{\Delta x^2}$. Ainsi le coefficient devant cette erreur en $\partial_x^4 u$ 
-est positif pour grands $\lambda$ (à pas de temps fixé, cela correspond à de grands $\Delta t$) et négatif pour de petits pas de temps. Pour un certain pas de temps, le coefficient s'annule.
-Ce terme modulerait donc le signe et l'amplitude de l'erreur porté par la dérivée quatrième. 
-L'effondrement de l'erreur sur une courte gamme de pas de temps pour les méthode 
-reconstruisant le flux ne serait que le résultat de l'annulation \textit{fortuite} de ce terme; lorsqu'il change continûment de signe. 
-C'est pour l'instant la seule explication que je puisse apporter au observation expérimentales.
-Elle semble crédible puisqu'elle permet de décrire le mécanisme observé expérimentalement et qu'il résulte de l'étude de la principale différence entre les deux méthodes. 
-Un autre point qui pointe dans cette direction est que le profil de l'erreur ressemble fortement la dérivée spatiale d'ordre quatre de la solution comme peut le constater le lecteur:
-\begin{figure}
-    
-\end{figure}
+\textbf{Pour valider} cette nouvelle hypothèse, l'erreurs a été modélisée comme $\text{err} \approx \alpha \partial_x^4 u + \beta \partial_x^6u$ par moindre carré. 
+Ce modèle explique très bien l'erreur pour tous les régimes de CFL (voir \ref{fig:derivees_vs_err}).
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{media/4_travail/3/derivees_spatiales_VS_err_num.pdf}
+    \caption{Régression entre l'erreur numérique expérimentale (AMR + reconstruction fine) et une combinaison linéaire des dérivées $4^e$ et $6^e$ de la solution.}
+    \label{fig:derivees_vs_err}
+\end{figure}\\
+\textbf{Remarque:} la plage de CFL où la méthode avec reconstruction est plus la précise correspond en fait au cas ou les profils de $ \alpha \partial_x^4 u$
+de $\beta \partial_x^6 u$ se compensent. C'est donc un comportement tout à fait accidentel lié au fait que les dérives de la courbe de Gauss sont en quelque sort "en opposition de phase".
+\textbf{Analyse:} avec le recul, les résultats s'expliquent comme suit. Le schéma d'intégration en temps nécessite l'approximation de la dérivée spatiale d'ordre quatre de la solution.
+Ce qui ne peut être fait de manière satisfaisante à partir d'une prédiction polynomiale à trois point \cite{}/\ref{}.\\
+\textbf{Complément:} Ce n'est pas présenté ici, mais le travail à été refait avec un prédicteur à 5 points, permettant d'approximer correctement la dérivée d'ordre quatre.
+Alors la reconstruction apporte un gain notable, les solutions numériques avec et sans MRA sont dans ce cas très proches.
