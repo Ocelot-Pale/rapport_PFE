@@ -21,14 +21,15 @@ Deux catégories de schémas numériques existent: les schémas explicites et le
 
 
 \begin{definition}[Schéma explicite]
-    Un schéma numérique est dit explicite si le pas de temps $n+1$ est obtenu seulement grâce au pas de temps $n$, usuellement formulé sous la forme:
+    Un schéma numérique est dit explicite si la solution au pas de temps $n+1$ est obtenu seulement grâce à la solution pas de temps $n$. Cela se formule usuellement sous la forme:
     \begin{align}
         u^{n+1} = u^n + f(u^n ,\Delta t ).
     \end{align}
 \end{definition}
 
 \begin{definition}[Schéma implicite]
-    Un schéma numérique est dit implicite si le pas de temps $n+1$ est obtenu au moins en partie grâce au pas de temps $n+1$, souvent écrit comme:
+    Un schéma numérique est dit implicite si la solution au pas  de temps $n+1$ est obtenue au moins en partie grâce à la solution pas de temps $n+1$. 
+    Cela peut s'écrire écrit comme:
     \begin{align}
         u^{n+1} = u^n + f(u^{n+1} ,\Delta t ).
     \end{align}
