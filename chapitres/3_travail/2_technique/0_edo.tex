@@ -1,10 +1,10 @@
-Les techniques d'approximation d'EDPs d'évolution comportent souvent une étape nécessitant la résolution d'une équation différentielle ordinaire (EDO
-\footnote{On utilisera aussi le terme \textit{système dynamique}, même si en toute rigueur ce concept est un peu plus large.}),
-c'est à dire une équation différentielle ne faisant intervenir qu'une seule variable différenciée (ici le temps). Nous commençons donc cette section par rappeler 
-quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins nous nous restreignons aux EDOs du premier ordre.}.\par
+Les techniques d'approximation d'EDPs d'évolution comportent souvent une étape nécessitant la résolution d'une équation différentielle ordinaire
+\footnote{On utilisera aussi le terme \textit{système dynamique}, même si en toute rigueur ce concept est un peu plus large.} (EDO),
+c'est à dire une équation différentielle ne faisant intervenir qu'une seule variable différenciée, généralement le temps. Cette section rappelle 
+quelques notions d'analyse et de simulation des EDOs du premier ordre.\par
 
 \begin{definition}[Équation différentielle ordinaire]
-    Une équation différentielle ordinaire est une équation de la forme :
+    Une équation différentielle ordinaire (du premier ordre) est une équation de la forme :
     \begin{align}\label{def:def_ODE}
         u' &= A(u,t)\quad u : t \in \mathbb{R}^+ \mapsto u(t) \in \mathbb{R}^d\\\notag
         u(0)&=u_0 \in \mathbb{R}^d.
@@ -12,12 +12,13 @@ quelques notions d'analyse et de simulation des EDOs\footnote{Pour nos besoins n
 \end{definition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    SCHEMA EXPLICITES ET IMPLICITES
 \subsection{Schémas explicites et implcites.}
-L'approximation des EDO se fait grâce à des schémas numériques; formellement un schéma numérique est un élément de $(\mathbb{R}^d)^\mathbb{N}$. 
+L'approximation des EDO se fait grâce à des schémas numériques; formellement un schéma numérique est un élément de $(\mathbb{R}^d)^\mathbb{N}$.
+Donné un pas de discrétisation temporel $\Delta t$, on note $u^n$ l'approximation de la solution d'une EDO au pas de temps $n$, c'est à dire au temps $t^n = n \Delta t$.
+L'objectif est d'avoir $u^n \approx u(t=n\Delta t)$.
 Ceux-ci se divisent en deux catégories, les schémas explicites et les schémas implicites
 Seuls les schémas à un pas sont ici présentés et non pas les schémas multi-pas. Ce choix est fait en raison de la barrière de Dahlquist
 \footnote{\url{https://fr.wikipedia.org/wiki/Methode_lineaire_a_pas_multiples\#Premiere_et_deuxieme_limites_de_Dahlquist}}.
-Donné un pas de discrétisation temporel $\Delta t$, on note $u^n$ l'approximation de la solution d'une EDO au pas de temps $n$, c'est à dire au temps $t^n = n \Delta t$.
-L'objectif est d'avoir $u^n \approx u(t=n\Delta t)$.
+
 
 \begin{definition}[Schéma explicite]
     Un schéma numérique est dit explicite si le pas de temps $n+1$ est obtenu seulement grâce au pas de temps $n$, usuellement formulé sous la forme:
@@ -39,8 +40,36 @@ Cependant pour des raisons de stabilités (voir \ref{par:stabilite_edo}) les mé
 Le choix entre méthode explicite et implicite dépend de bien des facteurs (du problème, du niveau de précision voulu, de la difficulté d'implémentation etc...)
 c'est un enjeu central de la simulation numérique.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Ordre des schémas numériques}
-%%% AFAIRE 
+\subsection{Ordre d'un schéma}
+La notion d'ordre de convergence permet de lier l'erreur d'une solution numérique au pas de temps utilisé, en clair cela quantifie l'efficacité d'un schéma numérique.
+\begin{definition}[Erreur locale d'un schéma]
+    L'erreur locale d'un schéma numérique de résolution d'une EDO est l'erreur que commet le schéma sur un pas de temps.
+    Autrement dit si l'on note $u$ la solution de l'EDO à partir d'un état initial $u_0 = u(t=0)$ et $u_1$ l'approximation numérique proposée par la schéma 
+    pour un pas de temps $\Delta t$ à partir de l'était $u_0$, l'erreur locale est: 
+    \begin{align}
+        e(\Delta t) = \Vert u(\Delta t) - u_1 \Vert.
+    \end{align}
+\end{definition}
+
+\begin{definition}[Erreur globale d'un schméa]
+    L'erreur globale d'un schéma est l'erreur que commet le schéma sur plusieurs pas de temps. 
+    Si l'on note $u^n$ la solution numérique au temps $t^n = n \Delta t$, alors l'erreur globale du schéma jusqu'au temps final $T = N \Delta t$ peut être définie comme:
+    \begin{align}
+        E(\Delta t) = \sum_{n=0}^N \Vert u^n - u(n^t) \Vert 
+    \end{align}
+    ou plus simplement encore:
+    \begin{align}
+        E(\Delta t)=\Vert u^n - u(T) \Vert.
+    \end{align}
+\end{definition}
+
+\begin{definition}[Ordre de convergence]
+    Un schéma numérique de résolution d'une EDO est dit d'ordre $p$ si de manière équivalente:
+    \begin{itemize}
+        \item[$\diamond$] L'erreur locale vérifie : $e(\Delta t) = O(\Delta t^{p+1})$
+        \item[$\diamond$] L'erreur globale vérifie : $E(\Delta t) = O(\Delta t^{p})$
+    \end{itemize}
+\end{definition}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stabilité des schémas numériques}\label{par:stabilite_edo}
