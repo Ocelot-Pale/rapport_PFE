@@ -34,15 +34,15 @@
 \usepackage[section]{placeins} % insère un \FloatBarrier à chaque \section
 
 \lstset{
-  language=Python,
-  basicstyle=\ttfamily\small,
-  numbers=left,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{green!50!black},
-  stringstyle=\color{red!70!black},
-  frame=single,
-  breaklines=true,
+    language=Python,
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red!70!black},
+    frame=single,
+    breaklines=true,
 }
 
 % En-têtes et pieds de page
@@ -129,9 +129,9 @@
 \newcommand{\companylocation}{Palaiseau, France}
 \newcommand{\supervisor}{Marc \textsc{Massot} et Christian \textsc{Tenaud}}
 \newcommand{\academicsupervisor}{Patrick \textsc{Ciarlet}}
-\newcommand{\internshipperiod}{du 14/04/2025 au 15/09/2025}
-\newcommand{\reporttitle}{Compression de maillage et problèmes d'évolution}
-\newcommand{\reportsubtitle}{Intégration temporelle et multirésolution adaptative pour les EDP en temps.}
+\newcommand{\internshipperiod}{du 14/04/2025 au 17/10/2025}
+\newcommand{\reporttitle}{Développement de méthodes de haute résolution avec contrôle d'erreur pour la simulation des EDP évolutive multi-échelles en temps et en espace}
+\newcommand{\reportsubtitle}{Développement de méthodes de haute résolution avec contrôle d’erreur pour la simulation des EDP évolutive multi-échelles en temps et en espace}
 
 \begin{document}
 
@@ -153,11 +153,11 @@
     
     {\Large \reporttitle}
     
-    \ifx\reportsubtitle\empty
-    \else
-        \vspace{0.5cm}
-        {\large \reportsubtitle}
-    \fi
+    % \ifx\reportsubtitle\empty
+    % \else
+    %     \vspace{0.5cm}
+    %     {\large \reportsubtitle}
+    % \fi
     
     \vspace{2cm}
     
@@ -215,7 +215,7 @@ Je tiens à remercier...
 \chapter{Introduction}
 \section{Présentation du laboratoire}
 \input{chapitres/2_laboratoire/0_labo.tex }
-\section{Présentation du sujet et problématique générale}
+\section{Présentation du sujet}
 \input{chapitres/2_laboratoire/1_sujet_problematique.tex}
 \section{Organisation du rapport}
 \input{chapitres/2_laboratoire/2_structure.tex}
@@ -249,6 +249,7 @@ Je tiens à remercier...
         \newpage
         \subsection{Analyse de stabilité}\input{chapitres/4_contributions/1_contribution/3_stabilite.tex}
         \subsection{Étude de la convergence}\input{chapitres/4_contributions/1_contribution/4_convergence.tex}
+        \newpage
         \subsection{Conclusion}\input{chapitres/4_contributions/1_contribution/5_conclusion.tex}
     
     \newpage

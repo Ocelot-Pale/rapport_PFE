@@ -1,0 +1,19 @@
+Cette première contribution a comparé un schéma de splitting ERK2+IRK2 à deux schémas ImEx ARK sur des questions de stabilités de convergence. 
+L'étude de convergence à été réalisées dans deux contextes différents : sans adaptation spatiale et avec adaptation spatiale par MRA.
+Les principaux résultats sont : 
+\begin{itemize}
+    \item[$\diamond$] \textbf{Stabilité:} Tandis que par nature le splitting 
+    découple les problématiques de stabilités, celle des méthodes ARK résulte d'un couplage entre le spectre des deux opérateurs.  
+    Cela pourrait être exploité astucieusement puisque dans certains cas (\textit{cf.} \ref{par:analyse_generale_stab_nagumo})
+    un opérateur implicité très raide peut stabiliser la méthode explicite. Ce serait particulièrement intéressement pour des problèmes de diffusion-réaction
+    où une réaction implicite très raide pourrait étendre la stabilité d'une diffusion explicite.
+    \item[$\diamond$] \textbf{Convergence:} 
+    \item[$\diamond$] \textbf{Couplage avec l'adaptation spatiale:} Il a été monté empiriquement
+    que les méthode ImEx peuvent interagir de manière néfaste avec l'adaptation spatiale par MRA.
+    Il est probable que les méthode de splitting interagissent également, mais il semble que cette interaction soit plus limités.
+    Comme montré au chapitre suivant (chapitre \ref{par:contrib_2}) ce type d’interaction (méthode en temps - adaptation spatiale)
+    sont complexes et dépendent énormément des schémas temporelles et des modalités de mises en oeuvre de la MRA. 
+    Donc cette étude ne suffit pas à tirer des conclusions générales,
+    en revanche elle confirme l'existence de tels couplage et montre qu'ils peuvent être important car  (\textit{cf} \ref{par:couplage_temps_adaptation}) une méthode ImEx meilleure que le splitting sur un schéma non-adapté 
+    devient moins bonne que le splitting pour un schéma adapté (dès lors que les erreurs de MRA ne sont plus négligeables).
+\end{itemize}
