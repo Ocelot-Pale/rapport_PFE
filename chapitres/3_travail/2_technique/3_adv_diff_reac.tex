@@ -160,12 +160,10 @@ les difficultés liées à leur résolution numérique (\ref{par:adr_difficile})
 %             % AFAIRE AJOUTER UN LIEN VERS LE CHAPITRE DÉDIÉ
 %             % AFAIRE SE DEMANDER SI POUR U? OPÉRATEUR LINÉAIRE RKImEx ET SPLITTING C EST PAREIL MAIS SI LE RKImEx NE SERAIT PAS PLUS PERTINENT EN NON LINÉAIRE.
 
-\subsection{Conclusion}
-Cette introduction a mis en évidence la complexité intrinsèque des équations d'advection-diffusion-réaction, 
-qui réside dans le couplage de trois phénomènes physiques aux propriétés mathématiques antagonistes. 
-L'advection, peu raide, la diffusion, moyennement raide et non-locale, et la réaction, extrêmement raide mais locale, 
-ne peuvent être traitées efficacement par une approche monolithique classique.
-Les deux défis principaux identifiés: le couplage des opérateurs et le caractère multi-échelles des solutions, 
-nécessitent des stratégies numériques spécifiques. 
-D'une part, l'adaptation de maillage, notamment par multi-résolution adaptative, permet de concentrer les ressources de calcul là où l'information physique est la plus riche. 
-D'autre part, des techniques d'intégration découplées, séparation d'opérateurs ou des méthodes ImEx, exploitant les propriétés spécifiques de chaque phénomène et éviter l'écueil du solver monolithique.
+\subsection{Conclusion sur les équations d'ADR}
+Les solutions multi-échelles ainsi que le couplage des trois opérateurs
+rendent les équations d'advection-diffusion-réaction difficiles à résoudre numériquement.
+D'une part les trois ne peuvent être traitées efficacement par une approche monolithique classique. 
+D'autre part, le caractère multi-échelle tend au gaspillage de ressources de calculs.
+Cette dernière difficulté pousse les numériciens vers des stratégies d'adaptation en espace, 
+celle étudiée dans ce stage est la multi-résolution adaptative (MRA) dont les détails techniques sont donnés à la section suivante.

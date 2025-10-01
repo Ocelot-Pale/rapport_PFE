@@ -13,17 +13,25 @@
 % sont utilisées pour ne pas seuiller systématiquement. L'objectif est en quelque sorte d'anticiper le besoin de détails\footnote{Même si la quantité d'information laisse entendre que 
 % certains détails pourraient être ignorés, l'intuition physique pose sont veto et force certains détails à être conservés par précaution, par exemple si un front front d'onde arrive.}.
 % La plus connue est l'heuristique d'Ami Harten \cite{harten1994}.
-La multi-résolution adaptative (MRA) est une méthode très efficace pour les problèmes multi-échelles. 
+
+La multi-résolution adaptative (MRA) est une méthode très efficace pour les problèmes multi-échelles.
 L'objectif est de concentrer les efforts computationnels là où ils sont nécessaires. 
+Cette méthode est très étudiée par l'équipe du CMAP qui a développé le code Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}
+centré sur cette méthode.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{media/3_/3_/exemple_compression_samurai.png}
+    \caption{Exemple de maillage adapté par multirésolution adaptative grâce au logiciel \href{https://github.com/hpc-maths/samurai}{Samurai}.}
+    \label{fig:samurai}
+\end{figure}
 Concrètement cela consiste à augmenter la résolution de la grille de calcul où la solution est complexe et la diminuer où la solution est simple à décrire.
 La MRA est donc une méthode de HPC (\textit{high performance computing}) puisqu'elle vise à optimiser l'allocation des ressources de calcul.\par
 Cette partie introduit le lecteur à cette méthode en présentant d'abord le concept mathématique de transformée multi-échelle (ou transformée en ondelette)
 qui est à la base de la MRA. 
 Puis il est expliqué comment la transformée multi-échelle permet d'adapter le maillage pour optimiser la charge computationnelle.
 Une fois ces prérequis établis, l'algorithme typique de mise en oeuvre de la multi-résolution adaptative est décrit.
-S’ensuit alors naturellement une présentation des différentes implémentations de la MRA, avec une attention particulière sur celle développée au CMAP au travers 
-du logiciel Samurai.
-Enfin l'impact de la multi-résolution sur la qualité des solutions numériques est abordé. 
+Vient enfin une présentation des différentes implémentations de la MRA.
+% Enfin l'impact de la multi-résolution sur la qualité des solutions numériques est abordé. 
 
 \subsubsection{La transformée multi-échelle}
     Cette partie présente la transformée multi-échelle discrète. La transformée multi-échelle continue en simulation numérique,
