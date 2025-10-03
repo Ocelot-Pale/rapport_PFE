@@ -1,12 +1,30 @@
-La multirésolution adaptative (MRA) a démontré une grande efficacité expérimentalement.\label{par:intro_contrib_eq_equiv}
-Cependant, son impact sur la qualité des solutions obtenues n'est pas encore totalement compris mathématiquement.
-En \cite{belloti_et_al_2025}, une étude de l'erreur introduite par la multirésolution adaptative a été menée.
-Cette étude se concentre sur les équations d'advection résolues par des schémas de type \textit{one-step} \cite{DARU2004563} et
-compare l'équation équivalente des schémas avec MRA et celle des schémas sans MRA pour mettre en lumière les différences introduites par la multirésolution.
-La présente étude se place dans la continuité de cette démarche\footnote{À un niveau plus modeste.} et suit un cheminement similaire
-pour déterminer, grâce aux équations équivalentes, l'impact de la MRA sur une équation de diffusion résolue par une méthode des lignes d'ordre deux.
-La différence est donc double: d'une part la nature de l'opérateur étudié est différent (diffusion et non advection), d'autre part le type de schéma 
-utilisés est également différent (ici une méthode des lignes, ne couplant pas les erreurs en espace et en temps est utilisé).
-D'abord, le problème cible est présenté ainsi que le schéma de référence et le schéma avec AMR.
-Par la suite, les équations équivalentes du schéma de référence et du schéma avec multirésolution adaptative sont évaluées puis analysées.
-Enfin, une tentative de confirmation expérimentale est présentée.
+% La multirésolution adaptative (MRA) a démontré une grande efficacité expérimentalement.\label{par:intro_contrib_eq_equiv}
+% Cependant, son impact sur la qualité des solutions obtenues n'est pas encore totalement compris mathématiquement.
+% En \cite{belloti_et_al_2025}, une étude de l'erreur introduite par la multirésolution adaptative a été menée.
+% Cette étude se concentre sur les équations d'advection résolues par des schémas de type \textit{one-step} \cite{DARU2004563} et
+% compare l'équation équivalente des schémas avec MRA et celle des schémas sans MRA pour mettre en lumière les différences introduites par la multirésolution.
+% La présente étude se place dans la continuité de cette démarche\footnote{À un niveau plus modeste.} et suit un cheminement similaire
+% pour déterminer, grâce aux équations équivalentes, l'impact de la MRA sur une équation de diffusion résolue par une méthode des lignes d'ordre deux.
+% La différence est donc double: d'une part la nature de l'opérateur étudié est différent (diffusion et non advection), d'autre part le type de schéma 
+% utilisés est également différent (ici une méthode des lignes, ne couplant pas les erreurs en espace et en temps est utilisé).
+% D'abord, le problème cible est présenté ainsi que le schéma de référence et le schéma avec AMR.
+% Par la suite, les équations équivalentes du schéma de référence et du schéma avec multirésolution adaptative sont évaluées puis analysées.
+% Enfin, une tentative de confirmation expérimentale est présentée.
+Cette deuxième contribution étudie l'interaction entre la multirésolution adaptative (MRA) et le schéma d'intégration temporel. 
+Cette interaction, encore mal comprise, a été étudiée sur des problèmes d'advection en \cite{belloti_et_al_2025}.\\
+La présente étude s'attache au problèmes de diffusion. 
+Pour analyser l'impact de la MRA sur les schémas de diffusion,
+les équations équivalentes de trois schémas sont calculés (pour plus de précision entre les trois schémas voir \ref{par:paradigme_MRA}) : 
+\begin{enumerate}
+    \renewcommand{\labelenumi}{\Roman{enumi}.}
+    \item Un schéma méthode des lignes d'ordre deux, servant de référence. Il s'agit d'une discrétisation spatiale d'ordre deux par volume finis, 
+    puis une intégrations temporelle par une méthode Runge et Kutta explicite d'ordre deux.
+    \item Un schéma correspondant au schéma \texttt{I} avec MRA, où les valeurs nécessaires à l'évaluation des flux numériques 
+    est prise au niveau de compression courant.
+    \item Un schéma correspondant au schéma \texttt{I} avec AMR, où les valeurs nécessaires à l'évaluation des flux numériques 
+    sont systématiquement reconstruites au niveau de résolution le plus fin.
+\end{enumerate}
+
+Le schéma schéma \texttt{III} est peu étudiée dans la littérature.
+En \cite{belloti_et_al_2025}, il a été montré que cette approche améliore pourtant significativement la qualité des solutions numériques sur les problèmes d'advection.
+En sera-t-il de même pour la diffusion ? La réponse est plus mitigée, cela motivera d'ailleurs la troisième contribution en \ref{par:contrib_3}.
