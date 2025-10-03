@@ -59,8 +59,8 @@ les spécificité de chaque opérateur et cela, indépendamment des autres opér
     Pour construire des méthodes plus complexes et d'ordres supérieurs introduisons le formalisme de \cite{ASCHER1997151} pour traiter les méthodes RK-additives. 
     Ici, nous travaillons uniquement sur méthodes ImEx pour deux opérateurs mais théoriquement, il est possible de construire des méthodes ImEx pour traiter 
     autant d'opérateurs que l'on le souhaite \cite{KENNEDY2003139}.
-    \paragraph{Notations}%AFAIRE -> ajouter une référence interne vers la notion de méthode DIRK et SDIRK
-        Une méthode ImEx additive est construite à partir d'une méthode implicite à $s$ étages (une méthode DIRK et si possible SDIRK) et d'une méthode explicite à $s+1$ étages
+    \paragraph{Notations}
+        Une méthode ImEx additive est construite à partir d'une méthode implicite à $s$ étages (une méthode DIRK et si possible SDIRK \cite{nasa_DIRK}) et d'une méthode explicite à $s+1$ étages
         \footnote{Au besoin, la méthode explicite peut être à $s$ étages, qui est un cas particulier d'une méthode à $s+1$ étages.}.
         Pour uniformiser, le tableau de Butcher de la méthode implicite est complété par une ligne et une colonne de zéros afin que les deux méthodes
         s'écrivent comme si elles avaient le même nombre d'étages.

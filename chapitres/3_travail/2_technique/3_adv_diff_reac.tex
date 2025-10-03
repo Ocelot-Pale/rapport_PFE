@@ -15,9 +15,8 @@ les difficultés liées à leur résolution numérique (\ref{par:adr_difficile})
     De manière générale l'opérateur d’advection d'une quantité $u$ par un flot $\underline a$ s'écrit $\underline a \cdot \underline{\nabla} u$.
     Par exemple dans les équations de Navier-Stokes, le terme $\underline{v} \cdot \underline{\underline \nabla} \, \underline{v}$ modélise 
     la vitesse $\underline v$ transportée par elle même. Une version simplifiée de ce phénomène est l'équation bien connue de Bürgers.\par 
-    Le spectre des opérateurs d'advections sont généralement à valeurs propres imaginaires \cite{}.
-    Ainsi ils sont peu raides mais résonnants. Les méthodes explicites sont souvent les plus adaptées pour les traiter \cite{}.
-    %       AFAIRE ---> trouver une référence pour justifier que les opérateurs d'advections sont à valeurs propres imaginaires.
+    Le spectre des opérateurs d'advections sont généralement à valeurs propres imaginaires \cite[Chap.~10]{LeVeque2007}.
+    Ainsi ils sont peu raides mais résonnants. Les méthodes explicites sont souvent les plus adaptées pour les traiter \cite[Chap.~10]{LeVeque2007}.
 
 \subsubsection{Diffusion}
     La diffusion désigne l'\textit{éparpillement} de particules au sein d'un milieu fluide
@@ -25,10 +24,9 @@ les difficultés liées à leur résolution numérique (\ref{par:adr_difficile})
     Ce phénomène est la limite macroscopique du déplacement microscopique
     des particules dû à l'agitation thermique. L'opérateur de diffusion le plus classique est celui de l'équation de la chaleur:
     \begin{align} \frac{\partial u}{\partial t} = D \Delta u.\end{align}
-    Le spectre de cet opérateur est $\mathbb R^-$ \cite{}, il est donc infiniment raide. 
+    Le spectre de cet opérateur est $\mathbb R^-$ \cite[Chap.~9]{LeVeque2007}, il est donc infiniment raide. 
     L'opérateur discret correspondant ne capte qu'une partie de ce spectre.
-    En pratique la raideur de l'opérateur discret augmente de manière quadratique avec la finesse de la discrétisation spatiale \cite{}.\par
-    %       AFAIRE ---> trouver une référence (ou faire la démo) pour le spectre.
+    En pratique la raideur de l'opérateur discret augmente de manière quadratique avec la finesse de la discrétisation spatiale \cite[Chap.~9]{LeVeque2007}.\par
     Cet opérateur moyennement raide (comparé aux opérateurs de réaction). Ainsi on pourrait penser qu'une méthode implicite est adéquate. Cependant ce n'est généralement pas le cas.
     En effet le coefficient de diffusion n'est souvent pas uniforme ni isotrope. La structure de la matrice de l'opérateur discrétisé évolue donc et
     à chaque itération il faut inverser un nouvel opérateur implicite. Cette tâche est rendue plus ardue encore car l'opérateur de diffusion couple tout l'espace,
@@ -48,7 +46,7 @@ les difficultés liées à leur résolution numérique (\ref{par:adr_difficile})
 \subsubsection{Réaction}
     Les phénomènes de réaction sont en général bien adaptés aux méthodes implicites car ils sont locaux et extrêmement raides.
     En effet, les temps typiques d'une réaction chimique\footnote{
-    En réalité une réaction chimique aussi simple en apparence qu'une combustion $H_2/O_2$ fait intervenir une dizaine de composés et réactions intermédiaires, dont les temps typiques sont très faibles \cite{}.} sont de l'ordre de la nano-seconde \cite{}.
+    En réalité une réaction chimique aussi simple en apparence qu'une combustion $H_2/O_2$ fait intervenir une dizaine de composés et réactions intermédiaires \cite{OConaire2004}, dont les temps typiques sont très faibles.} sont de l'ordre de la nano-seconde \cite{Wartha2021}.
     %AFAIRE AJOUTER UNE JUSTIFICATION
     De fait, les réactions chimiques sont très difficiles à simuler par des méthodes explicites.
     En revanche les méthodes implicites sont très efficaces dans ce contexte. En effet l'inversion de l'opérateur implicite 

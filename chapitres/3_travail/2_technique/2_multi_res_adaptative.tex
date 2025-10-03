@@ -14,7 +14,7 @@
 % certains détails pourraient être ignorés, l'intuition physique pose sont veto et force certains détails à être conservés par précaution, par exemple si un front front d'onde arrive.}.
 % La plus connue est l'heuristique d'Ami Harten \cite{harten1994}.
 
-La multi-résolution adaptative (MRA) est une méthode très efficace pour les problèmes multi-échelles.
+La multi-résolution adaptative (MRA) est une méthode d'adaptation en espace, très efficace pour les problèmes multi-échelles.
 L'objectif est de concentrer les efforts computationnels là où ils sont nécessaires. 
 Cette méthode est très étudiée par l'équipe du CMAP qui a développé le code Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}
 centré sur cette méthode.
@@ -33,12 +33,12 @@ Une fois ces prérequis établis, l'algorithme typique de mise en oeuvre de la m
 Vient enfin une présentation des différentes implémentations de la MRA.
 % Enfin l'impact de la multi-résolution sur la qualité des solutions numériques est abordé. 
 
-\subsubsection{La transformée multi-échelle}
+\subsection{La transformée multi-échelle}
     Cette partie présente la transformée multi-échelle discrète. La transformée multi-échelle continue en simulation numérique,
     c'est bien sûr la version discrète qui est utile.
     Elle se veut avant tout introductive et omets ou simplifie certaines notions; plus de détails sont donnés en \cite{postePoly}.
 
-    \paragraph{Définition mathématique}
+    \subsubsection{Définition mathématique}
         Les explications sont développées en dimensions un à des fins pédagogiques, la plupart des concepts s'entendent naturellement aux dimensions supérieures. 
         De plus, la discrétisation de l'espace se fait selon une grille dyadique, d'autre choix pourraient être fait mais c'est un choix simple, naturel et standard.
         Il faut détailler cette notion.
@@ -74,14 +74,14 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             sur la localisation de ce contenu fréquentiel.
         \end{definition}
 
-    \paragraph{La notion de détails}
+    \subsubsection{La notion de détails}
         La multi-résolution adaptative se sert de la transformée multi-échelle pour adapter le maillage, c'est à dire compresser l'information (voir \ref{par:adaptation}).
         Cela requiert l'introduction de la notion de détail. Ce concept permet de ne pas utiliser la transformée en ondelette pour quantifier le contenu absolu porté par une échelle particulière,
         mais plutôt à comprendre en quoi ce contenu s'éloigne de ce que les échelles supérieures pourraient laisser supposer, en quoi il est \textit{inattendu}.
         Pour résumer à partir d'un niveau de résolution $j$, on définit un \textbf{prédicteur} polynomial, qui tente d'inférer l'allure de la fonction au niveau $j+1$.
         Puis le \textbf{détail} ne cherche pas naïvement à quantifier et localiser l'information contenue aux échelles du niveau $j+1$ mais plutôt, 
         à quantifier l'écart à la prédiction polynomiale.
-        \subparagraph{Le prédicteur}
+        \paragraph{Le prédicteur}
             Donné un point central $(x_0,y_0)$, et $2s$ voisins $(x_{-s},y_{-s}),(x_{-s+1},y_{-s+1})\dots (x_{s-1},y_{s-1}),(x_s,y_s)$, un prédicteur polynomial 
             ponctuel cherche le polynôme $P$ de degré $2s$ passant par ces $2s+1$ points. Cela permet d'inférer des valeurs pour $y$ en tout point $x$.
             Pour trouver $P(X) = \sum_{k=0}^{2s} a_k X^k$ revient à résoudre le système linéaire:
@@ -101,7 +101,7 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             quelques termes se fait en $O(1)$ sur les machines modernes, toutefois quelques subtilités détaillé en \ref{par:adaptation} interviennent.
             Ainsi les valeurs usuelles tu stencil sont généralement $s=1$ ou $s=2$
 
-        \subparagraph{Les détails}
+        \paragraph{Les détails}
             À présent que le prédicteur à été décrit le concept de détail peut enfin être abordé. On suppose que l'on dispose d'une fonction $\tilde u^j$
             qui soit une approximation de la fonction $u$, au niveau de résolution $j$. Comme vu précédemment, le prédicteur permet d'obtenir une approximation 
             de $u$ au niveau $j+1$ grâce à $\tilde u^j$. Cette prédiction est noté $\hat u^{j+1}$. Les détails à la résolution $j+1$ sont alors définis comme les 
@@ -124,7 +124,7 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             est la vision standard de la théorie des ondelettes. Toutefois les deux approches ont la même motivation, ne calculer et ne mettre en valeur à chaque
             niveau que ce qui est nouveau, ce qui n'était pas contenu dans les niveaux précédents.
         
-        \subparagraph{Intuition sur les détails}
+        \paragraph{Intuition sur les détails}
             Lorsque l'on s'intéresse aux coefficients de détails $d_k^j$,
             l'indice $j$ de \textit{dilatation} fixe l'échelle analysée, c'est à dire la longueur d'onde analysée. Par exemple si $j=5$, 
             les coefficients $d^5_k$ donne une information sur l'information portée par les longueurs d'onde de l'ordre de $2^{-5} = 1/32$.
@@ -141,8 +141,8 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             \par 
             Grâce à cette notion de détaille la décomposition multi-échelle permet une description de la solution physique où l'apport à la solution de chaque échelle,
             de chaque distance typique est quantifié, les coefficients $d_k^j$ décrivant l'information contenue dans les échelles de l'ordre de $2^{-j}$.
-\subsubsection{L'adaptation}\label{par:adaptation}
-    \paragraph{La compression par décomposition multi-échelle}
+\subsection{L'adaptation}\label{par:adaptation}
+    \subsubsection{La compression par décomposition multi-échelle}
             Pour compresser une fonction (ou une image comme dans le processus \texttt{jpg}), le processus est très simple, il suffit de fixer un seuil de compression $\varepsilon > 0$,
             de calculer les coefficients de détails de la fonction, 
             puis d'omettre (en pratique de retirer de la mémoire) les coefficient dont la norme est inférieure à $\varepsilon$.
@@ -155,7 +155,7 @@ Vient enfin une présentation des différentes implémentations de la MRA.
                 \item[] Pour reconstruire au niveau de résolution souhaité: utiliser les détails jusqu'au niveau $j$ le plus fin conservé puis utiliser le prédicteur 
                 pour interpoler jusqu'au niveau désiré. Le vocabulaire est heureusement choisit, pour compresser on omet les détails négligeables l'on conserve les détails importants.
             \end{enumerate}
-    \paragraph{L'adaptation de maillage et l'heuristique d'Harten}
+    \subsubsection{L'adaptation de maillage et l'heuristique d'Harten}
             L'adaptation de maillage, est une variation de la compression par décomposition multi-échelles précédemment décrite. 
             C'est est une opération de compression de solutions physiques \textit{prudente}.
             Les coefficients y sont seuillés de manière moins impitoyable: certains coefficients qui devraient être écartés
@@ -167,8 +167,8 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             l'intuition physique pose son véto puisque les échelles supérieurs sont de grandes magnitudes et que cela présage que dans 
             les pas de temps a venir les échelles seront nécessaires à la fidèle capture des phénomènes physiques simulés. Par exemple cela peut signifier qu'un front
             d'onde est en train d'arriver dans les zone étudiée, il faut donc que la simulation puisse en capter toute la richesse.
-\subsubsection{Algorithmes de simulation numérique}
-    \paragraph{Algorithme général}
+\subsection{Algorithmes de simulation numérique}
+    \subsubsection{Algorithme général}
             L'intégration de la MRA un algorithme de simulation physique se fait de la manière suivante: 
             tous les $n_{MRA}$ pas de temps (éventuellement être à chaque pas de temps), 
             la solution physique est adaptée selon le procédé explicité ci-dessus. Les détails précédemment omis
@@ -178,7 +178,7 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             Par exemple, en dimension une, si une zone est adapté avec un niveau de détail de niveau 5, la densité de cellule sur lequel il faut réaliser des est de $2^5$
             et la densité mémoire est de $\sum_{j=0}^5 2^j$. Si le niveau le plus fin de la grille est par exemple 9, il y a un gain computationnel théorique de l'ordre de 
             $2^{9-5}=16$ et en terme de mémoire une économie de l'ordre de $\frac{\sum_{j=0}^5}{2^8} > 10$. Ce gain est exponentiel avec la dimension du problème.
-    \paragraph{Le cas volumes finis}
+    \subsubsection{Le cas volumes finis}
             Il faut détailler ce qui signifie dans le cadre des volumes finis, \textit{poursuivre la simulation sur la grille de calcul adaptée}.
             Le maillage adapté est constitué de cellules de tailles différents.
             Il s'agit alors pour chacune de ces cellules de prédire la valeur moyenne en son sein au pas de temps suivant, c'est à dire faire évoluer le maillage.
@@ -186,13 +186,13 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             Tout l'objet des volumes finis est: à partir de valeurs moyennes sur les cellules voisines, estimer les valeurs ponctuelles aux interfaces. 
             La MRA amène alors une subtilité, les schémas volume finis usuels s'appuient sur des cellules de volumes similaires de l'ordre de $\Delta x^d$.
             Cependant, 
-    \paragraph{Le débat sur la reconstruction}
-\subsubsection{Impact sur les solutions}
-    \paragraph{}
-    \paragraph{}
-\subsubsection{Implémentations de la multi-résolution}
-    \paragraph{Méthodes usuelles}
-            \subparagraph{Les approches \textit{patch-based}}
-            \subparagraph{Les approches \textit{cell-based}}
-    \paragraph{Le logiciel Samurai}
-            \subparagraph{Un tructure de données originale}
+%     \subsubsection{Le débat sur la reconstruction}
+% \subsection{Impact sur les solutions}
+%     \subsubsection{}
+%     \subsubsection{}
+% \subsection{Implémentations de la multi-résolution}
+%     \subsubsection{Méthodes usuelles}
+%             \paragraph{Les approches \textit{patch-based}}
+%             \paragraph{Les approches \textit{cell-based}}
+%     \subsubsection{Le logiciel Samurai}
+%             \paragraph{Un tructure de données originale}

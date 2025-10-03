@@ -19,7 +19,8 @@
 % \end{itemize}
 Des moteurs aux batteries, des enjeux de défenses au nucléaire civil en passant par les problématiques de sécurité, de nombreux problèmes industriels 
 font intervenir des systèmes physico-chimiques modélisés par un couplage entre la mécanique des fluides et des dynamiques chimiques complexes.
-Ces modélisations décrivent par exemple les problèmes de combustion, d'explosion, d'électrochimie et de propagation d'effluents.
+Ces modèles décrivent par exemple les problèmes de combustion \cite{Law2006,Echekki2009}, d'électrochimie \cite{Munteanu2024SPM}, de corrosion \cite{AliasgharMamaghani2025}
+de propagation d'effluents \cite{exemple_effluent}.
 Les équations émergeant de ces modèles sont les équations d'advection-diffusion-réaction (ADR), 
 une gamme d'équations au dérivées partielles (EDP) dont les trois opérateurs traduisent le couplage sus-mentionné.
 Elles comportent donc un opérateur d'advection (transport par un flux), un opérateur de diffusion (éparpillement de la matière par l'agitation thermique) 
@@ -41,17 +42,18 @@ par la suite vient la problématique à laquelle les contributions du stage rép
         Le terme antagoniste signifie que les méthodes numériques efficaces pour un opérateur sont inadaptées aux autres.
         Plus de détails sont donnés en \ref{par:adv-diff-reaction} mais rapidement:
         \begin{itemize}
-            \item[$\diamond$] les \textit{méthodes explicites}\footnote{Définition en \ref{}} sont adaptés à l'opérateur d'advection\cite{}, 
-            mais présentent des problèmes de \textit{stabilité}\footnote{Définition de stabilité en \ref{}} pour les  opérateurs de réaction et de diffusion.
-            \item[$\diamond$] le caractère local et très \textit{raide}\footnote{Définition d'opérateur raide en \ref{}} de l'opérateur de réaction \cite{}
-            pousse à utiliser des \textit{méthodes implicites}\footnote{Définition en \ref{}}, cependant ces méthodes résolvent par nature mal l'opérateur d'advection et le caractère non-local 
+            \item[$\diamond$] les \textit{méthodes explicites}\footnote{Définition en \ref{par:edo}} sont adaptés à l'opérateur d'advection, 
+            mais présentent des problèmes de \textit{stabilité}\footnote{Définition de stabilité en \ref{par:edo}} pour les  opérateurs de réaction et de diffusion.
+            \item[$\diamond$] le caractère local et très \textit{raide}\footnote{Définition d'opérateur raide en \ref{par:edo}} de l'opérateur de réaction\footnote{
+                Cette raideur viens des temps de relaxations très cours (quelques nanosecondes) des modèles de chimie complexe \cite{Wartha2021}}
+            pousse à utiliser des \textit{méthodes implicites}\footnote{Définition en \ref{par:edo}}, cependant le caractère non-local 
             de la diffusion rend les coûts calculatoires prohibitifs.
-            \item[$\diamond$] les méthodes explicites stabilisées comme \cite{} sont très adaptées à la résolution de l'opérateur de diffusion, mais 
-            leur précision est mauvaise pour résoudre l'opérateur d'advection \cite{} et pas assez stables pour l'opérateur de réaction \cite{}.
+            \item[$\diamond$] les méthodes explicites stabilisées comme \cite{AbdulleMedovikov2001} sont très adaptées à la résolution de l'opérateur de diffusion, mais 
+            ne sont assez stables pour l'opérateur de réaction.
         \end{itemize}
         Ainsi, une approche monolithique (qui traiterait tous les opérateurs d'un bloc) échouera systématiquement à simuler le système de manière satisfaisante.
     \subsubsection{Des solutions multi-échelles}
-    Les solutions des équations d'ADR sont multi-échelles en temps et en espace \cite{} : pour obtenir une précision donnée, chaque zone spatio-temporelle 
+    Les solutions des équations d'ADR sont souvent multi-échelles en temps et en espace \cite{duart2011} : pour obtenir une précision donnée, chaque zone spatio-temporelle 
     requiert des niveau de résolution différents. Par exemple pour un problème de combustion, tant que la combustion n'est pas initiée, 
     un pas de temps et une résolution spatiale grossiers représentent fidèlement le systèmes. En revanche après l'allumage,
     le pas de temps doit être réduit drastiquement pour rendre compte de la complexité des réactions de combustion déclenchées et,
