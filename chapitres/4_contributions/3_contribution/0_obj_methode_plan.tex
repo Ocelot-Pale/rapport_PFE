@@ -1,11 +1,22 @@
-Cette troisième contribution s'inscrit directement dans la continuité de la précédente.
-L'objectif est ici d'étudier expérimentalement l'impact de la multirésolution et de ses modalités de mise en oeuvre 
-sur les approximations numériques des problèmes diffusifs. Elle propose trois algorithmes d'AMR se distinguant
-par la qualité de l’évolution des flux numériques.\par
-D'abord les différences entre les trois algorithmes d'AMR sont mises en lumière, 
-puis une première expérience numérique reprenant le schéma numérique de la contribution précédente (VF + ERK2) 
-est réalisée. Face à des résultats surprenants, l'hypothèse de l'émergence d'instabilités résiduelles pour certains algorithmes a été émise. 
-Cependant cette hypothèse semble être invalidée par une étude de stabilité linéaire réalisée grâce à Sympy.
-La contrainte de stabilités imposées par la méthode ERK2 n'avait jusqu'ici permises d'observer que des solutions convergées en temps (erreur spatiale dominante).
-Restait inconnu l'impact de la méthode d'évaluation des flux numériques dans un contexte ou les erreurs temporelles restent dominantes. Une seconde expérience 
-à alors été réalisé avec la méthode explicite stabilité ROK4 au lieu de la méthode ERK2, permettant d'accéder à des pas de temps plus grands.
+Cette troisième contribution prolonge empiriquement la précédente
+en étudiant \emph{expérimentalement} l'impact de différentes approches de multirésolution adaptatives sur les solution numériques des problèmes diffusifs. 
+Elle étudie trois manières de mettre en place l'adaptation spatiale par MRA:
+celle des schémas \texttt{II} (sans reconstruction des flux) et
+\texttt{III} (avec reconstruction des flux) de la contribution précédente
+ainsi qu'une approche \textit{intermédiaire}.\par
+Ce travail s'articule de la manière suivante:
+\begin{itemize}
+\item[$\diamond$]\ref{par:contrib_3:pres_algos} Présentation des trois paradigmes d'AMR.
+\item[$\diamond$]\ref{par:contrib_3:etude_ERK2} Première expérience numériques comparant l'erreur en fonction du paradigme d'AMR choisi
+sur le problème de diffusion résolu par le schéma numériques de la contribution antérieure () - méthode des lignes, Volumes Finis + Runge et Kutta explicite.
+\item[$\diamond$]\ref{par:contrib_3:stab_MRA} Les résultats, inattendus
+ont conduit à formuler l'hypothèse que les schéma \emph{avec} reconstruction serait moins stables que le schéma \emph{sans} reconstruction.
+Cependant cette hypothèse est invalidée par une étude de stabilité linéaire.
+\item[$\diamond$]\ref{par:contrib_3:ROCK2} La principale limite de l'étude antérieure est
+la contrainte de stabilités de la méthode explicite imposant . Cela ne permet d'observer que des solutions convergées en temps (erreur spatiale dominante car stabilité $\Rightarrow \Delta t \ll \Delta x$).
+Pour poursuivre la comparaison dans un contexte où les erreurs temporelles ne sont pas négligeables, une seconde expérience 
+est réalisée remplaçant la méthode ERK2 par la méthode \emph{stabilisée} ROCK2 \cite{abdulle2002fourth} permettant d'accéder à 
+une plus large gamme de pas de temps.
+\item[$\diamond$]\ref{par:contrib_3:eq_equiv} Les résultats numériques pour des pas de temps moins restreint sont encore plus inattendus que les précédents.
+Cependant en les reliant aux travaux théoriques précédents (equations équivalentes \ref{}), l'ensemble des comportements obtenus sont finalement compris et expliqués.
+\end{itemize}

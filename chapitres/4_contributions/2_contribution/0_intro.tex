@@ -10,11 +10,12 @@
 % D'abord, le problème cible est présenté ainsi que le schéma de référence et le schéma avec AMR.
 % Par la suite, les équations équivalentes du schéma de référence et du schéma avec multirésolution adaptative sont évaluées puis analysées.
 % Enfin, une tentative de confirmation expérimentale est présentée.
-Cette deuxième contribution étudie l'interaction entre la multirésolution adaptative (MRA) et le schéma d'intégration temporel. 
-Cette interaction, encore mal comprise, a été étudiée sur des problèmes d'advection en \cite{belloti_et_al_2025}.\\
-La présente étude s'attache au problèmes de diffusion. 
-Pour analyser l'impact de la MRA sur les schémas de diffusion,
-les équations équivalentes de trois schémas sont calculés (pour plus de précision entre les trois schémas voir \ref{par:paradigme_MRA}) : 
+Cette deuxième contribution étudie l'interaction entre la multirésolution adaptative (MRA) et le schéma d'intégration temporel, 
+une interaction encore mal comprise. 
+Une première analyse de ce type a été menée sur des problèmes d'advection en \cite{belloti_et_al_2025}. 
+La présente étude se concentre sur les problèmes de diffusion. 
+Pour analyser l'impact de la MRA, les équations équivalentes de trois schémas sont calculées (voir \ref{par:paradigme_MRA}) :
+
 \begin{enumerate}
     \renewcommand{\labelenumi}{\Roman{enumi}.}
     \item Un schéma méthode des lignes d'ordre deux, servant de référence. Il s'agit d'une discrétisation spatiale d'ordre deux par volume finis, 
@@ -24,7 +25,6 @@ les équations équivalentes de trois schémas sont calculés (pour plus de pré
     \item Un schéma correspondant au schéma \texttt{I} avec AMR, où les valeurs nécessaires à l'évaluation des flux numériques 
     sont systématiquement reconstruites au niveau de résolution le plus fin.
 \end{enumerate}
-
-Le schéma schéma \texttt{III} est peu étudiée dans la littérature.
+Le schéma \texttt{III} est peu étudié dans la littérature.
 En \cite{belloti_et_al_2025}, il a été montré que cette approche améliore pourtant significativement la qualité des solutions numériques sur les problèmes d'advection.
 En sera-t-il de même pour la diffusion ? La réponse est plus mitigée, cela motivera d'ailleurs la troisième contribution en \ref{par:contrib_3}.
