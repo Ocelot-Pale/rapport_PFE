@@ -1,29 +1,29 @@
-La première expérience numérique porte sur l'équation de diffusion résolue par le même schéma numérique que dans l'étude théorique précédente (\textit{cf:} \ref{par:intro_contrib_eq_equiv}).
-c'est à dire une discrétisation spatiale d'ordre deux du Laplacien intégré en temps par une méthode Runge et Kutta explicite d'ordre 2. 
+Cette première expérience numérique résout numériquement l'équation de diffusion par le schéma de la contribution \ref{par:contrib_2} (Volumes Finis + ERK2).
 Une méthode implicite pourrait paraître plus appropriée pour s'affranchir des problèmes de stabilité; cependant l'inversion d'un système linéaire couplé à 
-la reconstruction des flux à des niveaux plus fin (non-standard, algos 2 et 3) est difficile à implémenter informatiquement et aurait ralenti l'étude.
+la reconstruction des flux à des niveaux plus fin (non-standard, algos \texttt{} et 3) est difficile à implémenter informatiquement et aurait ralenti l'étude.
 À cause de la contrainte de stabilité $\Delta t \propto \Delta x^2$,
 seules des solutions convergées en temps (erreur spatiale dominante puisque $\Delta t \ll \Delta x$) sont observées. Cette contrainte est levée dans l'expérience suivante en \ref{par:etude_diff_rock4}.\par 
 \subsubsection{Résultats numériques}
-Les résultats sont étonnants, l'algorithme 1 (le plus grossier) offre la plus faible erreur et plus l'algorithme reconstruit finement les flux plus l'erreur augmente. 
-A titre d'exemple, pour un état initial en forme de courbe de Gauss, une seuil de compression $\varepsilon = 10^{-4}$ et un maillage présentant jusqu'à 4 niveau de finesse, les erreurs $L^2$ au temps final $T_f=1$ sont les suivantes:\par
+Les résultats sont étonnants: parmi les schéma adaptés, le schéma \texttt{II} (le plus grossier) offre la plus faible erreur et plus l'algorithme reconstruit finement les flux plus l'erreur augmente. 
+À titre d'exemple, pour la diffusion d'une Gaussienne, une seuil de compression $\varepsilon = 10^{-4}$ et un maillage présentant jusqu'à 4 niveau de finesse, les erreurs $L^2$ au temps final $T_f=1$ sont les suivantes:\par
 \begin{center}\begin{tabular}{|c|c|c|}
 \hline
-Algorithme $n^o$ & Niveau d'évaluation des flux & Erreur $L^2$ \\
+Schéma $n^o$ & Niveau d'évaluation des flux & Erreur $L^2$ \\
 \hline
-1 & Courant           & $1 \times 10^{-4}$ \\
-2 & Inférieur direct  & $2 \times 10^{-4}$ \\
-3 & Plus fin          & $3 \times 10^{-4}$ \\
-référence & Sans AMR& $2 \times 10^{-5}$ \\
+\texttt{I} & $\emptyset$ MRA & $2 \times 10^{-5}$ \\
+\texttt{II} & Courant & $1 \times 10^{-4}$ \\
+\texttt{III} & Inférieur direct ($l+1$) & $2 \times 10^{-4}$ \\
+\texttt{IV} & Plus fin $l^{max}$& $3 \times 10^{-4}$ \\
+
 \hline
 \end{tabular}\end{center}
-Bien sûr, l'algorithme sans AMR reste celui avec la plus petite erreur.
+L'erreur des différents schéma adaptés est de l'ordre du seuil de compression choisit $\varepsilon = 10^{-4}$ montrant que ce sont bien
+les effets de la MRA qui sont dominants ici.
 \subsubsection{Analyse et hypothèses}
 Ce résultat est assez surprenant puisqu'on s'attendrait à ce qu'une reconstruction plus précise du flux donne de meilleurs résultats.
 Face à ces résultats, plusieurs hypothèses sont émises:
 \begin{enumerate}
     \item La reconstruction introduit des \textit{instabilités} dans le schéma.
-    \item L'usage de cellules plus grandes pour évaluer les flux augmente le caractère diffusif du schéma et réduit "accidentellement" l'erreur.
     \item Peut-être que cette tendance ne vaut que sur des solutions où l'erreur spatiale domine et que les résultats seraient différents lorsque l'erreur temporelle reste dominante.
 \end{enumerate}
-La première hypothèse est éprouvée dans la prochaine section \ref{par:stab_amr} et une méthode stabilisée est utilisée en \ref{etude_diff_rock4} pour explorer numériquement la troisième hypothèse.
+La première hypothèse est éprouvée dans la prochaine section \ref{par:stab_amr} et une méthode stabilisée est utilisée en \ref{par:contrib_3:ROCK2} pour explorer numériquement la seconde.

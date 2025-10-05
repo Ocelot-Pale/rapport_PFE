@@ -1,14 +1,14 @@
-Cette troisième contribution prolonge empiriquement la précédente
-en étudiant \emph{expérimentalement} l'impact de différentes approches de multirésolution adaptatives sur les solution numériques des problèmes diffusifs. 
+Cette troisième contribution prolonge empiriquement la précédente,
+étudiant \emph{expérimentalement} l'impact de différentes approches de multirésolution adaptatives sur les solution numériques des problèmes diffusifs. 
 Elle étudie trois manières de mettre en place l'adaptation spatiale par MRA:
 celle des schémas \texttt{II} (sans reconstruction des flux) et
 \texttt{III} (avec reconstruction des flux) de la contribution précédente
 ainsi qu'une approche \textit{intermédiaire}.\par
 Ce travail s'articule de la manière suivante:
 \begin{itemize}
-\item[$\diamond$]\ref{par:contrib_3:pres_algos} Présentation des trois paradigmes d'AMR.
+\item[$\diamond$]\ref{par:contrib_3:pres_algos} Présentation des paradigmes MRA comparés.
 \item[$\diamond$]\ref{par:contrib_3:etude_ERK2} Première expérience numériques comparant l'erreur en fonction du paradigme d'AMR choisi
-sur le problème de diffusion résolu par le schéma numériques de la contribution antérieure () - méthode des lignes, Volumes Finis + Runge et Kutta explicite.
+sur le problème de diffusion résolu par le schéma numériques de la contribution antérieure (\ref{par:contrib_2}) - méthode des lignes, Volumes Finis + Runge et Kutta explicite.
 \item[$\diamond$]\ref{par:contrib_3:stab_MRA} Les résultats, inattendus
 ont conduit à formuler l'hypothèse que les schéma \emph{avec} reconstruction serait moins stables que le schéma \emph{sans} reconstruction.
 Cependant cette hypothèse est invalidée par une étude de stabilité linéaire.
@@ -18,5 +18,5 @@ Pour poursuivre la comparaison dans un contexte où les erreurs temporelles ne s
 est réalisée remplaçant la méthode ERK2 par la méthode \emph{stabilisée} ROCK2 \cite{abdulle2002fourth} permettant d'accéder à 
 une plus large gamme de pas de temps.
 \item[$\diamond$]\ref{par:contrib_3:eq_equiv} Les résultats numériques pour des pas de temps moins restreint sont encore plus inattendus que les précédents.
-Cependant en les reliant aux travaux théoriques précédents (equations équivalentes \ref{}), l'ensemble des comportements obtenus sont finalement compris et expliqués.
+Cependant en les reliant aux travaux théoriques précédents  (\ref{par:contrib_2}), l'ensemble des comportements obtenus sont finalement compris et expliqués.
 \end{itemize}

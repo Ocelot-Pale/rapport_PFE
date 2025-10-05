@@ -1,17 +1,28 @@
-La différence entre les trois algorithmes étudiés réside dans la manière de conjuguer les volumes finis \cite{LeVeque1990} et la multirésolution adaptative.
-Le calcul des \textit{flux}, central dans les méthodes volumes finis, 
-requiert l'évaluation de termes dépendant de la solution aux \textit{interfaces} amont et avales des cellules.
-Les volumes finis n'approximant que les valeurs moyennes sur les cellules et non les valeurs ponctuelles aux interfaces, 
-les termes de flux sont alors évalués comme fonction des valeurs moyennes sur les cellules voisines de l'interface.\par
-La MRA rend la définition des flux numériques non-univoque - c'est ce qui est ici étudié.\par 
-Comme la MRA défini plusieurs grilles de pas $\Delta x,2 \Delta x, 4 \Delta x,...$ il est ambigu de choisir sur quelle grille évaluer les voisins de chaque interface.
-En effet, à niveau de détail $l$ fixé, le flux numérique doit-il être déterminé à partir des cellules voisines du niveau $l,l+1,l+2...$ (voir le schéma en fig. \ref{fig:schema_algos}) ? 
-Le premier algorithme étudié (la référence en MRA), consiste à évaluer les flux à partir des voisins du même niveau que la cellule étudiée. C'est à dire que 
-si flux concerne une cellule de la grille de niveau $l$, les voisines de l'interface sont choisit également au niveau $l$. Cela revient à résoudre localement l'EDP au niveau courant de la grille.
-Cet algorithme est la norme en MRA car ne ne requiert aucun calcul supplémentaire, les valeurs sur la grille au niveau $l$ sont directement accessibles.
-Le second algorithme consiste à systématiquement les choisir les cellules de la grille la plus fine. Intuitivement c'est le plus précis, mais plus coûteux car 
-la grille plus fine n'est pas directement accessible (voir la partie sur la reconstruction en \ref{par:explication_MRA}). 
-Enfin le troisième algorithme est un compromis entre les deux approches précédentes. Il consiste à calculer les flux à partir des valeurs un niveau en deçà du niveau courant, 
-pour gagner un peu en précision sans pour autant s'exposer à des coûts computationnels prohibitifs.
-En \cite{belloti_et_al_2025}, la différence théorique entre les deux premiers algorithmes a été étudiée sur des problèmes d'advection linéaires et
-une comparaison expérimentale entre les trois algorithmes a été réalisée sur des problèmes d'advections linéaires et non-linéaires.
+% La différence entre les trois algorithmes étudiés réside dans la manière de conjuguer les volumes finis \cite{LeVeque1990} et la multirésolution adaptative.
+% Le calcul des \textit{flux}, central dans les méthodes volumes finis, 
+% requiert l'évaluation de termes dépendant de la solution aux \textit{interfaces} amont et avales des cellules.
+% Les volumes finis n'approximant que les valeurs moyennes sur les cellules et non les valeurs ponctuelles aux interfaces, 
+% les termes de flux sont alors évalués comme fonction des valeurs moyennes sur les cellules voisines de l'interface.\par
+% La MRA rend la définition des flux numériques non-univoque - c'est ce qui est ici étudié.\par 
+% Comme la MRA défini plusieurs grilles de pas $\Delta x,2 \Delta x, 4 \Delta x,...$ il est ambigu de choisir sur quelle grille évaluer les voisins de chaque interface.
+% En effet, à niveau de détail $l$ fixé, le flux numérique doit-il être déterminé à partir des cellules voisines du niveau $l,l+1,l+2...$ (voir le schéma en fig. \ref{fig:schema_algos}) ? 
+% Le premier algorithme étudié (la référence en MRA), consiste à évaluer les flux à partir des voisins du même niveau que la cellule étudiée. C'est à dire que 
+% si flux concerne une cellule de la grille de niveau $l$, les voisines de l'interface sont choisit également au niveau $l$. Cela revient à résoudre localement l'EDP au niveau courant de la grille.
+% Cet algorithme est la norme en MRA car ne ne requiert aucun calcul supplémentaire, les valeurs sur la grille au niveau $l$ sont directement accessibles.
+% Le second algorithme consiste à systématiquement les choisir les cellules de la grille la plus fine. Intuitivement c'est le plus précis, mais plus coûteux car 
+% la grille plus fine n'est pas directement accessible (voir la partie sur la reconstruction en \ref{par:explication_MRA}). 
+% Enfin le troisième algorithme est un compromis entre les deux approches précédentes. Il consiste à calculer les flux à partir des valeurs un niveau en deçà du niveau courant, 
+% pour gagner un peu en précision sans pour autant s'exposer à des coûts computationnels prohibitifs.
+% En \cite{belloti_et_al_2025}, la différence théorique entre les deux premiers algorithmes a été étudiée sur des problèmes d'advection linéaires et
+% une comparaison expérimentale entre les trois algorithmes a été réalisée sur des problèmes d'advections linéaires et non-linéaires.
+Les schémas comparés dans cette étude sont ceux de l'étude précédente (\ref{par:contrib_2}) : 
+le schéma \texttt{I} non adapté (référence),
+le schéma \texttt{II} adapté sans reconstruction des flux,
+le schéma \texttt{III} adapté avec reconstruction des flux au niveau le plus fin.
+À ceux-ci s'ajoute s'ajoute une approche intermédiaire entre les schémas \texttt{II} et \texttt{III} : le schéma \texttt{IV}
+qui est adapté et qui reconstruit les flux avec \underline{un} niveau de détails supplémentaire.
+C'est à dire que si en un point, la multirésolution adaptative représente la solution au niveau de détail $l$, et si le 
+maillage propose un niveau de détail maximal $l^{max} > l$ ; alors le schéma \texttt{II} calcule les flux à partir des données au niveau $l$,
+le schéma \texttt{III} calcule les flux à partir de données reconstruites du niveau $l$ jusqu’au niveau $l^{max}$ (nécessitant $\Delta l=l^{max}-l$ reconstructions) 
+et le schéma \texttt{IV} calcul les flux à partir de données reconstruites du niveau $l$ jusqu'au niveau $l+1$ (nécessitant une seule reconstruction). 
+L'objectif du schéma \texttt{IV} est d'être un bon compromis entre précision et coût computationnel.
