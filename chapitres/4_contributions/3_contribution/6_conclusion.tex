@@ -1,9 +1,12 @@
-Le résultat principal est que, sur le schéma méthode des lignes étudié, une reconstruction systématique des flux n'est bénéfique que si la reconstruction se fait par un
-prédicteur polynomial à au moins cinq points. Sinon la reconstruction des flux apporte avant tout du bruit et dégrade la qualité de la solution numérique.
-\textbf{Il semble raisonnable de conjecturer que de manière générale, la reconstruction des flux sera positive si elle est capable de capter les dérivées spatiales dominantes dans les termes d'erreur.}
-En somme : si les équations équivalentes du schéma non-adapté montrent que l'erreur dominante porte sur une dérivée spatiale d'ordre $k$. 
-Alors sur le schéma adapté gagnera à reconstruire les flux au niveau le plus fin uniquement si le prédicteur possède au moins $k+1$ points.
-Sinon, il présume d'une précision dont il ne dispose pas et utilise du bruit comme de l'information de qualité. Si le prédicteur 
-possède moins de $k+1$ points, alors il est préférable de ne pas reconstruire car alors le schéma dispose d'une 
-information fiable de la dérivée $k$ au niveau $l$ de résolution courant de l'adaptation et évite que schéma n'"hallucine" en quelque sorte les 
-valeur de la dérivée $k^e$ à un niveau de résolution élevé $l^{\max}$.
+Le résultat principal est que, sur le schéma méthode des lignes étudié, une reconstruction systématique des flux n'est bénéfique que si la reconstruction est faite par un
+prédicteur polynomial à plus de trois points. Dans le cas étudié la reconstruction des flux à partir d'un prédicteur à trois points apporte avant tout du bruit et dégrade la qualité de la solution numérique.
+\textbf{
+    Il semble raisonnable de conjecturer que de manière générale,
+    la reconstruction des flux est bénéfique si et seulement si 
+    sa précision est strictement supérieure à l'ordre spatial du schéma.}
+En somme pour un discrétisation spatiale est d'ordre $k$, la prédiction polynomiale doit au moins être d'ordre $k+1$ et donc se baser $k+2$ points, 
+c'est à dire un stencil $s = \left\lceil{\frac{k+1}{2}}\right\rceil$.\par 
+Sur notre cas d'étude, le prédicteur prend trois points alors que la règle précédente en demanderait au moins quatre.
+Ainsi la prédiction polynomiale ajoute des erreurs du même ordre que le schéma, dégradant nettement la solution.
+De plus cela explique qu'avec un prédicteur à cinq points (cas présenté dans la soutenance de stage),
+la reconstruction mitige considérablement les perturbations induites par la multi-résolution adaptative.

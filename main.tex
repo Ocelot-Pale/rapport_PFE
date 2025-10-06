@@ -44,6 +44,9 @@
     frame=single,
     breaklines=true,
 }
+\usepackage{soul}
+\newcommand{\hlblue}[1]{\sethlcolor{navy!20}\hl{#1}}
+\newcommand{\hlperu}[1]{\sethlcolor{peru!20}\hl{#1}}
 
 % En-têtes et pieds de page
 \usepackage{fancyhdr}
@@ -236,6 +239,7 @@
 \input{chapitres/2_laboratoire/0_labo.tex }
 \section{Présentation du sujet}
 \input{chapitres/2_laboratoire/1_sujet_problematique.tex}
+\newpage
 \section{Organisation du rapport}
 \input{chapitres/2_laboratoire/2_structure.tex}
 

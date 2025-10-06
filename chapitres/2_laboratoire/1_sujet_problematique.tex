@@ -204,16 +204,28 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
     \newpage
     \section{Problématique}
     \label{par:problematique}
-    La multirésolution-adaptative comme stratégie d'adaptation spatiale 
-    Plusieurs schéma d'adaptation par MRA existent. 
-        \textit{L'approche standard} est de faire évoluer la solution sur le maillage adapté (compressé) à partir des valeurs du maillage adapté.
-        \textit{Une approche non-standard} est de faire évoluer la solution sur le maillage adapté, mais à partir de valeurs reconstruites, décompressées, plus précises.
-    \textbf{Révéler et comprendre les interactions entre l'adaptation spatiale par multirésolution-adaptatives et les schémas d'intégration temporelle 
+        Adapter spatialement un schéma numérique est clé sur les problèmes advection-diffusion-réaction qui sont souvent multi-échelles.
+        Cependant, cela introduit des perturbations susceptibles d'altérer les propriétés du schéma.
+        Concernant l'adaptation par multirésolution adaptative, le travail \cite{belloti_et_al_2025} a récemment révélé et étudié 
+        ces perturbations sur des problèmes d'advection. 
+        Toutefois, ces interactions demeurent mal comprises d'un point de vu général.
+        Cela dépend \emph{a priori} de nombreux de facteurs comme l'EDP, le schéma ou encore la façon dont la MRA est mise en place. 
+        En effet il existe plusieurs stratégies d'adaptation par multirésolution adaptative : 
+        \begin{itemize}
+            \item \hlblue{\textit{L'approche standard}} est de faire évoluer la solution sur le maillage adapté (compressé) à partir des valeurs du maillage adapté - approche dite \emph{sans reconstruction des flux}.
+            \item \hlperu{\textit{Une approche non-standard}} est de faire évoluer la solution sur le maillage adapté, mais à partir de valeurs reconstruites, décompressées, plus précises - approche dite \emph{avec reconstruction des flux}.
+        \end{itemize}
+        Les différences subtiles entre ces deux approches de la MRA suffisent à modifier les interactions avec le schéma ;
+        l'analyse devient d’autant plus difficile que les schémas d’ADR sont généralement complexes (ImEx, splitting, méthodes stabilisées, etc.).
+        \medskip
+    \textbf{Révéler et comprendre les interactions entre l'adaptation spatiale par multirésolution adaptative et les schémas numériques 
     utilisés pour simuler les équations d'advection-diffusion-réaction.}
-    Pour aborder cette vaste problématique, mon travaille fourni trois contributions ce focalisant chacune sur un point différent de la question:
+    Pour aborder cette vaste problématique, mon travail se concentre sur les interactions de la MRA avec les schémas de diffusion et de diffusion-réaction
+    \footnote{Ce choix est fait car les problèmes d'advections ont déjà été étudiés en \cite{belloti_et_al_2025} et que l'objectif à terme est de proposer une analyse
+    sur les trois opérateurs combinés : advection, diffusion, réaction.}. Il se décompose en trois contributions se focalisant sur différents points du problèmes:
     \begin{enumerate}
-        \item Quelles sont les propriétés des approches ImEx par rapport au splitting et quelle stratégie est la plus impactée par l'adaptation spatiale ?
-        \item D'où viennent les interactions entre l'adaptation spatiale et l'intégration en temps et comment limiter ce couplage néfaste ?
+        \item[$\diamond$] Quelles sont les propriétés des approches ImEx par rapport au splitting et surtout, quelle approche est la plus impactée par l'adaptation spatiale ?
+        \item[$\diamond$] D'où viennent les interactions entre l'adaptation spatiale et l'intégration en temps et comment limiter ce couplage néfaste ?
     \end{enumerate}
     % Avec un schéma MRA, la solution est donc représentée sur plusieurs grilles de finesses différentes.
     % L'adaptation (compression) consiste à ignorer l'information contenue sur les grilles les plus fines là où la solution est assez régulière;

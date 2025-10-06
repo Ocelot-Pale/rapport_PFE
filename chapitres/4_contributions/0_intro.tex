@@ -1,6 +1,13 @@
-Ce chapitre présente les travaux du stage.
-La première contribution analyse deux méthodes ImEx appliquées à l'équation de Nagumo (une équation de diffusion-réaction)
-et les compare à une méthode de \textit{splitting} sur les questions de stabilité et de convergence.
-La seconde contribution étudie l'impact de la multirésolution adaptative sur un problème de diffusion.
-Cette étude débute avec un volet théorique (obtention de l'équation équivalente du schéma avec multirésolution adaptative) 
-et poursuit par un volet expérimental (étude de convergence grâce au logiciel Samurai).
+Ce chapitre présente rassemble les trois contributions du stage:
+\begin{itemize}
+    \item[$\diamond$] (\ref{par:contrib_1}): Une étude de la stabilité de deux méthodes ImEx ARK;
+    suivie d'une comparaison avec un schéma de splitting de leur stabilité et convergence pour l'équation-test de Nagumo (réaction-diffusion).
+    \item[$\diamond$] (\ref{par:contrib_2}): Une étude théorique, via le calcul d'équations équivalentes, 
+    du comportement de l'erreur d'une schéma méthode des lignes pour un problème de diffusion. 
+    Cela dans trois contextes: 
+    \texttt{(I)} sans multi-résolution adaptative, 
+    \texttt{(II)} avec MRA standard,
+    \texttt{(III)} avec MRA non-standard (reconstruction des flux).
+    \item[$\diamond$] (\ref{par:contrib_3}): Une étude expérimentale des différences entre les trois schéma de MRA mentionné précédemment 
+    permettant de mettre en relation les résultats théoriques de la contributions \ref{par:contrib_2} avec les observations expérimentales.
+\end{itemize}
