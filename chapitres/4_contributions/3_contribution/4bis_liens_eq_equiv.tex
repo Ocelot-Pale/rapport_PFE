@@ -2,17 +2,19 @@ Pour comprendre les résultats de convergence précédents (\ref{par:etude_diff_
 ces observations ont été reliées aux équations équivalentes développées en \ref{par:contrib_2}. 
 Cette mise en relation est cohérente car les équations équivalentes ont été calculées pour un schéma d'intégration en temps ERK2 et l'expérience a été réalisée avec 
 ROCK2 qui est une ERK2 stabilisée.\\
-Les résultats précédents ont d'abord été confirmés:
+Les résultats précédents sont confirmés:
 \begin{enumerate}
     \item Pour les petites CFL, les méthodes avec reconstruction sont moins précisés que les méthodes sans reconstruction.
     \item Il existe une gamme de CFL très précise pour laquelle les schémas avec reconstruction sur-performent les autres méthodes.
 \end{enumerate}
-Une première hypothèse a été formulée mais elle a été par la suite invalidée. Une seconde hypothèse à alors été proposées qui a elle été validée.
+Munis de ces nouveaux résultats, une première hypothèse est formulée puis invalidée, avant qu’une seconde ne soit proposée et validée.
 \subsubsection{Première Hypothèse}
 \textbf{L'observation} suivante a de plus été faite: \textit{il semble que le profil de l'erreur avec reconstruction ressemble à la dérivée spatiale d'ordre quatre
 de la solution et que le signe de cette erreur change avec la CFL}.\\
-\textbf{Une première hypothèse} a d'abord été proposée: \textit{l'évolution du profil d'erreur selon la CFL s'explique par le terme ... dans l'équation équivalente \ref{}.
-Pour les grandes CFL le coefficient ... est ... et pour les petites CFL il est ....} Enfin pour $\lambda = \dots$ ce coefficient serait null expliquant 
+\textbf{Une première hypothèse} a d'abord été proposée: \textit{l'évolution du profil d'erreur selon la CFL s'explique par le terme $\Delta x^{2}\, D \, \Bigl( 
+        \frac{\lambda}{2} (2^{2 \Delta l} - 1) + \frac{2^{2 \Delta l} }{12} (1 - 3 \Delta l)
+        \Bigr)\frac{\partial^{4}u}{\partial x^{4}}$ dans l'équation équivalente \eqref{eq:equiv_cfl_recons}.}
+En effet pour les grandes CFL le coefficient $\frac{\lambda}{2} (2^{2 \Delta l} - 1) + \frac{2^{2 \Delta l} }{12} (1 - 3 \Delta l)$ est positif et pour les petites CFL il est négatif, pour $\lambda = \frac{4^{\Delta l}}{6}\,\frac{3 \Delta l - 1 }{4^{\Delta l}-1} \underbrace{>}_{\Delta l >0} 0$ ce coefficient serait null expliquant 
 chute de l'erreur pour ces CFL, l'erreur s'allégeant du terme d'ordre deux.\\
 \textbf{Validation expérimentale:} Pour valider cette hypothèse, une régression linéaire entre l'erreur numérique et la dérivée $4^e$ de la solution a été réalisée par 
 une méthode des moindres carrées : $$\min_{\alpha \in \mathbb R} \Vert \alpha \partial_x^4 u - \text{err} \Vert^2.$$
