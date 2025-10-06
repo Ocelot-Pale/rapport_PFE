@@ -19,10 +19,10 @@ Les schémas comparés dans cette étude sont ceux de l'étude précédente (\re
 le schéma \texttt{I} non adapté (référence),
 le schéma \texttt{II} adapté sans reconstruction des flux,
 le schéma \texttt{III} adapté avec reconstruction des flux au niveau le plus fin.
-À ceux-ci s'ajoute s'ajoute une approche intermédiaire entre les schémas \texttt{II} et \texttt{III} : le schéma \texttt{IV}
+À ceux-ci s'ajoute une approche intermédiaire entre les schémas \texttt{II} et \texttt{III} : le schéma \texttt{IV}
 qui est adapté et qui reconstruit les flux avec \underline{un} niveau de détails supplémentaire.
 C'est à dire que si en un point, la multirésolution adaptative représente la solution au niveau de détail $l$, et si le 
-maillage propose un niveau de détail maximal $l^{max} > l$ ; alors le schéma \texttt{II} calcule les flux à partir des données au niveau $l$,
-le schéma \texttt{III} calcule les flux à partir de données reconstruites du niveau $l$ jusqu’au niveau $l^{max}$ (nécessitant $\Delta l=l^{max}-l$ reconstructions) 
+maillage propose un niveau de détail maximal $l^{\max} > l$ ; alors le schéma \texttt{II} calcule les flux à partir des données au niveau $l$,
+le schéma \texttt{III} calcule les flux à partir de données reconstruites du niveau $l$ jusqu’au niveau $l^{\max}$ (nécessitant $\Delta l=l^{\max}-l$ reconstructions) 
 et le schéma \texttt{IV} calcul les flux à partir de données reconstruites du niveau $l$ jusqu'au niveau $l+1$ (nécessitant une seule reconstruction). 
 L'objectif du schéma \texttt{IV} est d'être un bon compromis entre précision et coût computationnel.

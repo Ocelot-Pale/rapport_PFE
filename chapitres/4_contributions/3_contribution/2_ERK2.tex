@@ -5,15 +5,16 @@ la reconstruction des flux à des niveaux plus fin (non-standard, algos \texttt{
 seules des solutions convergées en temps (erreur spatiale dominante puisque $\Delta t \ll \Delta x$) sont observées. Cette contrainte est levée dans l'expérience suivante en \ref{par:etude_diff_rock4}.\par 
 \subsubsection{Résultats numériques}
 Les résultats sont étonnants: parmi les schéma adaptés, le schéma \texttt{II} (le plus grossier) offre la plus faible erreur et plus l'algorithme reconstruit finement les flux plus l'erreur augmente. 
-À titre d'exemple, pour la diffusion d'une Gaussienne, une seuil de compression $\varepsilon = 10^{-4}$ et un maillage présentant jusqu'à 4 niveau de finesse, les erreurs $L^2$ au temps final $T_f=1$ sont les suivantes:\par
+À titre d'exemple, pour la diffusion d'une Gaussienne (\textit{cf} \ref{par:contrib_2:exp}) et un seuil de compression $\varepsilon = 10^{-4}$, les erreurs $L^2$ au temps final $T_f=1$ sont les suivantes:\par
 \begin{center}\begin{tabular}{|c|c|c|}
 \hline
 Schéma $n^o$ & Niveau d'évaluation des flux & Erreur $L^2$ \\
 \hline
 \texttt{I} & $\emptyset$ MRA & $2 \times 10^{-5}$ \\
 \texttt{II} & Courant & $1 \times 10^{-4}$ \\
-\texttt{III} & Inférieur direct ($l+1$) & $2 \times 10^{-4}$ \\
-\texttt{IV} & Plus fin $l^{max}$& $3 \times 10^{-4}$ \\
+\texttt{III} & Plus fin $l^{\max}$& $3 \times 10^{-4}$ \\
+\texttt{IV} & Inférieur direct ($l+1$) & $2 \times 10^{-4}$ \\
+
 
 \hline
 \end{tabular}\end{center}
@@ -21,9 +22,13 @@ L'erreur des différents schéma adaptés est de l'ordre du seuil de compression
 les effets de la MRA qui sont dominants ici.
 \subsubsection{Analyse et hypothèses}
 Ce résultat est assez surprenant puisqu'on s'attendrait à ce qu'une reconstruction plus précise du flux donne de meilleurs résultats.
+Toutefois c'est assez cohérent avec l'analyse théorique en \ref{par:contrib_2} qui prédit que reconstruire augmente le nombre de terme d'erreur (\emph{cf.} \ref{par:contrib_2:resultats}).
 Face à ces résultats, plusieurs hypothèses sont émises:
 \begin{enumerate}
     \item La reconstruction introduit des \textit{instabilités} dans le schéma.
-    \item Peut-être que cette tendance ne vaut que sur des solutions où l'erreur spatiale domine et que les résultats seraient différents lorsque l'erreur temporelle reste dominante.
+    \item Peut-être que cette tendance ne vaut que sur des solutions avec où l'erreur temporelle pure (sans prendre en compte une éventuelle interaction avec la MRA) est négligeable.
+    En effet, le caractère explicite de la méthode ERK2 force le choix $\Delta t \propto \Delta x^2$ et donc en pratique $\Delta t \ll \Delta x$.
+    Et donc le régime $\Delta t \sim \Delta x$ ne peut pas être exploré expérimentalement.
 \end{enumerate}
-La première hypothèse est éprouvée dans la prochaine section \ref{par:stab_amr} et une méthode stabilisée est utilisée en \ref{par:contrib_3:ROCK2} pour explorer numériquement la seconde.
+La première hypothèse est éprouvée dans la prochaine section \ref{par:stab_amr} et une méthode explicite stabilisée est utilisée\footnote{
+On préfère une méthode explicite stabilisée à une méthode implicite, car la reconstruction systématique des flux au niveau fin est très complexe pour une méthode implicite.} en \ref{par:contrib_3:ROCK2} pour explorer numériquement la seconde.
