@@ -1,9 +1,23 @@
 \label{par:cc}
 \paragraph*{Conclusion scientifique}\label{par:cc1}
-Ce stage pave le chemin vers une compréhension plus fine du comportement des schémas de multi-résolution adaptative appliqués aux problèmes de diffusion.
-L'analyse théorique, fondée sur les équations équivalentes et les études de stabilité, a montré qu'un couplage peut apparaître entre les schémas d'intégration en temps et la MRA, réduisant l'ordre de convergence attendu.
-Les expériences numériques ont révélé un phénomène surprenant : une reconstruction de flux plus précise ne garantit pas nécessairement une meilleure exactitude globale.
-Si le lien entre théorie et expériences reste en partie à clarifier, la mise en évidence de ces phénomènes fournit une base solide et des pistes pour de futures investigations.
+\subparagraph*{Résultats —}  
+Les principaux résultats du stage sont : 
+\begin{itemize}
+    \item[$\diamond$] L'interaction entre l'adaptation spatiale par multirésolution et le schéma numérique dépend directement du schéma d'intégration en temps utilisé.
+    En effet, en \ref{par:couplagetempsadaptation}, on constate expérimentalement qu'une méthode ImEx et un \emph{splitting} des même ordre ne réagissent pas de la même manière face à l'adaptation spatiale.
+    
+    \item[$\diamond$] La reconstruction des flux au niveau le plus fin améliore nettement les solutions numériques à condition que la prédiction polynomiale 
+    se fasse à partir d'au moins \(k+2\) points, avec \(k\) l'ordre de discrétisation spatiale \footnote{Par manque de temps ces résultats n'ont pas été intégrés à ce rapport.}.
+    Sinon, la reconstruction peut dégrader sensiblement la solution numérique, notamment pour des solutions déjà convergées en temps.
+\end{itemize}
+
+\medskip
+\subparagraph*{Perspectives —}  
+Ce travail met en évidence l'importance d'une compréhension fine des interactions entre la multirésolution adaptative et le schéma numérique pour exploiter pleinement le potentiel de cette méthode.  
+Une première étape consisterait à reprendre l'analyse théorique (section~\ref{par:contrib_2}) et expérimentale (section~\ref{par:contrib_3}) en utilisant un interpolateur à cinq points pour la reconstruction des flux.  
+Ces résultats complémentaires seront sans doute présentés lors de la soutenance.  
+À plus long terme, une analyse théorique systématique du couplage entre méthodes ImEx et MRA serait nécessaire : les observations présentées en \ref{par:couplagetempsadaptation} suggèrent un comportement non trivial, propre à chaque intégrateur temporel.
+
 \paragraph*{Conclusion sur ma progression technique}\label{par:cc2}
 Sur le plan théorique, j'ai approfondi des domaines variés : méthodes de volumes finis \cite{LeVeque1990}, systèmes dynamiques et méthodes de Runge–Kutta additives \cite{HairerAndWanner1}, ainsi que la théorie des ondelettes, en résonance avec mes cours antérieurs.
 Sur le plan pratique, je me suis familiarisé avec des outils puissants d'analyse (équations équivalentes, analyse de Von Neumann), avec des codes de recherche avancés tels que \texttt{Samurai}, et avec les exigences de la simulation numérique (estimation rigoureuse des erreurs, gestion de grilles de taille différente, instabilités).
