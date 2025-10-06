@@ -121,20 +121,18 @@ En revanche, le schéma \texttt{III} reconstruit par interpolation polynomiale c
             Le travail suivant fournit donc les équations équivalentes du schéma \texttt{I} (non-adapté), 
             du schéma \texttt{II} (adapté, sans reconstruction des flux) et du schéma \texttt{III} (adapté, avec reconstruction des flux).
             Grâce à ces résultat, les erreurs théoriques portées par chacune de ces approches sont alors comparées et analysées.\par 
-            
-            Dans la suite, seul est décrit le procédé de MRA avec reconstruction des flux car c'est le plus complexe et par soucis de concision, les calculs sans reconstruction des flux ne sont pas détaillés.
-            \textbf{Calcul du flux au travers de $\Delta l$ niveaux:\\}
-            Lorsque l'on applique le procédé de multirésolution, étant donné une cellule à un niveau de détail donné $l$, on cherche à faire évoluer la valeur à l'étape $n$ vers la valeur à l'étape $n+1$. 
-            Pour ce faire, il faut évaluer les flux à partir les cellules voisines. Dès lors plusieurs choix s'offrent à nous. Où bien on utilise les cellules voisines à leurs niveaux courants, où bien on use de l'opérateur 
-            de reconstruction afin d'estimer les cellules voisines à des niveaux plus fins.\par
-            Dans un premier temps le stencil est choisi égal à 1. L'opérateur de prédiction d'un niveau à l'autre s'écrit alors : 
+
+            \emph{Dans la suite seul le schéma \texttt{III} est détaillé par soucis de concision.}\\
+            \textbf{L'opérateur de reconstruction}
+            Étant donné une cellule à un niveau de détail donné $l$, on cherche à la faire évoluer du pas de temps $n$ vers le pas de temps $n+1$.
+            A cette fin, évaluer les flux numérique doivent être évalués à partir les cellules voisines reconstruite par un 
+            prédicteur à trois points (on dit qu'il à un \emph{stencil} de un, car il prend un compte une cellule de part et d'autre de la cellule centrale).\par
+            L'opérateur de prédiction d'un niveau à l'autre s'écrit alors : 
             \begin{align}
                 \hat u^{l+1}_{2k} &= +\frac{1}{8} u^l_{k-1} + u^l_k - \frac{1}{8} u^l_{k+1},\\
                 \hat u^{l+1}_{2k+1} &= -\frac{1}{8} u^l_{k-1} + u^l_k + \frac{1}{8} u^l_{k+1}.
             \end{align}
-            Puis en notant $\doublehat{u}^{l+\Delta l}_{(\cdot)}$ cet opérateur de prédiction itéré au travers de $\Delta l$ niveaux\footnote{
-                Au sens où l'on applique le prédicteur à des données déjà issues d'une prédiction.
-            } : 
+            Puis en notant $\doublehat{u}^{l+\Delta l}_{(\cdot)}$ cet opérateur de prédiction itéré au travers de $\Delta l$ niveaux:
             \begin{align}
                 \begin{bmatrix}
                     \doublehat{u}^{(l+\Delta l)}_{2^{\Delta l}k-2}\\
@@ -158,8 +156,8 @@ En revanche, le schéma \texttt{III} reconstruit par interpolation polynomiale c
                     u^l_{k+1}\\
                 \end{bmatrix}
             \end{align}
-\paragraph{Flux calculés au niveau le plus fin.}
-On travaille sur une cellule au niveau courant $l$ (cellules de tailles $\tilde{\Delta x}=2^{\Delta l}\Delta x$) et l’on reconstruit les états au niveau $l+\Delta l$ grâce à des flux
+\textbf{Flux reconstruits au niveau le plus fin: }
+On travaille sur une cellule au niveau courant $l$ (de tailles $2^{\Delta l}\Delta x$) et l’on reconstruit les états au niveau $l+\Delta l$ grâce à des flux
 flux au niveau fin, dont les gradients sont approximé par un pas $\Delta x$. La mise à jour conservative utilisée est donc
 \begin{align}
 u_k^{n+1}
@@ -191,8 +189,8 @@ Les flux sont évalués au \emph{niveau fin} (facteurs $1/\Delta x$ et $1/\Delta
 -\tfrac12\,\doublehat{u}^{\,l+\Delta l}_{2^{\Delta l}(k+1)-2}\Bigr).
 \end{align}
 
-\paragraph{Écriture matricielle.}
-Pour simplifier l'implémentation des calculs dans les codes de calculs formel, il est pertinent d'écrire se qui précède sous forme matricielle.\\
+\textbf{Forme matricielle du flux reconstruit: }
+Pour simplifier l'usage les outils de calculs formels, il est pertinent d'écrire se qui précède sous forme matricielle.\\
 Pour les flux gauches:
 \begin{align}
 \doublehat{\Phi}_{k-\frac12}^n
