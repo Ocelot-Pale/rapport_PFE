@@ -30,17 +30,17 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
     le lecteur intéressé pourra trouver les graphiques représentants les domaines de stabilité sur le \href{https://github.com/Ocelot-Pale/ImEx_stability_Nagumo}{Notebook en ligne}.
 
 
-\subsubsection{Étude de stabilité appliquée à l'équation de Nagumo}
-    La démarche précédente est ici particularisée en se centrant sur l'équation de Nagumo ; permettant de comprendre
-    comme se comportent les méthodes ImEx sur ce problème particulier.
+\subsubsection{Étude de stabilité linéaire appliquée à l'équation de Nagumo}
+    La démarche précédente est particularisée en se centrant sur l'équation de Nagumo ; 
+    permettant d'étudier la stabilité des méthodes ImEx sur ce problème particulier.
     \paragraph{Valeurs propres mises en jeu}
         Comme expliqué en \ref{par:analyser_operateurs_nagumo} l'équation présente deux opérateurs : 
         \begin{itemize}
             \item[$\diamond$] La diffusion dont le spectre s'étend de $\frac{-1}{L^2}$ à $\frac{-1}{\Delta x^2}$ (où $L$ est la taille du domaine discrétisé).
             \item[$\diamond$] La réaction dont le spectre balaie continûment $-k$ jusqu'à $2k$
         \end{itemize}
-        Pour restreindre l'analyse de stabilité il faut donc tracer le diagramme de stabilité des méthodes étudiées en prenant $Z_I \in \mathbb{R}^-$ 
-        et $Z_E \in [-k;2k] \subset \mathbb{R}$ ce qui nous donne un espace à deux dimensions. Il faut ensuite placer des couples $(Z_E,Z_I)$ correspondant.
+        Pour particulariser l'analyse de stabilité il faut donc tracer le diagramme de stabilité des méthodes étudiées en prenant $Z_I \in \mathbb{R}^-$ 
+        et $Z_E \in [-k;2k] \subset \mathbb{R}$ ce qui nous donne un espace à deux dimensions. Il est ensuite pertinent placer des couples $(Z_E,Z_I)$ correspondant.
         Cela donne les diagrammes en fig. \ref{fig:stabilite_nagumo}
     \paragraph{Résultats}
     \begin{figure}[htbp]
@@ -69,7 +69,7 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
             \label{fig:stabilite_nagumo_c}
         \end{subfigure}
         
-        \caption{Pour différents couples $D$ et $k$, diagrammes de stabilité des méthodes ImEx et de référence sur l'équation de Nagumo.}
+        \caption{Diagrammes de stabilité des méthodes ImEx et du splitting sur l'équation de Nagumo, pour différents couples $D$ et $k$.}
         \label{fig:stabilite_nagumo}
     \end{figure}
 
