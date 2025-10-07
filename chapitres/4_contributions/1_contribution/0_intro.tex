@@ -1,9 +1,10 @@
 \label{par:contrib_imex}
-L'objectif est de comparer la pertinence des méthodes RK implicites-explicites au \textit{splitting} d'opérateurs traditionnel.
-Pour introduire cette première étude l'équation de Nagumo est d'abord présentée comme un excellent cas
-test pour éprouver les méthodes de résolution des équations d'advection-diffusion-réaction. 
-Dans un second temps les méthodes ImEx utilisées sont détaillées. Par la suite leur stabilité
-est évaluée dans un contexte général; puis en se focalisant sur l'équation de Nagumo, où elles sont comparée 
-à une méthode de séparation d'opérateur classique (splitting de Strang).
+L'objectif est de comparer la pertinence des méthodes Runge et Kutta implicites-explicites par rapport au \textit{splitting} d'opérateurs traditionnel ainsi
+que leurs éventuelles interactions avec l'adaptation en espace par multirésolution adaptative.
+Pour introduire cette première étude l'équation de Nagumo est d'abord présentée comme un cas
+test idéal pour éprouver les méthodes de résolution des équations de diffusion-réaction (\ref{par:analyser_operateurs_nagumo}).
+Dans un second temps les méthodes ImEx utilisées sont détaillées (\ref{par:ImEx_presentation}).
+Par la suite (\ref{par:contrib1:stab}) leur stabilité est évaluée dans un contexte général; puis en se focalisant sur l'équation de Nagumo, où elles sont comparée 
+à une méthode de séparation d'opérateur.
 Ceci permet de valider la pertinence \textit{a priori} de ces méthodes sur les équations de réaction-diffusion, 
-et mène naturellement à une étude de convergence expérimentale.
+et mène naturellement à une étude de convergence expérimentale avec et sans adaptation de maillage (\ref{par:contrib1:convergence}).
