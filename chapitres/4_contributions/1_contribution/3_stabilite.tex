@@ -129,25 +129,24 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
                 \begin{itemize}
                     \item[$\diamond$]\textbf{Cas standard, $(k,D)=(1,1)$} - \figref{fig:stabilite_nagumo_a}:\\
                         Dans ce cas, la raideur de la diffusion déstabilise la méthode RKE2 (de nombreux indices spectraux tombent dans le zones rouges à cause des grandes valeurs de $Z_I$).
-                        Pour ces valeurs de $(\Delta x, \Delta t)$ cette méthode n'est donc pas viable.
-                        C'est tout à fait normal, les méthodes imposent des pas de temps très restrictifs sur les problèmes de diffusion.
-                        En revanche, les méthodes ImEx sont tout à fait stable puisque, comme constaté précédemment, le domaine de stabilité s'étend infiniment quand $Z_I \rightarrow -\infty$.
-                        Le point notable est que certains couples de valeurs propres tombent malgré tout dans une zone instable (en bas à gauche). Mais cela n'est pas un problème car il s'agit 
-                        de couples de valeurs propres ou la valeur propres
-                        \footnote{Dans cette section, valeurs propres $\lambda$ et indices spectraux $z = \lambda \Delta t$ sont identifiés puisque le pas de temps $\Delta t$ est fixé.}
-                        de l'opérateur de réaction ($Z_E$) est positive. Donc la méthode n'est pas instable au sens ou elle reflète simplement
-                        la dynamique explosive de la réaction. D'ailleurs si en se penchant sur le graphique de la partie explicite du splitting, on constante qu'il y a une zone 
-                        (correspondant à $Z_E$ positive) ou la fonction d'amplification est d'amplitude supérieure à un, le splitting reproduit donc fidèlement la dynamique de la réaction.
-                        Ce qui peut être un problème est l'inverse, 
-                        pour les méthodes ImEx, il y a des couples de valeurs propres où $Z_E$ est positif et où la fonction d'amplification est d'amplitude inférieure à un. 
+                        Pour ces valeurs de $(\Delta x, \Delta t)$ cette méthode n'est donc pas stable.
+                        C'est ce qui est attendu, les méthodes explicite imposent des pas de temps très restrictifs sur les problèmes de diffusion.
+
+                        En revanche, les méthodes ImEx sont stables puisque le domaine de stabilité est infini vers $Z_I \rightarrow -\infty$.
+                        Certains couples de valeurs propres tombent malgré tout dans une zone instable (en bas à gauche). En réalité ce n'est pas un problème car il s'agit 
+                        de couples où l'indice spectral $Z_E$ associé à l'opérateur de réaction est positif. Donc ce n'est est pas vraiment une instabilité, la méthode elle reflète simplement
+                        la dynamique explosive de la réaction. D'ailleurs le graphique de la méthode explicite du splitting, il y a une zone 
+                        où la fonction d'amplification est d'amplitude supérieure à un, le splitting reproduit donc fidèlement la dynamique de la réaction.
+                        En revanche,
+                        pour les méthodes ImEx, il existe des couples de d'indice spectraux propres où $Z_E$ est positif alors que la fonction d'amplification est d'amplitude inférieure à un. 
                         Cela pourrait être un frein pour reproduire fidèlement la dynamique explosive de la réaction dans les zones concernées
                         \footnote{Il n'est pas évident d'avoir \textit{a priori} la bonne intuition car peut être que la diffusion calme en quelque sorte 
-                        le caractère explosif de la réaction et qu'alors une fonction d'amplification d'amplitude $< 1$ est normal... Restons prudent sur cette analyse.}.
+                        le caractère explosif de la réaction et qu'alors une fonction d'amplification d'amplitude $< 1$ est normal...}.
                     \item[$\diamond$]\textbf{Cas diffusion raide, réaction peu raide, $(k,D)=(0.1,10)$}  - \figref{fig:stabilite_nagumo_b}:\\
                         Ici, $D=10$ donc toutes les valeurs propres liées à la diffusion sont multipliées par 10 par rapport au cas précédent. 
                         De fait la méthode RK2E de référence présente des instabilités pour encore plus de couples de valeurs propres est n'est pas pas viable.
-                        Concernant les méthodes ImEx222 et ImEx232 elles sont stables, et cette fois-ci toutes les valeurs propres liées à la 
-                        dynamique explosive de la réaction sont amorties. 
+                        Concernant les méthodes ImEx222 et ImEx232 elles restent stables, et cette fois-ci tous les couples d'indices spectraux liés à la 
+                        dynamique explosive de la réaction sont amortie ce qui n'est pas forcément incohérent puisque la diffusion domine.
                         % ---> AFAIRE voir expérimentalement ce que ça donne... 
                     \item[$\diamond$]\textbf{Cas diffusion peu raide, réaction très raide$(k,D)=(500,2\, 10^{-4})$} - \figref{fig:stabilite_nagumo_c}\\
                         Dans ce cas de figure, $k=500$. La grande valeur du coefficient de réaction rend cette dernière très raide. 
