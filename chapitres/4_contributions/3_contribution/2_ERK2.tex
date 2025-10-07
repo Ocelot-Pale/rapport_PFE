@@ -1,7 +1,7 @@
-Cette première expérience numérique résout numériquement l'équation de diffusion par le schéma de la contribution \ref{par:contrib_2} (Volumes Finis + ERK2).
-Une méthode implicite pourrait paraître plus appropriée pour s'affranchir des problèmes de stabilité; cependant l'inversion d'un système linéaire couplé à 
-la reconstruction des flux à des niveaux plus fin (non-standard, algos \texttt{} et 3) est difficile à implémenter informatiquement et aurait ralenti l'étude.
-À cause de la contrainte de stabilité $\Delta t \propto \Delta x^2$,
+Cette première expérience résout numériquement l'équation de diffusion par le schéma de la contribution \ref{par:contrib_2} (Volumes Finis + ERK2).
+Une méthode implicite pourrait paraître plus appropriée pour s'affranchir des problèmes de stabilité; cependant l'inversion d'un système linéaire rend la reconstruction
+des flux (schémas \texttt{III} et \texttt{IV}) trop complexes à implémenter.
+Ainsi, à cause de la contrainte de stabilité $\Delta t \propto \Delta x^2$,
 seules des solutions convergées en temps (erreur spatiale dominante puisque $\Delta t \ll \Delta x$) sont observées. Cette contrainte est levée dans l'expérience suivante en \ref{par:etude_diff_rock4}.\par 
 \subsubsection{Résultats numériques}
 Les résultats sont étonnants: parmi les schéma adaptés, le schéma \texttt{II} (le plus grossier) offre la plus faible erreur et plus l'algorithme reconstruit finement les flux plus l'erreur augmente. 
@@ -18,8 +18,8 @@ Schéma $n^o$ & Niveau d'évaluation des flux & Erreur $L^2$ \\
 
 \hline
 \end{tabular}\end{center}
-L'erreur des différents schéma adaptés est de l'ordre du seuil de compression choisit $\varepsilon = 10^{-4}$ montrant que ce sont bien
-les effets de la MRA qui sont dominants ici.
+L'erreur des différents schéma adaptés est de l'ordre du seuil de compression choisi $\varepsilon = 10^{-4}$ montrant que ce sont bien
+les effets de la MRA qui dominent ici.
 \subsubsection{Analyse et hypothèses}
 Ce résultat est assez surprenant puisqu'on s'attendrait à ce qu'une reconstruction plus précise du flux donne de meilleurs résultats.
 Toutefois c'est assez cohérent avec l'analyse théorique en \ref{par:contrib_2} qui prédit que reconstruire augmente le nombre de terme d'erreur (\emph{cf.} \ref{par:contrib_2:resultats}).
