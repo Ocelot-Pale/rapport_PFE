@@ -93,12 +93,12 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
             \subparagraph{Analyse générale}\label{par:analyse_generale_stab_nagumo}
                 Analyse des domaines de stabilité (fig.\figref{fig:stabilite_nagumo}) :
                 \begin{itemize}
-                    \item[$\diamond$]\textbf{Méthode RKE2:} En troisième colonne, le diagramme de stabilité d'une méthode explicite naïve RKE2, sert de référence. 
-                        Le domaine de stabilité accepte des valeurs propres négatives de magnitude deux, ce qui est résultat classique des méthodes Runge et Kutta explicites d'ordre deux.
-                        Ainsi domaine de stabilité s'étend jusqu'à $-2$ selon l'axe portant $Z_E$ tant que la valeur propre $Z_I$ est négligeable.
-                        De même le domaine de stabilité s'étend jusqu'à $-2$ selon $Z_I$ tant que la valeur propres $Z_E$ est négligeable. 
-                        Enfin il y a une zone intermédiaire quand $Z_E$ et $Z_I$ sont tous les deux de l'ordre de l'unité\footnote{Attention à l'échelle logarithmique.},
-                        où la raideur résultante est $Z_E+Z_I$.
+                    \item[$\diamond$]\textbf{Méthode explicite:} En troisième colonne, le diagramme de stabilité d'une méthode explicite RK explicite d'ordre deux, sert de référence. 
+                        Le domaine de stabilité s'étend pour valeurs propres négatives jusqu'à $-2$ (résultat classique des méthodes EKR2).
+                        Le schéma traitant conjointement les deux opérateurs, l'indice spectral résultant est $Z=Z_E+Z_I$. 
+                        De fait domaine de stabilité s'étend jusqu'à $-2$ selon l'axe $Z_E$ tant que $Z_I$ est négligeable et de même,
+                        le domaine de stabilité s'étend jusqu'à $-2$ selon $Z_I$ tant que $Z_E$ est négligeable. 
+                        Enfin il y a une zone intermédiaire quand $Z_E$ et $Z_I$ sont tous les deux de l'ordre de l'unité\footnote{Attention à l'échelle logarithmique.}.
 
                     \item[$\diamond$]\textbf{Méthode ImEx232:} La seconde colonne montre que la méthode ImEx232 maintient un domaine de stabilité restreint (jusqu'à $-2$) selon l'axe $Z_E$,
                         mais selon l'axe $Z_I$, le domaine de stabilité s'est étendu considérablement. C'est logique puisque la valeurs propre $Z_E$ est explicitée,
