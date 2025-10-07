@@ -8,15 +8,15 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
 \subsubsection{Étude de stabilité générale des RK-ImEx}
     Avec une méthode ImEx, les deux opérateurs de l'EDP sont découplés, c'est là l'intérêt.
     Cependant cela complexifie l'analyse usuelle de stabilité. 
-    En effet la fonction de stabilité attend alors deux variables, %AFAIRE -> ajouter les renvois vers la partie introduction à l'étude de stabilité etc...
+    En effet la fonction de stabilité attend alors deux variables, 
     le coefficient spectral $Z_E$ associé à l'opérateur traité explicitement et
     le coefficient spectral $Z_I$ associé à l'opérateur traité implicitement.
     Ainsi, pour chaque couple $(Z_E,Z_I)$ d'indices spectraux, la fonction de stabilité prend une valeur différente, et comme les coefficients spectraux sont des nombres complexes, 
-    on ne peut plus visualiser d'un simple coup d'oeil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci se trouve dans un espace de dimension quatre
-    \footnote{En effet la fonction de stabilité $R \mathbb C \times \mathbb C \rightarrow \mathbb R$ et $\dim  \mathbb C \times \mathbb C=4$.}.
+    on ne peut plus visualiser d'un simple coup d'oeil le domaine de stabilité, puisque celui-ci se trouve dans un espace de dimension quatre $\mathbb{C}^2$.
+    % \footnote{En effet la fonction de stabilité $R \mathbb C \times \mathbb C \rightarrow \mathbb R$ et $\dim  \mathbb C \times \mathbb C=4$.}.
     \paragraph{Calcul des fonctions d'amplification }
-    Afin d'étudier la stabilité linéaire des méthodes, les fonctions d'amplifications ont été numériquement évaluées grâce à une fonction informatique. 
-    La démarche est la suivante:
+    Afin d'étudier la stabilité linéaire des méthodes, les fonctions d'amplifications ont été évaluées numériquement.
+    L'algorithme est le suivante:
     \begin{enumerate}
         \item Entrer les valeurs de $(Z_E,Z_I)$ pour lesquelles la fonction de stabilité doit être évaluée
         \item Simuler un pas du schéma en partant de $u_0 = 1$ appliqué à une équation du type Dahlquist :\\$\dt{u} = \lambda_E u + \lambda_I u$
@@ -24,9 +24,9 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
             \item Construire toutes les approximations intermédiaires avec les valeurs 
             \item Construire l'approximation finale $u_1$
         \end{enumerate}
-        \item Évaluer la norme de $U_1$
+        \item Évaluer la norme de $u_1$
     \end{enumerate}
-    Cette étude n'est pas détaillée ici par nécessité de concision,
+    Cette l'étude générale, c'est à dire pour tout $(Z_E,Z_I) \in \mathbb{C}^2$ n'est pas détaillée ici, toutefois
     le lecteur intéressé pourra trouver les graphiques représentants les domaines de stabilité sur le \href{https://github.com/Ocelot-Pale/ImEx_stability_Nagumo}{Notebook en ligne}.
 
 
