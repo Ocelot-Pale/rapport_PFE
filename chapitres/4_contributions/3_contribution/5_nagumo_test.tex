@@ -12,18 +12,24 @@ C'est à dire :
 L'unique différence majeur est le remplacement de la méthode Runge et Kutta ImEx par un schéma de séparation d'opérateur avec une méthode stabilisée explicite pour la diffusion (ROCK 2 \cite{AbdulleMedovikov2001}).
 Ce choix découle, comme précédemment expliqué, de la nécessité d'éviter toute inversion de système linéaire lorsque les flux sont reconstruits à partir de reconstructions
 fines.
-
-
 \subsubsection{Résultats de l'expérience}
-Les résultats de l'expérience sont donnés en figure \ref{fig:flux_reconstruction_nagumo}, selon le pas de temps les observation sont:
+Les résultats présentés à la figure \ref{fig:flux_reconstruction_nagumo} confirment les tendances observées sur la diffusion pure :
+
 \begin{itemize}
-    \item[$\diamond$] \textbf{Pas de temps "petits" - erreur spatiale dominante:} L'erreur se comporte pareillement au cas de la diffusion pure, plus les flux sont reconstruit finement, plus l'erreur augmente.
-    \item[$\diamond$] \textbf{Pas de temps "grands" - erreur temporelle dominante:} L'erreur se comporte encore comme dans le cas de la diffusion pure, la méthode de reconstruction n'induite pas de variations sensibles de l'erreur.
-    \item[$\diamond$] \textbf{Pas de temps 'intermédiaires" - erreur spatio-temporelle: } C'est l'observation la plus intéressante: plus les flux sont finement évalués, plus l'erreur chute brutalement. 
-            Comme si \textit{la reconstruction fine des flux de diffusion prévenait un couplage des erreurs en temps et en espace}. Plus l'onde est raide, plus l'effondrement de l'erreur est marqué
-            ce qui suggère que cette amélioration vient avant tout d'un meilleur suivi du front d'onde. Enfin, quand le pas de temps continue de diminuer, l'erreur remonte comme si 
-            une sorte d'instabilité polluait la solution (voir figure AFAIRE). 
+    \item[$\diamond$] \textbf{Pas de temps élevés :} l'erreur est dominée par la discrétisation temporelle. Les trois approches (sans reconstruction, reconstruction partielle ou complète) montrent alors des précisions quasi identiques.
+    \item[$\diamond$] \textbf{Pas de temps très faibles :} lorsque l'erreur spatiale devient prépondérante, la reconstruction fine des flux dégrade la solution. Plus les flux sont reconstruits, plus l'erreur augmente.
+    \item[$\diamond$] \textbf{Influence des paramètres :} cette conclusion générale reste valable quels que soient les paramètres $k$ et $D$. Toutefois, lorsque la diffusion est prépondérante (valeurs de $D$ élevées), l'écart de précision entre la méthode sans reconstruction et celle avec reconstruction fine se creuse nettement.
+    \item[$\diamond$] \textbf{Profils raides et pas intermédiaires :} pour des ondes très raides (réaction dominante), on observe à nouveau un effondrement brutal de l'erreur sur une gamme de pas de temps intermédiaires. Cet effet, déjà mis en évidence dans le cas ROCK2 sans reconstruction (voir~\ref{par:lien_rock_equiv}), semble lié à la géométrie du front d'onde et mériterait une investigation dédiée.
 \end{itemize}
+\newpage
+\subsubsection{Conclusion de l'expérience sur Nagumo}
+Cette série de simulations indique que l'ajout du terme de réaction dans l'équation de Nagumo ne modifie pas de façon radicale le couplage entre le schéma numérique et la MRA. 
+Cela s'explique par le fait que la dégradation observée provient avant tout d'une prédiction des flux insuffisamment précise au regard de l'ordre spatial du schéma, 
+indépendamment de la présence d'une réaction.
+On note en outre que l'erreur introduite lors de la résolution du terme diffusif ne semble pas se propager au terme de réaction :
+plus la diffusion domine (grand $D$), plus l'effet négatif de la reconstruction se renforce, ce qui suggère un découplage efficace assuré par le splitting de Strang.
+Pour aller plus loin, une étude utilisant des méthodes ImEx partitionnées - qui coupleraient peut-être plus les erreurs - telles que PIROCK \cite{Abdulle2013}, appliquée à une équation de diffusion–réaction avec un terme réactif réellement raide
+\footnote{On rappelle que la réaction dans l'équation de Nagumo n'est pas raide.}, serait pertinente afin de vérifier si ce comportement se maintient.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{media/4_travail/3/flux_reconstruction_method_nagumo.pdf}

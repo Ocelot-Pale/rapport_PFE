@@ -9,11 +9,19 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
         -  \Delta t^{2} \frac{D^{3}}{6}          \frac{\partial^{6}u}{\partial x^{6}} 
         -  \Delta t^{3} \frac{D^{4}}{24}        \frac{\partial^{8}u}{\partial x^{8}}.
     \end{align}
+    
     Le schéma de référence est donc bien d'ordre deux en espace et en temps.
+    En utilisant la constante CFL diffusive (constante de Von Neumann) : $\lambda = D \frac{\Delta t}{\Delta x^2}$ : 
+    \begin{align}\label{eq:ref:cfl}
+        \frac{\partial u}{\partial t}  =&D \frac{\partial^{2}u}{\partial x^{2}}
+        + \Delta x^{2} \frac{D}{12}             \frac{\partial^{4}u}{\partial x^{4}} 
+        - \lambda^2 \Delta  x^{4} \frac{D}{6}          \frac{\partial^{6}u}{\partial x^{6}} 
+        - \lambda^3 \Delta x^{6} \frac{D}{24}        \frac{\partial^{8}u}{\partial x^{8}}.
+    \end{align}
 \paragraph{Équation équivalente du schéma \texttt{II} - adapté \emph{sans} reconstruction des flux}
     Lorsque le schéma est adapté sans reconstruction des flux sur $\Delta l$ niveaux de détails,
     l'équation du équivalente est :
-    \begin{align}
+    \begin{align}\label{eq:sansRecons:brute}
         \frac{\partial}{\partial t} u=
             D \frac{\partial^{2}u}{\partial x^{2}}
             + (2^{\Delta l} \Delta x)^{2}  \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}
@@ -23,6 +31,14 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
     En somme, sans reconstruction des flux, le schéma avec MRA se comporte comme le schéma de référence mais sur un maillage plus grossier. 
     La constante d'erreur en espace est effet de l'ordre de $2^{2\Delta l} \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}$ 
     au lieu de $\frac{D}{12}\frac{\partial^{4}u}{\partial x^{4}}$.
+    En injectant la CFL diffusive dans l'équation \eqref{eq:sansRecons:brute} :
+    \begin{align}\label{eq:sansRecons:cfl}
+        \frac{\partial}{\partial t} u=
+            D \frac{\partial^{2}u}{\partial x^{2}}
+            + (2^{\Delta l} \Delta x)^{2}  \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}
+            -\lambda^2 \Delta x^{4} \frac{D}{6}   \frac{\partial^{6}u}{\partial x^{6}}
+            -\lambda^3 \Delta x^{6} \frac{D}{24} \frac{\partial^{8}u}{\partial x^{8}}
+    \end{align}
 \paragraph{Équation équivalente du schéma \texttt{III} - adapté \emph{avec} reconstruction des flux}
     En évaluant les flux à partir des cellules reconstruites au niveau le plus fin, l'équation équivalente est:
     \begin{align}\label{eq:equiv_brute_recons}
@@ -37,7 +53,7 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/etude_MR_RK2
     Ainsi, théoriquement la reconstruction au plus fin des flux réduit l'ordre de convergence temporelle de la méthode des lignes.
     % Cependant en pratique le caractère explicite de la méthode ERK2 impose la contrainte de stabilité $\lambda = \frac{D \Delta t } {\Delta x^2} < 1/2$
     % masquant la perte d'ordre puisque cela mène à l’élution équivalente:
-    En utilisant la constante type CFL pour la diffusion $\lambda = D\,\frac{\Delta t}{\Delta x^2}$, l'équation \eqref{eq:equiv_brute_recons} se réécrit : 
+    En utilisant la constante CFL diffusive, l'équation \eqref{eq:equiv_brute_recons} se réécrit : 
     \begin{align}\label{eq:equiv_cfl_recons}
         \frac{\partial u}{\partial t}
         =&+ D \frac{\partial^{2}u}{\partial x^{2}}\\\notag
