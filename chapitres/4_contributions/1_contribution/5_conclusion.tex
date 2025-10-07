@@ -7,7 +7,8 @@ Les principaux résultats sont :
     Cela pourrait être exploité astucieusement puisque dans certains cas (\textit{cf.} \ref{par:analyse_generale_stab_nagumo})
     un opérateur implicité très raide peut stabiliser la méthode explicite. Ce serait particulièrement intéressement pour des problèmes de diffusion-réaction
     où une réaction implicite très raide pourrait étendre la stabilité d'une diffusion explicite.
-    \item[$\diamond$] \textbf{Convergence:} 
+    \item[$\diamond$] \textbf{Convergence:} Les deux approches, ImEx ARK et splitting sont toutes les deux viables sur le maillage non-adapté.
+    Il semble empiriquement que bien choisies, l'approche ImEx peut en effet offrir des constantes de convergences meilleures que le simple spitting.
     \item[$\diamond$] \textbf{Couplage avec l'adaptation spatiale:} Il a été monté empiriquement
     que les méthode ImEx peuvent interagir de manière néfaste avec l'adaptation spatiale par MRA.
     Il est probable que les méthode de splitting interagissent également, mais il semble que cette interaction soit plus limités.

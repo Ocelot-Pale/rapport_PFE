@@ -167,25 +167,47 @@ Vient enfin une présentation des différentes implémentations de la MRA.
             l'intuition physique pose son véto puisque les échelles supérieurs sont de grandes magnitudes et que cela présage que dans 
             les pas de temps a venir les échelles seront nécessaires à la fidèle capture des phénomènes physiques simulés. Par exemple cela peut signifier qu'un front
             d'onde est en train d'arriver dans les zone étudiée, il faut donc que la simulation puisse en capter toute la richesse.
-\subsection{Algorithmes de simulation numérique}
-    \subsubsection{Algorithme général}
-            L'intégration de la MRA un algorithme de simulation physique se fait de la manière suivante: 
-            tous les $n_{MRA}$ pas de temps (éventuellement être à chaque pas de temps), 
-            la solution physique est adaptée selon le procédé explicité ci-dessus. Les détails précédemment omis
-            devenant nécessaires sont obtenus grâce au prédicteur. Puis la simulation se poursuite à partir de cette grille de calcul adapté.
-            L'économie de mémoire se fait puisque tous les détails ne sont pas stockés et l'économie de calculs puisque moins de cellules sont mises en 
-            jeu lors du déroulement de l’algorithme de simulation.\par
-            Par exemple, en dimension une, si une zone est adapté avec un niveau de détail de niveau 5, la densité de cellule sur lequel il faut réaliser des est de $2^5$
-            et la densité mémoire est de $\sum_{j=0}^5 2^j$. Si le niveau le plus fin de la grille est par exemple 9, il y a un gain computationnel théorique de l'ordre de 
-            $2^{9-5}=16$ et en terme de mémoire une économie de l'ordre de $\frac{\sum_{j=0}^5}{2^8} > 10$. Ce gain est exponentiel avec la dimension du problème.
-    \subsubsection{Le cas volumes finis}
-            Il faut détailler ce qui signifie dans le cadre des volumes finis, \textit{poursuivre la simulation sur la grille de calcul adaptée}.
-            Le maillage adapté est constitué de cellules de tailles différents.
-            Il s'agit alors pour chacune de ces cellules de prédire la valeur moyenne en son sein au pas de temps suivant, c'est à dire faire évoluer le maillage.
-            Cela se fait en évaluant un flux à partir des valeurs de la solution aux interfaces de la cellule. 
-            Tout l'objet des volumes finis est: à partir de valeurs moyennes sur les cellules voisines, estimer les valeurs ponctuelles aux interfaces. 
-            La MRA amène alors une subtilité, les schémas volume finis usuels s'appuient sur des cellules de volumes similaires de l'ordre de $\Delta x^d$.
-            Cependant, 
+% \subsection{Algorithmes de simulation numérique}
+%     \subsubsection{Algorithme général}
+%             L'intégration de la MRA un algorithme de simulation physique se fait de la manière suivante: 
+%             tous les $n_{MRA}$ pas de temps (éventuellement être à chaque pas de temps), 
+%             la solution physique est adaptée selon le procédé explicité ci-dessus. Les détails précédemment omis
+%             devenant nécessaires sont obtenus grâce au prédicteur. Puis la simulation se poursuite à partir de cette grille de calcul adapté.
+%             L'économie de mémoire se fait puisque tous les détails ne sont pas stockés et l'économie de calculs puisque moins de cellules sont mises en 
+%             jeu lors du déroulement de l'algorithme de simulation.\par
+%             Par exemple, en dimension une, si une zone est adapté avec un niveau de détail de niveau 5, la densité de cellule sur lequel il faut réaliser des est de $2^5$
+%             et la densité mémoire est de $\sum_{j=0}^5 2^j$. Si le niveau le plus fin de la grille est par exemple 9, il y a un gain computationnel théorique de l'ordre de 
+%             $2^{9-5}=16$ et en terme de mémoire une économie de l'ordre de $\frac{\sum_{j=0}^5}{2^8} > 10$. Ce gain est exponentiel avec la dimension du problème.
+%     \subsubsection{Le cas volumes finis}
+%             Il faut détailler ce qui signifie dans le cadre des volumes finis, \textit{poursuivre la simulation sur la grille de calcul adaptée}.
+%             Le maillage adapté est constitué de cellules de tailles différents.
+%             Il s'agit alors pour chacune de ces cellules de prédire la valeur moyenne en son sein au pas de temps suivant, c'est à dire faire évoluer le maillage.
+%             Cela se fait en évaluant un flux à partir des valeurs de la solution aux interfaces de la cellule. 
+%             Tout l'objet des volumes finis est: à partir de valeurs moyennes sur les cellules voisines, estimer les valeurs ponctuelles aux interfaces. 
+%             La MRA amène alors une subtilité, les schémas volume finis usuels s'appuient sur des cellules de volumes similaires de l'ordre de $\Delta x^d$.
+%             L'approche usuelle en MRA, est dite \emph{sans reconstruction des flux}. Ainsi les cellules utilisées pour évaluer les flux numériques sont celles 
+%             du maillage adapté, c'est à dire celles au niveau que la multirésolution a conservé. Une approche moins standard est de reconstruire 
+%             les cellules nécessaires à l'évaluation des flux au niveau le plus fin. Ainsi la méthode est quand même adaptée, 
+%             il y a moins de flux à reconstruire puisque la solution est adaptée, mais les valeurs nécessaire à leur évaluations sont reconstruites.
+%             Cette approche est potentiellement plus précise et est peut-être un bon compris entre coût calcul et précision.
+\subsection{Algorithmes d'adaptation spatiale par MRA}
+
+\subsubsection{Algorithme général}
+L'intégration de la MRA s'effectue ainsi : à intervalles réguliers, on adapte la grille en appliquant la transformée multi-échelle et en supprimant les coefficients de détail superflus, guidé par l'heuristique de Harten. 
+Lorsqu'une zone compressée doit être raffinée de nouveau, seuls les détails nécessaires à la bonne résolution des flux sont reconstruits par le prédicteur polynomial. 
+On ne reconstruit donc pas l'entièreté de la solution, uniquement les coefficients indispensables. La simulation se poursuit ensuite sur cette grille adaptée.
+
+Ce processus permet d'économiser mémoire et temps de calcul, puisque l'on stocke et manipule uniquement les niveaux de détail requis par la dynamique de la solution.
+
+\subsubsection{Le cas des volumes finis}
+Dans un cadre de volumes finis, « poursuivre la simulation sur la grille adaptée » signifie prédire, pour chaque cellule de taille variable, 
+la valeur moyenne au pas de temps suivant. On procède en évaluant un flux numérique aux interfaces de chaque cellule à partir des valeurs disponibles.
+En régime classique, les schémas de volumes finis reposent sur des cellules de tailles homogènes d'ordre $\Delta x^d$. 
+L'adaptation par MRA introduit une subtilité : les flux peuvent être calculés directement à partir des valeurs sur la grille adaptée (méthode dite \emph{sans reconstruction}), 
+ou bien à partir de valeurs reconstruites au niveau de détail le plus fin (méthode dite \emph{avec reconstruction}). 
+Dans le premier cas, on profite pleinement de la compression ; dans le second, on limite le nombre de flux à calculer mais on reconstruit localement les valeurs pour obtenir une évaluation plus précise. 
+Cette seconde approche non standard offre potentiellement un meilleur compromis entre coût et précision.
+
 %     \subsubsection{Le débat sur la reconstruction}
 % \subsection{Impact sur les solutions}
 %     \subsubsection{}

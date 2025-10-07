@@ -1,5 +1,5 @@
-L'objectif est d'appréhender la viabilité des RK-ImEx sur l'équation de Nagumo. Dans ce but, leur stabilité est étudiée.
-Dans un premier temps, une étude générale de la stabilité de des RK-ImEx est menée.
+L'objectif est d'appréhender la viabilité des ImEx ARK sur l'équation de Nagumo. Dans ce but, leur stabilité est étudiée.
+Dans un premier temps, une étude générale de la stabilité des ImEx ARK est menée.
 Puis, l'étude de stabilité se centre sur l'application à l'équation de Nagumo. L'ensemble des codes utilisés pour évaluer numériquement et afficher les domaines de stabilités
 sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stability_Nagumo}{https://github.com/Ocelot-Pale/ImEx\_stability\_Nagumo}.
 
@@ -7,19 +7,19 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
 
 \subsubsection{Étude de stabilité générale des RK-ImEx}
     Avec une méthode ImEx, les deux opérateurs de l'EDP sont découplés, c'est là l'intérêt.
-    Cependant cela complexifie l'analyse usuelle de stabilisé. 
+    Cependant cela complexifie l'analyse usuelle de stabilité. 
     En effet la fonction de stabilité attend alors deux variables, %AFAIRE -> ajouter les renvois vers la partie introduction à l'étude de stabilité etc...
     le coefficient spectral $Z_E$ associé à l'opérateur traité explicitement et
     le coefficient spectral $Z_I$ associé à l'opérateur traité implicitement.
     Ainsi, pour chaque couple $(Z_E,Z_I)$ d'indices spectraux, la fonction de stabilité prend une valeur différente, et comme les coefficients spectraux sont des nombres complexes, 
     on ne peut plus visualiser d'un simple coup d'oeil le domaine de stabilité (comme en ... AFAIRE), puisque celui-ci se trouve dans un espace de dimension quatre
     \footnote{En effet la fonction de stabilité $R \mathbb C \times \mathbb C \rightarrow \mathbb R$ et $\dim  \mathbb C \times \mathbb C=4$.}.
-    \paragraph{Calcul des fonction d'amplification }
+    \paragraph{Calcul des fonctions d'amplification }
     Afin d'étudier la stabilité linéaire des méthodes, les fonctions d'amplifications ont été numériquement évaluées grâce à une fonction informatique. 
     La démarche est la suivante:
     \begin{enumerate}
         \item Entrer les valeurs de $(Z_E,Z_I)$ pour lesquelles la fonction de stabilité doit être évaluée
-        \item Simuler un pas schéma en partant de $u_0 = 1$ appliqué à une équation du type Dahlquist :\\$\dt{u} = \lambda_E u + \lambda_I u$
+        \item Simuler un pas du schéma en partant de $u_0 = 1$ appliqué à une équation du type Dahlquist :\\$\dt{u} = \lambda_E u + \lambda_I u$
         \begin{enumerate}
             \item Construire toutes les approximations intermédiaires avec les valeurs 
             \item Construire l'approximation finale $u_1$
@@ -27,21 +27,21 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
         \item Évaluer la norme de $U_1$
     \end{enumerate}
     Cette étude n'est pas détaillée ici par nécessité de concision,
-    le lecteur intéresser pourra trouver les graphiques représentants les domaines de stabilité sur le \href{https://github.com/Ocelot-Pale/ImEx_stability_Nagumo}{Notebook en ligne}.
+    le lecteur intéressé pourra trouver les graphiques représentants les domaines de stabilité sur le \href{https://github.com/Ocelot-Pale/ImEx_stability_Nagumo}{Notebook en ligne}.
 
 
 \subsubsection{Étude de stabilité appliquée à l'équation de Nagumo}
-    Nous allons particulariser la démarche suivante en la centrant sur l'équation de Nagumo. Cela vas nous permettre de comprendre 
+    La démarche précédente est ici particularisée en se centrant sur l'équation de Nagumo ; permettant de comprendre
     comme se comportent les méthodes ImEx sur ce problème particulier.
     \paragraph{Valeurs propres mises en jeu}
         Comme expliqué en \ref{par:analyser_operateurs_nagumo} l'équation présente deux opérateurs : 
         \begin{itemize}
-            \item[$\diamond$] La diffusion dont le spectre d'étend de $\frac{-1}{L^2}$ à $\frac{-1}{\Delta x^2}$ (où $L$ est la taille du domaine discrétisé).
+            \item[$\diamond$] La diffusion dont le spectre s'étend de $\frac{-1}{L^2}$ à $\frac{-1}{\Delta x^2}$ (où $L$ est la taille du domaine discrétisé).
             \item[$\diamond$] La réaction dont le spectre balaie continûment $-k$ jusqu'à $2k$
         \end{itemize}
         Pour restreindre l'analyse de stabilité il faut donc tracer le diagramme de stabilité des méthodes étudiées en prenant $Z_I \in \mathbb{R}^-$ 
         et $Z_E \in [-k;2k] \subset \mathbb{R}$ ce qui nous donne un espace à deux dimensions. Il faut ensuite placer des couples $(Z_E,Z_I)$ correspondant.
-        Lorsque l'on réalise se travaille nous trouvons les diagrammes suivant: 
+        Cela donne les diagrammes en fig. \ref{fig:stabilite_nagumo}
     \paragraph{Résultats}
     \begin{figure}[htbp]
         \centering
@@ -90,7 +90,7 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
 
         \paragraph{Analyse}
             \subparagraph{Analyse générale}\label{par:analyse_generale_stab_nagumo}
-                Analysons les domaines de stabilité des figures en \figref{fig:stabilite_nagumo}, pour l'instant nous ignorons les marqueurs bleus sur les figures.
+                Analyse des domaines de stabilité (fig.\figref{fig:stabilite_nagumo}) :
                 \begin{itemize}
                     \item[$\diamond$]\textbf{Méthode RKE2:} En troisième colonne, le diagramme de stabilité d'une méthode explicite naïve RKE2, sert de référence. 
                         Le domaine de stabilité accepte des valeurs propres négatives de magnitude deux, ce qui est résultat classique des méthodes Runge et Kutta explicites d'ordre deux.
@@ -99,26 +99,25 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
                         Enfin il y a une zone intermédiaire quand $Z_E$ et $Z_I$ sont tous les deux de l'ordre de l'unité\footnote{Attention à l'échelle logarithmique.},
                         où la raideur résultante est $Z_E+Z_I$.
 
-                    \item[$\diamond$]\textbf{Méthode ImEx232:} En observant la seconde colonne, nous constatons que la méthode ImEx232 maintient un domaine de stabilité restreint (jusqu'à $-2$) selon l'axe $Z_E$,
+                    \item[$\diamond$]\textbf{Méthode ImEx232:} La seconde colonne montre que la méthode ImEx232 maintient un domaine de stabilité restreint (jusqu'à $-2$) selon l'axe $Z_E$,
                         mais selon l'axe $Z_I$, le domaine de stabilité s'est étendu considérablement. C'est logique puisque la valeurs propre $Z_E$ est explicitée,
                         sont domaine pris seul n'a évolué, et la valeur propre $Z_I$ peut être très raide (très négative) puisque la méthode explicite l'opérateur lié à $Z_I$.
                         % Voir que le domaine de stabilité est légèrement décalé vers la droite quand $Z_I$ est grand
 
                     \item[$\diamond$]\textbf{Méthode ImEx222:} Passant à la première colonne, le domaine de stabilité ImEx222 resemble beaucoup à celui de l'ImEx232. Seulement, le domaine de stabilité s'élargit considérablement
                         selon $Z_E$, pourvus que $Z_I$ soit assez grand. Cette propriété est remarquable, cela signifie que la méthode traite couple les raideurs dans sont traitement. 
-                        Plus précisément, plus l'opérateur implicité est raide, plus l'opérateur explicité peut être raide\footnote{Cette analyse est partiellement erronée, nous verrons 
-                        pourquoi au prochain paragraphe.}.
+                        Plus précisément, plus l'opérateur implicité est raide, plus l'opérateur explicité peut être raide.
                         % AFAIRE :
                         % Pourquoi ? Qu'est ce qui change fondamentalement ? 
                         % ---> certaines VP positives ont une fonction d'amplification négatives pour la réaction, ca pourrait poser problème (perte d'ordre ?)
                         % justement pour le splitting c'est pas le cas, et lui il ne perd pas l'ordre ??? ... 
                 \end{itemize}
             \subparagraph{Analyse selon les paramètres de l'équation $k$ et $D$}
-                Analysons grace au graphiques \figref{fig:stabilite_nagumo} la disposition des valeurs couples de valeurs 
-                propres mis en jeu par l'équation de Nagumo selon les paramètre $k$ et $D$. Les paramètres de simulation: $\Delta t$ et $\Delta x$ sont fixés.
+                Grace au graphiques \figref{fig:stabilite_nagumo} la disposition couples de valeurs 
+                propres mis en jeu par l'équation de Nagumo peut être analysées selon les paramètre $k$ et $D$. Les paramètres de simulation: $\Delta t$ et $\Delta x$ sont fixés.
                 Les jeux de valeurs choisis sont $(k,D)=(1,1)$, $(k,D)=(0.1,10)$, $(k,D)=(500,2\, 10^{-4})$. 
-                Le produit $kD$ est maintenu égal à un, ainsi la vitesse de propagation est toujours la même.
-                Ces couples de valeurs propres $Z_E,Z_I$ mis en jeu par les opérateur de l'équation sont tracés en bleus
+                Le produit $kD$ est maintenu égal à un, ainsi la vitesse de propagation est toujours la même (\emph{cf.} \ref{par:analyser_operateurs_nagumo}).
+                Ces couples de valeurs propres $Z_E,Z_I$ sont en effet tracés en bleus sur le graphique
                 \footnote{Pour les $Z_I$ le spectre est discret, pour $Z_E$, le spectre est continu, il a donc fallut échantillonnés le long de l'axe $Z_E$}.
                 %---> AFAIRE : au lieu d'un scatter de faire un plot pour représenter la continuité du spectre de l'opérateur de réaction.
                 \begin{itemize}
