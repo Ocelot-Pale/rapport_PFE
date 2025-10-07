@@ -150,9 +150,9 @@ sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stabili
                         % ---> AFAIRE voir expérimentalement ce que ça donne... 
                     \item[$\diamond$]\textbf{Cas diffusion peu raide, réaction très raide$(k,D)=(500,2\, 10^{-4})$} - \figref{fig:stabilite_nagumo_c}\\
                         Dans ce cas de figure, $k=500$. La grande valeur du coefficient de réaction rend cette dernière très raide. 
-                        Cela à pour effet de dilater selon l'axe des abscisse les indices spectraux puisque $Z_E \in [- 500 \Delta t, + 1000 \Delta t]$
-                        alors que dans le cas $k=1$: $Z_E \in [- \Delta t , 2\Delta t]$.
-                        Ici la méthode méthode explicite au sein des ImEx n'est plus stable pour la réaction, ainsi toutes les méthodes deviennent instables. 
+                        Cela a pour effet de dilater les couples d'indices spectraux selon l'axe des abscisse puisque $Z_E \in [- 500 \Delta t, + 1000 \Delta t]$
+                        alors que pour $k=1$: $Z_E \in [- \Delta t , 2\Delta t]$.
+                        Ici la méthode explicite au sein des ImEx n'est plus stable pour la réaction, ainsi toutes les méthodes deviennent instables. 
                         Le splitting également devient instable car il utilise aussi la méthode RK2E pour la réaction. 
                         Le fait que la méthode explicite de l'ImEx soit instable pour l'opérateur explicité peu sembler un obstacle infranchissable,
                         cependant ce n'est pas si simple.
