@@ -14,21 +14,21 @@ quelques notions d'analyse et de simulation des EDOs du premier ordre.\par
 \subsection{Schémas explicites et implicites.}
 L'approximation des EDO se fait grâce à des schémas numériques, c'est à dire une suite d'élément $(u^n)$ de $\mathbb{R}^d$.
 Donnés une EDO et un pas de discrétisation temporel $\Delta t$, $u^n \in \mathbb{R}^d$ est approxime la solution de l'EDO au temps $t^n = n \Delta t$.
-C'est à dire que la suite $(u^n)_{n\in \mathbb{N}} \in (\mathbb R^d)^\mathbb{N}$ définie par un schéma numérique cherche à avoir à avoir $u^n \approx u(t=n\Delta t)$.
+C'est à dire que la suite $(u^n)_{n\in \mathbb{N}} \in (\mathbb R^d)^\mathbb{N}$ définie par un schéma numérique cherche à avoir $u^n \approx u(t=n\Delta t)$.
 Deux catégories de schémas numériques existent: les schémas explicites et les schémas implicites
 % Seuls les schémas à un pas sont ici présentés et non pas les schémas multi-pas. Ce choix est fait en raison de la barrière de Dahlquist
 % \footnote{\url{https://fr.wikipedia.org/wiki/Methode_lineaire_a_pas_multiples\#Premiere_et_deuxieme_limites_de_Dahlquist}}.
 
 
 \begin{definition}[Schéma explicite]
-    Un schéma numérique est dit explicite si la solution au pas de temps $n+1$ est obtenu seulement grâce à la solution pas de temps $n$. Cela se formule usuellement sous la forme:
+    Un schéma numérique est dit explicite si la solution au pas de temps $n+1$ est obtenue uniquement grâce à la solution au pas de temps précédent $n$. Cela se formule usuellement sous la forme:
     \begin{align}
         u^{n+1} = u^n + f(u^n ,\Delta t ).
     \end{align}
 \end{definition}
 
 \begin{definition}[Schéma implicite]
-    Un schéma numérique est dit implicite si la solution au pas  de temps $n+1$ est obtenue au moins en partie grâce à la solution pas de temps $n+1$. 
+    Un schéma numérique est dit implicite si la solution au pas de temps $n+1$ est obtenue au moins en partie grâce à la solution au pas de temps $n+1$. 
     Cela peut s'écrire écrit comme:
     \begin{align}
         u^{n+1} = u^n + f(u^{n+1} ,\Delta t ).
@@ -40,7 +40,7 @@ Deux catégories de schémas numériques existent: les schémas explicites et le
 Une itération d'un schéma implicite nécessite donc l'inversion d'un système linéaire ou non linéaire sur $\mathbb{R}^d$.
 De fait, une itération implicite est généralement plus coûteuse qu'une itération d'un schéma explicite
 \footnote{En particulier si la dimension de la solution $d$ est grande.}. 
-Cependant pour des raisons de stabilités (voir \ref{par:stabilite_edo}) les méthodes explicites peuvent nécessiter des pas de temps bien plus fin, et donc bien plus d'itérations.
+Cependant pour des raisons de stabilité (voir \ref{par:stabilite_edo}) les méthodes explicites peuvent nécessiter des pas de temps bien plus fins, et donc bien plus d'itérations.
 Le choix entre méthode explicite et implicite dépend de bien des facteurs (du problème, du niveau de précision voulu, de la difficulté d'implémentation etc...)
 c'est un enjeu central de la simulation numérique.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,13 +50,13 @@ Pour définir la notion d'ordre de convergence d'un schéma numérique, il faut 
 \begin{definition}[Erreur locale d'un schéma]
     L'erreur locale d'un schéma numérique de résolution d'une EDO est l'erreur que commet le schéma sur un pas de temps.
     Autrement dit si l'on note $u$ la solution de l'EDO à partir d'un état initial $u_0 = u(t=0)$ et $u_1$ l'approximation numérique proposée par la schéma 
-    pour un pas de temps $\Delta t$ à partir de l'était $u_0$, l'erreur locale est: 
+    pour un pas de temps $\Delta t$ à partir de l'état $u_0$, l'erreur locale est: 
     \begin{align}
         e(\Delta t) = \Vert u(\Delta t) - u_1 \Vert_{\mathbb{R}^d}.
     \end{align}
 \end{definition}
 
-\begin{definition}[Erreur globale d'un schméa]
+\begin{definition}[Erreur globale d'un schéma]
     L'erreur globale d'un schéma est l'erreur que commet le schéma sur plusieurs pas de temps. 
     Si l'on note $u^n$ la solution numérique au temps $t^n = n \Delta t$, alors l'erreur globale du schéma jusqu'au temps final $T = N \Delta t$ peut être définie comme:
     \begin{align}
@@ -86,25 +86,25 @@ Cependant, cette convergence n'est effective que si le schéma est \textbf{stabl
 Un schéma instable conduit à une divergence de la solution numérique : en pratique, au-delà d'un pas de temps critique $\Delta t_0$, la norme $\Vert u^n \Vert$ croît sans borne%
 \footnote{Phénomène souvent appelé \og explosion numérique\fg.}, comme illustré figure~\ref{fig:stabilite_schema}.
 Ainsi, pour entrer dans le régime asymptotique de convergence, il faut respecter une contrainte de stabilité de type $\Delta t \leq \Delta t_0$.  
-Lorsque ce seuil est très faible, la simulation devient coûteuse car elle nécessite un grand nombre d’itérations $T_\mathrm{final}/\Delta t$.  
+Lorsque ce seuil est très faible, la simulation devient coûteuse car elle nécessite un grand nombre d'itérations $T_\mathrm{final}/\Delta t$.  
 De manière générale, les schémas explicites sont plus sensibles à ces contraintes que les schémas implicites.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{media/3_/2_/exemple_satabilite.pdf}
-    \caption{Illustration du comportement attendu de l'erreur d'un schéma d'ordre deux dont le seuil d'instabilité est $\Delta t > 10^{-1}$.}
+    \caption{Illustration du comportement attendu de l'erreur d'un schéma d'ordre deux dont le seuil d'instabilité est $\Delta t > 10^{-3}$.}
     \label{fig:stabilite_schema}
 \end{figure}
 
 \begin{definition}[Stabilité d'un schéma numérique]
-Un schéma numérique $\bigl(u^n\bigr)_{n\in\mathbb{N}} \in (\mathbb{R}^d)^{\mathbb{N}}$ est dit stable si la norme de la solution ne croît pas d’un pas de temps à l’autre :
+Un schéma numérique $\bigl(u^n\bigr)_{n\in\mathbb{N}} \in (\mathbb{R}^d)^{\mathbb{N}}$ est dit stable si la norme de la solution ne croît pas d'un pas de temps à l'autre :
 \begin{align}
     \Vert u^{n+1} \Vert \leq \Vert u^n \Vert.
 \end{align}
 En pratique, cette condition est satisfaite lorsque $\Delta t$ reste inférieur à un seuil $\Delta t_0$ dépendant du problème et du schéma.
 \end{definition}
 
-La stabilité d’un schéma dépend directement du spectre de l’opérateur $A$ dans l’équation différentielle (cf. \eqref{def:def_ODE}).  
+La stabilité d'un schéma dépend directement du spectre de l'opérateur $A$ dans l'équation différentielle (cf. \eqref{def:def_ODE}).  
 Lorsque $A$ possède des valeurs propres à grande partie réelle négative, les méthodes explicites imposent des pas $\Delta t$ extrêmement petits pour rester stables.  
 Dans ce cas, le problème est qualifié de \emph{raide}.
 
@@ -116,10 +116,10 @@ Un système dynamique
 est dit \emph{raide} si la jacobienne $J_A$ admet des valeurs propres très négatives en valeur absolue, entraînant une condition de stabilité tellement restrictive que les méthodes explicites deviennent inutilisables en pratique.
 \end{definition}
 
-Pour analyser la stabilité d’un schéma, on utilise la notion de \emph{fonction de stabilité}, introduite à partir de l’équation test linéaire $u'=\lambda u$.
+Pour analyser la stabilité d'un schéma, on utilise la notion de \emph{fonction de stabilité}, introduite à partir de l'équation test linéaire $u'=\lambda u$.
 
 \begin{definition}[Fonction de stabilité]
-Pour un schéma numérique appliqué à l’équation $u'=\lambda u$, on définit l’indice spectral $z=\lambda \Delta t$ et une fonction $S(z)$ telle que
+Pour un schéma numérique appliqué à l'équation $u'=\lambda u$, on définit l'indice spectral $z=\lambda \Delta t$ et une fonction $S(z)$ telle que
 \[
 U^{n+1} = S(z)\,U^n.
 \]
@@ -151,7 +151,7 @@ On pose $z=\lambda \Delta t$ et on calcule $S(z)$ :
           Ici $|S(z)|\leq 1$ pour tout $z\geq 0$ : aucune restriction sévère, même pour $\lambda$ très grand.
 \end{itemize}
 
-Cet exemple illustre la notion de raideur : un problème est dit raide lorsque les méthodes explicites deviennent inutilisables à cause de la contrainte de stabilité, alors qu’un implicite reste stable.
+Cet exemple illustre la notion de raideur : un problème est dit raide lorsque les méthodes explicites deviennent inutilisables à cause de la contrainte de stabilité, alors qu'une schéma implicite reste stable.
 \end{exemple}
 
 Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L-stabilité), développées par exemple dans \cite{HairerAndWanner1}.
@@ -176,14 +176,14 @@ Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L
 %     \label{fig:stabilite_schema}
 % \end{figure}
 % \begin{definition}[Stabilité d'un schéma numérique]
-% Un schéma numérique $\bigl(u^n\bigr)_{n\in\mathbb{N}} \in (\mathbb{R}^d)^{\mathbb{N}}$ est dit stable si la norme de la solution ne croît pas au fil des itérations, c’est-à-dire si
+% Un schéma numérique $\bigl(u^n\bigr)_{n\in\mathbb{N}} \in (\mathbb{R}^d)^{\mathbb{N}}$ est dit stable si la norme de la solution ne croît pas au fil des itérations, c'est-à-dire si
 % \begin{align}
 %     \Vert u^{n+1} \Vert \leq \Vert u^n \Vert.
 % \end{align}
 % En pratique, cette condition n'est satisfaite que si le pas de temps $\Delta t$ reste inférieur à un seuil $\Delta t_0$ dépendant à la fois du problème et du schéma utilisé.
 % \end{definition}
 
-% La stabilité d’un schéma dépend fortement du spectre de l’opérateur $A$ apparaissant dans l’équation différentielle (cf. \eqref{def:def_ODE}).  
+% La stabilité d'un schéma dépend fortement du spectre de l'opérateur $A$ apparaissant dans l'équation différentielle (cf. \eqref{def:def_ODE}).  
 % Lorsque certaines valeurs propres de $A$ sont très grandes en valeur absolue et négatives, les méthodes explicites deviennent inadaptées : le problème est dit \emph{raide}.
 
 % \begin{definition}[Problème raide]
@@ -192,11 +192,11 @@ Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L
 %     \frac{\text d u}{\text{d}t} = A(u,t), \qquad u(t)\in\mathbb{R}^d
 % \end{align}
 % est dit \emph{raide} si la jacobienne $J_A$ possède des valeurs propres négatives de grande amplitude, imposant des échelles de temps très différentes.  
-% Dans ce cas, la condition de stabilité des méthodes explicites devient tellement restrictive qu’elles sont inutilisables en pratique.
+% Dans ce cas, la condition de stabilité des méthodes explicites devient tellement restrictive qu'elles sont inutilisables en pratique.
 % \end{definition}
 
-% La stabilité d’un schéma se caractérise de façon pratique à l’aide de la notion de fonction de stabilité.  
-% Pour une équation linéaire $u'=\lambda u$, on définit l’indice spectral $z=\lambda \Delta t$ et une fonction $S$ telle que
+% La stabilité d'un schéma se caractérise de façon pratique à l'aide de la notion de fonction de stabilité.  
+% Pour une équation linéaire $u'=\lambda u$, on définit l'indice spectral $z=\lambda \Delta t$ et une fonction $S$ telle que
 % \[
 % U^{n+1} = S(z)\,U^n.
 % \]
@@ -209,7 +209,7 @@ Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L
 % \end{definition}
 
 % \begin{exemple}[Équation de Dahlquist]
-% Considérons l’équation test
+% Considérons l'équation test
 % \begin{align}
 %     u'(t) &= -\lambda u(t), \quad \lambda>0, \\
 %     u(0) &= u_0.
@@ -218,7 +218,7 @@ Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L
 
 % \medskip
 % \textbf{Raideur.}  
-% Si $\lambda$ est grand, la solution décroît très vite. Un schéma explicite impose alors un pas $\Delta t$ extrêmement petit pour rester stable : le problème est raide, au sens où l’explicite échoue par instabilité.
+% Si $\lambda$ est grand, la solution décroît très vite. Un schéma explicite impose alors un pas $\Delta t$ extrêmement petit pour rester stable : le problème est raide, au sens où l'explicite échoue par instabilité.
 
 % \medskip
 % \textbf{Fonction de stabilité.}
@@ -230,7 +230,7 @@ Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L
 %         Ici $|S(z)|\leq 1$ pour tout $z\geq 0$, donc aucune restriction sévère même pour des $\lambda$ très grands.
 % \end{itemize}
 
-% Cet exemple illustre la notion de raideur : la stabilité interdit l’usage d’un explicite, tandis qu’un implicite reste stable.
+% Cet exemple illustre la notion de raideur : la stabilité interdit l'usage d'un explicite, tandis qu'un implicite reste stable.
 % \end{exemple}
 
 % Pour aller plus loin, on introduit des notions plus fines comme la A-stabilité (stabilité pour tout $z$ à partie réelle négative) ou la L-stabilité (amortissement des modes très raides). Ces définitions, classiques en analyse numérique, sont détaillées par exemple dans \cite{HairerAndWanner1}.
@@ -271,7 +271,7 @@ Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L
 
 
 % \begin{exemple}[Équation de Dahlquist]
-% On considère l’équation test
+% On considère l'équation test
 % \begin{align}
 %     \frac{\text d u}{\text d t} &= - \lambda u, \quad \lambda > 0, \\
 %     u(0) &= u_0.
@@ -281,23 +281,23 @@ Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L
 % \textbf{Raideur et stabilité.}
 % Lorsque $\lambda$ est grand, la décroissance de la solution est très rapide.  
 % Pour un schéma explicite, la stabilité impose en plus de prendre un pas $\Delta t$ extrêmement petit.  
-% Autrement dit, la méthode explicite échoue par instabilité : c’est bien \emph{problème raide}.  
+% Autrement dit, la méthode explicite échoue par instabilité : c'est bien \emph{problème raide}.  
 % Un problème est dit raide précisément quand les méthodes explicites deviennent inutilisables à cause de la condition de stabilité.
 
 % \textbf{Fonction de stabilité.}
-% On introduit l’indice spectral $z=\lambda \Delta t$ et la fonction de stabilité $S(z)$ définie par
+% On introduit l'indice spectral $z=\lambda \Delta t$ et la fonction de stabilité $S(z)$ définie par
 % \[
 % U^{n+1} = S(z)\,U^n.
 % \]
 
 % - \emph{Euler explicite :} $U^{n+1} = (1-z)U^n \;\Rightarrow\; S(z)=1-z$.  
 % La condition $|S(z)|\leq 1$ impose $0 \leq z \leq 2$.  
-% Donc si $\lambda$ est très grand, $\Delta t$ doit être minuscule : l’explicite devient inutilisable.
+% Donc si $\lambda$ est très grand, $\Delta t$ doit être minuscule : l'explicite devient inutilisable.
 
 % - \emph{Euler implicite :} $U^{n+1} = \tfrac{1}{1+z} U^n \;\Rightarrow\; S(z)=\tfrac{1}{1+z}$.  
 % On a $|S(z)|\leq 1$ pour tout $z \geq 0$, donc aucune contrainte de stabilité sévère, même si $\lambda$ est grand.
 
-% Cet exemple montre comment la raideur se manifeste : l’explicite explose, l’implicite reste stable.
+% Cet exemple montre comment la raideur se manifeste : l'explicite explose, l'implicite reste stable.
 % \end{exemple}
 
 
