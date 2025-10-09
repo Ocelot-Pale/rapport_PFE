@@ -18,16 +18,16 @@
 %                 { ?}
 % \end{itemize}
 Des moteurs aux batteries, des enjeux de défenses au nucléaire civil en passant par les problématiques de sécurité, de nombreux problèmes industriels 
-font intervenir des systèmes physico-chimiques modélisés par un couplage entre la mécanique des fluides et des dynamiques chimiques complexes.
+font intervenir des systèmes physico-chimiques modélisés par un couplage entre la mécanique des fluides et des cinétiques chimiques complexes.
 Ces modèles décrivent par exemple les problèmes de combustion \cite{Law2006,Echekki2009}, d'électrochimie \cite{Munteanu2024SPM}, de corrosion \cite{AliasgharMamaghani2025}
 de propagation d'effluents \cite{exemple_effluent}.
-Ces modèles font souvent intervenir d'équations d'advection-diffusion-réaction (ADR), 
-une gamme d'équations au dérivées partielles (EDP) dont les trois opérateurs traduisent le couplage sus-mentionné.
+Ces modèles font souvent intervenir des équations d'advection-diffusion-réaction (ADR), 
+une gamme d'équations au dérivées partielles (EDP).
 Elles comportent un opérateur d'\emph{advection} (transport par un flux), un opérateur de \emph{diffusion} (éparpillement de la matière par l'agitation thermique) 
 et un opérateur de \emph{réaction} (modélisant une ou plusieurs réactions chimiques).\par 
-Comme détaillé plus tard, ces équations sont difficile à simuler avec précision. L'objet du stage est donc de contribuer à l'élaboration
+Comme détaillé plus tard, ces équations sont difficiles à simuler avec précision. L'objet du stage est donc de contribuer à l'élaboration
 de méthodes de résolution haute-résolution de ces EDPs.\par 
-Cette introduction présente d'abord les difficulté liées aux équations d'ADR (\ref{par:difficulte_adr}), puis réalise un état de l'art des stratégies pour surmonter ces difficultés (\ref{par:intro_etat_art}),
+Cette introduction présente d'abord les difficultés numériques liées aux équations d'ADR (\ref{par:difficulte_adr}), puis réalise un état de l'art des stratégies pour surmonter ces difficultés (\ref{par:intro_etat_art}),
 vient enfin la problématique à laquelle les contributions du stage répondent (\ref{par:problematique}).
 % Un choix équilibrant concision et précision au sein de cette introduction, toutefois si le lecteur ne trouve pas assez d'information à son goût,
 % le chapitre \ref{par:tech} est un préambule mathématiques auquel il pourra se référer.
@@ -36,15 +36,15 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
     \label{par:difficulte_adr}
     Les équations d'ADR posent deux difficultés majeures aux numériciens:
     \begin{enumerate}[label=\Alph*.]
-        \item des opérateurs aux propriétés mathématiques antagonistes
+        \item des opérateurs aux propriétés différentes, antagonistes
         \item des solutions multi-échelles
     \end{enumerate}
     \subsubsection{Des opérateurs aux propritétés antagonistes}
-        Le terme antagoniste signifie leurs propriétés sont très différentes et qu'alors, les méthodes numériques efficaces pour un opérateur sont inadaptées aux autres.
+        Le terme antagoniste signifie que leurs propriétés sont très différentes et qu'alors, les méthodes numériques efficaces pour un opérateur sont inadaptées aux autres.
         Plus de détails sont donnés en \ref{par:adv-diff-reaction} mais rapidement:
         \begin{itemize}
-            \item[$\diamond$] les \textit{méthodes explicites}\footnote{Définition en \ref{par:edo}} sont adaptés à l'opérateur d'advection, 
-            mais présentent des problèmes de \textit{stabilité}\footnote{Définition de stabilité en \ref{par:edo}} pour les  opérateurs de réaction et de diffusion.
+            \item[$\diamond$] les \textit{méthodes explicites}\footnote{Définition en \ref{par:edo}} sont adaptées à l'opérateur d'advection, 
+            mais présentent des problèmes de \textit{stabilité}\footnote{Définition de stabilité en \ref{par:edo}} pour l'opérateur de réaction.
             \item[$\diamond$] le caractère local et très \textit{raide}\footnote{Définition d'opérateur raide en \ref{par:edo}} de l'opérateur de réaction\footnote{
                 Cette raideur viens des temps de relaxations très cours (quelques nanosecondes) des modèles de chimie complexe \cite{Wartha2021}}
             pousse à utiliser des \textit{méthodes implicites}\footnote{Définition en \ref{par:edo}}, cependant le caractère non-local 
@@ -52,16 +52,18 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
             \item[$\diamond$] les méthodes explicites stabilisées comme \cite{AbdulleMedovikov2001} sont très adaptées à la résolution de l'opérateur de diffusion, mais 
             ne sont assez stables pour l'opérateur de réaction.
         \end{itemize}
-        Ainsi, une approche monolithique (qui traiterait tous les opérateurs d'un bloc) échouera systématiquement à simuler le système de manière satisfaisante.
+        Ainsi, une approche monolithique (qui traiterait tous les opérateurs d'un bloc) échouera souvent à simuler le système de manière satisfaisante.
     \subsubsection{Des solutions multi-échelles}
     Les solutions des équations d'ADR sont souvent multi-échelles en temps et en espace \cite{duart2011} : pour obtenir une précision donnée, chaque zone spatio-temporelle 
     requiert des niveau de résolution différents. Par exemple pour un problème de combustion, tant que l'allumage n'est pas initié,
-    un pas de temps et une résolution spatiale grossiers représentent fidèlement le systèmes. En revanche après l'allumage,
-    le pas de temps doit être réduit drastiquement pour rendre compte de la complexité des réactions de combustion déclenchées et,
+    un pas de temps et une résolution spatiale grossiers représentent fidèlement le système. En revanche après l'allumage,
+    le pas de temps doit être réduit drastiquement pour rendre compte de la complexité des réactions de combustion déclenchées
+    \footnote{Par exemple : création d'espèces intermédiaires à temps de vie court, couplage entre la réaction et la diffusion de chaleur...}
+    et,
     proche de la flamme, une résolution spatiale élevées est nécessaire pour rendre compte de sa structure complexe, alors que 
     loin de la flamme une résolution grossière reste suffisante.
     Ainsi soit la résolution reste faible mais la précision médiocre ; 
-    soit elle est élevée partout mais une grande partie du coût en calcul est en mémoire est injustifié, 
+    soit elle est élevée partout mais l'usage des ressources computationnelles et de la capacité mémoire est inefficace, 
     car une part significative de la simulation ne requiert pas une telle résolution.
 
         
@@ -70,7 +72,7 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
 
     % \textbf{La première difficulté} pousse à utiliser des stratégies d'adaptation de maillage pour disposer d'un maillage précis seulement où cela est nécessaire à la représentation fidèle de solution
     % \footnote{Si la solution est très régulière par endroit, il n'est pas nécessaire d'avoir des mailles trop fines, c'est un coût en calcul est en mémoire non-nécessaire.
-    % A l’inverses là où la solution est complexe, ce coût est justifié puisque nécessaire à la representation fidèle de la solution.}.
+    % A l'inverses là où la solution est complexe, ce coût est justifié puisque nécessaire à la representation fidèle de la solution.}.
     % Plusieurs stratégies d'adaptation existent et se déclinent en deux grandes catégories\cite{Vivarelli2025Fluids}:
     % \begin{enumerate}
     %     \item Les approches \textit{features-based} utilisent une quantité locale de la solution (par exemple la vitesse de l'écoulement) 
@@ -91,7 +93,7 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
     \label{par:intro_etat_art}
     Pour parer ces difficultés trois familles de stratégies existent:
     \begin{enumerate}[label=\Alph*.]
-        \item Le découplage d’opérateurs, permet de développer des schéma non-monolithique ou chaque opérateur est traité indépendamment des autres selon ses propriétés. 
+        \item Le découplage d'opérateurs, permet de développer des schémas non-monolithiques où chaque opérateur est traité indépendamment des autres avec une méthode adaptée à ses propriétés. 
         \item L'adaptation en espace, permet d'adapter localement la finesse du maillage, une résolution spatiale où la structure de la solution le demande (forts gradients, discontinuités...)
         et une résolution plus faible où la solution est lisse, simple, régulière.
         \item L'adaptation du pas de temps (non-abordé ici mais traité par exemple en \cite{duart2011}).
@@ -99,39 +101,40 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
     Voici un bref état de l'art des stratégies de découplage d'opérateur et d'adaption en espace qui sont au coeur du stage.
     \subsubsection{Les stratégies de découplage d'opérateurs}
         Deux approches de découplage d'opérateurs existent : la séparation (ou \textit{splitting}) d'opérateurs et les méthodes implicites-explicites (ImEx).
-        La frontière est poreuse entre ces deux concepts puisque certains schéma de \textit{splitting} peuvent être vu comme des ImEx. 
+        La frontière est poreuse entre ces deux concepts puisque certains schémas de \textit{splitting} peuvent être vus comme des ImEx. 
         Des détails mathématiques complémentaires sur les méthode ImEx sont présentés en \ref{par:ImEx_presentation}.\par
         \textbf{Le \textit{splitting}} repose sur un développement de Taylor de l'exponentielle de matrice.
         Il s'agit en pratique de simuler les opérateurs les un après les autres de sorte que le résultat soit ne défèrent d'un schéma monolithique
         qu'à une erreur de \textit{splitting} maîtrisée.
         Concrètement, la solution de l'EDP :
         \begin{align}
-            \notag\text{Trouver }u \in \mathcal F (\mathbb R^+,U) \text{ tel que:}\\
-            \dt{u} = Au + Bu,\\\notag
-            u(t=0,\cdot) = u_0(\cdot).
+            \notag\text{Pour } U \text{ un espace fonctionnel sur }\mathbb R^d \text{ et A et B deux opérateurs de } U \text{ dans } U,\\\notag 
+            \text{trouver }u \in \mathcal F (\mathbb R^+,U) \text{ tel que:}\\
+            \dt{u} = Au + Bu,\\
+            u(t=0,\cdot) = u_0(\cdot) \in U.
         \end{align}            
         s'écrit comme :
         \begin{align}
             u(t,\cdot) = e^{t(A+B)}u_0(\cdot).
         \end{align}
-        où $e^{\cdot(A+B)} : \mathbb R^+ \rightarrow U$ est le semi-groupe correspondant à l'EDP (si $A$ et $B$ sont des matrices, c'est simplement l’exponentielle de matrice).
-        Le schéma de \textit{splitting} de Lie, précis à l'ordre un repose sur le développement suivant:
+        où $e^{\cdot(A+B)} : \mathbb R^+ \rightarrow U$ est le semi-groupe correspondant à l'EDP (si $A$ et $B$ sont des matrices, c'est simplement l'exponentielle de matrices).
+        Le schéma de \textit{splitting} de Lie, précis à l'ordre un, repose sur le développement suivant:
         \begin{align}
             e^{\Delta t(A+B)}u_0 = e^{\Delta tB} \underbrace{\circ e^{\Delta tA}u_0}_{\tilde{u_0}} + \underbrace{\mathcal O (\Delta t^2)}_{\text{Erreur de \textit{splitting}}}.
         \end{align}
         En acceptant cette erreur de splitting local $ \mathcal O (\Delta t^2)$, pour passer d'un état $u_0$ au temps $t$ à un état $u_1$ au $t+\Delta t$, 
         il suffit de simuler l'opérateur $A$ à partir de $u_0$ pendant $\Delta t$ pour obtenir un état intermédiaire $\tilde{u}_0$,
         puis de simuler l'opérateur $B$ à partir de $\tilde{u}_0$ pendant $\Delta t$ pour obtenir $u_1$.
-        À aucun moment ne sont précisés les schémas utilisés pour simuler $A$ et $B$, chacun peut être choisit spécifiquement pour l'opérateur simulé.
-        Le \textit{splitting} vient au prix d'une erreur entachée d'un terme supplémentaire : l'erreur de \textit{splitting}.
+        À aucun moment ne sont précisés les schémas utilisés pour simuler $A$ et $B$, chacun peut être choisi spécifiquement pour l'opérateur simulé.
         L'avantage est la liberté totale concernant le choix des schémas simulant chaque opérateur.
+        Cependant, le \textit{splitting} vient au prix d'une solution entachée d'un terme d'erreur supplémentaire.
         Un des schémas de \textit{splitting} les plus utilisés est le schéma de Strang \cite{Strang1968}, 
         il permet de découpler deux opérateurs avec une précision d'ordre deux en temps.\par
         \textbf{Les méthodes ImEx} se distinguent du \textit{splitting} classique en imposant des conditions entre les schémas utilisés pour chaque opérateur, 
         espérant tirer de cette contrainte une erreur de découplage plus faible et potentiellement monter en ordre plus facilement.
         Les premières méthodes ImEx (hors \textit{splitting}) virent le jour à la fin des années 1990 
         avec les méthodes Runge et Kutta additives (ARK) par Ascher \textit{et al} \cite{ASCHER1997151},
-        complétés dans les année 2000 par \cite{KENNEDY2003139} puis par \cite{pareschi2010implicitexplicitrungekuttaschemesapplications}.
+        complétées dans les année 2000 par \cite{KENNEDY2003139} puis par \cite{pareschi2010implicitexplicitrungekuttaschemesapplications}.
         Ces méthode reposent sur une combinaison de plusieurs méthodes Runge et Kutta (une par opérateur) préservant un ordre de convergence global.
         Cela a pavé la voie à des méthodes ImEx plus complexes intégrant par exemples des méthodes stabilisées \cite{Abdulle2013} 
         ou encore à des méthodes ImEx couplées espace-temps, faites sur mesures pour une équation spécifique \cite{rebou2024}.
@@ -143,23 +146,23 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
         Plusieurs stratégies d'adaptation en espace existent et se déclinent en deux grandes catégories\cite{Vivarelli2025Fluids}:
         \begin{enumerate}
             \item Les approches \textit{features-based} utilisent une quantité locale de la solution (par exemple la vitesse de l'écoulement) 
-            et ses gradients pour inférer localement le besoin de résolution spatial et adapter en conséquence.
+            et ses gradients pour inférer localement le besoin de résolution spatiale et l'adapter en conséquence.
             \item Les approches \textit{goal-based} utilisent une fonction de coût reflétant la qualité globale de la solution selon l'adaptation choisie.
             Généralement la fonction de coût est issue d'un problème adjoint sur une quantité d'intérêt.
         \end{enumerate}
         \paragraph{La multi-résolution adaptative (MRA)}
         Le stage se centre sur la \textit{multi-résolution adaptative} \cite{harten1994} qui
         ne tombe dans aucune des deux catégories précédente. Puisqu'elle est fondée avant tout sur des arguments issus de la théorie de l'information.
-        L'origine de la multirésolution adaptative remonte aux travaux d'Ami Harten \cite{harten1994} dans les années 1990 qui adapte 
+        l’application de la multirésolution adaptative à la simulation numérique remonte aux travaux d'Ami Harten \cite{harten1994} dans les années 1990 qui adapte 
         une méthode de compression de donnée par analyse multi-échelle aux algorithmes de simulation.
         Ces travaux furent par la suite prolongés entre autre dans \cite{Kaibara2001,Cohen2003}.
         Cette technique permettant de réduire drastiquement les temps de simulation a été largement appliquée et 
         est une approche très compétitive \cite{compare_MRA_AMR} pouvant tirer parti des infrastructures de calcul moderne (multi-coeur, GPU) \cite{GPU_bench}.\par
         Une présentation mathématique est proposée dans le préambule mathématique en \ref{par:explication_MRA}.
-        Succinctement, avec un schéma MRA, la solution est représentée sur plusieurs grilles de finesses différentes.
+        Succinctement, avec un méthode MRA, la solution est représentée sur plusieurs grilles de finesses différentes.
         L'adaptation (compression) consiste à ignorer l'information superflue contenue sur les grilles les plus fines, là où la solution est assez régulière.
-        À une erreur de compression et de reconstruction près, un niveau de résolution maximal (grille fine) peut être retrouvé 
-        grâce à une reconstruction par interpolation polynomiale (décompression).\par 
+        À une erreur de compression/reconstruction près, un niveau de résolution maximal (grille fine) peut être retrouvé 
+        grâce à une reconstruction par interpolation polynomiale (décompression/prédiction).\par 
 % 
     % \subsubsection{Motivation du sujet initial}
     % Le sujet initial était d'étudier l'usage conjoint des méthodes ImEx et de la MRA pour déterminer l'existence ou non de couplages délétères entre ces deux méthodes.\par 
@@ -204,25 +207,24 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
     \newpage
     \section{Problématique}
     \label{par:problematique}
-        Adapter spatialement un schéma numérique est clé sur les problèmes advection-diffusion-réaction qui sont souvent multi-échelles.
+        L'adaptation spatiale est clé sur les problèmes advection-diffusion-réaction qui sont souvent multi-échelles.
         Cependant, cela introduit des perturbations susceptibles d'altérer les propriétés du schéma.
         Concernant l'adaptation par multirésolution adaptative, le travail \cite{belloti_et_al_2025} a récemment révélé et étudié 
         ces perturbations sur des problèmes d'advection. 
-        Toutefois, ces interactions demeurent mal comprises d'un point de vu général.
-        Cela dépend \emph{a priori} de nombreux de facteurs comme l'EDP, le schéma ou encore la façon dont la MRA est mise en place. 
-        En effet il existe plusieurs stratégies d'adaptation par multirésolution adaptative : 
+        Toutefois, ces interactions demeurent mal comprises d'un point de vue général.
+        Cela dépend \emph{a priori} de nombreux facteurs comme l'EDP, le schéma ou encore la façon dont la MRA est mise en place. 
+        En effet il existe plusieurs stratégies d'adaptation par multirésolution adaptative (plus de détails en \ref{par:contrib_2:cadre}) : 
         \begin{itemize}
-            \item \hlblue{\textit{L'approche standard}} est de faire évoluer la solution sur le maillage adapté (compressé) à partir des valeurs du maillage adapté - approche dite \emph{sans reconstruction des flux}.
-            \item \hlperu{\textit{Une approche non-standard}} est de faire évoluer la solution sur le maillage adapté, mais à partir de valeurs reconstruites, décompressées, plus précises - approche dite \emph{avec reconstruction des flux}.
+            \item \hlblue{\textit{L'approche MRA standard}} est de faire évoluer la solution sur le maillage adapté (compressé) à partir des valeurs de la solution adaptée - approche dite \emph{sans reconstruction des flux}.
+            \item \hlperu{\textit{Une approche MRA non-standard}} est de faire évoluer la solution sur le maillage adapté, mais à partir des valeurs de la solution reconstruite, décompressée, plus précises - approche dite \emph{avec reconstruction des flux}.
         \end{itemize}
         Les différences subtiles entre ces deux approches de la MRA suffisent à modifier les interactions avec le schéma ;
-        l'analyse devient d’autant plus difficile que les schémas d’ADR sont généralement complexes (ImEx, splitting, méthodes stabilisées, etc.).
-        \medskip
-    \textbf{Révéler et comprendre les interactions entre l'adaptation spatiale par multirésolution adaptative et les schémas numériques 
+        l'analyse devient d'autant plus difficile que les schémas d'ADR sont généralement complexes (ImEx, splitting, méthodes stabilisées, etc.).\\
+    La problématique du stage est donc : \\\textbf{Révéler et comprendre les interactions entre l'adaptation spatiale par multirésolution adaptative et les schémas numériques 
     utilisés pour simuler les équations d'advection-diffusion-réaction.}
     Pour aborder cette vaste problématique, mon travail se concentre sur les interactions de la MRA avec les schémas de diffusion et de diffusion-réaction
     \footnote{Ce choix est fait car les problèmes d'advections ont déjà été étudiés en \cite{belloti_et_al_2025} et que l'objectif à terme est de proposer une analyse
-    sur les trois opérateurs combinés : advection, diffusion, réaction.}. Il se décompose en trois contributions se focalisant sur différents points du problèmes:
+    sur les trois opérateurs combinés : advection, diffusion, réaction.}. Il se décompose en trois contributions se focalisant sur différents points du problème:
     \begin{enumerate}
         \item[$\diamond$] Quelles sont les propriétés des approches ImEx par rapport au splitting et surtout, quelle approche est la plus impactée par l'adaptation spatiale ?
         \item[$\diamond$] D'où viennent les interactions entre l'adaptation spatiale et l'intégration en temps et comment limiter ce couplage néfaste ?
