@@ -10,13 +10,13 @@ Ce travail s'articule de la manière suivante:
 \item[$\diamond$]\ref{par:contrib_3:etude_ERK2} Première expérience numériques comparant l'erreur en fonction du paradigme d'AMR choisi
 sur le problème de diffusion résolu par le schéma numériques de la contribution antérieure (\ref{par:contrib_2}) - méthode des lignes, Volumes Finis + Runge et Kutta explicite.
 \item[$\diamond$]\ref{par:contrib_3:stab_MRA} Les résultats, inattendus
-ont conduit à formuler l'hypothèse que les schéma \emph{avec} reconstruction serait moins stables que le schéma \emph{sans} reconstruction.
+ont conduit à formuler l'hypothèse que les schéma \emph{avec} reconstruction présenterai des problèmes de stabilité pour certains modes que le schéma \emph{sans} reconstruction n'aurait pas.
 Cependant cette hypothèse est invalidée par une étude de stabilité linéaire.
 \item[$\diamond$]\ref{par:contrib_3:ROCK2} La principale limite de l'étude antérieure est
-la contrainte de stabilités de la méthode explicite imposant . Cela ne permet d'observer que des solutions convergées en temps (erreur spatiale dominante car stabilité $\Rightarrow \Delta t \ll \Delta x$).
+la contrainte de stabilités de la méthode explicite. Cela ne permet d'observer que des solutions convergées en temps (erreur spatiale dominante car stabilité $\Rightarrow \Delta t \ll \Delta x$).
 Pour poursuivre la comparaison dans un contexte où les erreurs temporelles ne sont pas négligeables, une seconde expérience 
 est réalisée remplaçant la méthode ERK2 par la méthode \emph{stabilisée} ROCK2 \cite{abdulle2002fourth} permettant d'accéder à 
 une plus large gamme de pas de temps.
-\item[$\diamond$]\ref{par:contrib_3:eq_equiv} Les résultats numériques pour des pas de temps moins restreint sont encore plus inattendus que les précédents.
-Cependant en les reliant aux travaux théoriques précédents  (\ref{par:contrib_2}), l'ensemble des comportements obtenus sont finalement compris et expliqués.
+\item[$\diamond$]\ref{par:contrib_3:eq_equiv} Les résultats numériques pour des pas de temps moins restreints sont encore plus inattendus que les précédents.
+Cependant en les reliant aux travaux théoriques précédents  (\ref{par:contrib_2}), l'ensemble des comportements obtenus est finalement compris et expliqué.
 \end{itemize}
