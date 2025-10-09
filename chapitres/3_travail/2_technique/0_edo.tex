@@ -47,7 +47,7 @@ c'est un enjeu central de la simulation numérique.
 \subsection{Ordre de convergence d'un schéma}
 L'ordre de convergence permet de lier l'erreur des solutions numérique au pas de temps, c'est-à-dire de quantifier l'efficacité d'un schéma numérique.
 Pour définir la notion d'ordre de convergence d'un schéma numérique, il faut d'abord définir son erreur.
-\begin{definition}[Erreur locale d'un schéma]
+\begin{definition}[Erreur locale de troncature d'un schéma]
     L'erreur locale d'un schéma numérique de résolution d'une EDO est l'erreur que commet le schéma sur un pas de temps.
     Autrement dit si l'on note $u$ la solution de l'EDO à partir d'un état initial $u_0 = u(t=0)$ et $u_1$ l'approximation numérique proposée par la schéma 
     pour un pas de temps $\Delta t$ à partir de l'état $u_0$, l'erreur locale est: 
@@ -60,29 +60,40 @@ Pour définir la notion d'ordre de convergence d'un schéma numérique, il faut 
     L'erreur globale d'un schéma est l'erreur que commet le schéma sur plusieurs pas de temps. 
     Si l'on note $u^n$ la solution numérique au temps $t^n = n \Delta t$, alors l'erreur globale du schéma jusqu'au temps final $T = N \Delta t$ peut être définie comme:
     \begin{align}
-        E(\Delta t) = \sum_{n=0}^N \Vert u^n - u(n^t) \Vert_{\mathbb{R}^d}
+        E(\Delta t) = \max_{0\leq n \leq N} \Vert u^n - u(t^n) \Vert_{\mathbb{R}^d}
     \end{align}
-    ou plus simplement encore:
+    ou plus simplement :
     \begin{align}
         E(\Delta t)=\Vert u^n - u(T) \Vert_{\mathbb{R}^d}.
     \end{align}
 \end{definition}
 
 \begin{definition}[Ordre de convergence]
-    Un schéma numérique de résolution d'une EDO est dit d'ordre $p$ si de manière équivalente:
-    \begin{itemize}
-        \item[$\diamond$] L'erreur locale vérifie : $e(\Delta t) = O(\Delta t^{p+1})$
-        \item[$\diamond$] L'erreur globale vérifie : $E(\Delta t) = O(\Delta t^{p})$
-    \end{itemize}
+    Un schéma numérique de résolution d'une EDO est dit d'ordre $p$ si l'erreur globale vérifie : $E(\Delta t) = O(\Delta t^{p})$
 \end{definition}
+Pour montrer qu'un schéma converge à un ordre $p$, on a recourt au théorème de Lax-Richtmyer.
+Ce dernier requiert la notion de \emph{stabilité au perturbations} : 
+\begin{definition}[Stabilité aux perturbations]
+    Soit le schéma définit par un état initial $u_0$ et la relation : 
+    $$u^{n+1} = u^n + \Delta t f(u^n,t^n,\Delta t),\quad n \in \{0 \dots N-1\}$$
+    Soit un schéma perturbé perturbé partant de $\xi_0$ et défini par la relation : 
+    $$\xi^{n+1} = \xi^n + \Delta t f(u^n,t^n,\Delta t) + \eta_n,\quad \text{où $(\eta_n)$ est une suite de perturbations}$$
+    Alors le schéma est stable aux perturbations s'il ne les amplifie par de manière incontrôlée. C'est-à-dire qu'il existe $M>0$ indépendant de $\Delta t$ tel que :
+    $$\max_{n} \vert u_n - \xi_n \leq M \left(\vert u_0 - \xi_0 \vert + \sum_{n=0}^{N-1}\right)$$
+\end{definition}
+\begin{theorem}[Lax-Richtmyer \cite{MassotSeries2023}]
+Le théorème de Lax-Richtmyer affirme que pour un problème linéaire, 
+le schéma converge à l'ordre $p$ si l'erreur locale vérifie 
+$e(\Delta t) = O(\Delta t^{p+1})$ et que le schéma est stable aux perturbations.
+\end{theorem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\subsection{Stabilité et raideur}\label{par:stabilite_edo}
+\subsection{Stabilité linéaire et raideur}\label{par:stabilite_edo}
 
 Un schéma numérique d'ordre $p$ converge asymptotiquement en $O(\Delta t^p)$ vers la solution exacte d'une EDO lorsque $\Delta t$ est assez petit.
-Cependant, cette convergence n'est effective que si le schéma est \textbf{stable}.  
+Cependant, cette convergence n'est effective que si le schéma est \textbf{linéairement stable}.  
 Un schéma instable conduit à une divergence de la solution numérique : en pratique, au-delà d'un pas de temps critique $\Delta t_0$, la norme $\Vert u^n \Vert$ croît sans borne%
 \footnote{Phénomène souvent appelé \og explosion numérique\fg.}, comme illustré figure~\ref{fig:stabilite_schema}.
 Ainsi, pour entrer dans le régime asymptotique de convergence, il faut respecter une contrainte de stabilité de type $\Delta t \leq \Delta t_0$.  
@@ -95,66 +106,49 @@ De manière générale, les schémas explicites sont plus sensibles à ces contr
     \caption{Illustration du comportement attendu de l'erreur d'un schéma d'ordre deux dont le seuil d'instabilité est $\Delta t > 10^{-3}$.}
     \label{fig:stabilite_schema}
 \end{figure}
-
-\begin{definition}[Stabilité d'un schéma numérique]
-Un schéma numérique $\bigl(u^n\bigr)_{n\in\mathbb{N}} \in (\mathbb{R}^d)^{\mathbb{N}}$ est dit stable si la norme de la solution ne croît pas d'un pas de temps à l'autre :
+Pour définir la notion de stabilité linéaire, il faut introduire l'équation-test de Dahlquist dépendante d'un paramètre $\lambda \in \mathbb{C}$ :
+\begin{align}y' = \lambda y.\end{align}
+Si $\Re (\lambda) < 0$, alors la dynamique de la solution est dissipative c'est à dire $y(t) \rightarrow 0.$
+Un schéma numérique $(u^n)$ est stable sur cette équation si et seulement si $\left\vert u^{n+1}/u^n\right\vert < 1$ (sinon la solution numérique diverge alors qu'elle est sensée tendre vers $0$).
+Cette condition dépend de \emph{l'indice spectral} $z = \Delta t \, \lambda$. Par exemple, le schéma 
+un schéma d'Euler explicite s'écrit en fonction de $z$ : 
 \begin{align}
-    \Vert u^{n+1} \Vert \leq \Vert u^n \Vert.
+    u^{n+1} = u^n + \Delta t \, \lambda u^n = (1+z)u^n.
 \end{align}
-En pratique, cette condition est satisfaite lorsque $\Delta t$ reste inférieur à un seuil $\Delta t_0$ dépendant du problème et du schéma.
+Et donc la stabilité linéaire est assurée $\iff \left\vert \frac{u^{n+1}}{u^n}\right\vert \leq 1 \iff \vert 1+z \vert \leq 1$. 
+Cela permet de définir la fonction de stabilité d'un schéma.
+\begin{definition}[Fonction de stabilité]
+    Pour un schéma numérique, la fonction de stabilité $S$ est définie comme :
+    \begin{align}
+        S(z) = u^1/u^0.
+    \end{align}
+    Où $u^1$ est l'évolution par le schéma de l'équation de Dhalquist à partir de $u_0 \in \mathbb{C}$ pour $\lambda$ et $\Delta t$ tels que $z = \lambda \, \Delta t$.
 \end{definition}
-
-La stabilité d'un schéma dépend directement du spectre de l'opérateur $A$ dans l'équation différentielle (cf. \eqref{def:def_ODE}).  
+\begin{definition}[Stabilité linéaire d'un schéma numérique]
+    À pas de temps $\Delta t$ fixé, un schéma numérique est linéairement stable pour intégrer le système dynamique
+    \begin{align}
+    \frac{\text d u}{\text d t} = A(u,t), \qquad u(t)\in\mathbb{C}^d
+    \end{align}
+    si pour toute
+    valeur propre $\lambda \in Sp(A)$ telle que $\Re(\lambda) < 0$: 
+    \begin{align}
+        \left\vert S(z = \lambda \, \Delta t) \right\vert \leq 1.
+    \end{align}
+\end{definition}
+Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L-stabilité), développées par exemple dans \cite{HairerAndWanner1,MassotSeries2023}.
+La stabilité d'un schéma dépend directement du spectre de l'opérateur $A$ dans l'équation différentielle.
 Lorsque $A$ possède des valeurs propres à grande partie réelle négative, les méthodes explicites imposent des pas $\Delta t$ extrêmement petits pour rester stables.  
 Dans ce cas, le problème est qualifié de \emph{raide}.
 
 \begin{definition}[Problème raide]
-Un système dynamique
+Un système dynamique est raide si les méthode explicites ne sont pas adéquates pour le résoudre \cite{HairerAndWanner1} ; ou de façon plus formelle le système dynamique :
 \begin{align}
-    \frac{\text d u}{\text d t} = A(u,t), \qquad u(t)\in\mathbb{R}^d
+    \frac{\text d u}{\text d t} = A(u,t), \qquad u(t)\in\mathbb{C}^d
 \end{align}
 est dit \emph{raide} si la jacobienne $J_A$ admet des valeurs propres très négatives en valeur absolue, entraînant une condition de stabilité tellement restrictive que les méthodes explicites deviennent inutilisables en pratique.
 \end{definition}
 
-Pour analyser la stabilité d'un schéma, on utilise la notion de \emph{fonction de stabilité}, introduite à partir de l'équation test linéaire $u'=\lambda u$.
 
-\begin{definition}[Fonction de stabilité]
-Pour un schéma numérique appliqué à l'équation $u'=\lambda u$, on définit l'indice spectral $z=\lambda \Delta t$ et une fonction $S(z)$ telle que
-\[
-U^{n+1} = S(z)\,U^n.
-\]
-Le schéma est stable pour un pas $\Delta t$ donné si et seulement si
-\begin{align}
-    |S(z)| \leq 1.
-\end{align}
-\end{definition}
-
-\begin{exemple}[Équation de Dahlquist]
-Considérons
-\begin{align}
-    u'(t) &= -\lambda u(t), \quad \lambda>0, \\
-    u(0) &= u_0,
-\end{align}
-dont la solution exacte est $u(t)=u_0 e^{-\lambda t}$.
-
-\textbf{Raideur.}  
-Lorsque $\lambda$ est grand, la décroissance est très rapide.  
-Un schéma explicite impose alors un pas $\Delta t$ extrêmement petit pour rester stable : le problème est dit raide car les explicites échouent par instabilité.
-
-\textbf{Fonction de stabilité.}  
-On pose $z=\lambda \Delta t$ et on calcule $S(z)$ :
-\begin{itemize}
-    \item \emph{Euler explicite :} $U^{n+1}=(1-z)U^n \Rightarrow S(z)=1-z$.  
-          Stabilité $\iff 0\leq z\leq 2$, soit $\Delta t \leq 2/\lambda$.  
-          Pour $\lambda\gg 1$, la contrainte est prohibitive.
-    \item \emph{Euler implicite :} $U^{n+1}=\tfrac{1}{1+z}U^n \Rightarrow S(z)=\tfrac{1}{1+z}$.  
-          Ici $|S(z)|\leq 1$ pour tout $z\geq 0$ : aucune restriction sévère, même pour $\lambda$ très grand.
-\end{itemize}
-
-Cet exemple illustre la notion de raideur : un problème est dit raide lorsque les méthodes explicites deviennent inutilisables à cause de la contrainte de stabilité, alors qu'une schéma implicite reste stable.
-\end{exemple}
-
-Pour aller plus loin, on peut introduire des notions plus fines (A-stabilité, L-stabilité), développées par exemple dans \cite{HairerAndWanner1}.
 
 
 % \subsection{Stabilité et raideur}\label{par:stabilite_edo}

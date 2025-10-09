@@ -1,8 +1,7 @@
-    Les équations aux dérivées partielles d'évolutions sont des EDPs dont une des variables différenciée est le temps.
-    Cette section introduit divers éléments d'analyse et simulation pour ces équations.
+    Cette section introduit divers éléments d'analyse et simulation pour équations aux dérivées partielles d'évolutions.
     Elle introduit d'abord la notion de méthode des lignes, une approche classique d'élaboration de schéma numériques pour les EDPs d'évolutions.
     Puis elle présente la notion de volume fini qui est le paradigme de discrétisation spatiale utilisé dans ce stage.
-    Enfin elle détaille quelques outils d'analyse des schémas numériques pour les EDPs dévolution (convergence, stabilité, analyse d'erreur).
+    Enfin elle détaille quelques outils d'analyse des schémas numériques pour les EDPs d'évolution (convergence, stabilité, analyse d'erreur).
     \subsection{Les méthodes des lignes.}
     \begin{definition}[Méthode des lignes]
         Une méthode des lignes est une famille de méthodes numériques pour approximer les EDP d'évolutions
@@ -20,17 +19,20 @@
 
     Il existe également des approches plus sophistiquées, comme les méthodes couplées espace-temps \cite{DARU2004563}, mais ce stage se concentre sur les méthodes des lignes.
 \subsection{Les volumes finis}
-    La technique de discrétisation spatiale utilisée dans ce travaille est celle des \textit{volumes finis}\cite{LeVeque1990}.
+    La technique de discrétisation spatiale utilisée dans ce travaille est celle des \textit{volumes finis} \cite{LeVeque1990}.
     Cette approche discrétise la valeur moyenne sur les cellules du maillage, là où les approches par \textit{différences finies} \cite{LeVeque2007} discrétisent la valeur au noeuds du maillage et 
     celles par \textit{éléments finis} \cite{Ciarlet1982} discrétisent l'espace fonctionnel lui même.
     \begin{definition}[Volumes finis]
-        Donné une discrétisation d'un domaine $\Omega$ par un. maillage en cellules $(C_j)_{j\in J}$ dont le volume de l'ordre $\Delta x^d$ (ou $d$ est la dimension), 
+        Donné une discrétisation d'un domaine $\Omega$ par un maillage de cellules $(C_j)_{j\in J}$ dont le volume de l'ordre $\Delta x^d$ (où $d \in \{1,2,3\}$ est la dimension spatiale), 
         la discrétisation par volume fini approxime les quantités:
         \begin{align}
             U_j = \frac{1}{\vert C_j \vert} \int_{C_j} u(x) d\Omega.
         \end{align}
     \end{definition}
-    Les volumes finis brillent lors de la simulation les lois de conservations, c'est à dire les EDPs de la forme :
+    Les volumes finis sont particulièrement pertinents pour la simulation des lois de conservations\footnote{
+        En effet les solutions de ces équations sont généralement discontinues, la formulation intégrale des volumes finis permet
+        d'assurer "facilement" la quantité conservée par l'équation est effectivement conservée par le schéma \cite{LeVeque1990}.
+    }, c'est à dire les EDPs de la forme :
     \begin{align}
         \dt{u} = div(f(u)).
     \end{align}
@@ -49,8 +51,8 @@
     Malheureusement, paradigme des volumes n'offre qu'un accès au valeurs moyennes de $u$ sur chaque cellule.
     Ainsi, il faut approximer $\Phi_j$ à partir des valeurs moyennes.
     \begin{definition}[Flux numérique]
-        Un \textit{flux numérique} $\Psi$ est fonction permettant d’approximer $\Phi_j$ à partir des valeurs moyennes sur la cellule $j$ et les cellules voisines:
-        $\Psi(U_{j-s} , \ldots , U_j ,\ldots , U_{j+s})$. Le nombre de cellules intervenant dans le calcul $s$ est appelé le \textit{stencil}.
+        Un \textit{flux numérique} $\Psi$ est fonction permettant d’approximer $\Phi_j$ à partir des valeurs moyennes sur la cellule $j$ et les cellules voisines.
+        En 1D cela s'écrit : $\Psi(U_{j-s} , \ldots , U_j ,\ldots , U_{j+s})$. Le nombre de cellules de part intervenant dans le calcul de chaque côté de l'interface $s$ est appelé le \textit{stencil}.
     \end{definition}
 
     \begin{definition}[Flux numérique d'ordre $p$]
@@ -63,7 +65,7 @@
     \end{definition}
     D'un point de vue méthode des lignes, le paradigme des volumes finis donne l'équation semi-discrétisée en espace suivante:
     \begin{align}
-        \dt{U_j(t)} = \Psi \bigl( U_{j-s}(t) , \ldots , U_j(t), \ldots ,  U_{j+s}(t)\bigr),
+        \frac{d}{dt}{U_j(t)} = \Psi \bigl( U_{j-s}(t) , \ldots , U_j(t), \ldots ,  U_{j+s}(t)\bigr),
     \end{align}
     il ne reste qu'à l'intégrer grâce à une méthode d'intégration des EDOs.
 
