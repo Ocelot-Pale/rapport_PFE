@@ -2,14 +2,14 @@
 Pour observer ce qui se produit lorsque l'erreur n'est pas saturée en espace mais que l'erreur temporelle intervient également, 
 le logiciel Ponio \footnote{\href{https://github.com/hpc-maths/ponio}{https://github.com/hpc-maths/ponio}} a été couplé à Samurai.
 Il permet d'utiliser facilement des méthodes d'intégration en temps complexe. 
-Grâce Ponio, l’expérience précédent à été réitérée en remplaçant la méthode ERK2 par la méthode stabilisée ROCK4 \cite{AbdulleMedovikov2001}. 
+Grâce à Ponio, l'expérience précédente a été réitérée en remplaçant la méthode ERK2 par la méthode stabilisée ROCK4 \cite{AbdulleMedovikov2001}. 
 Cette méthode reste explicite (ce qui permet grâce à Samurai d'étudier facilement les différentes façons d'évaluer les flux) 
 tout en assouplissant significativement la contrainte de stabilité.
 \subsubsection{Résultats numériques}
-    Les résultats sont présentés en fig. \ref{fig:convergence_diffusion_rok4}. Chaque graphique correspond à un paramétrage différent de l'MRA. 
-    Les solutions sont comparées à une solution convergée en temps afin d'isoler les erreurs temporelles et celles liées à la MRA de l'erreur spatiale.
-    La grille la plus fine du maillage de niveau 12, ce qui correspond à $2^{12}$ cellules et le maillage peut être représenté sur 6 niveaux, donc du niveau $12$ au niveau $12-6=6$.
+    Les résultats sont présentés en fig. \ref{fig:convergence_diffusion_rok4}.
     Le graphique de droite correspond à un seuil de compression modéré ($\varepsilon = 10^{-5}$) et celui de gauche à un seuil de compression plus restrictif ($\varepsilon = 10^{-6}$).
+    Les solutions sont comparées à une solution convergée en temps afin d'isoler les erreurs temporelles et celles liées à la MRA de l'erreur spatiale.
+    La grille la plus fine du maillage de niveau 12, ce qui correspond à $2^{12}$ cellules et le maillage peut être représenté sur 7 niveaux, donc du niveau $12$ au niveau $6$.
     Sur chaque graphique l'erreur $L^2$ est tracée en fonction du pas de temps pour chaque méthode de calcul du flux numérique:
 {\contour{black}{\textcolor{antiquewhite}{{sans MRA (grille fine)}}}} ;
 {\contour{black}{\textcolor{crimson}{{MRA niveau courant}}}} ;
@@ -27,11 +27,11 @@ tout en assouplissant significativement la contrainte de stabilité.
     \caption{Convergence pour les différentes méthodes numériques.}
     \label{fig:convergence_diffusion_rok4}
 \end{figure}
-    Afin d'éclairer ces résultats surprenants, la figure \ref{fig:error_profiles_landscape} présente le profil des erreurs pour les différents régimes de pas de temps: petit, intermédiaire, grand.\par
-    \textbf{Pour la méthode sur grille fine et la méthode MRA classique :} le profil présente une \textit{cloche centrale} qui "s'écrase" au fur et à mesure que le pas de temps se réduit, de fait l'erreur chute avec le pas de temps.\\
-    \textbf{En revanche pour les méthodes impliquant une reconstruction:} le profil présente également une \textit{cloche centrale} mais au lieu de s'écraser,
+    Afin d'éclairer ces résultats surprenants, la figure \ref{fig:error_profiles_landscape} présente la distribution spatiale au temps final des erreurs pour différents régimes de pas de temps: petits, intermédiaires et grands.\par
+    \textbf{Pour la méthode sur grille fine et la méthode MRA classique :} la distribution de l'erreur présente une \textit{cloche centrale} qui "s'écrase" au fur et à mesure que le pas de temps se réduit, de fait l'erreur chute avec le pas de temps.\\
+    \textbf{En revanche pour les méthodes impliquant une reconstruction:} la distribution de l'erreur présente également une \textit{cloche centrale} mais au lieu de s'écraser,
     elle change progressivement de convexité et de signe.
-    Elle est d'abord positive convexe pour les grands pas de temps puis concave négative pour les petits pas de temps.
+    Elle est d'abord positive concave pour les grands pas de temps puis convexe négative pour les petits pas de temps.
     Pour un régime intermédiaire, la cloche est aplatie en zéro ce qui provoque pour ces pas de temps, la chute brutale de l'erreur.\par
     Ce comportement très intéressant - le changement de signe de la cloche - résulte du couplage entre les erreurs en temps du schéma et les erreurs de la reconstruction de la MRA. 
     Dans la suite, nous allons relier cette observations au équations équivalentes précédemment établies.
@@ -44,21 +44,21 @@ tout en assouplissant significativement la contrainte de stabilité.
 \begin{subfigure}{0.32\textwidth}
     \centering
     \includegraphics[width=\linewidth]{media/4_travail/3/01_error_profile_big_cfl.png}
-    \subcaption{Constante CFL Élevée}
+    \subcaption{Constante Von Neumann Élevée}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\textwidth}
     \centering
     \includegraphics[width=\linewidth]{media/4_travail/3/02_error_profile_medium_cfl.png}
-    \subcaption{Constante CFL Moyenne}
+    \subcaption{Constante Von Neumann Moyenne}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\textwidth}
     \centering
     \includegraphics[width=\linewidth]{media/4_travail/3/03_error_profile_small_cfl.png}
-    \subcaption{Constante CFL Petite}
+    \subcaption{Constante Von Neumann Petite}
 \end{subfigure}
 
-\caption{Profils d'erreur pour différentes valeurs de la constante CFL. C'est le pas d'espace est fixé, 
-cela revient simplement à changer le pas de temps.}
+\caption{Profils d'erreur pour différentes valeurs de la constante de Von Neumann (notée "CFL" sur les graphiques). Le pas d'espace est fixé, 
+faire de contrainte de Von Neumann revient donc simplement à varier linéairement le pas de temps.}
 \label{fig:error_profiles_landscape}
 \end{minipage}%
 }

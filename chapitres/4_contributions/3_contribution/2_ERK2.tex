@@ -18,7 +18,7 @@ Schéma $n^o$ & Niveau d'évaluation des flux & Erreur $L^2$ \\
 
 \hline
 \end{tabular}\end{center}
-L'erreur des différents schéma adaptés est de l'ordre du seuil de compression choisi $\varepsilon = 10^{-4}$ montrant que ce sont bien
+L'erreur des différents schémas adaptés par MRA est de l'ordre du seuil de compression choisi $\varepsilon = 10^{-4}$ montrant que ce sont bien
 les effets de la MRA qui dominent ici.
 \subsubsection{Analyse et hypothèses}
 Ce résultat est assez surprenant puisqu'on s'attendrait à ce qu'une reconstruction plus précise du flux donne de meilleurs résultats.
@@ -26,7 +26,7 @@ Toutefois c'est assez cohérent avec l'analyse théorique en \ref{par:contrib_2}
 Face à ces résultats, plusieurs hypothèses sont émises:
 \begin{enumerate}
     \item La reconstruction introduit des \textit{instabilités} dans le schéma.
-    \item Peut-être que cette tendance ne vaut que sur des solutions avec où l'erreur temporelle pure (sans prendre en compte une éventuelle interaction avec la MRA) est négligeable.
+    \item Peut-être que cette tendance ne vaut que sur des solutions où l'erreur temporelle pure (sans prendre en compte une éventuelle interaction avec la MRA) est négligeable.
     En effet, le caractère explicite de la méthode ERK2 force le choix $\Delta t \propto \Delta x^2$ et donc en pratique $\Delta t \ll \Delta x$.
     Et donc le régime $\Delta t \sim \Delta x$ ne peut pas être exploré expérimentalement.
 \end{enumerate}
