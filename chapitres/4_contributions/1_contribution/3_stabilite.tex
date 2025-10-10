@@ -4,7 +4,47 @@ Dans un premier temps, une étude générale de la stabilité des ImEx ARK est m
 Puis, l'étude de stabilité se centre sur l'application à l'équation de Nagumo. L'ensemble des codes utilisés pour évaluer numériquement et afficher les domaines de stabilités
 sont disponibles à l'adresse: \href{https://github.com/Ocelot-Pale/ImEx_stability_Nagumo}{https://github.com/Ocelot-Pale/ImEx\_stability\_Nagumo}.
 
-\subsection{Présentation des méthodes ImEx étudiées}
+\subsubsection{Présentation des méthodes ImEx étudiées}
+Les deux méthodes utilisées sont les ImEx222 et ImEx232 d’ordre 2, issues de \cite{ASCHER1997151}.  
+Elles associent un schéma explicite de type ERK et un schéma implicite DIRK.
+
+\paragraph{ImEx232}  
+Schéma à trois étages explicites et deux étages implicites, avec $\gamma = \tfrac{2-\sqrt{2}}{2}$ et $\delta = -\tfrac{2\sqrt{2}}{3}$ :
+\[
+\text{Explicite:}\;
+\begin{array}{c|ccc}
+0 & 0 & 0 & 0\\
+\gamma & \gamma & 0 & 0\\
+1 & \delta & 1-\delta & 0\\ \hline
+ & 0 & 1-\gamma & \gamma
+\end{array}
+\quad
+\text{Implicite:}\;
+\begin{array}{c|cc}
+\gamma & \gamma & 0\\
+1 & 1-\gamma & \gamma\\ \hline
+ & 1-\gamma & \gamma
+\end{array}
+\]
+
+\paragraph{ImEx222}  
+Schéma à deux étages explicites et deux étages implicites, avec $\gamma = \tfrac{2-\sqrt{2}}{2}$ et $\delta = 1 - \tfrac{1}{2\gamma}$ :
+\[
+\text{Explicite:}\;
+\begin{array}{c|ccc}
+0 & 0 & 0 & 0\\
+\gamma & \gamma & 0 & 0\\
+1 & 1-\delta & \delta & 0\\ \hline
+ & 1-\delta & \delta & 0
+\end{array}
+\quad
+\text{Implicite:}\;
+\begin{array}{c|cc}
+\gamma & \gamma & 0\\
+1 & 1-\gamma & \gamma\\ \hline
+ & 1-\gamma & \gamma
+\end{array}
+\]
 
 
 \subsubsection{Étude de stabilité générale des RK-ImEx}
