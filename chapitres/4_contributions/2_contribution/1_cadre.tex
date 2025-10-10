@@ -5,7 +5,7 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
     \begin{align}
         \dt{u} = D \,\dxx{u} \quad D >0.
     \end{align}
-    Les problématiques de bords ne sont pas prises en compte dans l'analyse.
+    Le domaine est supposé infini (pas de problèmes de bord).
         \subsubsection{Méthode des lignes utilisée}\label{par:contrib2_MoL}
             Pour résoudre cette équation aux dérivées partielles, une méthode des lignes est utilisée.\\
             \textbf{Discrétisation spatiale: }
@@ -14,7 +14,7 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
             \begin{align}
                 \int_{C_k} \dt{u}(x,t) \, dx = D \int_{C_k} \dxx{u}(x,t) \, dx 
             \end{align}
-            Puis posant la valeur moyenne sur la cellule: $U_k(t) = \frac{1}{\Delta x} \int_{C_k} u(x,t) \, dx$ et en simplifiant l'intégrale de gauche:  
+            Puis posant la valeur moyenne sur la cellule: $U_k(t) = \frac{1}{\Delta x} \int_{C_k} u(x,t) \, dx$ et en évaluant l'intégrale de gauche:  
             \begin{align}
                 \frac{d}{dt} U_k(t) = D \left[ \dx{u}(x_k + \frac{\Delta x}{2},t) - \dx{u}(x_k - \frac{\Delta x}{2},t)\right]
             \end{align}
@@ -49,22 +49,22 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
             \end{align}
 \newpage
         \subsubsection{La multirésolution adaptative, différents différents paradigmes ?}\label{par:paradigme_MRA}
-            La multirésolution adaptative est présenté avec plus de détails en \ref{par:explication_MRA}.    
+            La multirésolution adaptative est présentée avec plus de détails en \ref{par:explication_MRA}.    
             Cette partie clarifie surtout la différence entre les deux schémas MRA étudiés (schémas \texttt{II} et \texttt{III}).
-            Pour rappel, la multirésolution adaptative consiste à compresser la solution sur plusieurs niveau de profondeur,
-            puis a effectuer les calculs sur la compressée.
+            Pour rappel, la multirésolution adaptative consiste à compresser la solution sur plusieurs niveau de maillage,
+            puis a effectuer les calculs sur la solution compressée.
             L'adaptation par MRA d'un schéma se fait de la manière suivante:
             \begin{enumerate}
                 \item Partir d'un état compressé au pas de temps $n$.
                 \item Calculer la solution au pas de temps $n+1$
                 \item Compresser de nouveau selon un seuil de compression $\varepsilon$ grâce à une transformée multiéchelle et à l'heuristique d'Harten.
             \end{enumerate}
-            La valeur d'une cellule à un niveau de détail donné est calculée au temps pas de temps suivant
+            La valeur d'une cellule à un niveau de détail donné est calculée au pas de temps suivant
             grâce à un flux numérique. 
-            Cependant, la manière d'évaluer ce flux numérique n'est pas univoque et donc à plusieurs schémas numériques potentiels:
+            Cependant, la manière d'évaluer ce flux numérique n'est pas univoque et mène donc à plusieurs schémas numériques potentiels:
             \begin{itemize}
                 \item[$\diamond$] Le schéma \texttt{II} calcule le flux numérique
-                à partir des cellules voisines à l’interface évaluées au niveau de détail courant, c'est à dire au niveau de détail choisit par l'adaptation spatiale (voir \ref{fig:schema_algos}). 
+                à partir des cellules voisines à l'interface évaluées au niveau de détail courant, c'est à dire au niveau de détail choisit par l'adaptation spatiale (voir \ref{fig:schema_algos}). 
                 C'est la méthode dite \textit{sans reconstruction des flux}. C'est la paradigme classique en MRA.
                 \item[$\diamond$] Le schéma \texttt{III} calcule le flux numérique 
                 à partir des cellules voisines reconstruites au niveau de détail le plus fin (voir \ref{fig:schema_algos}). C'est la méthode dite \textit{avec reconstruction des flux au niveau le plus fin}.
@@ -125,8 +125,8 @@ En revanche, le schéma \texttt{III} reconstruit par interpolation polynomiale c
             \emph{Dans la suite seul le schéma \texttt{III} est détaillé par soucis de concision.}\\
             \textbf{L'opérateur de reconstruction}
             Étant donné une cellule à un niveau de détail donné $l$, on cherche à la faire évoluer du pas de temps $n$ vers le pas de temps $n+1$.
-            A cette fin, évaluer les flux numérique doivent être évalués à partir les cellules voisines reconstruite par un 
-            prédicteur à trois points (on dit qu'il à un \emph{stencil} de un, car il prend un compte une cellule de part et d'autre de la cellule centrale).\par
+            À cette fin, les flux numériques doivent être évalués à partir des cellules voisines reconstruites par un 
+            prédicteur à trois points (on dit qu'il a un \emph{stencil} de un, car il prend en compte une cellule de part et d'autre de la cellule centrale).\par
             L'opérateur de prédiction d'un niveau à l'autre s'écrit alors : 
             \begin{align}
                 \hat u^{l+1}_{2k} &= +\frac{1}{8} u^l_{k-1} + u^l_k - \frac{1}{8} u^l_{k+1},\\
@@ -157,15 +157,15 @@ En revanche, le schéma \texttt{III} reconstruit par interpolation polynomiale c
                 \end{bmatrix}
             \end{align}
 \textbf{Flux reconstruits au niveau le plus fin: }
-On travaille sur une cellule au niveau courant $l$ (de tailles $2^{\Delta l}\Delta x$) et l’on reconstruit les états au niveau $l+\Delta l$ grâce à des flux
-flux au niveau fin, dont les gradients sont approximé par un pas $\Delta x$. La mise à jour conservative utilisée est donc
+On travaille sur une cellule au niveau courant $l$ (de taille $2^{\Delta l}\Delta x$) et l'on reconstruit les états au niveau $l+\Delta l$ grâce à des flux
+au niveau fin, dont les gradients sont approximés par un pas $\Delta x$. La mise à jour conservative utilisée est donc
 \begin{align}
 u_k^{n+1}
 = u_k^{n}
 + \frac{D\,\Delta t}{\underbrace{\Delta x\,2^{\Delta l}}_{\text{cellule}}}\Bigl(\doublehat{\Phi}_{k+\frac12}^n-\doublehat{\Phi}_{k-\frac12}^n\Bigr)
 + \left(\frac{D\,\Delta t}{\underbrace{\Delta x\,2^{\Delta l}}_{\text{cellule}}}\right)^2 \Bigl(\doublehat{\Psi}_{k+\frac12}^n-\doublehat{\Psi}_{k-\frac12}^n\Bigr).
 \end{align}
-Les flux sont évalués au \emph{niveau fin} (facteurs $1/\Delta x$ et $1/\Delta x^2$ portés par les flux) à partir d’états reconstruits $\doublehat{u}^{\,l+\Delta l}$ :
+Les flux sont évalués au \emph{niveau fin} (facteurs $1/\Delta x$ et $1/\Delta x^2$ portés par les flux) à partir d'états reconstruits $\doublehat{u}^{\,l+\Delta l}$ :
 \begin{align}
 \doublehat{\Phi}_{k-\frac12}^n
 &= \frac{1}{\Delta x}\Bigl(
@@ -190,7 +190,7 @@ Les flux sont évalués au \emph{niveau fin} (facteurs $1/\Delta x$ et $1/\Delta
 \end{align}
 
 \textbf{Forme matricielle du flux reconstruit: }
-Pour simplifier l'usage les outils de calculs formels, il est pertinent d'écrire se qui précède sous forme matricielle.\\
+Pour simplifier l'usage les outils de calcul formel, il est pertinent de réécrire ce qui précède sous forme matricielle.\\
 Pour les flux gauches:
 \begin{align}
 \doublehat{\Phi}_{k-\frac12}^n
