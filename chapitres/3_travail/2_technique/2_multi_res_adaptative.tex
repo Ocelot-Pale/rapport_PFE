@@ -14,9 +14,10 @@
 % certains détails pourraient être ignorés, l'intuition physique pose sont veto et force certains détails à être conservés par précaution, par exemple si un front front d'onde arrive.}.
 % La plus connue est l'heuristique d'Ami Harten \cite{harten1994}.
 
-La multi-résolution adaptative (MRA) est une méthode d'adaptation en espace, très efficace pour les problèmes multi-échelles.
-L'objectif est de concentrer les efforts computationnels là où ils sont nécessaires. 
-Cette méthode est très étudiée par l'équipe du CMAP qui a développé le code Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}
+La multi-résolution adaptative (MRA) est une méthode permettant de représenter une fonction selon différentes échelles.
+Cet outil mathématique peut être exploité pour réaliser l'adaptation en espace d'une solution physique pour concentrer les efforts computationnels là où ils sont nécessaires. 
+Cette approche très efficace pour les problèmes multi-échelles.
+L'adaptation dynamique de maillage par MRA est très étudiée par l'équipe du CMAP qui a développé le code Samurai\footnote{\href{https://github.com/hpc-maths/samurai}{https://github.com/hpc-maths/samurai}}
 centré sur cette méthode.
 \begin{figure}[h]
     \centering
@@ -26,8 +27,7 @@ centré sur cette méthode.
 \end{figure}
 Concrètement cela consiste à augmenter la résolution de la grille de calcul où la solution est complexe et la diminuer où la solution est simple à décrire.
 La MRA est donc une méthode de HPC (\textit{high performance computing}) puisqu'elle vise à optimiser l'allocation des ressources de calcul.\par
-Cette partie introduit le lecteur à cette méthode en présentant d'abord le concept mathématique de transformée multi-échelle (ou transformée en ondelette)
-qui est à la base de la MRA. 
+Cette partie introduit le lecteur à cette méthode en présentant d'abord le concept mathématique de transformée multi-échelle (ou transformée en ondelette). 
 Puis il est expliqué comment la transformée multi-échelle permet d'adapter le maillage pour optimiser la charge computationnelle.
 Une fois ces prérequis établis, l'algorithme typique de mise en oeuvre de la multi-résolution adaptative est décrit.
 Vient enfin une présentation des différentes implémentations de la MRA.
@@ -40,11 +40,11 @@ Vient enfin une présentation des différentes implémentations de la MRA.
 
     \subsubsection{Définition mathématique}
         Les explications sont développées en dimensions un à des fins pédagogiques, la plupart des concepts s'entendent naturellement aux dimensions supérieures. 
-        De plus, la discrétisation de l'espace se fait selon une grille dyadique, d'autre choix pourraient être fait mais c'est un choix simple, naturel et standard.
+        De plus, la discrétisation de l'espace se fait selon une grille dyadique, d'autre choix pourraient être faits \cite{KaberPostel1999} mais c'est un choix simple, naturel et standard.
         Il faut détailler cette notion.
-        \begin{definition}[Grille dyadique]
-            Une grille dyadique ou discrétisation dyadique d'un intervalle $I \subset \mathbb R$ est une série de partitions de $I$ indexées 
-            par des entiers $j \in J \subset \mathbb N^*$.
+        \begin{definition}[Série de grilles dyadiques]
+            Une sériée de grilles dyadiques d'un intervalle $I \subset \mathbb R$ est une série de partitions de $I$ indexées 
+            par des entiers $j \in \{1, \dots,J\}$.
             La discrétisation de niveau $j$ correspond à une partitions de $I$ en $2^j$ intervalles (voir fig. \ref{fig:schema_sdyadique}). Ainsi à chaque changement de niveau, du niveau $j$ vers le niveau $j+1$,
             la résolution de la discrétisation est doublée. Les cases de cette partition dyadique sont indexées par deux entiers: $j$ le niveau de résolution de la grille
             et $k$ l'index de la case au sein de ce niveau. En particulier les cases $2k$ et $2k+1$ du niveau $j+1$ correspondent à la case $k$ du niveau $j$.
@@ -55,17 +55,17 @@ Vient enfin une présentation des différentes implémentations de la MRA.
         $x_k^j = \frac{k+(k+1)}{2} \frac{1}{2^j} = \frac{2k+1}{2^j}.$
         La notion d'ondelette se définit de la manière suivante:
         \begin{definition}[Ondelette]
-            Une ondelette est une fonction $\Phi \in L^2(\mathbb R)$ à support compact de moyenne nulle.
-            Pour qu'une ondelette soit pertinente dans le cas de la transformée en multi-échelle il est requis
-            que la famille $\Bigl(x \mapsto \Phi( 2^j k - x ) \bigr)_{ (j,k)\in \mathbb{Z} \times \mathbb{Z} }$ forme une base de $L^2(\mathbb{R})$.
-            En effet la transformée en ondelette sera une projection sur cette base, un peu comme la transformée de Fourrier est une projection sur les 
-            fonctions trigonométriques.
+            Une ondelette est une fonction $\Phi \in L^2(\mathbb R)$ à support compact de moyenne nulle \cite{MallatWaveletTourChap4}.
         \end{definition}
-        Alors la transformée en ondelette discrète peut être définie:
-        \begin{definition}[Transformée en ondelette discrète - \textit{Discrete Wavelet Transform, DWT}] Donnée une fonction $f$,
-            le coefficient $\gamma_k^j$ de sa DWT sur la cellule $k$ au niveau de résolution $j$ est:
+        Cette fonction permet de définir un ensemble de fonctions :
+            $$\mathcal{B}= \left\{\Phi_{j,k} : x \mapsto \Phi(2^j x - k)\;\middle|\;(j,k) \in \{1, \dots, J\} \times \{0, \dots, 2^j - 1\}\right\}$$
+        Chaque $\Phi_{j,k}$ correspond à l'ondelette de base $\Phi$, mise à l'échelle des cellules du niveau $j$ et translatée pour être centrée sur la cellule $k$.
+        Alors la transformée en ondelette discrète peut être définie comme une projection de $L^2(\mathbb R)$ dans $\mathrm{Vect}(\mathcal{B})$
+        \begin{definition}[Transformée en ondelette discrète - \textit{Discrete Wavelet Transform, DWT}] 
+            La transformée en ondelette de $f \in L^2$ est sa projection dans $\mathrm{Vect}(\mathcal{B})$ : 
+            Le coefficient $\gamma_k^j$ de sa DWT sur la cellule $k$ au niveau de résolution $j$ est:
             \begin{align}
-                &\gamma_k^j = \frac{1}{N_j} \int_\mathbb{R} \Phi(2^j\cdot k - t)f(t) \text{d} t,\\\notag
+                &\gamma_k^j =  \frac{1}{N_j} \left< f \vert \Phi_{i,j} \right>  = \frac{1}{N_j} \int_\mathbb{R} \Phi(2^j\cdot k - t)f(t) \text{d} t,\\\notag
                 &\text{Où $N_j$ est un coefficient normalisation dépendant du niveau $j$.}
             \end{align}
             Contrairement à une transformée de Fourier, les coefficients ne dépendent pas d'une mais de deux variables. En effet, 
