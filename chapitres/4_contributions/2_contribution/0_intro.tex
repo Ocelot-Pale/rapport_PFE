@@ -18,12 +18,12 @@ Pour analyser l'impact de la MRA, les équations équivalentes de trois schémas
 
 \begin{enumerate}
     \renewcommand{\labelenumi}{\Roman{enumi}.}
-    \item Un schéma méthode des lignes d'ordre deux, servant de référence. Il s'agit d'une discrétisation spatiale d'ordre deux par volume finis, 
+    \item Une méthode des lignes d'ordre deux servant de référence. Il s'agit d'une discrétisation spatiale d'ordre deux par volume finis, 
     puis une intégrations temporelle par une méthode Runge et Kutta explicite d'ordre deux.
-    \item Un schéma correspondant au schéma \texttt{I} avec MRA, où les valeurs nécessaires à l'évaluation des flux numériques 
-    est prise au niveau de compression courant.
-    \item Un schéma correspondant au schéma \texttt{I} avec AMR, où les valeurs nécessaires à l'évaluation des flux numériques 
-    sont systématiquement reconstruites au niveau de résolution le plus fin.
+    \item Une méthode correspondant au schéma \texttt{I} mais adapté en espace par MRA, \emph{où les valeurs nécessaires à l'évaluation des flux numériques 
+    est évaluée au niveau de compression courant}.
+    \item Une méthode correspondant au schéma \texttt{I} avec MRA, \emph{où les valeurs nécessaires à l'évaluation des flux numériques 
+    sont systématiquement reconstruites au niveau de résolution le plus fin}.
 \end{enumerate}
 Le schéma \texttt{III} est peu étudié dans la littérature.
 En \cite{belloti_et_al_2025}, il a été montré que cette approche améliore pourtant significativement la qualité des solutions numériques sur les problèmes d'advection.
