@@ -38,9 +38,18 @@ Vient enfin une présentation des différentes implémentations de la MRA.
     Cette partie traite le cas où l'on souhaite obtenir la représentation multi-échelle d'une fonction $u(\cdot) \in L^2{[0,1]}$, 
     mais cela s'étend sans trop de difficulté au dimensions supérieures.
     La représentation multi-échelle se base une description de l'intervalle $[0,1]$ en grilles dyadiques de résolutions différentes
-    et sur deux opérateurs permettant de naviguer d'un niveau de résolution à l'autre : un opérateur de projection et un opérateur de prédiction
+    et sur deux opérateurs permettant de naviguer d'un niveau de résolution à l'autre : un opérateur de projection et un opérateur de prédiction.
     \subsubsection{Les grilles dyadiques}
-        
+        La représentation multi-échelle permet de représenter la solution à différents niveaux de résolution. 
+        Ainsi si l'on choisit de représenter la solution entre des niveau de résolution $\overline j > \underline j$, 
+        il faut définir pour chaque niveau de résolution $j \in \left\{ \underline j, \dots, \overline j\right\}$ une grille dyadique, c'est à dire une partition de $[0,1]$
+        composée de cellules $\left(C^j_k\right)_{k \in \left\{0\dots 2^{j}-1\right\}}$ de tailles $2^{-j}$ où $C^j_k = \left[k\,2^{-j} ,(k+1)2^{-j}\right]$.\par
+        Dans le cadre des volumes finis, une fonction $u \in L^2\left(\left[0,1\right]\right)$ est discrétisée
+        à un niveau de résolution $j$ en associant la cellule $C^j_k$ à la valeur moyenne de $u(\cdot)$ sur cette cellule :
+        \begin{align}
+            u^j_k = \frac{1}{2^{j}} \int_{C_j} u(x) \, \mathrm{d}x.
+        \end{align}
+        \input{media/3_/2_/schema_dyadique.tex}
     \subsubsection{L'opérateur de projection}
         Cet opérateur permet de passer d'une représentation à un niveau de finesse $j$ vers un niveau de représentation plus grossier sur le niveau $j-1$.
         \begin{definition}[Opérateur de projection]
@@ -79,11 +88,47 @@ Vient enfin une présentation des différentes implémentations de la MRA.
         \end{definition}
         Cela peut être reliée à la théorie des ondelettes \cite{KaberPostel1999,duart2011} qui permet entre autre de justifier 
         que de petits détails indiquent un haut niveau de régularité locale puisque, si la fonction est localement $\mathcal{C}^p$
-        alors les détails vérifient : $d_k^j = \mathcal{O}(2^{-p\, j})$ \cite{KaberPostel1999}.
-    \subsubsection{Représentaiton multi-échelle}
+        alors les détails vérifient \cite{KaberPostel1999} : 
+        \begin{align}\label{eq:regularite_details}
+        d_k^j = \mathcal{O}(2^{-p\, j}).
+        \end{align}
+    \subsubsection{Représentation multi-échelle}
+        La représentation multi-échelle d'une fonction discrète se fait de la manière suivante. 
+        Au lieu de stocker la valeur de la fonction en chaque cellule de la grille la plus fine de niveau $\overline j$, mais conserver les valeurs 
+        projetées sur le niveau grossier $\underline j$ : $\left(u^{\underline j}\right)_{j \in {0 \dots 2^{\underline j}-1}}$ ainsi que les détails $d^j_k$
+        pour chaque niveau de résolution $j \in \left\{ \underline{j} +1 \dots \overline j\right\}$, et chaque cellule $k \in \left\{0 \dots 2^j - 1\right\}$.\par
+        Les valeurs sur la grille la plus fine sont obtenables
+        en itérant à travers les différents niveaux l'opérateur de reconstruction et en corrigeant grâce aux détails $d^j_k$ : 
+        \begin{align}
+            u^{\overline j} = Q^{\overline j -1}_{\overline j}
+            \left( Q^{\overline j -2}_{\overline j - 1}
+                \left(\dots  Q^{\underline j}_{\underline j +1}
+                    \left(u^{\underline{j}}
+                    \right) +  d^{\underline j + 1}
+                \right) +  \dots
+            \right) + d^{\overline j}
+        \end{align}
 \subsection{L'adaptation de maillage grâce à la transformation multi-échelle}
-        
+    \subsubsection{L'adaptation grâce à la multirésolution}
+    Le représentation multi-échelle (la multirésolution) peut être utilisée pour adapter dynamiquement le maillage.\\
+    \textbf{Adaptation : } La stratégie est de définir un seuil de compression $\varepsilon >0$ duquel découle un seuil de compression pour chaque niveau de résolution typiquement
+    \footnote{Cette relation est faite à grâce à \eqref{eq:regularite_details} en fonction d'hypothèses de régularités sur la solution de l'EDP simulée.} 
+    $\varepsilon_j = 2^{-j} \, \varepsilon$. 
+    Puis pour adapter le maillage il suffit d'ignorer tous les détails vérifiant $d^j_k < \varepsilon_j$. 
+    Cela permet de garder en mémoire seuls les détails nécessaires à une représentation fidèle à l'ordre $\varepsilon$ de la solution.\\
+    \textbf{Heuristique : } Pour produire des résultats satisfaisant en simulation numérique, cette règle informationnelle est généralement enrichie d'une heuristique.
+    La plus connue, l’heuristique de Harten \cite{harten1994} stipule de conserver un détail $d^j_2k$ même s'il devrait être ignoré ($d^j_2k < \varepsilon_j$) 
+    lorsque le détail précédent $d_j^{j-1}$ est particulièrement élevé, typiquement si $d_j^{j-1} > 2 \, \varepsilon_{j-1}$.
 
+\subsubsection{Algorithme général}
+L'intégration de la MRA s'effectue ainsi : à certain pas de temps, on la solution est adaptée en appliquant la transformée multi-échelle et en supprimant les coefficients de détail superflus, guidé par l'heuristique de Harten. 
+Lorsqu'une zone compressée doit être raffinée de nouveau, seuls les détails nécessaires à la bonne résolution des flux sont reconstruits par le prédicteur polynomial. 
+On ne reconstruit donc pas l'entièreté de la solution, uniquement les coefficients indispensables. La simulation se poursuit ensuite sur cette grille adaptée.
+Ce processus permet d'économiser mémoire et temps de calcul, puisque l'on stocke et manipule uniquement les niveaux de détail requis par la dynamique de la solution.
+\subsubsection{Le cas des volumes finis}
+Dans un cadre de volumes finis, \emph{poursuivre la simulation sur la grille adaptée} signifie prédire, pour chaque cellule de niveau courant
+\footnote{C'est à dire correspondant au niveau de résolution conservé par la multirésolution.}, 
+la valeur moyenne au pas de temps suivant. On procède en évaluant un flux numérique aux interfaces de chaque cellule à partir des valeurs des cellules voisines.
 
 % \subsection{La transformée multi-échelle}
 %     Cette partie présente la transformée multi-échelle discrète. La transformée multi-échelle continue en simulation numérique,
@@ -242,23 +287,7 @@ Vient enfin une présentation des différentes implémentations de la MRA.
 %             les cellules nécessaires à l'évaluation des flux au niveau le plus fin. Ainsi la méthode est quand même adaptée, 
 %             il y a moins de flux à reconstruire puisque la solution est adaptée, mais les valeurs nécessaire à leur évaluations sont reconstruites.
 %             Cette approche est potentiellement plus précise et est peut-être un bon compris entre coût calcul et précision.
-\subsection{Algorithmes d'adaptation spatiale par MRA}
 
-\subsubsection{Algorithme général}
-L'intégration de la MRA s'effectue ainsi : à intervalles réguliers, on adapte la grille en appliquant la transformée multi-échelle et en supprimant les coefficients de détail superflus, guidé par l'heuristique de Harten. 
-Lorsqu'une zone compressée doit être raffinée de nouveau, seuls les détails nécessaires à la bonne résolution des flux sont reconstruits par le prédicteur polynomial. 
-On ne reconstruit donc pas l'entièreté de la solution, uniquement les coefficients indispensables. La simulation se poursuit ensuite sur cette grille adaptée.
-
-Ce processus permet d'économiser mémoire et temps de calcul, puisque l'on stocke et manipule uniquement les niveaux de détail requis par la dynamique de la solution.
-
-\subsubsection{Le cas des volumes finis}
-Dans un cadre de volumes finis, « poursuivre la simulation sur la grille adaptée » signifie prédire, pour chaque cellule de taille variable, 
-la valeur moyenne au pas de temps suivant. On procède en évaluant un flux numérique aux interfaces de chaque cellule à partir des valeurs disponibles.
-En régime classique, les schémas de volumes finis reposent sur des cellules de tailles homogènes d'ordre $\Delta x^d$. 
-L'adaptation par MRA introduit une subtilité : les flux peuvent être calculés directement à partir des valeurs sur la grille adaptée (méthode dite \emph{sans reconstruction}), 
-ou bien à partir de valeurs reconstruites au niveau de détail le plus fin (méthode dite \emph{avec reconstruction}). 
-Dans le premier cas, on profite pleinement de la compression ; dans le second, on limite le nombre de flux à calculer mais on reconstruit localement les valeurs pour obtenir une évaluation plus précise. 
-Cette seconde approche non standard offre potentiellement un meilleur compromis entre coût et précision.
 
 %     \subsubsection{Le débat sur la reconstruction}
 % \subsection{Impact sur les solutions}
