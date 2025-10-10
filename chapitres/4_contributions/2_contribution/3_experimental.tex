@@ -63,7 +63,7 @@
         ce qui n'altère que peut être pas la convergence globale. 
         Enfin, dans les calculs théoriques précédents, il a été fait l'hypothèse que l'évaluation est faite au niveau le plus fin 
         (que la solution est entièrement reconstruite pour l'évaluation des flux), ce qui n'est pas fait en pratique. Cette idée viens du fait qu'intuitivement, 
-        si l'on reconstruit jusqu'au niveau le plus fin les termes servant dans le calcul des flux, alors l'erreur devrait diminuer; c'est ce que suggère \cite{belloti_et_al_2025}.
+        si l'on reconstruit jusqu'au niveau le plus fin les termes servant dans le calcul des flux, alors l'erreur devrait diminuer; c'est ce que suggère \cite{belloti_et_al_2025,Massot2025_meshAdaptation}.
         Cependant cette fonctionnalité n'étant pas encore disponible dans le logiciel de calcul, l'expérience a été réalisée sans reconstruire ls flux au niveau 
         le plus fin mais en prenant la valeur disponible au niveau courant de compression. Il semble peu probable que ce soit la cause de la non-observation du phénomène 
         de perte d'ordre mais cela reste un biais potentiel. Enfin peut être qu'un bug s'est glissé dans mon implémentation mais cela semble peu probable 

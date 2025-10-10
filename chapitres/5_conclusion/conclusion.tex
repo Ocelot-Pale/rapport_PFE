@@ -2,13 +2,18 @@
 \paragraph*{Conclusion scientifique}\label{par:cc1}
 % \subparagraph*{Résumé des travaux -} Une analyse fine de la stabilité 
 \subparagraph*{Résultats —}  
-Les principaux résultats du stage sont : 
-\begin{itemize}
-    \item[$\diamond$] L'interaction entre l'adaptation spatiale par multirésolution et le schéma numérique dépend directement du schéma d'intégration en temps utilisé.
-    En effet, en \ref{par:couplagetempsadaptation}, on constate expérimentalement qu'une méthode ImEx et un \emph{splitting} des même ordre ne réagissent pas de la même manière face à l'adaptation spatiale.
-    Sur le cas particulier étudié, le \textit{splitting} d'opérateur semble moins impacté que la méthode ARK (mais il n'est absolument pas certain que cela se généralise).
-    \item[$\diamond$] La reconstruction des flux au niveau le plus fin dégrade la solution numérique si l'erreur de reconstruction n'est pas négligeable devant l'erreur du schéma initial.
-\end{itemize}
+Le stage propose une analyse de stabilité et de convergence de deux méthode ImEx ARK comparées au splitting sur une équation de diffusion-réaction. 
+Concernant la stabilité, les méthodes ImEx ont des domaines de stabilités complexes et la raideur d'un opérateur peut influencer la stabilité de la méthode vis à vis de l'autre opérateur. 
+Bien identifié, ces propriétés pourraient être exploitées et permettre sur certains cas des contraintes de stabilités moins restrictives que les approches par \textit{splitting}. Concernant la
+convergence, il a été confirmé expérimentalement que les méthodes ARK, ne présentation pas d'erreur de \emph{splitting}, peuvent avoir une constante de convergence plus faible 
+que le \emph{splitting}. En revanche en \ref{par:couplagetempsadaptation}, on constate expérimentalement qu'une méthode ImEx et un \emph{splitting} de même ordre interagissent différemment avec l'adaptation spatiale.
+Sur le cas particulier étudié, le \textit{splitting} d'opérateur semble moins impacté que la méthode ARK (mais il n'est absolument pas certain que cela se généralise).\par
+
+De plus, les équations équivalentes d'une méthode des lignes pour un problème de diffusion pure ont été calculées 
+pour différentes stratégies d'adaptation de maillage (avec et sans reconstruction des flux). 
+Cela permet de montrer théoriquement que la reconstruction des flux, telle que réalisée dans cette approche, dégrade la qualité des solutions numériques.
+Les équations équivalentes ont été mis en perspectives des expériences numériques qui ont confirmé les prédictions théoriques.
+L'analyse mène au résultat principal étant que : la reconstruction des flux au niveau le plus fin dégrade la solution numérique si l'erreur de reconstruction n'est pas négligeable devant l'erreur du schéma initial.
 
 \medskip
 \subparagraph*{Perspectives —}  

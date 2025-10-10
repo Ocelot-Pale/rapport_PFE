@@ -132,7 +132,7 @@ la valeur moyenne au pas de temps suivant. On procède en évaluant un flux num�
 La MRA peut mener à plusieurs stratégies d'évaluation des flux (voir le schéma fig \ref{fig:schema_algos_preambule}). 
 Le plus classique est d'utiliser les valeurs des cellules voisines à l’interface au niveau courant, c'est l'approche \emph{sans reconstruction des flux}.
 Une seconde approche est de reconstruire, grâce au prédicteur, les valeurs des cellules voisines au niveau de résolution le plus élevé, c'est l'approche \emph{avec reconstruction des flux}.
-La seconde approche est plus coûteuse en calculs, mais \emph{a priori} plus précise. C'est en tout cas la conclusion de \cite{belloti_et_al_2025} sur les problèmes d’advection.
+La seconde approche est plus coûteuse en calculs, mais \emph{a priori} plus précise. C'est en tout cas la conclusion de \cite{belloti_et_al_2025,Massot2025_meshAdaptation} sur les problèmes d’advection.
 Ce travail étudie entre autre les differences entre ces deux stratégies sur un problème de diffusion pure et de diffusion-réaction. 
 \begin{figure}[hb!]
 

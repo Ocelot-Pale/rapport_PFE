@@ -213,7 +213,7 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
     \label{par:problematique}
         L'adaptation spatiale est clé sur les problèmes advection-diffusion-réaction qui sont souvent multi-échelles.
         Cependant, cela introduit des perturbations susceptibles d'altérer les propriétés du schéma.
-        Concernant l'adaptation par multirésolution adaptative, le travail \cite{belloti_et_al_2025} a récemment révélé et étudié 
+        Concernant l'adaptation par multirésolution adaptative, le travail \cite{belloti_et_al_2025,Massot2025_meshAdaptation} a récemment révélé et étudié 
         ces perturbations sur des problèmes d'advection. 
         Toutefois, ces interactions demeurent mal comprises d'un point de vue général.
         Cela dépend \emph{a priori} de nombreux facteurs comme l'EDP, le schéma ou encore la façon dont la MRA est mise en place. 
@@ -228,7 +228,7 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
     La problématique du stage est donc : \\\textbf{Révéler et comprendre les interactions entre l'adaptation spatiale par multirésolution adaptative et les schémas numériques 
     utilisés pour simuler les équations d'advection-diffusion-réaction.}
     Pour aborder cette vaste problématique, mon travail se concentre sur les interactions de la MRA avec les schémas de diffusion et de diffusion-réaction
-    \footnote{Ce choix est fait car les problèmes d'advections ont déjà été étudiés en \cite{belloti_et_al_2025} et que l'objectif à terme est de proposer une analyse
+    \footnote{Ce choix est fait car les problèmes d'advections ont déjà été étudiés en \cite{belloti_et_al_2025,Massot2025_meshAdaptation} et que l'objectif à terme est de proposer une analyse
     sur les trois opérateurs combinés : advection, diffusion, réaction.}. Il se focalisant sur différents points du problème:
     \begin{enumerate}
         \item[$\diamond$] Quelles sont les propriétés des approches ImEx par rapport au splitting et surtout, quelle approche est la plus impactée par l'adaptation spatiale ?
