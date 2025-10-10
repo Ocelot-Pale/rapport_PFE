@@ -34,13 +34,12 @@
         Il n'est pas possible d'utiliser la méthode numérique utilisée dans l'étude théorique pour essayer de la valider expérimentalement. 
         En effet, la méthode est une RK2 explicite, elle impose sur ce problème de diffusion une condition de stabilité du type $\Delta t \propto \Delta x^2$,
         ce qui en pratique donne $\Delta t \ll \Delta x$. De fait, la majorité des erreurs sont liés au pas d'espace "grand" devant le pas de temps, et donc
-        si l'on fixe le pas d'espace pour faire converger la méthode en temps, l'erreur est déjà saturée en temps et on n'observe rien. 
-        C'est un classique de l'analyse numérique.
+        si l'on fixe le pas d'espace pour faire converger la méthode en temps, l'erreur est déjà saturée en temps et on n'observe rien - c'est typiquement les inconvenance d'un problème raide. 
         \begin{figure}[htbp]
             \centering
             \includegraphics[width=\textwidth]{media/4_travail/1_AMR/convergence/convergence_temps_SATURATION.pdf}
             \caption{Saturation de la convergence temporelle avec une méthode RKE2 sur l'équation de diffusion. 
-                        L'erreur L² stagne malgré la diminution du pas de temps, illustrant la domination 
+                        L'erreur $L^2$ stagne malgré la diminution du pas de temps, illustrant la domination 
                         de l'erreur spatiale due à la contrainte CFL $\Delta t \propto \Delta x^2$.}
             \label{fig:saturation_rke2}
         \end{figure}
