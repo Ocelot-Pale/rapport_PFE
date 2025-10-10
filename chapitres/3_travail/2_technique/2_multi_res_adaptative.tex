@@ -35,7 +35,7 @@ Vient enfin une présentation des différentes implémentations de la MRA.
 
 \subsection{La représentation multi-échelle}
     La représentation multi-échelle est la clé de voûte de l'adaptation par AMR.
-    Cette partie traite le cas où l'on souhaite obtenir la représentation multi-échelle d'une fonction $u(\cdot) \in L^2{[0,1]}$, 
+    Cette partie traite le cas où l'on souhaite obtenir la représentation multi-échelle d'une fonction $u(\cdot) \in L^2([0,1])$, 
     mais cela s'étend sans trop de difficulté au dimensions supérieures.
     La représentation multi-échelle se base une description de l'intervalle $[0,1]$ en grilles dyadiques de résolutions différentes
     et sur deux opérateurs permettant de naviguer d'un niveau de résolution à l'autre : un opérateur de projection et un opérateur de prédiction.
@@ -128,8 +128,54 @@ Ce processus permet d'économiser mémoire et temps de calcul, puisque l'on stoc
 \subsubsection{Le cas des volumes finis}
 Dans un cadre de volumes finis, \emph{poursuivre la simulation sur la grille adaptée} signifie prédire, pour chaque cellule de niveau courant
 \footnote{C'est à dire correspondant au niveau de résolution conservé par la multirésolution.}, 
-la valeur moyenne au pas de temps suivant. On procède en évaluant un flux numérique aux interfaces de chaque cellule à partir des valeurs des cellules voisines.
+la valeur moyenne au pas de temps suivant. On procède en évaluant un flux numérique aux interfaces de chaque cellule à partir des valeurs des cellules voisines de chaque interface.
+La MRA peut mener à plusieurs stratégies d'évaluation des flux (voir le schéma fig \ref{fig:schema_algos_preambule}). 
+Le plus classique est d'utiliser les valeurs des cellules voisines à l’interface au niveau courant, c'est l'approche \emph{sans reconstruction des flux}.
+Une seconde approche est de reconstruire, grâce au prédicteur, les valeurs des cellules voisines au niveau de résolution le plus élevé, c'est l'approche \emph{avec reconstruction des flux}.
+La seconde approche est plus coûteuse en calculs, mais \emph{a priori} plus précise. C'est en tout cas la conclusion de \cite{belloti_et_al_2025} sur les problèmes d’advection.
+Ce travail étudie entre autre les differences entre ces deux stratégies sur un problème de diffusion pure et de diffusion-réaction. 
+\begin{figure}[hb!]
 
+\begin{center}
+        \begin{tikzpicture}[scale = 0.7]
+            \foreach \i in {0,...,1}{
+                \draw[fill=green!10] ({4*\i},0) rectangle ({4*(\i+1)},1);
+            }
+            \foreach \i in {0,...,3}{
+                \draw[fill=black!10] ({2*\i},-1) rectangle ({2*(\i+1)},0);
+            }
+
+            \foreach \i in {0,...,7}{
+                \draw[fill=black!10] ({\i},-2) rectangle ({(\i+1)},-1);
+            }
+
+            \foreach \i in {0,...,15}{
+                \draw[fill=black!10] ({0.5*\i},-3) rectangle ({(.5*(\i+1))},-2);
+            }
+
+
+            \draw[navy, very thick, <-] (3.9,.9) -- (2,.5);
+            \draw[navy, very thick, <-] (4.1,.9) -- (6,.5);
+
+            % \draw[orange, very thick, <-] (3.9,.5) -- (3,-.5);
+            % \draw[orange, very thick, <-] (4.1,.5) -- (5,-.5);
+
+            \draw[peru, very thick, <-] (3.9,.2) -- (3.75,-2.5);
+            \draw[peru, very thick, <-] (4.1,.2) -- (4.25,-2.5);
+
+            \draw[black, very thick] (4,0) -- (4,1) node[pos=1, above] {interface d'intérêt};
+            \node[left] at (-.2,.5) {niveau $l$ (niveau courant)};
+            \node[left] at (-.2,-.5) {niveau $l+1$ };
+            \node[left] at (-.2,-1.5) {niveau $l+2$};
+            \node[left] at (-.2,-2.5) {niveau $l+3$ (ici, le niveau le plus fin)};
+
+            \draw[navy, very thick,->] (8.5,-3.2) -- (10,-3.2) node[pos=0,  left] {MRA sans reconstruction des flux.};
+            \draw[peru, very thick,->] (8.5,-3.7) -- (10,-3.7) node[pos=0,  left] {MRA avec reconstruction des flux au niveau le plus fin.};
+        \end{tikzpicture}
+    \end{center}
+    \caption{Illustration des deux approches MRA étudiées.}
+\label{fig:schema_algos_preambule}
+\end{figure}
 % \subsection{La transformée multi-échelle}
 %     Cette partie présente la transformée multi-échelle discrète. La transformée multi-échelle continue en simulation numérique,
 %     c'est bien sûr la version discrète qui est utile.
