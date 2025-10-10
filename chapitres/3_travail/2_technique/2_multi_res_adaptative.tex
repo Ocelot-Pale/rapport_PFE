@@ -31,142 +31,194 @@ Cette partie introduit le lecteur à cette méthode en présentant d'abord le co
 Puis il est expliqué comment la transformée multi-échelle permet d'adapter le maillage pour optimiser la charge computationnelle.
 Une fois ces prérequis établis, l'algorithme typique de mise en oeuvre de la multi-résolution adaptative est décrit.
 Vient enfin une présentation des différentes implémentations de la MRA.
-% Enfin l'impact de la multi-résolution sur la qualité des solutions numériques est abordé. 
+% Enfin l'impact de la multi-résolution sur la qualité des solutions numériques est abordé.
 
-\subsection{La transformée multi-échelle}
-    Cette partie présente la transformée multi-échelle discrète. La transformée multi-échelle continue en simulation numérique,
-    c'est bien sûr la version discrète qui est utile.
-    Elle se veut avant tout introductive et omets ou simplifie certaines notions; plus de détails sont donnés en \cite{postePoly}.
-
-    \subsubsection{Définition mathématique}
-        Les explications sont développées en dimensions un à des fins pédagogiques, la plupart des concepts s'entendent naturellement aux dimensions supérieures. 
-        De plus, la discrétisation de l'espace se fait selon une grille dyadique, d'autre choix pourraient être faits \cite{KaberPostel1999} mais c'est un choix simple, naturel et standard.
-        Il faut détailler cette notion.
-        \begin{definition}[Série de grilles dyadiques]
-            Une sériée de grilles dyadiques d'un intervalle $I \subset \mathbb R$ est une série de partitions de $I$ indexées 
-            par des entiers $j \in \{1, \dots,J\}$.
-            La discrétisation de niveau $j$ correspond à une partitions de $I$ en $2^j$ intervalles (voir fig. \ref{fig:schema_sdyadique}). Ainsi à chaque changement de niveau, du niveau $j$ vers le niveau $j+1$,
-            la résolution de la discrétisation est doublée. Les cases de cette partition dyadique sont indexées par deux entiers: $j$ le niveau de résolution de la grille
-            et $k$ l'index de la case au sein de ce niveau. En particulier les cases $2k$ et $2k+1$ du niveau $j+1$ correspondent à la case $k$ du niveau $j$.
-        \end{definition}
-        \input{media/3_/2_/schema_dyadique.tex}
-        Dans ce qui suit il est supposé sans perte de généralité que la discrétisation se fait sur l'intervalle $[0,1]$,
-        ainsi le niveau $j$ correspond à des cellules de tailles $1/{2^j}$ et la cellule $k$ du niveau $j$ est centrée en
-        $x_k^j = \frac{k+(k+1)}{2} \frac{1}{2^j} = \frac{2k+1}{2^j}.$
-        La notion d'ondelette se définit de la manière suivante:
-        \begin{definition}[Ondelette]
-            Une ondelette est une fonction $\Phi \in L^2(\mathbb R)$ à support compact de moyenne nulle \cite{MallatWaveletTourChap4}.
-        \end{definition}
-        Cette fonction permet de définir un ensemble de fonctions :
-            $$\mathcal{B}= \left\{\Phi_{j,k} : x \mapsto \Phi(2^j x - k)\;\middle|\;(j,k) \in \{1, \dots, J\} \times \{0, \dots, 2^j - 1\}\right\}$$
-        Chaque $\Phi_{j,k}$ correspond à l'ondelette de base $\Phi$, mise à l'échelle des cellules du niveau $j$ et translatée pour être centrée sur la cellule $k$.
-        Alors la transformée en ondelette discrète peut être définie comme une projection de $L^2(\mathbb R)$ dans $\mathrm{Vect}(\mathcal{B})$
-        \begin{definition}[Transformée en ondelette discrète - \textit{Discrete Wavelet Transform, DWT}] 
-            La transformée en ondelette de $f \in L^2$ est sa projection dans $\mathrm{Vect}(\mathcal{B})$ : 
-            Le coefficient $\gamma_k^j$ de sa DWT sur la cellule $k$ au niveau de résolution $j$ est:
-            \begin{align}
-                &\gamma_k^j =  \frac{1}{N_j} \left< f \vert \Phi_{i,j} \right>  = \frac{1}{N_j} \int_\mathbb{R} \Phi(2^j\cdot k - t)f(t) \text{d} t,\\\notag
-                &\text{Où $N_j$ est un coefficient normalisation dépendant du niveau $j$.}
-            \end{align}
-            Contrairement à une transformée de Fourier, les coefficients ne dépendent pas d'une mais de deux variables. En effet, 
-            la transformée en ondelette est plus riche d'informations. Là où la transformée de Fourier ne donne qu'une information 
-            sur le contenu fréquentiel d'un signal, la transformée en ondelette donne une information sur le contenu en fréquence \underline{et}
-            sur la localisation de ce contenu fréquentiel.
-        \end{definition}
-
-    \subsubsection{La notion de détails}
-        La multi-résolution adaptative se sert de la transformée multi-échelle pour adapter le maillage, c'est à dire compresser l'information (voir \ref{par:adaptation}).
-        Cela requiert l'introduction de la notion de détail. Ce concept permet de ne pas utiliser la transformée en ondelette pour quantifier le contenu absolu porté par une échelle particulière,
-        mais plutôt à comprendre en quoi ce contenu s'éloigne de ce que les échelles supérieures pourraient laisser supposer, en quoi il est \textit{inattendu}.
-        Pour résumer à partir d'un niveau de résolution $j$, on définit un \textbf{prédicteur} polynomial, qui tente d'inférer l'allure de la fonction au niveau $j+1$.
-        Puis le \textbf{détail} ne cherche pas naïvement à quantifier et localiser l'information contenue aux échelles du niveau $j+1$ mais plutôt, 
-        à quantifier l'écart à la prédiction polynomiale.
-        \paragraph{Le prédicteur}
-            Donné un point central $(x_0,y_0)$, et $2s$ voisins $(x_{-s},y_{-s}),(x_{-s+1},y_{-s+1})\dots (x_{s-1},y_{s-1}),(x_s,y_s)$, un prédicteur polynomial 
-            ponctuel cherche le polynôme $P$ de degré $2s$ passant par ces $2s+1$ points. Cela permet d'inférer des valeurs pour $y$ en tout point $x$.
-            Pour trouver $P(X) = \sum_{k=0}^{2s} a_k X^k$ revient à résoudre le système linéaire:
-            \begin{align}
-                \forall j \in \{-s,\dots 0 ,\dots,s\}: y_j = \sum_{k=0}^{2s} a_k x_j^k
-            \end{align}
-            Ce stage se focalise sur les volumes finis, donc ce n'est pas un prédicteur ponctuel, adapté au différences finies (voir \ref{def:vol_finis}), qui est utilisé mais un prédicteur sur la valeur moyenne. 
-            Il ne cherche à imposer les valeurs en chaque point mais à fixer la valeurs moyenne sur chaque cellule,
-            cela ajoute peu de complexité puisqu'il suffit d'ajouter une intégration lors de l'établissement du système linéaire pour travailler sur les valeurs moyennes.
-            Pour l'usage que souhaité ici, il s'agit en d'évaluer la solution sur la cellule $k$ du niveau de résolution $j$ 
-            (ce qui correspond à la cellule de centre $x_k^j = (k+1/2) 2^{-j}$) au niveau de résolution supérieure $j+1$,
-            il faut donc appliquer le correcteur linéaire centré sur $x_k^j$ en $x_{\pm} = \pm 2^{-(j+1)}$. En pratique cela revient à faire une combinaison linéaire des $2s$ voisins
-            qui vient corriger la valeur en $x_k^j$.
-            Le prédicteur dépend donc du nombre de voisins pris de part et d'autre, ce nombre noté $s$ et appelé le \textit{stencil} du prédicteur.
-            Plus $s$ est grand plus l'opération de prédiction est précise (mais peut éventuellement devenir bruitée\footnote{Ce n'est pas détaillé ici mais le lecteur se réfèrera à la théorie de l'interpollation...})
-            et plus elle est coûteuse. Le coût exact n'est pas évident à estimer puisque qu'une combinaison linéaire
-            quelques termes se fait en $O(1)$ sur les machines modernes, toutefois quelques subtilités détaillé en \ref{par:adaptation} interviennent.
-            Ainsi les valeurs usuelles tu stencil sont généralement $s=1$ ou $s=2$
-
-        \paragraph{Les détails}
-            À présent que le prédicteur à été décrit le concept de détail peut enfin être abordé. On suppose que l'on dispose d'une fonction $\tilde u^j$
-            qui soit une approximation de la fonction $u$, au niveau de résolution $j$. Comme vu précédemment, le prédicteur permet d'obtenir une approximation 
-            de $u$ au niveau $j+1$ grâce à $\tilde u^j$. Cette prédiction est noté $\hat u^{j+1}$. Les détails à la résolution $j+1$ sont alors définis comme les 
-            coefficient de la transformée multi-échelle de la différence entre cette prédiction et la vraie fonction: $u-\hat u^{j+1}$.
-            Alors les coefficients de détails n'encode que ce qui n'était pas prédictible par l'interpolateur polynomial. 
-            Ce concept de détail est essentiel. 
-            En pratique on ne réalise pas l'opération comme expliqué plus haut puisque à prédicteur et ondelette fixés $\Phi$, il existe une \textit{ondelette duale} $\Psi$
-            qui permet directement d'obtenir les détails pour la DWT sur $\Phi$ en réalisant une DWT sur $\Psi$ ce qui accélère considérablement les calculs.\par
-            Une autre façon de voir la notion de détail est la suivante:
-            pour un niveau de résolution $j$ on note $V_j = \text{Vect}\Bigl((\Phi_k^j)_k\Bigr)$, c'est à dire l'ensemble de fonction 
-            représentables par les ondelettes de niveau $j$.
-            Pour les ondelettes classiques\footnote{C'est en tout cas vrai pour les ondelettes de Haar\cite{postePoly}.} la relation suivante est vérifiée
-            $V_0 \subset V_1 \subset V_2 \subset \ldots \subset V_N$. Et bien alors l'espace des détails, celui accessible par l'ondelette duale est $Q_{j+1}$
-            le supplémentaire de $V_j$ dans $V_{j+1}$, en d'autre terme, il représente toutes les informations, les \textit{détails} contenues dans 
-            le niveau d'approximation $V_{j+1}$ qui n'étaient pas prise en compte par $V_j$ (à l'échelle $j$ ce n'était que des détails). 
-            Les coefficients de la décomposition par l'ondelette duale sont  Ainsi grâce à l'ondelette duale, 
-            il est possible de calculer les coefficients de détails $d_k^j$ qui à chaque montée en résolution n'encode que l'information qui n'était 
-            pas contenue dans la décomposition en ondelette au niveau précédent.\par
-            Les deux visions ne sont pas rigoureusement les mêmes, la première représente ce qui est réalisé en pratique lors de la MRA, la seconde 
-            est la vision standard de la théorie des ondelettes. Toutefois les deux approches ont la même motivation, ne calculer et ne mettre en valeur à chaque
-            niveau que ce qui est nouveau, ce qui n'était pas contenu dans les niveaux précédents.
+\subsection{La représentation multi-échelle}
+    La représentation multi-échelle est la clé de voûte de l'adaptation par AMR.
+    Cette partie traite le cas où l'on souhaite obtenir la représentation multi-échelle d'une fonction $u(\cdot) \in L^2{[0,1]}$, 
+    mais cela s'étend sans trop de difficulté au dimensions supérieures.
+    La représentation multi-échelle se base une description de l'intervalle $[0,1]$ en grilles dyadiques de résolutions différentes
+    et sur deux opérateurs permettant de naviguer d'un niveau de résolution à l'autre : un opérateur de projection et un opérateur de prédiction
+    \subsubsection{Les grilles dyadiques}
         
-        \paragraph{Intuition sur les détails}
-            Lorsque l'on s'intéresse aux coefficients de détails $d_k^j$,
-            l'indice $j$ de \textit{dilatation} fixe l'échelle analysée, c'est à dire la longueur d'onde analysée. Par exemple si $j=5$, 
-            les coefficients $d^5_k$ donne une information sur l'information portée par les longueurs d'onde de l'ordre de $2^{-5} = 1/32$.
-            La variable $k$ précise l'indice de la cellule analysée.
-            Par exemple $\Vert d^5_10 \Vert > \Vert d^5_5 \Vert$ signifie que l'information portée par l'échelle $1/32$
-            est plus importante au voisinage de la case $10$ qu'au voisinage de la case $5$.
-            De même si $\Vert d^j_7 \Vert > \Vert d^{j+1}_{14} \Vert$ cela signifie qu'au voisinage de $x=\frac{7}{2^j}$
-            les longueurs d'ondes $\frac{1}{2^j}$ sont plus présentes que les longueurs d'ondes $\frac{1}{2^{j+1}}.$
-            Pour se fixer les idées, c'est comme si la transformée de Fourrier n'avait qu'une vision globale du contenu en fréquence, 
-            quelle ne voyait que la moyenne sur le domaine de la transformée en ondelette pour chaque longueur d'onde.
+    \subsubsection{L'opérateur de projection}
+        Cet opérateur permet de passer d'une représentation à un niveau de finesse $j$ vers un niveau de représentation plus grossier sur le niveau $j-1$.
+        \begin{definition}[Opérateur de projection]
+            Donné un niveau de résolution $j$ et deux cellules voisines d'indice $2k$ et $2k+1$
+            l'opérateur de projection $P_{j-1}^j$ du niveau $j$ vers $j-1$, moyenne les valeurs des deux cellules : $u^j_{2k}$ et $u^j_{2k+1}$
+            pour obtenir la valeur moyenne sur la valeur de la cellule d'indice $k$ du niveau plus grossier $j-1$: $u_k^{j-1} = \frac{u_{2k}^j + u_{2k+1}^j}{2}$.
+            En notant $u^j = \left(u^j_k\right)_{k}$ l'ensemble des cellules du niveau $j$ on à : 
+            \begin{align}u^{j-1} = P^j_{j-1} \left(u^j\right).\end{align}
+        \end{definition}
+    \subsubsection{L'opérateur de prédiction}
+        Cet opérateur permet de passer d'un niveau de résolution grossier $j$ à un niveau plus fin $j+1$.
+        Bien sûr lorsque l'on utilise cet opérateur de l’information est perdue, il donne accès à une \emph{prédiction} $\underbrace{\tilde{u}_k^{j+1}}_{\mathrm{pred.}} \neq \underbrace{u_k^{j+1}}_{\mathrm{exa.}}$.
+        \begin{definition}[Opérateur de prédiction]
+            Il existe une infinité d'opérateurs de prédiction.
+            Pour être un opérateur de prédiction $Q_{j+1}^j$ du niveau $j$ vers le niveau $j+1$ doit vérifier la condition suivante : 
             \begin{align}
-                \Vert TF\bigl[ f \bigr](\omega = 2^j) \Vert^2 \sim \Vert \sum_{k} d^j_k \Vert^2.
+                P^{j+1}_j \circ Q_{j+1}^j = Id.
             \end{align}
-            \par 
-            Grâce à cette notion de détaille la décomposition multi-échelle permet une description de la solution physique où l'apport à la solution de chaque échelle,
-            de chaque distance typique est quantifié, les coefficients $d_k^j$ décrivant l'information contenue dans les échelles de l'ordre de $2^{-j}$.
-\subsection{L'adaptation}\label{par:adaptation}
-    \subsubsection{La compression par décomposition multi-échelle}
-            Pour compresser une fonction (ou une image comme dans le processus \texttt{jpg}), le processus est très simple, il suffit de fixer un seuil de compression $\varepsilon > 0$,
-            de calculer les coefficients de détails de la fonction, 
-            puis d'omettre (en pratique de retirer de la mémoire) les coefficient dont la norme est inférieure à $\varepsilon$.
-            En pratique le coefficient de compression dépend du niveau étudié puisque le volume des cellules mise en jeu chute avec le niveau $j$
-            (un détail de $10^{-2}$ à moins d'importance s'il porte sur des cellules de taille $10$ que sur des cellules de taille $10^{-5}$).
-            En pratique l'algorithme serait le suivant:
-            \begin{enumerate}  
-                \item Calculer les coefficients $d_k^j$.
-                \item Pour chaque niveau $j$ et chaque coefficient $d_k^j$: Si $\vert d_k^j \vert < \varepsilon_j = 2^{-j}\varepsilon$, alors $d_k^j\leftarrow 0$, les coefficients sont seuillés.
-                \item[] Pour reconstruire au niveau de résolution souhaité: utiliser les détails jusqu'au niveau $j$ le plus fin conservé puis utiliser le prédicteur 
-                pour interpoler jusqu'au niveau désiré. Le vocabulaire est heureusement choisit, pour compresser on omet les détails négligeables l'on conserve les détails importants.
-            \end{enumerate}
-    \subsubsection{L'adaptation de maillage et l'heuristique d'Harten}
-            L'adaptation de maillage, est une variation de la compression par décomposition multi-échelles précédemment décrite. 
-            C'est est une opération de compression de solutions physiques \textit{prudente}.
-            Les coefficients y sont seuillés de manière moins impitoyable: certains coefficients qui devraient être écartés
-            par la compression sont malgré tout préservés. Ce choix se fait sur la base d'intuitions physiques, 
-            la plus connue étant \textit{l'heuristique d'Harten}, introduite par Ami Harten \cite{harten1994}, le père de la MRA.
-            Elle stipule que même si un coefficient de détail $d_k^j$ devrait être supprimé, si le niveau de détail du niveau supérieur 
-            (c'est à dire $d^{j-1}_{\lfloor k/2 \rfloor}$) est particulièrement élevé, par exemple qu'il est par deux fois supérieur au seuil $\varepsilon_{j-1}$,
-            alors le coefficient doit être conservé. En d'autre terme, même si la compression considère l'information à l'échelle $j$ négligeable,
-            l'intuition physique pose son véto puisque les échelles supérieurs sont de grandes magnitudes et que cela présage que dans 
-            les pas de temps a venir les échelles seront nécessaires à la fidèle capture des phénomènes physiques simulés. Par exemple cela peut signifier qu'un front
-            d'onde est en train d'arriver dans les zone étudiée, il faut donc que la simulation puisse en capter toute la richesse.
+        \end{definition}
+        En pratique il s'agit d'un opérateur linéaire qui approxime les cellule $u^{j+1}_{2k}$ et $u^{j+1}_{2k+1}$
+        par une combinaison linéaire de $u^j_k$ et de ses voisins.\par 
+        \textbf{Précision de l'opérateur de prédiction : } On dit que le prédicteur est d'ordre $p$
+        si pour toute fonction $u(\cdot)$ polynomiale d'ordre $p$ échantillonné sur la grille de niveau $j+1$ : $u^{j+1}$,
+        on a exactement :
+        \begin{align}Q^{j}_{j+1} \circ P^{j+1}_j \left(u^{j+1} \right)= u^{j+1}.\end{align}
+        Cela signifie entre autre que $Q^j_{j+1}$ est en mesure de reconstruire une fonction $\mathcal{C}^p$ avec une précision $\mathcal{O}((2^{-j})^p)$.
+    \subsubsection{Les détails}
+        Les détails quantifient l'écart entre la valeur réelle de la fonction et sa reconstruction. 
+        Ils permettent de quantifier la régularité locale de la fonction.
+        \begin{definition}[Détails]
+            Le niveau de détail $d_k^j$ de la $k^{\mathrm{ème}}$ cellule du niveau de résolution $j$ est défini comme l'écart
+            entre la valeur exacte $u^j_k$ et la valeur prédite $\tilde{u}^j_k$ : 
+            \begin{align}
+                d_k^j = u^j_k - \tilde{u}^j_k.
+            \end{align}
+        \end{definition}
+        Cela peut être reliée à la théorie des ondelettes \cite{KaberPostel1999,duart2011} qui permet entre autre de justifier 
+        que de petits détails indiquent un haut niveau de régularité locale puisque, si la fonction est localement $\mathcal{C}^p$
+        alors les détails vérifient : $d_k^j = \mathcal{O}(2^{-p\, j})$ \cite{KaberPostel1999}.
+    \subsubsection{Représentaiton multi-échelle}
+\subsection{L'adaptation de maillage grâce à la transformation multi-échelle}
+        
+
+
+% \subsection{La transformée multi-échelle}
+%     Cette partie présente la transformée multi-échelle discrète. La transformée multi-échelle continue en simulation numérique,
+%     c'est bien sûr la version discrète qui est utile.
+%     Elle se veut avant tout introductive et omets ou simplifie certaines notions; plus de détails sont donnés en \cite{postePoly}.
+
+%     \subsubsection{Définition mathématique}
+%         Les explications sont développées en dimensions un à des fins pédagogiques, la plupart des concepts s'entendent naturellement aux dimensions supérieures. 
+%         De plus, la discrétisation de l'espace se fait selon une grille dyadique, d'autre choix pourraient être faits \cite{KaberPostel1999} mais c'est un choix simple, naturel et standard.
+%         Il faut détailler cette notion.
+%         \begin{definition}[Série de grilles dyadiques]
+%             Une sériée de grilles dyadiques d'un intervalle $I \subset \mathbb R$ est une série de partitions de $I$ indexées 
+%             par des entiers $j \in \{1, \dots,J\}$.
+%             La discrétisation de niveau $j$ correspond à une partitions de $I$ en $2^j$ intervalles (voir fig. \ref{fig:schema_sdyadique}). Ainsi à chaque changement de niveau, du niveau $j$ vers le niveau $j+1$,
+%             la résolution de la discrétisation est doublée. Les cases de cette partition dyadique sont indexées par deux entiers: $j$ le niveau de résolution de la grille
+%             et $k$ l'index de la case au sein de ce niveau. En particulier les cases $2k$ et $2k+1$ du niveau $j+1$ correspondent à la case $k$ du niveau $j$.
+%         \end{definition}
+%         \input{media/3_/2_/schema_dyadique.tex}
+%         Dans ce qui suit il est supposé sans perte de généralité que la discrétisation se fait sur l'intervalle $[0,1]$,
+%         ainsi le niveau $j$ correspond à des cellules de tailles $1/{2^j}$ et la cellule $k$ du niveau $j$ est centrée en
+%         $x_k^j = \frac{k+(k+1)}{2} \frac{1}{2^j} = \frac{2k+1}{2^j}.$
+%         La notion d'ondelette se définit de la manière suivante:
+%         \begin{definition}[Ondelette]
+%             Une ondelette est une fonction $\Phi \in L^2(\mathbb R)$ à support compact de moyenne nulle \cite{MallatWaveletTourChap4}.
+%         \end{definition}
+%         Cette fonction permet de définir un ensemble de fonctions :
+%             $$\mathcal{B}= \left\{\Phi_{j,k} : x \mapsto \Phi(2^j x - k)\;\middle|\;(j,k) \in \{1, \dots, J\} \times \{0, \dots, 2^j - 1\}\right\}$$
+%         Chaque $\Phi_{j,k}$ correspond à l'ondelette de base $\Phi$, mise à l'échelle des cellules du niveau $j$ et translatée pour être centrée sur la cellule $k$.
+%         Alors la transformée en ondelette discrète peut être définie comme une projection de $L^2(\mathbb R)$ dans $\mathrm{Vect}(\mathcal{B})$
+%         \begin{definition}[Transformée en ondelette discrète - \textit{Discrete Wavelet Transform, DWT}] 
+%             La transformée en ondelette de $f \in L^2$ est sa projection dans $\mathrm{Vect}(\mathcal{B})$ : 
+%             Le coefficient $\gamma_k^j$ de sa DWT sur la cellule $k$ au niveau de résolution $j$ est:
+%             \begin{align}
+%                 &\gamma_k^j =  \frac{1}{N_j} \left< f \vert \Phi_{i,j} \right>  = \frac{1}{N_j} \int_\mathbb{R} \Phi(2^j\cdot k - t)f(t) \text{d} t,\\\notag
+%                 &\text{Où $N_j$ est un coefficient normalisation dépendant du niveau $j$.}
+%             \end{align}
+%             Contrairement à une transformée de Fourier, les coefficients ne dépendent pas d'une mais de deux variables. En effet, 
+%             la transformée en ondelette est plus riche d'informations. Là où la transformée de Fourier ne donne qu'une information 
+%             sur le contenu fréquentiel d'un signal, la transformée en ondelette donne une information sur le contenu en fréquence \underline{et}
+%             sur la localisation de ce contenu fréquentiel.
+%         \end{definition}
+
+%     \subsubsection{La notion de détails}
+%         La multi-résolution adaptative se sert de la transformée multi-échelle pour adapter le maillage, c'est à dire compresser l'information (voir \ref{par:adaptation}).
+%         Cela requiert l'introduction de la notion de détail. Ce concept permet de ne pas utiliser la transformée en ondelette pour quantifier le contenu absolu porté par une échelle particulière,
+%         mais plutôt à comprendre en quoi ce contenu s'éloigne de ce que les échelles supérieures pourraient laisser supposer, en quoi il est \textit{inattendu}.
+%         Pour résumer à partir d'un niveau de résolution $j$, on définit un \textbf{prédicteur} polynomial, qui tente d'inférer l'allure de la fonction au niveau $j+1$.
+%         Puis le \textbf{détail} ne cherche pas naïvement à quantifier et localiser l'information contenue aux échelles du niveau $j+1$ mais plutôt, 
+%         à quantifier l'écart à la prédiction polynomiale.
+%         \paragraph{Le prédicteur}
+%             Donné un point central $(x_0,y_0)$, et $2s$ voisins $(x_{-s},y_{-s}),(x_{-s+1},y_{-s+1})\dots (x_{s-1},y_{s-1}),(x_s,y_s)$, un prédicteur polynomial 
+%             ponctuel cherche le polynôme $P$ de degré $2s$ passant par ces $2s+1$ points. Cela permet d'inférer des valeurs pour $y$ en tout point $x$.
+%             Pour trouver $P(X) = \sum_{k=0}^{2s} a_k X^k$ revient à résoudre le système linéaire:
+%             \begin{align}
+%                 \forall j \in \{-s,\dots 0 ,\dots,s\}: y_j = \sum_{k=0}^{2s} a_k x_j^k
+%             \end{align}
+%             Ce stage se focalise sur les volumes finis, donc ce n'est pas un prédicteur ponctuel, adapté au différences finies (voir \ref{def:vol_finis}), qui est utilisé mais un prédicteur sur la valeur moyenne. 
+%             Il ne cherche à imposer les valeurs en chaque point mais à fixer la valeurs moyenne sur chaque cellule,
+%             cela ajoute peu de complexité puisqu'il suffit d'ajouter une intégration lors de l'établissement du système linéaire pour travailler sur les valeurs moyennes.
+%             Pour l'usage que souhaité ici, il s'agit en d'évaluer la solution sur la cellule $k$ du niveau de résolution $j$ 
+%             (ce qui correspond à la cellule de centre $x_k^j = (k+1/2) 2^{-j}$) au niveau de résolution supérieure $j+1$,
+%             il faut donc appliquer le correcteur linéaire centré sur $x_k^j$ en $x_{\pm} = \pm 2^{-(j+1)}$. En pratique cela revient à faire une combinaison linéaire des $2s$ voisins
+%             qui vient corriger la valeur en $x_k^j$.
+%             Le prédicteur dépend donc du nombre de voisins pris de part et d'autre, ce nombre noté $s$ et appelé le \textit{stencil} du prédicteur.
+%             Plus $s$ est grand plus l'opération de prédiction est précise (mais peut éventuellement devenir bruitée\footnote{Ce n'est pas détaillé ici mais le lecteur se réfèrera à la théorie de l'interpollation...})
+%             et plus elle est coûteuse. Le coût exact n'est pas évident à estimer puisque qu'une combinaison linéaire
+%             quelques termes se fait en $O(1)$ sur les machines modernes, toutefois quelques subtilités détaillé en \ref{par:adaptation} interviennent.
+%             Ainsi les valeurs usuelles tu stencil sont généralement $s=1$ ou $s=2$
+
+%         \paragraph{Les détails}
+%             À présent que le prédicteur à été décrit le concept de détail peut enfin être abordé. On suppose que l'on dispose d'une fonction $\tilde u^j$
+%             qui soit une approximation de la fonction $u$, au niveau de résolution $j$. Comme vu précédemment, le prédicteur permet d'obtenir une approximation 
+%             de $u$ au niveau $j+1$ grâce à $\tilde u^j$. Cette prédiction est noté $\hat u^{j+1}$. Les détails à la résolution $j+1$ sont alors définis comme les 
+%             coefficient de la transformée multi-échelle de la différence entre cette prédiction et la vraie fonction: $u-\hat u^{j+1}$.
+%             Alors les coefficients de détails n'encode que ce qui n'était pas prédictible par l'interpolateur polynomial. 
+%             Ce concept de détail est essentiel. 
+%             En pratique on ne réalise pas l'opération comme expliqué plus haut puisque à prédicteur et ondelette fixés $\Phi$, il existe une \textit{ondelette duale} $\Psi$
+%             qui permet directement d'obtenir les détails pour la DWT sur $\Phi$ en réalisant une DWT sur $\Psi$ ce qui accélère considérablement les calculs.\par
+%             % Une autre façon de voir la notion de détail est la suivante:
+%             % pour un niveau de résolution $j$ on note $V_j = \text{Vect}\Bigl((\Phi_k^j)_k\Bigr)$, c'est à dire l'ensemble de fonction 
+%             % représentables par les ondelettes de niveau $j$.
+%             % Pour les ondelettes classiques\footnote{C'est en tout cas vrai pour les ondelettes de Haar\cite{postePoly}.} la relation suivante est vérifiée
+%             % $V_0 \subset V_1 \subset V_2 \subset \ldots \subset V_N$. Et bien alors l'espace des détails, celui accessible par l'ondelette duale est $Q_{j+1}$
+%             % le supplémentaire de $V_j$ dans $V_{j+1}$, en d'autre terme, il représente toutes les informations, les \textit{détails} contenues dans 
+%             % le niveau d'approximation $V_{j+1}$ qui n'étaient pas prise en compte par $V_j$ (à l'échelle $j$ ce n'était que des détails). 
+%             % Les coefficients de la décomposition par l'ondelette duale sont  Ainsi grâce à l'ondelette duale, 
+%             % il est possible de calculer les coefficients de détails $d_k^j$ qui à chaque montée en résolution n'encode que l'information qui n'était 
+%             % pas contenue dans la décomposition en ondelette au niveau précédent.\par
+%             % Les deux visions ne sont pas rigoureusement les mêmes, la première représente ce qui est réalisé en pratique lors de la MRA, la seconde 
+%             % est la vision standard de la théorie des ondelettes. Toutefois les deux approches ont la même motivation, ne calculer et ne mettre en valeur à chaque
+%             % niveau que ce qui est nouveau, ce qui n'était pas contenu dans les niveaux précédents.
+        
+%         \paragraph{Intuition sur les détails}
+%             Lorsque l'on s'intéresse aux coefficients de détails $d_k^j$,
+%             l'indice $j$ de \textit{dilatation} fixe l'échelle analysée, c'est à dire la longueur d'onde analysée. Par exemple si $j=5$, 
+%             les coefficients $d^5_k$ donne une information sur l'information portée par les longueurs d'onde de l'ordre de $2^{-5} = 1/32$.
+%             La variable $k$ précise l'indice de la cellule analysée.
+%             Par exemple $\Vert d^5_10 \Vert > \Vert d^5_5 \Vert$ signifie que l'information portée par l'échelle $1/32$
+%             est plus importante au voisinage de la case $10$ qu'au voisinage de la case $5$.
+%             De même si $\Vert d^j_7 \Vert > \Vert d^{j+1}_{14} \Vert$ cela signifie qu'au voisinage de $x=\frac{7}{2^j}$
+%             les longueurs d'ondes $\frac{1}{2^j}$ sont plus présentes que les longueurs d'ondes $\frac{1}{2^{j+1}}.$
+%             Pour se fixer les idées, c'est comme si la transformée de Fourrier n'avait qu'une vision globale du contenu en fréquence, 
+%             quelle ne voyait que la moyenne sur le domaine de la transformée en ondelette pour chaque longueur d'onde.
+%             \begin{align}
+%                 \Vert TF\bigl[ f \bigr](\omega = 2^j) \Vert^2 \sim \Vert \sum_{k} d^j_k \Vert^2.
+%             \end{align}
+%             \par 
+%             Grâce à cette notion de détaille la décomposition multi-échelle permet une description de la solution physique où l'apport à la solution de chaque échelle,
+%             de chaque distance typique est quantifié, les coefficients $d_k^j$ décrivant l'information contenue dans les échelles de l'ordre de $2^{-j}$.
+% \subsection{L'adaptation}\label{par:adaptation}
+%     \subsubsection{La compression par décomposition multi-échelle}
+%             Pour compresser une fonction (ou une image comme dans le processus \texttt{jpg}), le processus est très simple, il suffit de fixer un seuil de compression $\varepsilon > 0$,
+%             de calculer les coefficients de détails de la fonction, 
+%             puis d'omettre (en pratique de retirer de la mémoire) les coefficient dont la norme est inférieure à $\varepsilon$.
+%             En pratique le coefficient de compression dépend du niveau étudié puisque le volume des cellules mise en jeu chute avec le niveau $j$
+%             (un détail de $10^{-2}$ à moins d'importance s'il porte sur des cellules de taille $10$ que sur des cellules de taille $10^{-5}$).
+%             En pratique l'algorithme serait le suivant:
+%             \begin{enumerate}  
+%                 \item Calculer les coefficients $d_k^j$.
+%                 \item Pour chaque niveau $j$ et chaque coefficient $d_k^j$: Si $\vert d_k^j \vert < \varepsilon_j = 2^{-j}\varepsilon$, alors $d_k^j\leftarrow 0$, les coefficients sont seuillés.
+%                 \item[] Pour reconstruire au niveau de résolution souhaité: utiliser les détails jusqu'au niveau $j$ le plus fin conservé puis utiliser le prédicteur 
+%                 pour interpoler jusqu'au niveau désiré. Le vocabulaire est heureusement choisit, pour compresser on omet les détails négligeables l'on conserve les détails importants.
+%             \end{enumerate}
+%     \subsubsection{L'adaptation de maillage et l'heuristique d'Harten}
+%             L'adaptation de maillage, est une variation de la compression par décomposition multi-échelles précédemment décrite. 
+%             C'est est une opération de compression de solutions physiques \textit{prudente}.
+%             Les coefficients y sont seuillés de manière moins impitoyable: certains coefficients qui devraient être écartés
+%             par la compression sont malgré tout préservés. Ce choix se fait sur la base d'intuitions physiques, 
+%             la plus connue étant \textit{l'heuristique d'Harten}, introduite par Ami Harten \cite{harten1994}, le père de la MRA.
+%             Elle stipule que même si un coefficient de détail $d_k^j$ devrait être supprimé, si le niveau de détail du niveau supérieur 
+%             (c'est à dire $d^{j-1}_{\lfloor k/2 \rfloor}$) est particulièrement élevé, par exemple qu'il est par deux fois supérieur au seuil $\varepsilon_{j-1}$,
+%             alors le coefficient doit être conservé. En d'autre terme, même si la compression considère l'information à l'échelle $j$ négligeable,
+%             l'intuition physique pose son véto puisque les échelles supérieurs sont de grandes magnitudes et que cela présage que dans 
+%             les pas de temps a venir les échelles seront nécessaires à la fidèle capture des phénomènes physiques simulés. Par exemple cela peut signifier qu'un front
+%             d'onde est en train d'arriver dans les zone étudiée, il faut donc que la simulation puisse en capter toute la richesse.
 % \subsection{Algorithmes de simulation numérique}
 %     \subsubsection{Algorithme général}
 %             L'intégration de la MRA un algorithme de simulation physique se fait de la manière suivante: 
