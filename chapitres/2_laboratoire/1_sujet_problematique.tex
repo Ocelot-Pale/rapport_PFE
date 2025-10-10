@@ -218,10 +218,10 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
         Toutefois, ces interactions demeurent mal comprises d'un point de vue général.
         Cela dépend \emph{a priori} de nombreux facteurs comme l'EDP, le schéma ou encore la façon dont la MRA est mise en place. 
         En effet il existe plusieurs stratégies d'adaptation par multirésolution adaptative. Par exemple, ce stage se concentre sur les schémas volumes finis.
-        Dans ce cadre, un \emph{flux} numérique doit être évalué à l'interface de chaque cellule ; cela mène à plusieurs stratégies d'adaptation par MRA : 
+        Dans ce cadre, un \emph{flux} numérique doit être évalué à l'interface de chaque cellule ; cela mène à plusieurs stratégies d'adaptation par MRA (voir fig. \ref{fig:schema_algos_intro}): 
         \begin{itemize}
-            \item \hlblue{\textit{L'approche MRA standard}} est de faire évoluer la solution sur le maillage \underline{adapté} (compressé) grâce à un \emph{flux} évalué à partir des valeurs de la solution \underline{adaptée} - approche dite \emph{sans reconstruction des flux}.
-            \item \hlperu{\textit{Une approche MRA non-standard}} est de faire évoluer la solution sur le maillage \underline{adapté}, mais grâce à un \emph{flux} évalué à partir des valeurs de la solution \underline{reconstruite}, décompressée, plus précises - approche dite \emph{avec reconstruction des flux}.
+            \item Une approche \hlblue{MRA sans reconstruction des flux} où la solution évolue sur le maillage \underline{adapté} (compressé) grâce à un \emph{flux} évalué à partir des valeurs de la solution \underline{adaptée}.
+            \item Une approche \hlperu{MRA avec reconstruction des flux} où la solution évolue sur le maillage \underline{adapté}, mais grâce à un \emph{flux} évalué à partir des valeurs de la solution \underline{reconstruite}, décompressée, plus précises.
         \end{itemize}
         Les différences subtiles entre ces deux approches de la MRA suffisent à modifier les interactions avec le schéma ;
         l'analyse devient d'autant plus difficile que les schémas d'ADR sont généralement complexes (ImEx, splitting, méthodes stabilisées, etc.).\\
@@ -234,6 +234,52 @@ vient enfin la problématique à laquelle les contributions du stage répondent 
         \item[$\diamond$] Quelles sont les propriétés des approches ImEx par rapport au splitting et surtout, quelle approche est la plus impactée par l'adaptation spatiale ?
         \item[$\diamond$] D'où viennent les interactions entre l'adaptation spatiale et l'intégration en temps et comment les mitiger ?
     \end{enumerate}
+\begin{figure}[h]
+\label{fig:schema_algos_intro}
+\begin{center}
+\begin{tikzpicture}[scale = 0.7]
+\foreach \i in {0,...,1}{
+    \draw[fill=green!10] ({4*\i},0) rectangle ({4*(\i+1)},1);
+}
+\foreach \i in {0,...,3}{
+    \draw[fill=black!10] ({2*\i},-1) rectangle ({2*(\i+1)},0);
+}
+
+\foreach \i in {0,...,7}{
+    \draw[fill=black!10] ({\i},-2) rectangle ({(\i+1)},-1);
+}
+
+\foreach \i in {0,...,15}{
+    \draw[fill=black!10] ({0.5*\i},-3) rectangle ({(.5*(\i+1))},-2);
+}
+
+
+\draw[navy, very thick, <-] (3.9,.9) -- (2,.5);
+\draw[navy, very thick, <-] (4.1,.9) -- (6,.5);
+
+% \draw[orange, very thick, <-] (3.9,.5) -- (3,-.5);
+% \draw[orange, very thick, <-] (4.1,.5) -- (5,-.5);
+
+\draw[peru, very thick, <-] (3.9,.2) -- (3.75,-2.5);
+\draw[peru, very thick, <-] (4.1,.2) -- (4.25,-2.5);
+
+\draw[black, very thick] (4,0) -- (4,1) node[pos=1, above] {interface d'intérêt};
+\node[left] at (-.2,.5) {niveau $l$ (niveau courant)};
+\node[left] at (-.2,-.5) {niveau $l+1$ };
+\node[left] at (-.2,-1.5) {niveau $l+2$};
+\node[left] at (-.2,-2.5) {niveau $l+3$ (ici, le niveau le plus fin)};
+
+\draw[navy, very thick,->] (8.5,-3.2) -- (10,-3.2) node[pos=0,  left] {MRA sans reconstruction des flux.};
+\draw[peru, very thick,->] (8.5,-3.7) -- (10,-3.7) node[pos=0,  left] {MRA avec reconstruction des flux au niveau le plus fin.};
+% \draw[orange, very thick,->] (8.5,-3.5) -- (10,-3.5) node[pos=0,  left] {algo 3. : flux reconstruit au niveau inférieur};
+
+
+\end{tikzpicture}
+
+
+\end{center}
+\caption{Illustration des deux approches MRA étudiées.}
+\end{figure}
     % Avec un schéma MRA, la solution est donc représentée sur plusieurs grilles de finesses différentes.
     % L'adaptation (compression) consiste à ignorer l'information contenue sur les grilles les plus fines là où la solution est assez régulière;
     % un niveau de résolution maximal (grille fine) pourra être retrouvé (moyennant une erreur de compression) grâce à une reconstruction (décompression) par 

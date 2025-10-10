@@ -3,7 +3,8 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
 
     L'étude se fait en dimension un, l'équation d'évolution à résoudre est donc :
     \begin{align}
-        \dt{u} = D \,\dxx{u} \quad D >0.
+        u(t = 0 , \cdot) = u_0(\cdot) \\
+        \dt{u} = \dx{( D \, \dx{u})} \quad D >0.
     \end{align}
     Le domaine est supposé infini (pas de problèmes de bord).
         \subsubsection{Méthode des lignes utilisée}\label{par:contrib2_MoL}
@@ -16,12 +17,20 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
             \end{align}
             Puis posant la valeur moyenne sur la cellule: $U_k(t) = \frac{1}{\Delta x} \int_{C_k} u(x,t) \, dx$ et en évaluant l'intégrale de gauche:  
             \begin{align}
-                \frac{d}{dt} U_k(t) = D \left[ \dx{u}(x_k + \frac{\Delta x}{2},t) - \dx{u}(x_k - \frac{\Delta x}{2},t)\right]
+                \frac{d}{dt} U_k(t) = \frac{D}{\Delta x} \left[ \dx{u}(x_k + \frac{\Delta x}{2},t) - \dx{u}(x_k - \frac{\Delta x}{2},t)\right]
             \end{align}
-            Puis en approximant les dérivées spatiales à l'ordre deux , cela donne l'équation semi-discrétisée en espace suivante.
-            \begin{align}
-                \dt{U}(t) = \frac{D}{\underbrace{\Delta x}_{\text{cellule}}} \Bigl(\frac{U_{k+1} - 2 U_{k} + U_{k-1}}{\underbrace{\Delta x}_{\text{approx. gradients}}}\Bigr)
-            \end{align}
+            Puis en approximant les dérivées spatiales à l'ordre deux, cela donne une équation semi-discrétisée 
+            en espace faisant apparaître les flux : 
+        \begin{align}
+            \frac{dU_k}{dt}
+            = \frac{D}{\underbrace{\Delta x}_{\text{volume cellule}}}
+                \left(
+                \overbrace{\frac{U_{k+1}-U_k}{\underbrace{\Delta x}_{\text{approx. gradient}}}}^{\text{flux aval}}
+                -
+                \overbrace{\frac{U_k-U_{k-1}}{\underbrace{\Delta x}_{\text{approx. gradient}}}}^{\text{flux amont}}
+                \right)
+        \end{align}
+
             On remarque que les $\Delta x$ qui apparaissent ont des origines distinctes, d'une part la taille de la cellule pour obtenir une valeur moyenne et 
             d'autre part la distance entre les deux points servant à approximer les gradients.\\
             \textbf{Intégration temporelle: } en notant $\mathbb{D}$ l'opérateur de diffusion spatial, l'intégration temporelle se fait grâce à la méthode Runge et Kutta explicite d'ordre deux suivant: 
@@ -36,7 +45,7 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
             \end{align}\\
             \textbf{Forme conservative: }
             Ce schéma peut s'écrire sous forme conservative en exhibant les flux numériques suivants :
-            \begin{align}
+            \begin{align}\label{eq:contrib_2:schema_flux}
                 u^{n+1}_k = u^n_k +  D \frac{\Delta t}{\Delta x} \Bigl( \Phi^n_{k+1/2} - \Phi^n_{k-1/2} \Bigr)  + \left( D \frac{\Delta t}{\Delta x} \right)^2 \Bigl( \Psi^n_{k+1/2} - \Psi^n_{k-1/2} \Bigr) 
             \end{align}
             Avec:
@@ -48,7 +57,7 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
                 \Psi^n_{k-1/2} &= \frac{1}{\Delta x^2} \left(\frac{1}{2} u^n_{k+1} -  \frac{3}{2}  u^n_{k}   +  \frac{3}{2}u^n_{k-1} -  \frac{1}{2}u^n_{k-2}\right).\notag
             \end{align}
 \newpage
-        \subsubsection{La multirésolution adaptative, différents différents paradigmes ?}\label{par:paradigme_MRA}
+        \subsubsection{La multirésolution adaptative, différents paradigmes ?}\label{par:paradigme_MRA}
             La multirésolution adaptative est présentée avec plus de détails en \ref{par:explication_MRA}.    
             Cette partie clarifie surtout la différence entre les deux schémas MRA étudiés (schémas \texttt{II} et \texttt{III}).
             Pour rappel, la multirésolution adaptative consiste à compresser la solution sur plusieurs niveau de maillage,
@@ -60,7 +69,7 @@ Cette section présente en \ref{par:contrib2_target} le problème cible, en \ref
                 \item Compresser de nouveau selon un seuil de compression $\varepsilon$ grâce à une transformée multiéchelle et à l'heuristique d'Harten.
             \end{enumerate}
             La valeur d'une cellule à un niveau de détail donné est calculée au pas de temps suivant
-            grâce à un flux numérique. 
+            grâce à un flux numérique (\emph{cf.} \eqref{eq:contrib_2:schema_flux}). 
             Cependant, la manière d'évaluer ce flux numérique n'est pas univoque et mène donc à plusieurs schémas numériques potentiels:
             \begin{itemize}
                 \item[$\diamond$] Le schéma \texttt{II} calcule le flux numérique
