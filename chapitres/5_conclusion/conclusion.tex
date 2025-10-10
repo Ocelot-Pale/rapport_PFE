@@ -1,29 +1,29 @@
 \label{par:cc}
 \paragraph*{Conclusion scientifique}\label{par:cc1}
+% \subparagraph*{Résumé des travaux -} Une analyse fine de la stabilité 
 \subparagraph*{Résultats —}  
 Les principaux résultats du stage sont : 
 \begin{itemize}
     \item[$\diamond$] L'interaction entre l'adaptation spatiale par multirésolution et le schéma numérique dépend directement du schéma d'intégration en temps utilisé.
     En effet, en \ref{par:couplagetempsadaptation}, on constate expérimentalement qu'une méthode ImEx et un \emph{splitting} des même ordre ne réagissent pas de la même manière face à l'adaptation spatiale.
-    
-    \item[$\diamond$] La reconstruction des flux au niveau le plus fin améliore nettement les solutions numériques à condition que la prédiction polynomiale 
-    se fasse à partir d'au moins \(k+2\) points, avec \(k\) l'ordre de discrétisation spatiale \footnote{Par manque de temps ces résultats n'ont pas été intégrés à ce rapport.}.
-    Sinon, la reconstruction peut dégrader sensiblement la solution numérique, notamment pour des solutions déjà convergées en temps.
+    Sur le cas particulier étudié, le \textit{splitting} d'opérateur semble moins impacté que la méthode ARK (mais il n'est absolument pas certain que cela se généralise).
+    \item[$\diamond$] La reconstruction des flux au niveau le plus fin dégrade la solution numérique si l'erreur de reconstruction n'est pas négligeable devant l'erreur du schéma initial.
 \end{itemize}
 
 \medskip
 \subparagraph*{Perspectives —}  
 Ce travail met en évidence l'importance d'une compréhension fine des interactions 
 entre la multirésolution adaptative et le schéma numérique pour exploiter pleinement le potentiel de cette méthode.  
-Une première étape consisterait à reprendre l'analyse théorique (section~\ref{par:contrib_2}) 
-et expérimentale (section~\ref{par:contrib_3}) en utilisant un interpolateur à cinq points pour la reconstruction des flux.
-De plus une étude des coûts calculatoires de chaque approche devrait être réalisée
+Il laisse penser que reconstruction des flux au niveau le plus fin améliorerait la qualité des solutions numériques à la condition que la prédiction polynomiale 
+se fasse à partir d'au moins \(k+2\) points, avec \(k\) l'ordre de discrétisation spatiale.
+Il faudrait donc reprendre l'analyse théorique (section~\ref{par:contrib_2}) 
+et expérimentale (section~\ref{par:contrib_3}) en utilisant un prédicteur à cinq points pour la reconstruction des flux (au lieu d'un prédicteur à trois points ici).
+De plus une étude des coûts calculs de chaque approche devrait être réalisée
 pour évaluer le ratio coût/bénéfice d'une reconstruction des flux selon le stencil nécessaire.
-Ces résultats complémentaires seront sans doute présentés lors de la soutenance.  
 À plus long terme, une analyse théorique systématique du couplage entre méthodes ImEx et MRA serait nécessaire : les observations présentées en \ref{par:couplagetempsadaptation} suggèrent un comportement non trivial, propre à chaque intégrateur temporel.
 
 \paragraph*{Conclusion sur ma progression technique}\label{par:cc2}
-Sur le plan théorique, j'ai approfondi des domaines variés : méthodes de volumes finis \cite{LeVeque1990}, systèmes dynamiques et méthodes de Runge–Kutta additives \cite{HairerAndWanner1}, ainsi que la théorie des ondelettes, en résonance avec mes cours antérieurs.
+Sur le plan théorique, j'ai approfondi des domaines variés : méthodes de volumes finis \cite{LeVeque1990}, systèmes dynamiques et méthodes de Runge Kutta additives \cite{HairerAndWanner1}, ainsi que la théorie des ondelettes, en résonance avec mes cours antérieurs.
 Sur le plan pratique, je me suis familiarisé avec des outils puissants d'analyse (équations équivalentes, analyse de Von Neumann), avec des codes de recherche avancés tels que \texttt{Samurai}, et avec les exigences de la simulation numérique (estimation rigoureuse des erreurs, gestion de grilles de taille différente, instabilités).
 J'ai aussi développé mes compétences de programmation scientifique en Python et en \texttt{C++}, ainsi que ma maîtrise de l'environnement Unix (terminal, git, bash).
 Enfin, j'ai renforcé mes capacités de communication scientifique, en diffusant mes codes pour en favoriser la reproductibilité et en produisant des graphiques complexes mais lisibles, parfois interactifs.
@@ -35,30 +35,3 @@ qu'elles relèvent de la recherche scientifique ou d'applications technologiques
 Les gains rendus possibles par la diversité de l'équipe, 
 la réutilisation des outils développés et leur interopérabilité m'ont fait prendre conscience
 de l'importance du travail collectif et de la mise en commun des savoir-faire dans la réussite d'un projet scientifique.
-% \paragraph*{Conclusion scientifique} Mon stage pave le chemin vers une compréhension fine du comportement des schéma de multi-résolution adaptative sur les problèmes de diffusion.
-% Il ébauche une vision théorique grâce aux études de stabilité et aux équation équivalente auquel s'ajoute de nombreux résultats d'expériences numériques.
-% L'étude théorique montre qu'un couplage peut apparaître entre les schémas de diffusion et la MRA, dégradant l'ordre de convergence. 
-% Les expériences numériques ont révélé un phénomène surprenant: une meilleure reconstruction du flux de diffusion ne mène pas toujours à une meilleure précision du schéma.
-% Le lien entre la vision théorique et les résultats expérimentaux est encore difficile à établir clairement. 
-% Toutefois la connaissance de l'existence de ces phénomènes et les hypothèses proposées et testées aideront et orienterons de futures investigations.
-% \paragraph*{Conclusion sur ma progression technique} Mon expérience au CMAP m'a beaucoup appris.\par
-% \textbf{Sur le plan théorique} j'ai approfondi de nombreux champs scientifiques croisés dans mon parcours étudiant.
-% L'étude dans les méthodes de volumes finis \cite{LeVeque1990} pour les lois de conservations prolonge les cours de physique de classe préparatoires ainsi que les cours de mécanique et de simulation numérique à l'\textsc{Ensta}.
-% J'ai étudié également l'analyse et la simulation des systèmes dynamiques grâce à \cite{HairerAndWanner1} faisant écho au cours de système dynamique de l'\textsc{Ensta} et j'ai 
-% approfondi mes connaissance sur les méthodes Runge et Kutta découverte dans mes cours de troisième année en étudiant les méthodes additives (ARK - ImEx). La théorie des ondelettes
-% dans laquelle j'ai du me plonger pour comprendre la MRA a résonné avec mes précédentes expériences en traitement du signal.\par
-% \textbf{Sur le plan pratique} je me suis familiarisé avec de puissants outils d'analyse numérique comme les équations équivalentes.
-% J'ai également utilisé \texttt{Samurai}, un code de calcul de l'état de l'art et été confronté aux difficultés et subtilités de la simulation numérique (calcul rigoureux des erreurs, interpolation sur de grilles de taille différence...).
-% Le stage fut également l'occasion de découvrir le calcul formel avec Sympy et l'opportunité d'améliorer mes compétences de programmation scientifique en Python et \texttt{C++} ainsi que d'avoir une expérience concrète avec l'environnement Unix: terminal, git, bash...
-% J'ai étoffé mes capacités de communication scientifique, prenant l'habitude de rendre disponible en ligne mes codes pour favoriser la reproductibilité et
-% proposant des graphiques complexes mais lisibles et parfois même interactifs. Enfin  j'ai du appliquer les compétences générales d'un ingénieur-chercheur en proposant des hypothèses et en les testant, ainsi qu'en
-% étant critique et transparent sur mes méthodes, mes expériences et mes résultats.
-% \paragraph*{Conclusion personnelle}
-% Ce stage à confirmé mon appétence pour les mathématiques et le numérique tout en réorientant mes aspirations professionnelles vers projet plus appliquées.
-% J'ai compris que je m'épanouirai plus sur des missions de R\&D où les mathématiques sont directement au service d'un projet économique concret.
-% J'ai aussi pu mesurer la valeur du travail en équipe, du partage des compétences, des connaissances et des travaux de chacun. 
-% Par exemple, le logiciel Samurai développé au CMAP m'a permis de réaliser rapidement beaucoup d'expériences numériques complexes. 
-% De même les ressources fourni par Ponio, développé par Joselin Massot au CMAP m'ont permis d'intégrer vite et sans erreurs des méthodes d'intégrations en temps qui mataient pris plusieurs semaines à implémenter.
-% Enfin et surtout, les expériences sur les questions numériques de Marc Massot, Christian Tenaud et Laurent Series m'ont orienté souvent vers les bonnes hypothèses et m'ont gradé des chemins sans Issus.
-% Les gains offerts par la diversité de l'équipe et les effort pour la réutilisation des outils développés ainsi que leur interopérabilité m'a vraiment fais prendre conscience 
-% des enjeux d'équipe, de gestion des talents, de valorisation des outils internes. 
