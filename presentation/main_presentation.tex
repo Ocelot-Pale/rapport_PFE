@@ -8,6 +8,10 @@
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{lmodern}
+\usepackage{makecell}
+\usepackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{1pt}
+\setlength{\TPVertModule}{1pt}
 
 % ---------------------------------------
 % Maths & utiles
@@ -18,6 +22,8 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tikz}
+\usetikzlibrary{overlay-beamer-styles}
+\usetikzlibrary{arrows.meta,positioning}
 \usepackage{hyperref}
 
 % ---------------------------------------
@@ -70,7 +76,7 @@
 % ---------------------------------------
 % Métadonnées
 % ---------------------------------------
-\title[ PFE — ENSTA Paris ]{Stratégies modernes pour l'intégration des équations d'advection–réaction–diffusion\\
+\title[ PFE — ENSTA Paris ]{Stratégies modernes pour l'intégration des équations d'advection-réaction-diffusion\\
 {\small (ImEx \& Multi\-Résolution Adaptative)}}
 \author[Alexandre EDELINE]{\textbf{Alexandre EDELINE}}
 \institute[ENSTA Paris \& CMAP]{
@@ -79,7 +85,7 @@
   Tuteurs laboratoire: Marc MASSOT, Christian TENAUD \\
   Tuteur ENSTA: Patrick CIARLET
 }
-\date{Avril — Septembre 2025}
+\date{Avril - Octobre 2025}
 
 % Optionnel : logos (placez vos fichiers dans figs/)
 \titlegraphic{%
@@ -113,20 +119,42 @@
 \section{Introduction}
 \input{slides/0_intro/0_intro}
 \section{Les équations d'advection-diffusion-réaction (ADR)}
-  \input{slides/1_ADR/0_ADR.tex}
+  % \input{slides/1_ADR/0_ADR.tex}
   \input{slides/1_ADR/1_ADR_ANALYSE.tex}
   \input{slides/1_ADR/2_ADR_PRBLEMES.tex}
   \input{slides/1_ADR/3_ADR_SOLUTIONS.tex}
-\section{Objectifs}
-\input{slides/2_contributions/0_CONTRIBUTIONS.tex}
+\section{Problématique}
+\input{slides/2_contributions/0_problematique.tex}
+\input{slides/2_contributions/1_prensation_contribs.tex}
 \section{$1^{\text{ère}}$ contribution}
   \input{slides/2_contributions/1_contrib/0_intro}
   \input{slides/2_contributions/1_contrib/1_rappels_nagumo}
   \input{slides/2_contributions/1_contrib/2_methodes}
-  \input{slides/2_contributions/1_contrib/3_analyse_stab}
+  \input{slides/2_contributions/1_contrib/2A_ImEx232}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/1.tex}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/2.tex}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/3.tex}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/4.tex}
   \input{slides/2_contributions/1_contrib/4_convergence_sansAMR}
   \input{slides/2_contributions/1_contrib/5_convergence_avecAMR}
   \input{slides/2_contributions/1_contrib/6_Conclusion}
-\section{$2^{\text{nde}}$ contribution}
+\section{$2^{\text{ème}}$ contribution}
+  \input{slides/2_contributions/2_contrib/0_intro}
+  \input{slides/2_contributions/2_contrib/1_deux_approches}
+  \input{slides/2_contributions/2_contrib/20_obtention}
+  \input{slides/2_contributions/2_contrib/2A_eq_equivs}
+  \input{slides/2_contributions/2_contrib/2B_eq_equivs}
+  \input{slides/2_contributions/2_contrib/3_conclusion}
+\section{$3^{\text{ème}}$ contribution}
+  \input{slides/2_contributions/3_contrib/0_intro}
+  \input{slides/2_contributions/3_contrib/1_ERK2}
+  \input{slides/2_contributions/3_contrib/2_stabilite}
+  \input{slides/2_contributions/3_contrib/3_rock2}
+  \input{slides/2_contributions/3_contrib/4_profils}
+  \input{slides/2_contributions/3_contrib/5_explications}
+  \input{slides/2_contributions/3_contrib/6_conclusion}
+\section{Compléments}
+\input{slides/3_complement/2Aconvergence_5_pts}
+\input{slides/3_complement/2Bconvergence_5_pts}
 
 \end{document}

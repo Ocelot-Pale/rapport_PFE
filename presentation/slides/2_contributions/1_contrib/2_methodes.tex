@@ -1,2 +1,44 @@
-\begin{frame}{Comparaison ImEx - Splitting | Présentation des méthodes}
+\begin{frame}{Contribution 1 | Comparaison ImEx - Splitting}{Présentation des méthodes}
+
+\noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+\textbf{Méthode ImEx232:\\}
+Schéma à trois étages explicites et deux étages implicites, avec $\gamma = \tfrac{2-\sqrt{2}}{2}$ et $\delta = -\tfrac{2\sqrt{2}}{3}$ :
+\[
+\text{Explicite:}\;\begin{array}{c|ccc}
+                        0 & 0 & 0 & 0\\
+                        \gamma & \gamma & 0 & 0\\
+                        1 & \delta & 1-\delta & 0\\ \hline
+                        & 0 & 1-\gamma & \gamma
+                    \end{array} \quad
+\text{Implicite:}\;
+                    \begin{array}{c|cc}
+                        \gamma & \gamma & 0\\
+                        1 & 1-\gamma & \gamma\\ \hline
+                        & 1-\gamma & \gamma
+                    \end{array}
+\]
+\pause
+\noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+\textbf{Méthode ImEx222:\\}
+Schéma à deux étages explicites et deux étages implicites, avec $\gamma = \tfrac{2-\sqrt{2}}{2}$ et $\delta = 1 - \tfrac{1}{2\gamma}$ :
+\[
+\text{Explicite:}\;
+\begin{array}{c|ccc}
+0 & 0 & 0 & 0\\
+\gamma & \gamma & 0 & 0\\
+1 & 1-\delta & \delta & 0\\ \hline
+ & 1-\delta & \delta & 0
+\end{array}
+\quad
+\text{Implicite:}\;
+\begin{array}{c|cc}
+\gamma & \gamma & 0\\
+1 & 1-\gamma & \gamma\\ \hline
+ & 1-\gamma & \gamma
+\end{array}
+\]
+\pause
+\noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+\textbf{Méthode Splitting:\\}
+Splitting de Strang | Réaction : ERK2 (Heun) | Diffusion : SDIRK2 (celle des méthode ImEx).
 \end{frame}

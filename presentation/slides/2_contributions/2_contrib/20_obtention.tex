@@ -1,0 +1,58 @@
+\begin{frame}{Contribution 2 | Équations Équivalentes, diffusion et MRA}{Méthode d'obtention des équations équivalentes}
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+    \textbf{Méthode d'obtention des équations équivalentes :} Automatisation via \raisebox{-.5\height}{\includegraphics[scale=0.05]{medias/2_/2_/sympy.png}}\\
+% Préambule :
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta,positioning}
+
+\begin{tikzpicture}[
+  >=Latex,
+  node distance=1cm,
+  every node/.style={font=\scriptsize},
+  mystep/.style={
+    rounded corners,
+    draw=black,
+    thick,
+    align=center,
+    inner sep=6pt,
+    text width=3.7cm
+  }
+]
+
+% Étape 1
+\node[mystep, fill=Primary!20] (s1) {
+  \textbf{Étape 1\\Développement de Taylor}\\
+  $u_{k+\delta_x}^{\,n+\delta_t}
+  \leftrightarrow
+  u(x+\delta_x\,\Delta x,\;t+\delta_t\,\Delta t)$\\
+  Développer en série de Taylor autour de $(x,t)$.
+};
+
+% Étape 2
+\node[mystep, fill=Primary!40, right=of s1] (s2) {
+  \textbf{Étape 2\\Cauchy-Kovalevskaya}\\
+  Remplacer $\partial_t^k$ par $\partial_{xx}^p$ via l'EDP :\\
+  $\partial_t u = D\,\partial_{xx}u$\\
+  $\Rightarrow \partial_t^{\,k}u = D^{k}\,\partial_{xx}^{\,2k}u.$
+};
+
+% Étape 3
+\node[mystep, fill=Primary!60, right=of s2] (s3) {
+  \textbf{Étape 3\\Relation $\Delta t  \leftrightarrow \Delta x$}\\
+  Introduire $\displaystyle \lambda = \frac{D\,\Delta t}{\Delta x^{2}}$ (Von Neumann).
+};
+
+% Flèches
+\draw[->, thick] (s1) -- (s2);
+\draw[->, thick] (s2) -- (s3);
+\end{tikzpicture}\\ \pause
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+    \textbf{Multirésolution adaptative sans reconstruction des flux :}\\
+    Remplacer $\Delta x$ par $2^{\Delta l} \Delta x$.\\ \pause
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+    \textbf{Prise en compte de la reconstruction des flux :}\\
+    \begin{itemize}
+        \item Reconstruction : \small$\left[ u^{\overline l}_{2^{\Delta l}k-1} ,  u^{\overline l}_{2^{\Delta l}k}  ,  u^{\overline l}_{2^{\Delta l}k+1} ,  u^{\overline l}_{2^{\Delta l}k+2} \right]^T= P^{\Delta l} \left[ u^{\overline l- \Delta l}_{k-1} ,  u^{\overline l - \Delta l}_{k}  ,  u^{\overline l}_{k+1} ,  u^{\overline l - \Delta l}_{k+2} \right]^T$\normalsize
+        \item Taille cellule : $2^{\Delta l} \Delta x$, Pas approximation gradient $\Delta x$ .
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,39 @@
+
+\begin{frame}{Contribution 2 | Équations Équivalentes, diffusion et MRA}{Résultats}
+    \centering\scriptsize$\Delta l$ écart de niveau - $D>0$ coefficient de diffusion - $\Delta x$ pas spatial de la grille fine - $\Delta t$ pas temporel\\\normalsize
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+    \textbf{Sans multirésolution adaptative: }\\
+    \begin{center}\footnotesize
+    \begin{align}
+            \frac{\partial u}{\partial t}  =&D \frac{\partial^{2}u}{\partial x^{2}}
+            + \Delta x^{2} \frac{D}{12}             \frac{\partial^{4}u}{\partial x^{4}} 
+            -  \Delta t^{2} \frac{D^{3}}{6}          \frac{\partial^{6}u}{\partial x^{6}} 
+            -  \Delta t^{3} \frac{D^{4}}{24}        \frac{\partial^{8}u}{\partial x^{8}}  + \mathcal{O}(\Delta x^4 , \Delta t^4).
+    \end{align}
+    \end{center}\pause
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+    \textbf{Avec multirésolution adaptative - sans reconstruction des flux: }\\
+        \begin{center}\footnotesize
+        \begin{align}\label{eq:sansRecons:brute}
+            \frac{\partial}{\partial t} u=
+                D \frac{\partial^{2}u}{\partial x^{2}}
+                + (2^{\Delta l} \Delta x)^{2}  \frac{D}{12} \frac{\partial^{4}u}{\partial x^{4}}
+                -\Delta t^{2} \frac{D^{3}}{6}   \frac{\partial^{6}u}{\partial x^{6}}
+                -\Delta t^{3} \frac{D^{4} }{24} \frac{\partial^{8}u}{\partial x^{8}}
+                + \mathcal{O}(\Delta x^4 , \Delta t^4).
+        \end{align}
+        \end{center}\pause
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+    \textbf{Avec multirésolution adaptative - avec reconstruction des flux: }\\
+        \begin{center}\scriptsize
+        \begin{align}\label{eq:equiv_brute_recons}
+            \frac{\partial u}{\partial t} =&\; D \frac{\partial^2 u}{\partial x^2} 
+            - \Delta t \frac{D^2}{2} \, \bigl( 2^{2\Delta l}- 1 \bigr)          \frac{\partial^4 u}{\partial x^4}
+            - \Delta t^2\, \frac{D^3}{6}          \frac{\partial^6 u}{\partial x^6}
+            - \Delta t^3\, \frac{D^4}{24}         \frac{\partial^8 u}{\partial x^8} 
+            + \Delta x^2\, \frac{2^{2\Delta l}D}{12}  (1 - 3 \Delta l)  \frac{\partial^4 u}{\partial x^4}
+            + \mathcal{O}(\Delta x^4 , \Delta t^4).
+        \end{align}
+    \end{center}
+
+\end{frame}

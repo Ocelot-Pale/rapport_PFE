@@ -1,0 +1,25 @@
+\begin{frame}{Contribution 3 | Étude nnumérique, diffusion et MRA}{Explications}
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+        \textbf{Chute prématurée de l'erreur: }\\
+        Les dérivées $\partial_x^{4}$ et  $\partial_x^{6}$ ont des poids différents dans l’erreur selon la constante de Von Neumann $\lambda$.
+        Leurs profils se "compensent" quand elles ont un poids comparable.
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+        \textbf{Moins bonne performances quand l'erreur temporelle est faible}\\
+            Plus de termes d'erreur dans la contribution dominante de l'erreur : 
+            \begin{center}
+                \renewcommand{\arraystretch}{1}
+                \begin{tabular}{@{}clc@{}}
+                    \toprule
+                    \textbf{Schéma n\textsuperscript{o}} & \textbf{Évaluation des flux} &
+                    \makecell[c]{\textbf{Constante pondérant l'erreur en $\Delta x^{2}\,\partial_{x}^{4}u$}\\
+                                \textbf{(dominante quand $\lambda$ est petite)}} \\
+                    \midrule
+                    I   & $\varnothing$ AMR          & $\dfrac{D}{12}$ \\[1mm]
+                    II  & Sans reconstruction         & $2^{\Delta l}\,\dfrac{D}{12}$ \\[1mm]
+                    III & Avec reconstruction         &
+                        $D\,\Bigl(\dfrac{\lambda}{2}\,(2^{2\Delta l}-1)
+                        + \dfrac{2^{2\Delta l}}{12}\,(1-3\Delta l)\Bigr)$ \\[1mm]
+                    \bottomrule
+                \end{tabular}
+            \end{center}
+\end{frame}

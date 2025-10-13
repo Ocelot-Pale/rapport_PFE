@@ -1,0 +1,56 @@
+\begin{frame}{Contribution 2 | Équations Équivalentes, diffusion et MRA}{Les deux approches de MRA}
+    \centering
+
+    \begin{tikzpicture}[scale = 0.7]
+    \foreach \i in {0,...,15}{
+        \draw[fill=green!10] ({\i},3) rectangle ({((\i+1))},2);
+    }
+    \foreach \i in {1,...,15}{
+        \draw[cyan, thick, ->,visible on=<2->](\i,2.7) -- (\i + 0.4,2.2);
+        \draw[cyan, thick, ->,visible on=<2->](\i,2.7) --  (\i - 0.4 ,2.2);
+    }
+
+    \foreach \i in {0,...,1}{
+        \draw[fill=green!10,visible on=<3->] ({8*\i},0) rectangle ({8*(\i+1)},1);}
+    \foreach \i in {0,...,3}{
+        \draw[fill=black!10,visible on=<3->] ({4*\i},-1) rectangle ({4*(\i+1)},0);}
+
+    \foreach \i in {0,...,7}{
+        \draw[fill=black!10,visible on=<3->] ({2*\i},-2) rectangle ({2*(\i+1)},-1);}
+
+    \foreach \i in {0,...,15}{
+        \draw[fill=black!10,visible on=<3->] ({\i},-3) rectangle ({((\i+1))},-2);}
+    \draw[black, very thick, <->, visible on=<3->]
+    (-.5,-3) -- (-.5,1)
+    node[midway, left] {$\Delta l$};
+
+    \draw[Primary, very thick, ->,visible on=<4->] (7.9,.9) -- (4,.5);
+    \draw[Primary, very thick, ->,visible on=<4->] (8.1,.9) -- (12,.5);
+    
+    
+    \draw[fill=red!10,visible on=<5->] (7,-3) rectangle (8,-2);
+    \draw[fill=red!10,visible on=<5->] (8,-3) rectangle (9,-2);
+    \draw[red, very thick, ->,visible on=<5->] (7.9,.2) -- (7.75,-2.5);
+    \draw[red, very thick, ->,visible on=<5->] (8.1,.2) -- (8.25,-2.5);
+    
+    \draw[fill=orange!10,visible on=<6->] (8,-1) rectangle (4,0);
+    \draw[fill=orange!10,visible on=<6->] (8,-1) rectangle (12,0);
+    \draw[orange, very thick, ->,visible on=<6->] (7.9,.5) -- (6,-.5);
+    \draw[orange, very thick, ->,visible on=<6->] (8.1,.5) -- (10,-.5);
+    \draw[red, very thick, ->,visible on=<6->] (7.9,.2) -- (7.75,-2.5);
+    \draw[red, very thick, ->,visible on=<6->] (8.1,.2) -- (8.25,-2.5);
+    \node[right] at (-5,3) {\textbf{Flux numériques :}};
+    \node[right] at (-5,2) {$\Phi_k^+ = \frac{u_{k+1} - u_k}{\Delta x}$};
+    \node[right] at (-5,1) {$\Phi_k^- = \frac{u_{k} - u_{k-1}}{\Delta x}$};
+    % \draw[black, very thick] (4,0) -- (4,1) node[pos=1, above] {interface d'intérêt};
+        % \node[left] at (-.2,.5) {niveau $l$ (niveau courant)};
+        % \node[left] at (-.2,-.5) {niveau $l+1$ };
+        % \node[left] at (-.2,-1.5) {niveau $l+2$};
+        % \node[left] at (-.2,-2.5) {niveau $l+3$ (ici, le niveau le plus fin)};
+
+    \draw[cyan, very thick,->,visible on=<2->] (8.5,-3.3) -- (10,-3.3) node[pos=0,  left] {Pas d'adaptation};
+    \draw[Primary, very thick,->,visible on=<4->] (8.5,-3.8) -- (10,-3.8) node[pos=0,  left] {MRA sans reconstruction des flux.};
+    \draw[red, very thick,->,visible on=<5->] (8.5,-4.3) -- (10,-4.3) node[pos=0,  left] {MRA avec reconstruction des flux au niveau le plus fin.};
+    \draw[orange, very thick,->,visible on=<6->] (8.5,-4.8) -- (10,-4.8) node[pos=0,  left] {MRA avec reconstruction des flux au niveau le plus proche.};
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,55 @@
+\begin{frame}{Contribution 1 | Comparaison ImEx - Splitting}{Présentation des méthodes}
+
+\noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+\textbf{Méthode ImEx232:\\}\tiny
+Schéma à trois étages explicites et deux étages implicites, avec $\gamma = \tfrac{2-\sqrt{2}}{2}$ et $\delta = -\tfrac{2\sqrt{2}}{3}$ :
+\begin{align}
+\text{Explicite:}\;\begin{array}{c|ccc}
+                        0 & 0 & 0 & 0\\
+                        \gamma & \gamma & 0 & 0\\
+                        1 & \delta & 1-\delta & 0\\ \hline
+                        & 0 & 1-\gamma & \gamma
+                    \end{array} \quad
+\text{Implicite:}\;
+                    \begin{array}{c|cc}
+                        \gamma & \gamma & 0\\
+                        1 & 1-\gamma & \gamma\\ \hline
+                        & 1-\gamma & \gamma
+                    \end{array}\; 
+&\text{\textbf{équation cible générique : }} \partial_t u = f_E(u) + f_I(u) \mid \text{\textbf{objectif : }} u^n \rightarrow u^{n+1}.
+\end{align}
+\vspace{-2em}
+\pause
+\normalsize
+\noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+\textbf{Calcul:}\tiny\pause
+\vspace{-2em}
+\begin{columns}[T]
+\begin{column}{0.48 \textwidth}
+
+\begin{align}\notag
+    \uncover<2->{&\text{\color{red}\rule{2cm}{0.4pt} Initialisation \rule{2cm}{0.4pt}}\\\notag
+        &u_0 = u^n,\\\notag}
+    \uncover<3->{&\text{\color{red}\rule{2cm}{0.4pt} $1^{er}$ étage \rule{2cm}{0.4pt}}\\\notag
+&k_1^E = f_E(u_0),k_1^I = f_I(u_1).\\\notag}
+    \uncover<4->{&u_1 = u_0 + \gamma \Delta t k_1^E + \gamma \Delta t\overbrace{f_I(u_1)}^{=k^I_1},\\\notag}
+        \uncover<5->{&\quad \implies u_1 = \left[Id - \gamma \Delta t f_I(\cdot)\right]^{-1}(u_0 + \gamma \Delta t k_1^E ),\\\notag}
+        \uncover<6->{&\quad \implies k_1^I = f_I(u_1).}
+\end{align}
+\end{column}
+
+\begin{column}{0.48 \textwidth}
+\begin{align}\notag
+    \uncover<7->{&\text{\color{red}\rule{2cm}{0.4pt} $2^{eme}$ étage \rule{2cm}{0.4pt}}\\\notag
+    &k_2^E = f_E(u_1),k_2^I = f_I(u_2).\\\notag}
+    \uncover<8->{&u_2 = u_0 + \delta \Delta t k_1^E +  (1-\delta) \Delta t k_2^E + (1-\gamma) \Delta t k^I_1 +  \overbrace{\gamma \Delta t f_I(u_2)}^{=k^I_2},\\\notag
+        &\quad \implies u_1 = \left[Id - \gamma \Delta t f_I(\cdot)\right]^{-1} \left( u_0 + \delta \Delta t k_1^E +  (1-\delta) \Delta t k_2^E + (1-\gamma) \Delta t k^I_1 \right),\\\notag
+        &\quad \implies k_2^I = f_I(u_2).\\\notag}
+    \uncover<9->{&\text{\color{red}\rule{2cm}{0.4pt} $3^{eme}$ étage \rule{2cm}{0.4pt}}\\\notag
+    &k_3^E = f_E(u2).\\\notag}
+    \uncover<10->{&\text{\color{red}\rule{2cm}{0.4pt} Recombinaison des etages \rule{1cm}{0.4pt}}\\\notag
+    &u^{n+1} = u^n + \Delta t \left( (1-\gamma) k^E_2 + \gamma k^E_3 + (1-\gamma) k^I_1 + \gamma k^I_2 \right).}
+\end{align}
+\end{column}
+\end{columns}
+\end{frame}

@@ -1,2 +1,20 @@
 \begin{frame}{Équations d'ADR}{Stratégies de simulation}
+    \textbf{Stratégie $n^o1$ : Différencier le traitement sur chaque opérateurs}\\
+        Ne pas faire un schéma monolithique.
+        \begin{itemize}
+            \item Séparation d'opérateurs (\emph{splitting})
+            \item Méthodes ImEx (Additive Runge et Kutta)
+        \end{itemize}
+        \pause
+\noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}
+
+    \textbf{Stratégie $n^o2$ : Adaptation en espace}\\
+        La multirésolution adaptative : 
+        \begin{itemize}
+            \item Des grilles de \emph{résolution multiples},
+            \item Deux opérateurs de \emph{projection/reconstruction},
+            \item Représentation de la solution comme une suite de \emph{détails},
+            \item Une stratégie d'\emph{adaptation}.
+        \end{itemize}
+    \color{red}\input{medias/1_/schema_dyadique.tex}
 \end{frame}
