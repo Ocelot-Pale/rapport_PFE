@@ -1,6 +1,6 @@
 \begin{frame}{Contribution 2 | Équations Équivalentes, diffusion et MRA}{Les deux approches de MRA}
+    
     \centering
-
     \begin{tikzpicture}[scale = 0.7]
     \foreach \i in {0,...,15}{
         \draw[fill=green!10] ({\i},3) rectangle ({((\i+1))},2);
@@ -26,13 +26,14 @@
 
     \draw[Primary, very thick, ->,visible on=<4->] (7.9,.9) -- (4,.5);
     \draw[Primary, very thick, ->,visible on=<4->] (8.1,.9) -- (12,.5);
-    
+    \node[right,visible on=<4->] at (0,4) {\textbf{Prédicteur polynomial à trois points.}};
     
     \draw[fill=red!10,visible on=<5->] (7,-3) rectangle (8,-2);
     \draw[fill=red!10,visible on=<5->] (8,-3) rectangle (9,-2);
     \draw[red, very thick, ->,visible on=<5->] (7.9,.2) -- (7.75,-2.5);
     \draw[red, very thick, ->,visible on=<5->] (8.1,.2) -- (8.25,-2.5);
     
+
     \draw[fill=orange!10,visible on=<6->] (8,-1) rectangle (4,0);
     \draw[fill=orange!10,visible on=<6->] (8,-1) rectangle (12,0);
     \draw[orange, very thick, ->,visible on=<6->] (7.9,.5) -- (6,-.5);

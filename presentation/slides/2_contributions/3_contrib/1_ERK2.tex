@@ -1,7 +1,20 @@
 \begin{frame}{Contribution 3 | Étude nnumérique, diffusion et MRA}{Intégration avec ERK2}
+    \begin{textblock*}{40pt}(0.1\paperwidth,0.85\paperheight)
+        \includegraphics[scale=.03]{medias/2_/1_/light_logo.png}
+    \end{textblock*}
+    \begin{itemize}
+        \item Niveaux de 12 à 6 - $\varepsilon = 10^{-5}$.
+        \item Comparaison à la solution analytique.
+    \end{itemize}\pause
     \begin{center}
+        \textbf{\large{\color{Primary}Erreur selon la méthode d'adaptation}}
         \begin{tabular}
             {|c|c|c|}\hline Schéma $n^o$ & Niveau d'évaluation des flux & Erreur $L^2$ \\\hline\texttt{I} & $\emptyset$ MRA & $2 \times 10^{-5}$ \\\texttt{II} & Courant & $1 \times 10^{-4}$ \\\texttt{III} & Plus fin $l^{\max}$& $3 \times 10^{-4}$ \\\texttt{IV} & Inférieur direct ($l+1$) & $2 \times 10^{-4}$ \\\hline
         \end{tabular}
     \end{center}
+    \pause 
+    \begin{itemize}
+        \item On retrouve que reconstruire $\rightarrow$ problèmes.
+        \item Forte contrainte de stabilité $\lambda = \frac{\Delta t}{ \Delta x^2 } < \frac{1}{2}$.
+    \end{itemize}
 \end{frame}
