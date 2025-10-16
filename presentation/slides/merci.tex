@@ -1,4 +1,16 @@
-\begin{frame}{Merci !}
-    \centering{
-    \includegraphics[height =\textheight ]{medias/jolie_image_fin.pdf}}
+{
+\usebackgroundtemplate{%
+  \begin{tikzpicture}
+    \node[opacity=0.15,inner sep=0pt] 
+      {\includegraphics[width=\paperwidth,height=\paperheight]{medias/jolie_image_fin.pdf}};
+  \end{tikzpicture}%
+}
+\begin{frame}[plain] % "plain" supprime header et footer
+  \vspace{.8 \textheight} % pousse verticalement au centre
+    \centering
+\begin{tikzpicture}
+  \node[opacity=0.3] {\LARGE\color{Primary}\textbf{MERCI !}};
+\end{tikzpicture}
+
 \end{frame}
+}

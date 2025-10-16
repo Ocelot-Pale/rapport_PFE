@@ -1,6 +1,17 @@
-\begin{frame}{Contribution 3 | Étude nnumérique, diffusion et MRA}{Conclusion}
+\begin{frame}{Conclusion}{Contribution 3 | Étude numérique, diffusion et MRA}
+
+    \textbf{Apprentissage personnel : }\\
     \begin{itemize}
-    \item La reconstruction semble ici problème car : prédicteur polynomial précis à l'ordre 3, permet une évaluation des 
-        gradients à l'ordre 2. Or le schéma est d'ordre 2, donc erreur de prédiction du même ordre et s'accumule.
+        \item Mise en place du calcul des flux au niveaux le plus fin grâce à l'équipe Samurai.
+        \item Utilisation capacité de Ponio pour l'utilisation de la méthode stabilisée. 
     \end{itemize}
+    \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
+    \textbf{Résultats}\\
+        \begin{itemize}
+        \item Mise en relation des résultats numériques et du travail sur les équations équivalentes.
+        \item La reconstruction semble ici poser problème : prédicteur polynomial précis à l'ordre 3, permet une évaluation des 
+            gradients à l'ordre 2. Or le schéma est d'ordre 2, donc erreur de prédiction du même ordre et s'accumule.
+        \item \underline{Conjecture} il faut que le prédicteur permette d'évaluer les flux de sorte à ce que 
+        l'erreur de reconstruction portant sur les flux soit négligeable devant l'ordre du schéma. 
+        \end{itemize}
 \end{frame}

@@ -1,4 +1,4 @@
-\begin{frame}{Contribution 2 | Équations Équivalentes, diffusion et MRA}{Présentation générale}
+\begin{frame}{Présentation générale}{Contribution 2 | Équations Modifiées, diffusion et MRA}
     \footnotesize
     \noindent\color{Primary}\rule{\linewidth}{0.6pt}\color{black}\\
         {\large\begin{align}\textbf{Équation cible: } \partial_t u = \partial_x \left( D \partial_{x}u \right), \quad D > 0.\end{align}}
@@ -7,9 +7,9 @@
         Méthode des lignes : Volumes finis ordre deux + Runge Kutta explicite d'ordre deux.\\
         \textbf{$\circ$ Semi-discrétisation spatiale:} Sur un maillage 1D constitué de cellules $C_j$ de tailles $\Delta x$ : 
             \begin{align}
-                \forall j,\quad &\int_{C_j} u(x,t) \mathrm d x = \partial_x \int_{C_j} \partial_x u(x,t) \mathrm d x.\\
-                \forall j,\quad &U_j(t) = \frac{D}{\Delta x} \left[\partial_x u(x,t)\right]^{x_{j+1/2}}_{x_{j-1/2}}\\
-                \forall j,\quad &U_j(t) = \underbrace{\frac{D}{\Delta x} \left[
+                \forall j,\quad &\partial_t \int_{C_j} u(x,t) \mathrm d x = \partial_x \int_{C_j} \partial_x u(x,t) \mathrm d x.\\
+                \forall j,\quad &\frac{\mathrm d}{\mathrm{d}t}U_j(t) = \frac{D}{\Delta x} \left[\partial_x u(x,t)\right]^{x_{j+1/2}}_{x_{j-1/2}}\\
+                \forall j,\quad &\frac{\mathrm d}{\mathrm{d}t}U_j(t) = \underbrace{\frac{D}{\Delta x} \left[
                     \frac{U_{j+1}(t) - U_{j}(t)}{\Delta x} - \frac{U_{j}(t) - U_{j-1}(t)}{\Delta x}
                 \right]}_{\text{noté: } \mathcal D}+ \mathcal O(\Delta x^2)
             \end{align}\\

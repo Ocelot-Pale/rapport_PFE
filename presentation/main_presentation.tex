@@ -1,5 +1,6 @@
 % !TeX program = pdflatex
 \documentclass[10pt,aspectratio=169]{beamer}
+\usepackage{cancel} % dans le préambule
 
 % ---------------------------------------
 % Langue & encodage
@@ -24,6 +25,8 @@
 \usepackage{tikz}
 \usetikzlibrary{overlay-beamer-styles}
 \usetikzlibrary{arrows.meta,positioning}
+\usetikzlibrary{backgrounds}
+
 \usepackage{hyperref}
 
 % ---------------------------------------
@@ -101,12 +104,25 @@
 \begin{document}
 
 % Page de titre
-{
-\setbeamertemplate{footline}{} % pas de numérotation sur la page de titre
-\begin{frame}[plain]
+
+ % pas de numérotation sur la page de titre
+% préambule :
+% \usepackage{graphicx}
+% \usepackage{tikz}
+
+{ % <-- début portée locale
+\usebackgroundtemplate{%
+  \begin{tikzpicture}
+    \node[opacity=0.15,inner sep=0pt] 
+      {\includegraphics[width=\paperwidth,height=\paperheight]{medias/jolie_image_fin.pdf}};
+  \end{tikzpicture}%
+}
+
+\begin{frame}[plain] % 'plain' enlève déjà header/footline
   \titlepage
 \end{frame}
-}
+} % <-- fin portée locale, background rétabli
+
 
 % Plan global
 \begin{frame}{Plan}
@@ -126,18 +142,7 @@
 \section{Problématique}
 \input{slides/2_contributions/0_problematique.tex}
 \input{slides/2_contributions/1_prensation_contribs.tex}
-\section{$1^{\text{ère}}$ contribution}
-  \input{slides/2_contributions/1_contrib/0_intro}
-  \input{slides/2_contributions/1_contrib/1_rappels_nagumo}
-  \input{slides/2_contributions/1_contrib/2_methodes}
-  \input{slides/2_contributions/1_contrib/2A_ImEx232}
-    \input{slides/2_contributions/1_contrib/3_analyse_stab/1.tex}
-    \input{slides/2_contributions/1_contrib/3_analyse_stab/2.tex}
-    \input{slides/2_contributions/1_contrib/3_analyse_stab/3.tex}
-    \input{slides/2_contributions/1_contrib/3_analyse_stab/4.tex}
-  \input{slides/2_contributions/1_contrib/4_convergence_sansAMR}
-  \input{slides/2_contributions/1_contrib/5_convergence_avecAMR}
-  \input{slides/2_contributions/1_contrib/6_Conclusion}
+
 \section{$2^{\text{ème}}$ contribution}
   \input{slides/2_contributions/2_contrib/0_intro}
   \input{slides/2_contributions/2_contrib/1_deux_approches}
@@ -164,7 +169,22 @@
   \bibliographystyle{plain} % ou plain, ieee, etc.
   \bibliography{bibliographie}
 \end{frame}
-
 \input{slides/merci}
+\section{Annexes}
+
+\subsection*{$1^{\text{ère}}$ contribution}
+  \input{slides/2_contributions/1_contrib/0_intro}
+  \input{slides/2_contributions/1_contrib/1_rappels_nagumo}
+  \input{slides/2_contributions/1_contrib/2_methodes}
+  \input{slides/2_contributions/1_contrib/2A_ImEx232}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/1.tex}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/2.tex}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/3.tex}
+    \input{slides/2_contributions/1_contrib/3_analyse_stab/4.tex}
+  \input{slides/2_contributions/1_contrib/4_convergence_sansAMR}
+  \input{slides/2_contributions/1_contrib/5_convergence_avecAMR}
+  \input{slides/2_contributions/1_contrib/6_Conclusion}
+
+
 
 \end{document}
